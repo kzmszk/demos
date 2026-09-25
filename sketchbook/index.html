@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ジュノのスケッチブック — 線と寄り道の作品帳</title>
+<meta name="description" content="架空のイラストレーター、ジュノのポートフォリオ。机の上のリング綴じのスケッチブックを、角をつまんで一枚ずつめくる。鉛筆の線が自分で描かれていく、ドット方眼の作品帳。">
+<meta name="theme-color" content="#c4c7c2">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:,">
+<style>
+:root{
+  --paper: #fbf8f1;
+  --paper-back: #f3efe5;
+  --ink: #3d3d3d;
+  --ink-2: rgba(61,61,61,.62);
+  --ink-3: rgba(61,61,61,.38);
+  --yellow: #fff176;
+  --red: #d64545;
+  --blue: #7c9fd0;
+  --dot: rgba(96,138,200,.42);
+  --kraft: #c69c6b;
+  --kraft-2: #b48856;
+  --kraft-3: #d8b68a;
+  --desk: #c4c7c2;
+  --hand: "Segoe Print", "Bradley Hand", "Comic Neue", "Chalkboard SE", Chalkboard, "Klee One", Klee, "UD Digi Kyokasho NK-R", "UD Digi Kyokasho N-R", "UDデジタル教科書体 NK-R", "Hiragino Maru Gothic ProN", "Zen Maru Gothic", "Kosugi Maru", "Noto Sans CJK JP", "Noto Sans JP", cursive;
+  --print: "Helvetica Neue", Arial, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans CJK JP", "Noto Sans JP", sans-serif;
+  --seal: "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "Noto Serif CJK JP", "Noto Serif JP", "BIZ UDPMincho", serif;
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .22 0 0 0 0 .2 0 0 0 0 .17 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  --pencil: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cg transform='rotate(45 16 16)'%3E%3Cpath d='M13.2 3h5.6v19h-5.6z' fill='%233d3d3d' stroke='%23fbf8f1' stroke-width='1'/%3E%3Cpath d='M13.2 5.6h5.6' stroke='%23fff176' stroke-width='1.6'/%3E%3Cpath d='M13.2 22h5.6L16 30.2z' fill='%23e8cda6' stroke='%23fbf8f1' stroke-width='1' stroke-linejoin='round'/%3E%3Cpath d='M14.9 27h2.2L16 30.2z' fill='%233d3d3d'/%3E%3C/g%3E%3C/svg%3E") 5 27, auto;
+  --u: 1px;
+  color-scheme: light;
+}
+*, *::before, *::after{ box-sizing: border-box; }
+html, body{ margin: 0; height: 100%; }
+body{
+  overflow: hidden;
+  background: var(--noise), radial-gradient(ellipse 78% 72% at 46% 40%, #d6d8d3 0%, #c7cac5 58%, #b5b8b3 100%);
+  background-color: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-weight: 350;
+  line-break: strict;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  cursor: var(--pencil);
+}
+button{ font: inherit; color: inherit; cursor: var(--pencil); }
+.sr{ position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+:focus-visible{ outline: 2px dashed var(--red); outline-offset: 3px; }
+h1, h2, h3, p, figure, ul{ margin: 0; }
+.defs{ position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ---------------- desk ---------------- */
+#stage{ position: fixed; inset: 0; }
+.lamp{
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 60% 50% at 30% 18%, rgba(255,252,240,.34), rgba(255,252,240,0) 70%),
+              radial-gradient(ellipse 120% 100% at 50% 50%, rgba(0,0,0,0) 55%, rgba(40,44,42,.22) 100%);
+}
+.props{ position: absolute; inset: 0; pointer-events: none; }
+.pencil{
+  position: absolute; width: 440px; height: 26px;
+  left: calc(var(--bx) + var(--W) + 78px); top: calc(var(--by) + var(--H) * .06);
+  transform-origin: 0 50%; transform: rotate(81deg);
+  filter: drop-shadow(5px 9px 5px rgba(30,32,30,.28));
+}
+.shave{ position: absolute; width: 70px; left: calc(var(--bx) + var(--W) + 96px); top: calc(var(--by) - 4px); transform: rotate(-18deg); filter: drop-shadow(2px 3px 2px rgba(30,32,30,.2)); }
+.eraser{
+  position: absolute; width: 104px; height: 50px;
+  left: calc(var(--bx) - 150px); top: calc(var(--by) + var(--H) * .74);
+  transform: rotate(-17deg);
+  border-radius: 7px;
+  background: linear-gradient(180deg, #fdfdfb, #ecebe6);
+  box-shadow: 0 1px 0 #fff inset, 4px 10px 12px -4px rgba(30,32,30,.32), 0 1px 2px rgba(0,0,0,.12);
+}
+.eraser::before{
+  content: "けしごむ"; position: absolute; left: 22px; right: 0; top: -1px; bottom: -1px;
+  display: grid; place-items: center; font: 600 12px/1 var(--print); letter-spacing: .24em; color: #fbf8f1;
+  background: linear-gradient(180deg, #4a4a4a, #3d3d3d 60%, #333);
+  border-radius: 0 6px 6px 0;
+  box-shadow: inset 0 3px 0 -1px var(--yellow);
+}
+.crumbs{ position: absolute; left: calc(var(--bx) - 172px); top: calc(var(--by) + var(--H) * .74 + 64px); width: 90px; height: 40px; }
+.crumbs i{ position: absolute; width: 9px; height: 3.2px; border-radius: 3px; background: #e9e6df; box-shadow: 0 1px 1px rgba(0,0,0,.2); }
+
+/* ---------------- book ---------------- */
+#book{
+  position: absolute; left: var(--bx); top: var(--by); width: var(--W); height: var(--H);
+  touch-action: none;
+}
+#book.grab{ cursor: grab; }
+body.dragging, body.dragging *{ cursor: grabbing !important; }
+.backboard{
+  position: absolute; z-index: 1;
+  left: calc(-3 * var(--u)); top: calc(-3 * var(--u)); right: calc(-7 * var(--u)); bottom: calc(-9 * var(--u));
+  border-radius: calc(4 * var(--u)) calc(6 * var(--u)) calc(6 * var(--u)) calc(4 * var(--u));
+  background: var(--noise), linear-gradient(160deg, #cda374, #b48856);
+  box-shadow: 0 calc(34 * var(--u)) calc(60 * var(--u)) calc(-24 * var(--u)) rgba(28,32,30,.55), 0 calc(6 * var(--u)) calc(14 * var(--u)) rgba(28,32,30,.2);
+}
+.edges{ position: absolute; inset: 0; z-index: 2; background: #f7f3ea; border-radius: 0 calc(3 * var(--u)) calc(3 * var(--u)) 0; }
+
+.sheet{ position: absolute; inset: 0; }
+.face{
+  position: absolute; inset: 0; overflow: hidden;
+  border-radius: 0 calc(3 * var(--u)) calc(3 * var(--u)) 0;
+  will-change: transform;
+  --hx: calc(26 * var(--u)); --hr: calc(5.4 * var(--u)); --tw: calc(52 * var(--u));
+  -webkit-mask: radial-gradient(circle at var(--hx) calc(var(--hp) / 2), transparent var(--hr), #000 calc(var(--hr) + .8px)) 0 0 / var(--tw) var(--hp) repeat-y, linear-gradient(#000, #000) var(--tw) 0 / 100% 100% no-repeat;
+  mask: radial-gradient(circle at var(--hx) calc(var(--hp) / 2), transparent var(--hr), #000 calc(var(--hr) + .8px)) 0 0 / var(--tw) var(--hp) repeat-y, linear-gradient(#000, #000) var(--tw) 0 / 100% 100% no-repeat;
+}
+.paper .face, .flap .back{
+  background:
+    radial-gradient(circle at var(--hx) calc(var(--hp) / 2), rgba(70,56,36,.3) var(--hr), rgba(70,56,36,0) calc(var(--hr) + 2.6 * var(--u))) 0 0 / var(--tw) var(--hp) repeat-y,
+    radial-gradient(circle, var(--dot) calc(1.05 * var(--u)), rgba(96,138,200,0) calc(1.4 * var(--u))) calc(9 * var(--u)) calc(9 * var(--u)) / calc(18 * var(--u)) calc(18 * var(--u)),
+    linear-gradient(90deg, rgba(60,50,30,.07), rgba(60,50,30,0) calc(70 * var(--u))),
+    var(--paper);
+  box-shadow: inset -1px 0 0 rgba(0,0,0,.07), inset 0 -1px 0 rgba(0,0,0,.05);
+}
+.paper .face::after, .cover .face::after{
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 30;
+  background: var(--noise); opacity: .75; mix-blend-mode: multiply;
+}
+.cover .face{
+  background:
+    radial-gradient(circle at var(--hx) calc(var(--hp) / 2), rgba(50,30,10,.4) var(--hr), rgba(50,30,10,0) calc(var(--hr) + 2.4 * var(--u))) 0 0 / var(--tw) var(--hp) repeat-y,
+    radial-gradient(ellipse 90% 80% at 34% 30%, #d3aa79, #c3966a 62%, #b08354);
+  box-shadow: inset 0 0 0 1px rgba(90,58,26,.28), inset 0 0 calc(40 * var(--u)) rgba(80,48,18,.26);
+}
+.tex{ position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: multiply; opacity: .9; }
+
+/* the curl: a flap mirrored across the fold, a cast shadow on the page beneath, a soft bend on the page itself */
+.flapwrap{ position: absolute; inset: 0; pointer-events: none; filter: drop-shadow(calc(-3 * var(--u)) calc(5 * var(--u)) calc(7 * var(--u)) rgba(30,26,20,.3)); }
+.flap{ position: absolute; left: 0; top: 0; width: var(--W); height: var(--H); transform-origin: 0 0; overflow: hidden; }
+.flap .back{
+  position: absolute; inset: 0;
+  --hx: calc(26 * var(--u)); --hr: calc(5.4 * var(--u)); --tw: calc(52 * var(--u));
+  background-color: var(--paper-back);
+  -webkit-mask: radial-gradient(circle at var(--hx) calc(var(--hp) / 2), transparent var(--hr), #000 calc(var(--hr) + .8px)) 0 0 / var(--tw) var(--hp) repeat-y, linear-gradient(#000, #000) var(--tw) 0 / 100% 100% no-repeat;
+  mask: radial-gradient(circle at var(--hx) calc(var(--hp) / 2), transparent var(--hr), #000 calc(var(--hr) + .8px)) 0 0 / var(--tw) var(--hp) repeat-y, linear-gradient(#000, #000) var(--tw) 0 / 100% 100% no-repeat;
+}
+.flap .back::after{ content: ""; position: absolute; inset: 0; background: rgba(240,234,220,.45); }
+.flap.kraft .back{ background: var(--noise), linear-gradient(200deg, #dcbd93, #cfa877); }
+.flap.kraft .back::after{ display: none; }
+.found{
+  position: absolute; right: calc(90 * var(--u)); top: calc(120 * var(--u)); width: calc(330 * var(--u));
+  transform: scaleX(-1) rotate(2deg); transform-origin: 50% 50%;
+  padding: calc(22 * var(--u)) calc(26 * var(--u));
+  background: #fbf9f3; border-radius: calc(6 * var(--u));
+  font-size: calc(19 * var(--u)); line-height: 1.8; color: var(--ink);
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+.found b{ display: block; font-weight: 500; font-size: calc(24 * var(--u)); margin-bottom: calc(8 * var(--u)); }
+.sheen, .castband, .bend{ position: absolute; left: 0; top: 0; transform-origin: 0 0; height: calc(var(--W) * 3.2); pointer-events: none; }
+.sheen{ background: linear-gradient(90deg, rgba(0,0,0,.13) 0%, rgba(255,255,255,.7) 7%, rgba(255,255,255,.18) 34%, rgba(0,0,0,.05) 100%); }
+.cast{ position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+.castband{ background: linear-gradient(90deg, rgba(30,24,16,.42), rgba(30,24,16,.12) 38%, rgba(30,24,16,0)); }
+.bend{ z-index: 40; background: linear-gradient(90deg, rgba(40,32,20,.16), rgba(255,255,255,.25) 30%, rgba(255,255,255,0)); }
+.cast[hidden], .flapwrap[hidden], .bend[hidden]{ display: none; }
+
+/* spiral binding */
+.coil{ position: absolute; z-index: 40; left: calc(-22 * var(--u)); top: 0; width: calc(70 * var(--u)); height: var(--H); pointer-events: none; overflow: visible; }
+.coil-m{ display: none; }
+.band{
+  position: absolute; z-index: 41; pointer-events: none;
+  left: calc(var(--W) - 84 * var(--u)); top: calc(-6 * var(--u)); bottom: calc(-12 * var(--u)); width: calc(17 * var(--u));
+  border-radius: calc(4 * var(--u));
+  background: linear-gradient(90deg, #2e2e2e, #4b4b4b 35%, #3d3d3d 60%, #262626),
+              repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 2px, rgba(0,0,0,.05) 2px 4px);
+  background-blend-mode: overlay;
+  box-shadow: calc(3 * var(--u)) calc(4 * var(--u)) calc(5 * var(--u)) rgba(20,14,6,.35);
+  transition: transform .42s cubic-bezier(.3,.7,.2,1), opacity .42s ease;
+}
+.band.off{ transform: translateX(calc(130 * var(--u))) rotate(3deg); opacity: 0; }
+
+/* fore-edge index tabs */
+.tabs{ position: absolute; z-index: 3; left: calc(var(--W) - 16 * var(--u)); top: 0; width: calc(64 * var(--u)); height: 100%; pointer-events: none; }
+.tab{
+  pointer-events: auto; position: absolute; left: 0; top: calc(var(--ty) * var(--u));
+  width: calc(52 * var(--u)); height: calc(116 * var(--u));
+  padding: 0 0 0 calc(16 * var(--u)); border: 0; margin: 0;
+  border-radius: 0 calc(9 * var(--u)) calc(9 * var(--u)) 0;
+  background: var(--noise), var(--tc);
+  writing-mode: vertical-rl; text-orientation: upright;
+  font: 500 calc(16 * var(--u))/1 var(--hand); letter-spacing: .1em; color: var(--ink);
+  box-shadow: 1px 2px 3px rgba(30,30,30,.2), inset -1px 0 0 rgba(0,0,0,.08);
+  transform: translateX(calc(-3 * var(--u)));
+  transition: transform .3s cubic-bezier(.3,.7,.2,1), filter .3s;
+}
+.tab.red{ color: #fff9f2; }
+.tab:hover{ transform: translateX(calc(3 * var(--u))); }
+.tab[aria-current="true"]{ transform: translateX(calc(6 * var(--u))); }
+.tab.behind{ transform: translateX(calc(-10 * var(--u))); filter: brightness(.9) saturate(.8); }
+.tab:focus-visible{ outline-offset: -5px; }
+
+.corner{
+  position: absolute; right: 0; bottom: 0; z-index: 45; width: calc(84 * var(--u)); height: calc(84 * var(--u));
+  border: 0; padding: 0; background: transparent; cursor: grab;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+.corner:focus-visible{ outline: none; }
+.corner:focus-visible::after{ content: ""; position: absolute; right: calc(10 * var(--u)); bottom: calc(10 * var(--u)); width: calc(22 * var(--u)); height: calc(22 * var(--u)); border: 2px dashed var(--red); border-radius: 50%; }
+.corner[hidden]{ display: none; }
+
+/* ---------------- items on the page ---------------- */
+.it{
+  position: absolute;
+  left: calc(var(--x, 0) * var(--u)); top: calc(var(--y, 0) * var(--u));
+  width: calc(var(--w) * var(--u));
+  transform: rotate(calc(var(--r, 0) * 1deg));
+}
+.folio{ position: absolute; right: calc(34 * var(--u)); bottom: calc(18 * var(--u)); font-size: calc(14 * var(--u)); color: var(--ink-2); letter-spacing: .1em; }
+
+/* hand lettering: each glyph gets its own tilt and lift, and appears in writing order */
+[data-hand] .ch{ display: inline-block; transform: translateY(var(--y)) rotate(var(--r)) scale(var(--s)); }
+.sheet:not(.drawn) [data-hand]:not([data-hand="static"]) .ch{ opacity: 0; }
+.drawn [data-hand] .ch{ transition: opacity .16s ease calc(var(--hd, 0s) + var(--i) * 52ms); }
+.wob{ filter: url(#wobT); }
+
+.hl{ position: relative; z-index: 0; white-space: nowrap; }
+.hl::before{
+  content: ""; position: absolute; z-index: -1; left: -.1em; right: -.12em; top: .5em; bottom: -.04em;
+  background: var(--yellow); mix-blend-mode: multiply; border-radius: .12em .3em .2em .26em;
+  transform-origin: 0 50%; transform: scaleX(0) rotate(-1.2deg);
+  filter: url(#wobHL);
+}
+.drawn .hl::before{ transform: scaleX(1) rotate(-1.2deg); transition: transform .6s cubic-bezier(.6,.05,.3,1) var(--hlw, .6s); }
+.ul{ position: relative; white-space: nowrap; }
+.ul svg{ position: absolute; left: -.1em; right: -.1em; bottom: -.28em; width: calc(100% + .2em); height: .5em; overflow: visible; }
+
+/* drawings: every stroke has pathLength=1 and starts parked inside the dash gap */
+svg.draw{ display: block; width: 100%; height: auto; overflow: visible; filter: url(#wob0); }
+svg.draw.it{ width: calc(var(--w) * var(--u)); }
+.draw .ln{ fill: none; stroke: var(--ink); stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 1.2; stroke-dashoffset: 1.1; }
+.draw .ln.lt{ stroke-opacity: .42; stroke-width: 1.3; }
+.draw .ln.th{ stroke-width: 1.5; }
+.draw .ln.red{ stroke: var(--red); }
+.draw .ln.hi{ stroke: var(--yellow); stroke-width: 12; stroke-linecap: butt; mix-blend-mode: multiply; stroke-opacity: .95; }
+.draw .wash{ fill: var(--yellow); mix-blend-mode: multiply; opacity: 0; stroke: none; }
+.draw .t{ font-family: var(--hand); fill: var(--ink); opacity: 0; font-weight: 400; }
+.draw .t.red{ fill: var(--red); }
+.draw .solid{ fill: var(--ink); stroke: none; opacity: 0; }
+.drawn .draw .ln{ stroke-dashoffset: 0; transition: stroke-dashoffset var(--d, .6s) cubic-bezier(.45,.08,.4,1) var(--w, 0s); }
+.drawn .draw .wash{ opacity: .96; transition: opacity .7s ease var(--w, 0s); }
+.drawn .draw .t, .drawn .draw .solid{ opacity: 1; transition: opacity .45s ease var(--w, 0s); }
+
+.doodle.wig{ animation: wig .62s cubic-bezier(.3,.6,.4,1); }
+@keyframes wig{ 0%{ rotate: 0deg; } 22%{ rotate: -2.2deg; } 52%{ rotate: 1.8deg; } 78%{ rotate: -.8deg; } 100%{ rotate: 0deg; } }
+
+.note{ font-size: calc(17 * var(--u)); line-height: 1.45; color: var(--ink); white-space: nowrap; }
+.note.sm{ font-size: calc(15 * var(--u)); }
+.arrow{ position: absolute; }
+
+/* paper objects */
+.sticky{
+  position: relative; background: var(--yellow);
+  padding: calc(30 * var(--u)) calc(22 * var(--u)) calc(22 * var(--u));
+  font-size: calc(18 * var(--u)); line-height: 1.7;
+  box-shadow: 0 calc(12 * var(--u)) calc(14 * var(--u)) calc(-9 * var(--u)) rgba(40,34,10,.4), 0 1px 1px rgba(0,0,0,.08);
+  border-radius: 0 0 calc(3 * var(--u)) calc(20 * var(--u)) / 0 0 calc(3 * var(--u)) calc(5 * var(--u));
+}
+.sticky::before{ content: ""; position: absolute; left: 0; right: 0; top: 0; height: calc(22 * var(--u)); background: linear-gradient(180deg, rgba(120,110,20,.1), rgba(120,110,20,.03)); }
+.sticky::after{ content: ""; position: absolute; inset: 0; background: var(--noise); mix-blend-mode: multiply; opacity: .6; pointer-events: none; }
+.sticky.white{ background: #fffdf7; }
+.sticky .go{ color: var(--red); margin-top: calc(6 * var(--u)); }
+
+.tape{
+  position: absolute; z-index: 3; left: 50%; top: calc(-15 * var(--u));
+  width: calc(var(--tw2, 118) * var(--u)); height: calc(30 * var(--u));
+  transform: translateX(-50%) rotate(var(--tr, -4deg));
+  opacity: .9; mix-blend-mode: multiply;
+  clip-path: polygon(0 0, 2.5% 14%, 0 28%, 2.5% 43%, 0 57%, 2.5% 71%, 0 86%, 2.5% 100%, 97.5% 100%, 100% 86%, 97.5% 71%, 100% 57%, 97.5% 43%, 100% 28%, 97.5% 14%, 100% 0);
+  box-shadow: inset 0 0 0 100px rgba(255,255,255,.05);
+}
+.tape.stripe{ background: repeating-linear-gradient(-45deg, rgba(61,61,61,.2) 0 calc(4 * var(--u)), rgba(0,0,0,0) calc(4 * var(--u)) calc(10 * var(--u))), #f1ede2; }
+.tape.dots{ background: radial-gradient(circle, rgba(214,69,69,.62) calc(1.9 * var(--u)), rgba(214,69,69,0) calc(2.3 * var(--u))) 0 0 / calc(10 * var(--u)) calc(10 * var(--u)), #f6f1e6; }
+.tape.grid{ background: linear-gradient(rgba(96,138,200,.42) 1px, rgba(0,0,0,0) 1px) 0 0 / calc(9 * var(--u)) calc(9 * var(--u)), linear-gradient(90deg, rgba(96,138,200,.42) 1px, rgba(0,0,0,0) 1px) 0 0 / calc(9 * var(--u)) calc(9 * var(--u)), #eef1f1; }
+.tape.yel{ background: linear-gradient(90deg, rgba(255,255,255,.2), rgba(255,255,255,0) 30%), var(--yellow); opacity: .82; }
+.tape.ink{ background: repeating-linear-gradient(90deg, rgba(61,61,61,.75) 0 calc(2 * var(--u)), rgba(0,0,0,0) calc(2 * var(--u)) calc(7 * var(--u))), #f4f1ea; opacity: .8; }
+
+.work{ display: flex; flex-direction: column; }
+.pol{
+  position: relative; background: #fdfdfa;
+  padding: calc(12 * var(--u)) calc(12 * var(--u)) 0;
+  box-shadow: 0 1px 1px rgba(0,0,0,.14), 0 calc(8 * var(--u)) calc(16 * var(--u)) calc(-8 * var(--u)) rgba(40,30,20,.45);
+  transform: rotate(calc(var(--pr, 0) * 1deg));
+}
+.pol .ph{
+  position: relative; aspect-ratio: 1; overflow: hidden;
+  background: radial-gradient(120% 100% at 28% 18%, #fbf9f2, #ece5d6 88%);
+  box-shadow: inset 0 0 calc(18 * var(--u)) rgba(90,70,40,.16), inset 0 0 0 1px rgba(0,0,0,.05);
+}
+.pol .ph svg.draw{ position: absolute; inset: 7%; width: 86%; }
+.pol figcaption{ height: calc(58 * var(--u)); display: grid; place-items: center; font-size: calc(19 * var(--u)); letter-spacing: .04em; }
+.wnote{ margin-top: calc(26 * var(--u)); padding-left: calc(6 * var(--u)); font-size: calc(15.5 * var(--u)); line-height: 1.72; word-break: auto-phrase; }
+.wnote h3{ font-weight: 500; font-size: calc(18.5 * var(--u)); line-height: 1.4; }
+.wnote .meta{ font-size: calc(13 * var(--u)); color: var(--ink-2); margin: calc(3 * var(--u)) 0 calc(5 * var(--u)); letter-spacing: .03em; }
+
+.stain{ position: absolute; pointer-events: none; mix-blend-mode: multiply; }
+.stain svg{ width: 100%; height: auto; display: block; overflow: visible; }
+
+/* ---------------- cover ---------------- */
+.label{
+  padding: calc(26 * var(--u)) calc(38 * var(--u)) calc(24 * var(--u));
+  border-radius: calc(12 * var(--u));
+  background:
+    repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 calc(49 * var(--u)), rgba(96,138,200,.45) calc(49 * var(--u)) calc(50 * var(--u))) 0 calc(28 * var(--u)) / 100% 100% no-repeat,
+    #fbf9f2;
+  box-shadow: 0 1px 0 rgba(0,0,0,.18), 0 calc(4 * var(--u)) calc(9 * var(--u)) calc(-3 * var(--u)) rgba(60,36,12,.5);
+}
+.label::before{ content: ""; position: absolute; inset: calc(8 * var(--u)); border: 1px solid rgba(61,61,61,.35); border-radius: calc(7 * var(--u)); pointer-events: none; }
+.lab-no{ position: absolute; right: calc(30 * var(--u)); top: calc(22 * var(--u)); font: 500 calc(13 * var(--u))/1 var(--print); letter-spacing: .18em; color: var(--ink-2); }
+.lab-no b{ font: 400 calc(30 * var(--u))/1 var(--hand); letter-spacing: 0; color: var(--ink); margin-left: calc(4 * var(--u)); }
+.lab-title{ font-weight: 400; line-height: 1.08; letter-spacing: .02em; font-feature-settings: "palt"; }
+.lab-title .l1{ display: block; font-size: calc(40 * var(--u)); margin-bottom: calc(4 * var(--u)); }
+.lab-title .l2{ display: block; font-size: calc(64 * var(--u)); white-space: nowrap; }
+.lab-en{ margin-top: calc(20 * var(--u)); font-size: calc(19 * var(--u)); letter-spacing: .02em; }
+.lab-sub{ margin-top: calc(8 * var(--u)); font-size: calc(16 * var(--u)); color: var(--ink-2); letter-spacing: .06em; }
+.seal{
+  width: calc(86 * var(--u)); height: calc(86 * var(--u));
+  display: flex; flex-direction: row-reverse; justify-content: center; align-items: center; gap: calc(2 * var(--u));
+  border: calc(4.5 * var(--u)) solid var(--red); border-radius: calc(5 * var(--u));
+  color: var(--red); font: 700 calc(29 * var(--u))/1 var(--seal);
+  mix-blend-mode: multiply; filter: url(#ink); opacity: .92;
+}
+.seal span{ writing-mode: vertical-rl; letter-spacing: -.04em; }
+.sticker{ filter: drop-shadow(0 calc(2 * var(--u)) calc(2 * var(--u)) rgba(60,36,12,.45)); }
+.sticker.hello{
+  width: calc(104 * var(--u)); height: calc(104 * var(--u)); border-radius: 50%;
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 34% 28%, rgba(255,255,255,.65), rgba(255,255,255,0) 42%), var(--yellow);
+  box-shadow: inset 0 0 0 calc(5 * var(--u)) #fff9c9;
+  font-size: calc(27 * var(--u)); font-weight: 500;
+}
+.spec{ font: 500 calc(12 * var(--u))/1 var(--print); letter-spacing: .26em; color: rgba(70,40,14,.62); white-space: nowrap; }
+.fic{ font-size: calc(14 * var(--u)); color: rgba(56,34,12,.78); white-space: nowrap; }
+.band-m{ display: none; }
+
+/* ---------------- page 1 ---------------- */
+.hello-h{ font-weight: 400; line-height: 1; font-feature-settings: "palt"; }
+.hello-h .a{ display: block; font-size: calc(46 * var(--u)); letter-spacing: .02em; white-space: nowrap; }
+.hello-h .b{ display: block; font-size: calc(150 * var(--u)); letter-spacing: -.02em; white-space: nowrap; margin-top: calc(18 * var(--u)); }
+.hello-h .hl::before{ top: .58em; bottom: .08em; }
+.hello-h .b small{ font-size: calc(54 * var(--u)); letter-spacing: .02em; margin-left: calc(6 * var(--u)); }
+.bio{ font-size: calc(21 * var(--u)); line-height: 1.95; word-break: auto-phrase; }
+.likes{ font-size: calc(16 * var(--u)); line-height: 1.6; }
+.likes h3{ font-weight: 500; font-size: calc(18 * var(--u)); margin-bottom: calc(6 * var(--u)); }
+.likes ul{ list-style: none; padding: 0; display: flex; gap: calc(26 * var(--u)); }
+.likes li{ display: flex; flex-direction: column; align-items: center; gap: calc(4 * var(--u)); min-width: calc(64 * var(--u)); white-space: nowrap; text-align: center; }
+.likes li svg.draw{ width: calc(58 * var(--u)); }
+
+/* ---------------- works ---------------- */
+.ph-h{ font-weight: 400; font-size: calc(58 * var(--u)); line-height: 1; font-feature-settings: "palt"; white-space: nowrap; }
+.ph-h small{ font: 500 calc(13 * var(--u))/1 var(--print); letter-spacing: .24em; color: var(--ink-2); margin-left: calc(18 * var(--u)); vertical-align: calc(12 * var(--u)); text-transform: uppercase; }
+
+/* ---------------- process ---------------- */
+.thumbs figcaption, .chart figcaption{ font-size: calc(16 * var(--u)); line-height: 1.6; }
+.thumbs figcaption{ margin-top: calc(8 * var(--u)); }
+.chart .ct{ font-size: calc(20 * var(--u)); font-weight: 500; margin-bottom: calc(6 * var(--u)); }
+.chart .ct small{ font-size: calc(13 * var(--u)); color: var(--ink-2); font-weight: 350; margin-left: calc(8 * var(--u)); }
+.tools h3{ font-weight: 500; font-size: calc(30 * var(--u)); margin-bottom: calc(12 * var(--u)); }
+.tools ul{ list-style: none; padding: 0; font-size: calc(18 * var(--u)); line-height: 1.5; }
+.tools li{ display: flex; align-items: center; gap: calc(12 * var(--u)); margin-bottom: calc(12 * var(--u)); }
+.tools li svg.draw{ width: calc(28 * var(--u)); flex: none; }
+.tools li small{ display: block; font-size: calc(13 * var(--u)); color: var(--ink-2); }
+.tools .q{ color: var(--red); font-weight: 500; margin-left: calc(4 * var(--u)); }
+
+/* ---------------- contact ---------------- */
+.lead{ font-size: calc(20 * var(--u)); line-height: 1.9; word-break: auto-phrase; }
+.colophon{ font-size: calc(13.5 * var(--u)); line-height: 1.75; color: var(--ink-2); word-break: auto-phrase; }
+.fin{ white-space: nowrap; }
+
+.env{ height: calc(var(--w) * .63 * var(--u)); }
+.env-back{
+  position: absolute; inset: 0; z-index: 0; border-radius: calc(4 * var(--u));
+  background: #f1ece1;
+  box-shadow: 0 calc(10 * var(--u)) calc(18 * var(--u)) calc(-8 * var(--u)) rgba(40,30,20,.45), 0 1px 1px rgba(0,0,0,.1);
+}
+.env-back::before{ content: ""; position: absolute; inset: 0; border-radius: inherit; background: repeating-linear-gradient(45deg, rgba(96,138,200,.14) 0 1px, rgba(0,0,0,0) 1px calc(6 * var(--u))); }
+.letter{
+  position: absolute; z-index: 2; left: calc(22 * var(--u)); right: calc(22 * var(--u)); top: calc(14 * var(--u)); height: calc(272 * var(--u));
+  padding: calc(20 * var(--u)) calc(26 * var(--u));
+  background: repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 calc(28.5 * var(--u)), rgba(214,69,69,.2) calc(28.5 * var(--u)) calc(29.5 * var(--u))) 0 calc(20 * var(--u)) / 100% 100% no-repeat, #fffdf8;
+  box-shadow: 0 1px 2px rgba(0,0,0,.14);
+  font-size: calc(15.5 * var(--u)); line-height: calc(29.5 * var(--u)); word-break: auto-phrase;
+  transform: translateY(0);
+  transition: transform .42s cubic-bezier(.5,0,.75,.2);
+}
+.env.open .letter{ transform: translateY(calc(-222 * var(--u))) rotate(-.6deg); transition: transform .8s cubic-bezier(.2,.75,.25,1) .42s; }
+.letter .sign{ text-align: right; font-size: calc(19 * var(--u)); padding-right: calc(10 * var(--u)); }
+.letter .addr{ display: flex; align-items: center; gap: calc(12 * var(--u)); white-space: nowrap; }
+.letter .addr span{ background: linear-gradient(transparent 55%, rgba(255,241,118,.95) 55%); padding: 0 calc(3 * var(--u)); }
+.letter .fine{ font-size: calc(12 * var(--u)); color: var(--ink-2); }
+.copy{
+  padding: calc(2 * var(--u)) calc(12 * var(--u)); border: 1.5px solid var(--ink); border-radius: calc(14 * var(--u)) calc(12 * var(--u)) calc(15 * var(--u)) calc(11 * var(--u));
+  background: #fff; font-size: calc(14 * var(--u)); line-height: 1.5;
+  box-shadow: calc(2 * var(--u)) calc(2 * var(--u)) 0 var(--ink);
+  transition: transform .12s, box-shadow .12s;
+}
+.copy:hover{ transform: translate(-1px, -1px); box-shadow: calc(3 * var(--u)) calc(3 * var(--u)) 0 var(--ink); }
+.copy:active{ transform: translate(calc(2 * var(--u)), calc(2 * var(--u))); box-shadow: 0 0 0 var(--ink); }
+#copied{ color: var(--red); margin-left: calc(6 * var(--u)); }
+.env-pocket{
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  clip-path: polygon(0 0, 50% 51%, 100% 0, 100% 100%, 0 100%);
+  border: calc(9 * var(--u)) solid transparent; border-radius: calc(4 * var(--u));
+  border-image: repeating-linear-gradient(45deg, var(--red) 0 calc(12 * var(--u)), #fbf8f1 calc(12 * var(--u)) calc(20 * var(--u)), var(--blue) calc(20 * var(--u)) calc(32 * var(--u)), #fbf8f1 calc(32 * var(--u)) calc(40 * var(--u))) 12;
+  background: var(--noise), linear-gradient(180deg, #f6f2e8, #fbf8f1 60%) padding-box;
+  box-shadow: inset 0 0 calc(22 * var(--u)) rgba(120,96,60,.12);
+}
+.env-pocket .folds{ position: absolute; inset: calc(-9 * var(--u)); width: calc(100% + 18 * var(--u)); height: calc(100% + 18 * var(--u)); }
+.env-pocket > *{ position: absolute; }
+.pc{ left: calc(26 * var(--u)); top: calc(126 * var(--u)); display: flex; gap: calc(3 * var(--u)); }
+.pc i{ width: calc(19 * var(--u)); height: calc(25 * var(--u)); border: 1.5px solid rgba(214,69,69,.82); display: grid; place-items: center; font-style: normal; font-size: calc(12 * var(--u)); color: var(--ink); }
+.pc i:nth-child(3){ margin-right: calc(10 * var(--u)); }
+.pc i:nth-child(3)::after{ content: ""; position: absolute; width: calc(7 * var(--u)); height: 1.5px; background: rgba(214,69,69,.82); transform: translate(calc(16 * var(--u)), 0); }
+.to{ left: calc(92 * var(--u)); top: calc(176 * var(--u)); font-size: calc(34 * var(--u)); letter-spacing: .12em; white-space: nowrap; }
+.to small{ font-size: calc(22 * var(--u)); margin-left: calc(10 * var(--u)); }
+.airmail{ right: calc(26 * var(--u)); bottom: calc(22 * var(--u)); padding: calc(3 * var(--u)) calc(8 * var(--u)); border: 1.5px solid var(--blue); color: #4f76ae; font: 600 calc(10.5 * var(--u))/1.25 var(--print); letter-spacing: .14em; text-align: center; }
+.stamp{
+  right: calc(30 * var(--u)); top: calc(96 * var(--u)); width: calc(72 * var(--u)); height: calc(88 * var(--u));
+  padding: calc(8 * var(--u));
+  background: #fffdf6;
+  --p: calc(8 * var(--u));
+  -webkit-mask: radial-gradient(circle, transparent calc(2.3 * var(--u)), #000 calc(2.7 * var(--u))) calc(var(--p) / -2) calc(var(--p) / -2) / var(--p) var(--p), linear-gradient(#000, #000) calc(var(--p) / 2) calc(var(--p) / 2) / calc(100% - var(--p)) calc(100% - var(--p)) no-repeat;
+  mask: radial-gradient(circle, transparent calc(2.3 * var(--u)), #000 calc(2.7 * var(--u))) calc(var(--p) / -2) calc(var(--p) / -2) / var(--p) var(--p), linear-gradient(#000, #000) calc(var(--p) / 2) calc(var(--p) / 2) / calc(100% - var(--p)) calc(100% - var(--p)) no-repeat;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,.2));
+  transform: rotate(3deg);
+}
+.stamp .art{ position: relative; height: 100%; background: var(--yellow); display: grid; place-items: center; overflow: hidden; }
+.stamp .art svg{ width: 78%; }
+.stamp .art b{ position: absolute; left: calc(4 * var(--u)); top: calc(3 * var(--u)); font: 500 calc(13 * var(--u))/1 var(--hand); color: var(--red); }
+.stamp .art em{ position: absolute; bottom: calc(3 * var(--u)); left: 0; right: 0; text-align: center; font: 600 calc(6 * var(--u))/1 var(--print); letter-spacing: .12em; font-style: normal; }
+.postmark{ right: calc(58 * var(--u)); top: calc(88 * var(--u)); width: calc(190 * var(--u)); opacity: .78; mix-blend-mode: multiply; filter: url(#ink); }
+.env-flap{
+  position: absolute; z-index: 4; left: 0; top: 0; width: 100%; height: 61%;
+  perspective: calc(1100 * var(--u)); pointer-events: none;
+  transition: z-index 0s linear .62s;
+}
+.env-flap .fl{ position: absolute; inset: 0; transform-style: preserve-3d; transform-origin: 50% 0; transform: rotateX(0deg); transition: transform .56s cubic-bezier(.45,.05,.3,1) .36s; }
+.env-flap svg{ position: absolute; inset: 0; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: visible; }
+.env-flap .in{ transform: rotateY(180deg); }
+.env-flap .out{ filter: drop-shadow(0 calc(3 * var(--u)) calc(3 * var(--u)) rgba(50,36,20,.22)); }
+.env.open .env-flap{ z-index: 1; transition: z-index 0s linear .28s; }
+.env.open .env-flap .fl{ transform: rotateX(180deg); transition: transform .56s cubic-bezier(.45,.05,.3,1) 0s; }
+.env-btn{ position: absolute; z-index: 5; left: 0; right: 0; bottom: 0; height: 100%; border: 0; padding: 0; background: transparent; border-radius: calc(4 * var(--u)); }
+.env.open .env-btn{ height: 49%; }
+.env-btn:focus-visible{ outline-offset: 4px; }
+.env-hint{ font-size: calc(15 * var(--u)); color: var(--ink-2); white-space: nowrap; transition: opacity .3s; }
+.env.open ~ .env-hint{ opacity: 0; }
+.fin{ font-size: calc(24 * var(--u)); color: var(--ink-2); }
+
+/* ---------------- chrome around the book ---------------- */
+.bar{
+  position: absolute; left: 50%; bottom: max(14px, 2.2vh); transform: translateX(-50%);
+  display: flex; align-items: center; gap: 26px; white-space: nowrap;
+  font-size: 16px; color: var(--ink);
+}
+.nb{ display: flex; align-items: center; gap: 8px; border: 0; background: transparent; padding: 8px 10px; border-radius: 20px; font-size: 16px; transition: transform .2s; }
+.nb svg{ width: 44px; height: 20px; overflow: visible; }
+.nb path{ fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.nb:hover:not(:disabled){ transform: translateX(var(--nx, 0)); }
+.nb.prev{ --nx: -3px; }
+.nb.next{ --nx: 3px; }
+.nb:disabled{ opacity: .3; }
+.where{ min-width: 13em; text-align: center; font-size: 15px; }
+.where b{ font-weight: 500; font-size: 18px; margin-right: 10px; }
+.where span{ color: var(--ink-2); }
+.hint{
+  position: absolute; left: calc(var(--bx) + var(--W) - 300px); top: calc(var(--by) + var(--H) + 14px);
+  display: flex; align-items: flex-start; gap: 6px;
+  font-size: 15px; color: var(--ink); transform: rotate(-2deg);
+  transition: opacity .5s, transform .5s;
+}
+.hint svg{ width: 58px; height: 34px; margin-top: -18px; overflow: visible; }
+.hint path{ fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.hint small{ display: block; font-size: 12px; color: var(--ink-2); }
+.hint.gone{ opacity: 0; transform: rotate(-2deg) translateY(6px); pointer-events: none; }
+#trail{ position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; }
+
+/* ---------------- phones: the book lies open as one long scroll ---------------- */
+.m body{ overflow: auto; height: auto; }
+.m #stage{ position: relative; inset: auto; padding: 22px 0 40px; }
+.m .props, .m .bar, .m .hint, .m .tabs, .m .corner, .m .coil, .m .band, .m .backboard, .m .edges, .m #trail, .m .cast, .m .flapwrap, .m .bend{ display: none; }
+.m #book{ position: relative; left: auto; top: auto; width: var(--pw); height: auto; margin: 0 auto; }
+.m .sheet{ position: relative; inset: auto; margin-bottom: calc(26 * var(--u)); clip-path: none !important; display: block !important; filter: drop-shadow(0 calc(10 * var(--u)) calc(14 * var(--u)) rgba(28,32,30,.28)); }
+.m .face{ position: relative; inset: auto; display: flex; flex-direction: column; gap: calc(28 * var(--u)); padding: calc(40 * var(--u)) calc(24 * var(--u)) calc(56 * var(--u)) calc(66 * var(--u)); will-change: auto; }
+.m .coil-m{ display: block; position: absolute; z-index: 5; left: calc(-22 * var(--u)); top: 0; width: calc(70 * var(--u)); height: 100%; pointer-events: none; overflow: visible; }
+.m .it{ position: relative; left: auto; top: auto; width: min(100%, calc(var(--mw, var(--w)) * var(--u))); margin-left: calc(var(--ml, 0) * var(--u)); order: var(--o, 0); }
+.m .ph-h{ font-size: calc(44 * var(--u)); }
+.m .ph-h small{ display: block; margin: calc(12 * var(--u)) 0 0; vertical-align: 0; }
+.m .hello-h .a{ font-size: calc(34 * var(--u)); }
+.m .hello-h .b{ font-size: calc(104 * var(--u)); margin-top: calc(10 * var(--u)); }
+.m .hello-h .b small{ font-size: calc(38 * var(--u)); }
+.m .bio{ font-size: calc(19 * var(--u)); }
+.m .note{ white-space: normal; }
+.m .note.sm{ display: none; }
+.m .dt{ display: none; }
+.m .stain{ left: auto; right: calc(-60 * var(--u)); top: calc(-50 * var(--u)); }
+.m .lab-title .l1{ font-size: calc(30 * var(--u)); }
+.m .lab-title .l2{ font-size: calc(46 * var(--u)); }
+.m .lab-en{ font-size: calc(16 * var(--u)); }
+.m .label{ padding: calc(22 * var(--u)) calc(26 * var(--u)) calc(20 * var(--u)); }
+.m .arrow, .m .deco{ display: none; }
+.m .stain{ position: absolute; }
+.m .cover .face{ display: block; height: calc(640 * var(--u)); padding: 0; }
+.m .cover .it{ position: absolute; left: calc(var(--mx) * var(--u)); top: calc(var(--my) * var(--u)); }
+.m .band-m{
+  display: block; position: absolute; right: calc(34 * var(--u)); top: 0; bottom: 0; width: calc(14 * var(--u)); z-index: 5;
+  background: linear-gradient(90deg, #2e2e2e, #4b4b4b 35%, #3d3d3d 60%, #262626);
+  box-shadow: calc(3 * var(--u)) calc(3 * var(--u)) calc(4 * var(--u)) rgba(20,14,6,.35);
+}
+.m .work .pol{ width: calc(250 * var(--u)); }
+.m .env{ --eh: calc(var(--mw) * .63 * var(--u)); height: auto; display: flex; flex-direction: column; margin-top: calc(6 * var(--u)); }
+.m .env::after{ content: ""; display: block; height: var(--eh); }
+.m .env .letter{ position: relative; inset: auto; height: auto; margin: 0 calc(14 * var(--u)) calc(var(--eh) * -.4); padding-bottom: calc(var(--eh) * .44); transform: rotate(-.8deg); }
+.m .env-back, .m .env-pocket{ top: auto; height: var(--eh); }
+.m .env .env-flap{ z-index: 1; top: auto; bottom: calc(var(--eh) * .39); height: calc(var(--eh) * .61); }
+.m .env .env-flap .fl{ transform: rotateX(180deg); }
+.m .env-btn, .m .env-hint{ display: none; }
+.m .folio{ bottom: calc(20 * var(--u)); }
+
+@media (prefers-reduced-motion: reduce){
+  .draw .ln{ stroke-dashoffset: 0 !important; transition: none !important; }
+  .draw .wash{ opacity: .96 !important; transition: none !important; }
+  .draw .t, .draw .solid, [data-hand] .ch{ opacity: 1 !important; transition: none !important; }
+  .hl::before{ transform: scaleX(1) rotate(-1.2deg) !important; transition: none !important; }
+  .doodle.wig{ animation: none; }
+  .band, .tab, .hint, .letter, .env-flap, .env-flap .fl, .copy{ transition-duration: .01s !important; transition-delay: 0s !important; }
+}
+</style>
+</head>
+<body>
+<script>
+  /* decide the layout mode before first paint */
+  if (matchMedia('(max-width: 860px)').matches) document.documentElement.classList.add('m');
+</script>
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="wob0" x="-6%" y="-6%" width="112%" height="112%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.024 0.03" numOctaves="2" seed="2" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="wob1" x="-6%" y="-6%" width="112%" height="112%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.024 0.03" numOctaves="2" seed="9" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="wob2" x="-6%" y="-6%" width="112%" height="112%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.024 0.03" numOctaves="2" seed="23" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="wobT" x="-4%" y="-10%" width="108%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="5" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="wobHL" x="-4%" y="-30%" width="108%" height="160%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.09" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="stainF" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.028" numOctaves="3" seed="8" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="11" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="ink" x="-6%" y="-6%" width="112%" height="112%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="11" result="t"/>
+      <feColorMatrix in="t" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.4 0 0 0 1.95" result="m"/>
+      <feComposite in="SourceGraphic" in2="m" operator="in" result="s"/>
+      <feDisplacementMap in="s" in2="t" scale="1.6" xChannelSelector="G" yChannelSelector="B"/>
+    </filter>
+    <filter id="kraftN" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9 0.5" numOctaves="3" seed="5" result="a"/>
+      <feColorMatrix in="a" type="matrix" values="0 0 0 0 .36  0 0 0 0 .22  0 0 0 0 .09  0 0 -1.6 0 1.05" result="fib"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="3" result="b"/>
+      <feColorMatrix in="b" type="matrix" values="0 0 0 0 .5  0 0 0 0 .32  0 0 0 0 .15  0 0 0 .5 -.12" result="blot"/>
+      <feMerge><feMergeNode in="blot"/><feMergeNode in="fib"/></feMerge>
+    </filter>
+    <filter id="soft" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="1.1"/></filter>
+    <linearGradient id="wire" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4f6f7"/>
+      <stop offset=".3" stop-color="#b3b9be"/>
+      <stop offset=".55" stop-color="#6e747a"/>
+      <stop offset=".78" stop-color="#d6dade"/>
+      <stop offset="1" stop-color="#7c8288"/>
+    </linearGradient>
+    <g id="loop">
+      <path d="M 48.6 3.4 C 42 -1.2, 28 -4.6, 16 -4.2 C 7 -3.9, 3.2 1.2, 6.8 5.2" fill="none" stroke="rgba(40,30,18,.42)" stroke-width="3.4" stroke-linecap="round" filter="url(#soft)" transform="translate(1.6 2.6)"/>
+      <path d="M 46 2.6 C 48.2 3.8, 50.6 3.4, 51.4 1.6" fill="none" stroke="#3d4145" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M 48.6 1.8 C 42 -2.8, 28 -6.2, 16 -5.8 C 7 -5.5, 3.2 -0.4, 6.8 3.6" fill="none" stroke="url(#wire)" stroke-width="3.6" stroke-linecap="round"/>
+      <path d="M 46 0.2 C 40 -3.4, 28 -6.2, 17 -6" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="0.9" stroke-linecap="round"/>
+    </g>
+  </defs>
+</svg>
+
+<div id="stage">
+  <div class="lamp" aria-hidden="true"></div>
+
+  <div class="props" aria-hidden="true">
+    <svg class="pencil" viewBox="0 0 440 26">
+      <defs>
+        <linearGradient id="lac" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#5a5a5a"/><stop offset=".3" stop-color="#474747"/><stop offset=".34" stop-color="#3d3d3d"/>
+          <stop offset=".66" stop-color="#363636"/><stop offset=".7" stop-color="#2c2c2c"/><stop offset="1" stop-color="#232323"/>
+        </linearGradient>
+        <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f1d9b4"/><stop offset=".5" stop-color="#e2bf90"/><stop offset="1" stop-color="#c79e6e"/>
+        </linearGradient>
+      </defs>
+      <path d="M 66 2 L 436 2 L 436 24 L 66 24 C 70 20 64 17 68 13 C 64 9 70 6 66 2 Z" fill="url(#lac)"/>
+      <rect x="418" y="2" width="6" height="22" fill="#fff176" opacity=".92"/>
+      <path d="M 66 2 C 70 6 64 9 68 13 C 64 17 70 20 66 24 L 20 14.2 L 20 11.8 Z" fill="url(#wood)"/>
+      <path d="M 22 11.4 L 22 14.6 L 3 13 Z" fill="#2f2f2f"/>
+      <path d="M 12 12.2 L 4 12.9" stroke="#9a9a9a" stroke-width=".8" opacity=".7"/>
+      <path d="M 80 5.5 L 430 5.5" stroke="rgba(255,255,255,.18)" stroke-width="1.2"/>
+      <text x="250" y="16.6" fill="#cdb67c" font-family="Helvetica Neue, Arial, sans-serif" font-size="8.5" letter-spacing="2.2" font-weight="600">JUNO · SKETCH 2B</text>
+    </svg>
+    <svg class="shave" viewBox="0 0 80 60">
+      <path d="M 40 8 C 52 4 70 12 72 26 C 76 34 70 44 60 48 C 54 56 38 56 30 50 C 18 52 8 42 10 32 C 4 24 12 12 24 12 C 28 6 34 6 40 8 Z" fill="#e7c9a0" stroke="#2f2f2f" stroke-width="2.2" stroke-dasharray="3 2.2"/>
+      <path d="M 40 30 C 44 20 58 22 58 32 C 58 40 46 44 40 38" fill="none" stroke="#c9a676" stroke-width="1.4"/>
+      <path d="M 26 30 C 30 24 36 26 36 30" fill="none" stroke="#c9a676" stroke-width="1.2"/>
+    </svg>
+    <div class="eraser"></div>
+    <div class="crumbs"><i style="left:4px;top:6px;transform:rotate(20deg)"></i><i style="left:22px;top:14px;transform:rotate(-30deg);width:7px"></i><i style="left:40px;top:4px;transform:rotate(70deg);width:6px"></i><i style="left:14px;top:26px;transform:rotate(-8deg);width:11px"></i><i style="left:58px;top:20px;transform:rotate(40deg);width:5px"></i></div>
+  </div>
+
+  <main id="book" aria-roledescription="スケッチブック" aria-label="ジュノのスケッチブック">
+    <div class="backboard" aria-hidden="true"></div>
+    <div class="edges" aria-hidden="true"></div>
+
+    <nav class="tabs" aria-label="見出し">
+      <button type="button" class="tab" data-go="1" style="--ty:74;--tc:var(--yellow)">はじめに</button>
+      <button type="button" class="tab red" data-go="2" style="--ty:204;--tc:var(--red)">作品</button>
+      <button type="button" class="tab" data-go="4" style="--ty:334;--tc:#cfe0f1">描きかた</button>
+      <button type="button" class="tab" data-go="5" style="--ty:464;--tc:#d9b98e">お便り</button>
+    </nav>
+
+    <!-- ===================== cover ===================== -->
+    <section class="sheet cover" id="p0" data-name="表紙" aria-labelledby="t0">
+      <div class="face">
+        <svg class="tex" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true"><rect width="1000" height="700" filter="url(#kraftN)"/></svg>
+        <div class="band-m" aria-hidden="true"></div>
+
+        <div class="label it" style="--x:118;--y:136;--w:500;--r:-1.4;--mx:60;--my:150;--mw:330">
+          <span class="lab-no">No.<b>07</b></span>
+          <h1 id="t0" class="lab-title wob"><span class="l1" data-hand="static">ジュノの</span><span class="l2" data-hand="static"><span class="hl">スケッチ</span>ブック</span></h1>
+          <p class="lab-en">Pages from Juno’s Sketchbook</p>
+          <p class="lab-sub">2026 秋　線と寄り道の作品帳</p>
+        </div>
+
+        <div class="seal it" style="--x:560;--y:356;--r:6;--mx:292;--my:380" aria-hidden="true"><span>ジュ</span><span>ノ</span></div>
+
+        <div class="sticker hello it doodle" style="--x:700;--y:88;--r:-12;--mx:280;--my:44" aria-hidden="true"><span class="wob">hello!</span></div>
+
+        <div class="sticker it doodle" style="--x:634;--y:96;--w:78;--r:14;--mx:218;--my:62;--mw:62" aria-hidden="true">
+          <svg class="draw" viewBox="0 0 80 80">
+            <path d="M 40 8 L 48 30 L 72 30 L 53 44 L 60 68 L 40 54 L 20 68 L 27 44 L 8 30 L 32 30 Z" fill="#fff" stroke="#fff" stroke-width="12" stroke-linejoin="round"/>
+            <path class="wash" d="M 40 11 L 47 31 L 69 31 L 51 44 L 58 65 L 40 52 L 22 65 L 29 44 L 11 31 L 33 31 Z"/>
+            <path class="ln" d="M 40 8 L 48 30 L 72 30 L 53 44 L 60 68 L 40 54 L 20 68 L 27 44 L 8 30 L 32 30 L 41 7"/>
+          </svg>
+        </div>
+
+        <div class="sticker it doodle" style="--x:640;--y:432;--w:214;--r:-7;--mx:120;--my:440;--mw:180" aria-hidden="true">
+          <svg class="draw" viewBox="0 0 140 108">
+            <path d="M 20 64 C 14 50 16 36 20 30 L 32 37 L 42 20 L 54 33 C 72 17 112 19 126 41 C 138 59 134 84 120 92 C 118 102 100 106 86 104 C 60 104 40 98 30 90 C 22 84 18 74 20 64 Z" fill="#fff" stroke="#fff" stroke-width="14" stroke-linejoin="round"/>
+            <path class="wash" d="M 58 30 C 76 22 104 26 116 42 C 126 56 124 76 110 84 C 94 90 70 88 58 80 Z" opacity=".9"/>
+            <path class="ln" d="M 44 38 C 62 24 100 22 118 40 C 132 54 130 78 112 86"/>
+            <path class="ln" d="M 112 86 C 90 94 60 94 44 88"/>
+            <path class="ln" d="M 46 40 C 32 36 20 48 22 62 C 24 76 36 82 48 78"/>
+            <path class="ln" d="M 26 48 L 22 34 L 34 41"/>
+            <path class="ln" d="M 40 38 L 44 25 L 51 37"/>
+            <path class="ln" d="M 29 60 C 31 63 35 63 37 60"/>
+            <path class="ln" d="M 41 62 C 43 65 47 65 49 62"/>
+            <path class="ln th" d="M 37 68 L 39 70 L 41 68"/>
+            <path class="ln" d="M 112 86 C 120 96 110 101 92 99 C 72 97 58 94 50 86"/>
+            <path class="ln" d="M 48 78 C 52 83 58 83 61 79"/>
+            <path class="ln lt" d="M 72 26 C 74 32 72 38 68 42"/>
+            <path class="ln lt" d="M 88 25 C 90 31 88 38 84 42"/>
+            <path class="ln lt" d="M 102 31 C 103 37 100 43 96 47"/>
+            <path class="ln th" d="M 124 18 L 130 18 L 124 25 L 130 25"/>
+            <path class="ln th" d="M 132 6 L 136 6 L 132 11 L 136 11"/>
+          </svg>
+        </div>
+
+        <p class="fic it" style="--x:92;--y:622;--mx:66;--my:588">※ ジュノは架空のイラストレーターです</p>
+        <p class="spec it" style="--x:92;--y:652;--mx:66;--my:614" aria-hidden="true">SKETCH BOOK　·　画用紙 180 g/m²　·　30 枚</p>
+      </div>
+      <svg class="coil-m" aria-hidden="true"></svg>
+    </section>
+
+    <!-- ===================== 1. hello ===================== -->
+    <section class="sheet paper" id="p1" data-name="はじめまして" aria-labelledby="t1">
+      <div class="face">
+        <h2 id="t1" class="hello-h it wob" style="--x:80;--y:48;--o:1">
+          <span class="a" data-hand data-hd=".15">はじめまして、</span>
+          <span class="b" data-hand data-hd=".75"><span class="hl" style="--hlw:1.25s">ジュノ</span><small>です。</small></span>
+        </h2>
+
+        <p class="bio it" style="--x:86;--y:318;--w:450;--o:3">線を描くのが好きなイラストレーターです。絵本、お店のメニュー、町の地図、ときどき看板。だいたい2Bの鉛筆一本と、コーヒーと、<span class="ul">すこしの寄り道<svg class="draw" viewBox="0 0 100 10" preserveAspectRatio="none" data-delay="1.9" aria-hidden="true"><path class="ln red" d="M 1 6 C 20 3 38 8 58 5 C 74 3 88 7 99 3"/></svg></span>でできています。</p>
+
+        <figure class="portrait it doodle" style="--x:630;--y:58;--w:310;--o:2;--mw:300;--ml:20">
+          <svg class="draw" viewBox="0 0 300 360" data-delay=".3" role="img" aria-label="ジュノの自画像。おかっぱ頭に丸めがね、耳の上に鉛筆、ボーダーのシャツ。">
+            <path class="wash" d="M 72 150 C 60 76 146 34 212 58 C 262 80 266 186 214 222 C 160 258 82 234 72 150 Z"/>
+            <path class="wash" d="M 180.5 83 L 223 138.8 L 231 132.6 L 188.4 76.8 Z"/>
+            <path class="ln" d="M 96 196 C 84 150 86 98 118 72 C 140 56 176 56 198 72 C 226 94 224 150 212 196"/>
+            <path class="ln" d="M 96 196 C 100 204 110 206 117 199"/>
+            <path class="ln" d="M 212 196 C 208 204 198 206 190 199"/>
+            <path class="ln" d="M 106 118 C 132 125 176 125 204 116"/>
+            <path class="ln th" d="M 136 70 C 128 84 124 98 124 114"/>
+            <path class="ln th" d="M 168 68 C 176 82 180 98 180 114"/>
+            <path class="ln lt" d="M 152 64 C 150 80 150 96 152 112"/>
+            <path class="ln" d="M 110 118 C 106 146 108 172 117 197"/>
+            <path class="ln" d="M 198 118 C 202 146 200 172 190 197"/>
+            <path class="ln lt" d="M 124 80 C 116 94 110 112 104 134"/>
+            <path class="ln lt" d="M 190 84 C 198 98 204 116 206 136"/>
+            <path class="ln" d="M 116 186 C 124 204 138 214 152 214 C 168 214 182 204 190 186"/>
+            <path class="ln" d="M 116 152 C 116 131 148 131 148 152 C 148 173 116 173 116 152"/>
+            <path class="ln" d="M 158 152 C 158 131 190 131 190 152 C 190 173 158 173 158 152"/>
+            <path class="ln th" d="M 148 150 C 151 145 155 145 158 150"/>
+            <path class="ln th" d="M 125 156 C 129 150 135 150 139 156"/>
+            <path class="ln th" d="M 167 156 C 171 150 177 150 181 156"/>
+            <path class="ln th" d="M 154 166 C 151 174 150 178 156 180"/>
+            <path class="ln" d="M 141 191 C 148 198 160 198 167 189"/>
+            <path class="ln red th" d="M 118 184 L 124 177 M 123 187 L 129 180 M 128 189 L 134 182"/>
+            <path class="ln red th" d="M 172 184 L 178 177 M 177 187 L 183 180 M 182 189 L 188 182"/>
+            <path class="ln" d="M 141 212 L 139 237"/>
+            <path class="ln" d="M 165 212 L 167 237"/>
+            <path class="ln" d="M 139 237 C 146 248 160 248 167 237"/>
+            <path class="ln" d="M 139 237 C 102 250 78 286 72 342"/>
+            <path class="ln" d="M 167 237 C 204 250 228 286 234 342"/>
+            <path class="ln th" d="M 88 288 C 124 296 186 296 220 288"/>
+            <path class="ln th" d="M 80 313 C 120 321 190 321 228 313"/>
+            <path class="ln th" d="M 75 338 C 120 346 190 346 232 338"/>
+            <path class="ln" d="M 180 83.1 L 222.8 138.5 L 237.8 149.7 L 230.8 132.4 L 188 76.9 L 180 83.1"/>
+            <path class="ln th" d="M 222.8 138.5 L 230.8 132.4"/>
+            <path class="ln lt" d="M 184 80 L 226.8 135.4"/>
+            <path class="ln th" d="M 233.2 146.3 L 237.8 149.7 L 236 144.4"/>
+            <path class="ln th" d="M 252 50 L 252 70 M 242 60 L 262 60"/>
+            <path class="ln lt" d="M 46 84 L 52 90 M 52 84 L 46 90"/>
+          </svg>
+        </figure>
+
+        <p class="note it" style="--x:548;--y:452;--r:-5;--o:2;--ml:40">これがわたし<br>（だいたい似てる）</p>
+        <svg class="draw arrow" style="left:calc(640 * var(--u));top:calc(384 * var(--u));width:calc(74 * var(--u))" viewBox="0 0 74 70" aria-hidden="true">
+          <path class="ln" d="M 8 64 C 14 40 30 18 62 8"/><path class="ln" d="M 48 6 L 63 8 L 55 21"/>
+        </svg>
+        <p class="note it sm" style="--x:904;--y:252;--r:4;--o:2;--ml:160">いつもの2B</p>
+        <svg class="draw arrow" style="left:calc(890 * var(--u));top:calc(208 * var(--u));width:calc(36 * var(--u))" viewBox="0 0 36 44" aria-hidden="true">
+          <path class="ln" d="M 26 40 C 28 26 20 14 6 6"/><path class="ln" d="M 18 5 L 5 5 L 9 17"/>
+        </svg>
+        <p class="note it sm" style="--x:560;--y:170;--r:-3;--o:2;--ml:0">まるめがね</p>
+        <svg class="draw arrow" style="left:calc(608 * var(--u));top:calc(194 * var(--u));width:calc(92 * var(--u))" viewBox="0 0 92 40" aria-hidden="true">
+          <path class="ln" d="M 4 12 C 30 32 60 34 86 22"/><path class="ln" d="M 74 14 L 87 21 L 76 31"/>
+        </svg>
+
+        <aside class="sticky it" style="--x:100;--y:506;--w:246;--r:-3;--o:4;--mw:260">
+          <p>2026年の秋冬のお仕事、受付中です。</p>
+          <p class="go">→ 最後のページへ</p>
+        </aside>
+
+        <div class="likes it" style="--x:604;--y:540;--w:340;--r:1;--o:5">
+          <h3>すきなもの</h3>
+          <ul>
+            <li><svg class="draw" viewBox="0 0 60 50" aria-hidden="true"><path class="ln" d="M 10 44 C 6 30 14 18 26 18 C 40 16 52 26 50 40 C 48 46 20 48 10 44 Z"/><path class="ln th" d="M 14 22 L 12 10 L 22 17"/><path class="ln th" d="M 28 17 L 34 7 L 38 19"/><path class="ln th" d="M 20 32 C 22 34 25 34 26 32"/></svg>ねこ</li>
+            <li><svg class="draw" viewBox="0 0 60 50" aria-hidden="true"><path class="ln" d="M 6 12 L 20 6 L 38 12 L 54 6 L 54 40 L 38 46 L 20 40 L 6 46 Z"/><path class="ln lt" d="M 20 6 L 20 40 M 38 12 L 38 46"/><path class="ln red th" d="M 26 22 L 32 28 M 32 22 L 26 28"/></svg>地図</li>
+            <li><svg class="draw" viewBox="0 0 60 50" aria-hidden="true"><path class="wash" d="M 18 42 L 22 20 L 38 20 L 42 42 Z"/><path class="ln" d="M 16 42 C 18 32 20 24 22 19 C 30 16 36 16 38 19 C 40 24 42 32 44 42"/><path class="ln" d="M 8 44 C 20 48 40 48 52 44"/><path class="ln th" d="M 22 22 C 28 26 34 24 38 22"/><path class="ln red th" d="M 27 13 C 27 8 34 8 34 13 C 34 17 27 17 27 13"/></svg>かためのプリン</li>
+          </ul>
+        </div>
+
+        <div class="stain it" style="--x:826;--y:-118;--w:220;--mw:170;--r:12" aria-hidden="true">
+          <svg viewBox="0 0 200 200"><g filter="url(#stainF)"><circle cx="100" cy="100" r="74" fill="rgba(146,104,62,.05)" stroke="rgba(126,86,48,.34)" stroke-width="4.5"/><circle cx="100" cy="100" r="70" fill="none" stroke="rgba(126,86,48,.1)" stroke-width="9"/><path d="M 44 150 C 30 128 26 104 32 84" fill="none" stroke="rgba(126,86,48,.2)" stroke-width="3"/></g></svg>
+        </div>
+        <svg class="draw it deco" style="--x:536;--y:78;--w:36;--o:9" viewBox="0 0 40 40" aria-hidden="true"><path class="ln" d="M 20 3 L 24 15 L 37 15 L 26 23 L 30 36 L 20 28 L 10 36 L 14 23 L 3 15 L 16 15 L 21 2"/></svg>
+        <span class="folio" aria-hidden="true">— 1 —</span>
+      </div>
+      <svg class="coil-m" aria-hidden="true"></svg>
+    </section>
+
+    <!-- ===================== 2. works 1/2 ===================== -->
+    <section class="sheet paper" id="p2" data-name="えらんだ仕事" aria-labelledby="t2">
+      <div class="face">
+        <h2 id="t2" class="ph-h it wob" style="--x:82;--y:46"><span data-hand data-hd=".1">えらんだ仕事</span><small>selected work — 1/2</small></h2>
+
+        <article class="work it" style="--x:96;--y:148;--w:250;--r:-3;--mw:300">
+          <figure class="pol doodle">
+            <span class="tape stripe" style="--tr:-5deg"></span>
+            <div class="ph"><svg class="draw" viewBox="0 0 200 200" role="img" aria-label="三日月の上で眠る猫。三日月にはクロワッサンの筋。">
+              <path class="wash" d="M 97 42 A 60 60 0 1 0 153 126 A 52 52 0 1 1 97 42 Z"/>
+              <path class="ln" d="M 95.4 38.2 A 62 62 0 1 0 155.4 128"/>
+              <path class="ln" d="M 155.4 128 A 54 54 0 1 1 95.4 38.2"/>
+              <path class="ln th" d="M 52.5 60.1 Q 61 69 72.8 66.9"/>
+              <path class="ln th" d="M 38 100 Q 54 102 70.9 93.9"/>
+              <path class="ln th" d="M 52.5 139.9 Q 67 133 81.5 117.3"/>
+              <path class="ln" d="M 100 134 C 96 118 116 106 134 110"/>
+              <path class="ln" d="M 136 111 C 140 103 150 103 154 110 C 157 118 151 125 142 124"/>
+              <path class="ln th" d="M 138 108 L 139 99 L 145 105"/>
+              <path class="ln th" d="M 149 105 L 154 98 L 155 109"/>
+              <path class="ln th" d="M 143 115 C 145 117 148 117 150 115"/>
+              <path class="ln" d="M 100 134 C 106 142 126 142 140 124"/>
+              <path class="ln th" d="M 158 88 L 166 88 L 158 96 L 166 96"/>
+              <path class="ln th" d="M 170 74 L 175 74 L 170 79 L 175 79"/>
+              <path class="ln th" d="M 168 30 L 168 44 M 161 37 L 175 37"/>
+              <path class="ln lt" d="M 30 170 L 34 174 M 34 170 L 30 174"/>
+              <path class="ln lt" d="M 178 150 L 182 154 M 182 150 L 178 154"/>
+            </svg></div>
+            <figcaption data-hand data-hd=".4">つきのパンや</figcaption>
+          </figure>
+          <div class="wnote">
+            <h3>絵本『つきのパンや』</h3>
+            <p class="meta">ほしぞら書房（架空）・2025</p>
+            <p>夜だけ開くパン屋さんのお話。三日月のモデルは、クロワッサンです。</p>
+          </div>
+        </article>
+
+        <article class="work it" style="--x:394;--y:126;--w:250;--r:2;--mw:300">
+          <figure class="pol doodle">
+            <span class="tape dots" style="--tr:3deg"></span>
+            <div class="ph"><svg class="draw" viewBox="0 0 200 200" role="img" aria-label="お皿にのった、生クリームとさくらんぼのプリン。">
+              <path class="wash" d="M 64 144 C 66 126 70 112 76 104 L 126 104 C 132 114 136 128 138 144 C 118 150 84 150 64 144 Z"/>
+              <path class="ln" d="M 30 152 C 30 138 170 138 170 152 C 170 166 30 166 30 152"/>
+              <path class="ln lt" d="M 52 152 C 56 146 144 146 148 152"/>
+              <path class="ln" d="M 60 147 C 62 124 68 104 74 94"/>
+              <path class="ln" d="M 74 94 C 86 88 114 88 126 94"/>
+              <path class="ln" d="M 126 94 C 132 104 138 124 140 147"/>
+              <path class="ln" d="M 60 147 C 80 153 120 153 140 147"/>
+              <path class="ln th" d="M 72 103 C 84 109 94 104 100 110 C 106 104 118 109 129 102"/>
+              <path class="ln th" d="M 85 107 C 85 113 87 116 85 120"/>
+              <path class="ln th" d="M 118 106 C 118 112 116 116 118 119"/>
+              <path class="ln" d="M 84 90 C 80 80 94 74 100 79 C 106 72 118 80 116 89"/>
+              <path class="ln th" d="M 96 79 C 98 72 104 70 106 74"/>
+              <path class="ln red" d="M 96 65 C 96 57 112 57 112 65 C 112 73 96 73 96 65"/>
+              <path class="ln red th" d="M 104 58 C 104 49 110 42 119 38"/>
+              <path class="ln" d="M 146 156 C 144 150 151 146 157 149 C 162 152 157 160 151 159 C 148 158.5 146.5 157.5 146 156"/>
+              <path class="ln" d="M 157 150 C 168 140 178 130 190 120"/>
+              <path class="ln lt" d="M 66 132 L 72 126 M 66 140 L 76 130"/>
+            </svg></div>
+            <figcaption data-hand data-hd=".6">喫茶ミモザ</figcaption>
+          </figure>
+          <div class="wnote">
+            <h3>喫茶ミモザ　メニューの挿絵</h3>
+            <p class="meta">喫茶ミモザ（架空）・2024</p>
+            <p>かためのプリンを描くために、七回通いました。</p>
+          </div>
+        </article>
+
+        <article class="work it" style="--x:692;--y:158;--w:250;--r:-1.5;--mw:300">
+          <figure class="pol doodle">
+            <span class="tape yel" style="--tr:-2deg"></span>
+            <div class="ph"><svg class="draw" viewBox="0 0 200 200" role="img" aria-label="坂の多い町の手描き地図。家と木と、赤いばつ印。">
+              <path class="ln hi" d="M 22 186 C 60 184 52 160 90 156 C 128 152 102 122 130 114 C 150 108 140 94 150 86"/>
+              <path class="ln" d="M 8 172 C 48 152 70 92 110 82 C 150 72 172 112 194 122"/>
+              <path class="ln lt" d="M 30 180 C 70 166 100 132 130 128 C 160 124 176 142 196 152"/>
+              <path class="ln lt" d="M 60 188 C 100 176 140 162 196 176"/>
+              <path class="ln th" d="M 22 186 C 60 184 52 160 90 156 C 128 152 102 122 130 114 C 150 108 140 94 150 86" data-dash="5 5"/>
+              <path class="ln" d="M 34 170 L 34 158 L 50 158 L 50 170"/>
+              <path class="ln" d="M 31 160 L 42 149 L 53 160"/>
+              <path class="ln th" d="M 40 170 L 40 163 L 44 163 L 44 170"/>
+              <path class="ln" d="M 99 80 L 108 70 L 117 80"/>
+              <path class="ln" d="M 101 79 L 101 92 L 115 92 L 115 79"/>
+              <path class="ln th" d="M 105 83 L 111 83 L 111 88 L 105 88 Z"/>
+              <path class="ln" d="M 145 108 L 153 100 L 161 108"/>
+              <path class="ln" d="M 147 107 L 147 118 L 159 118 L 159 107"/>
+              <path class="ln" d="M 70 138 L 70 126"/>
+              <path class="ln" d="M 63 121 C 60 110 80 108 78 121 C 78 128 63 128 63 121"/>
+              <path class="ln" d="M 176 108 L 176 98"/>
+              <path class="ln" d="M 170 94 C 168 84 184 84 182 94 C 182 100 170 100 170 94"/>
+              <path class="ln red" d="M 142 54 L 152 64 M 152 54 L 142 64"/>
+              <path class="ln th" d="M 22 44 L 22 20 M 16 28 L 22 19 L 28 28"/>
+              <path class="ln th" d="M 17 58 L 17 49 L 26 58 L 26 49"/>
+            </svg></div>
+            <figcaption data-hand data-hd=".8">すずかけ町</figcaption>
+          </figure>
+          <div class="wnote">
+            <h3>すずかけ町　坂道さんぽ地図</h3>
+            <p class="meta">架空の町の観光案内・2025</p>
+            <p>坂が多すぎて、地図まで少し傾きました。</p>
+          </div>
+        </article>
+
+        <svg class="draw it deco" style="--x:420;--y:640;--w:120;--o:9" viewBox="0 0 120 40" aria-hidden="true"><path class="ln lt" d="M 4 30 C 20 6 40 34 58 14 C 72 0 90 30 116 10"/></svg>
+        <span class="folio" aria-hidden="true">— 2 —</span>
+      </div>
+      <svg class="coil-m" aria-hidden="true"></svg>
+    </section>
+
+    <!-- ===================== 3. works 2/2 ===================== -->
+    <section class="sheet paper" id="p3" data-name="えらんだ仕事（つづき）" aria-labelledby="t3">
+      <div class="face">
+        <h2 id="t3" class="ph-h it wob" style="--x:82;--y:46"><span data-hand data-hd=".1">つづき</span><small>selected work — 2/2</small></h2>
+
+        <article class="work it" style="--x:96;--y:150;--w:250;--r:2.5;--mw:300">
+          <figure class="pol doodle">
+            <span class="tape grid" style="--tr:4deg"></span>
+            <div class="ph"><svg class="draw" viewBox="0 0 200 200" role="img" aria-label="たんぽぽの花と綿毛。飛んでいく種。">
+              <path class="wash" d="M 78 47 L 92 52 L 102 66 L 101 80 L 92 91 L 78 95 L 64 90 L 55 78 L 56 62 L 65 51 Z"/>
+              <path class="ln" d="M 78 44 L 84 56 L 94 48 L 92 60 L 104 60 L 96 70 L 106 78 L 94 80 L 98 92 L 86 86 L 80 98 L 74 86 L 62 92 L 64 80 L 52 78 L 60 70 L 52 60 L 64 60 L 62 48 L 72 56 L 79 43"/>
+              <path class="ln th" d="M 72 70 C 72 62 84 62 84 70 C 84 78 72 78 72 70"/>
+              <path class="ln" d="M 80 98 C 82 130 86 160 90 190"/>
+              <path class="ln" d="M 142 88 C 140 122 136 160 128 190"/>
+              <path class="ln th" d="M 142 70 C 142 66 146 66 146 70 C 146 74 142 74 142 70"/>
+              <g data-rays="144 70 24 22"></g>
+              <path class="ln" d="M 90 190 C 70 176 58 168 44 148 L 56 156 L 50 140 L 64 152 L 62 136 L 74 154 C 80 168 86 178 90 190"/>
+              <path class="ln" d="M 96 190 C 118 176 140 170 162 158 L 152 169 L 168 171 L 154 179 L 164 186 C 140 189 118 191 96 190"/>
+              <path class="ln th" d="M 172 40 L 178 30 M 178 30 L 173 25 M 178 30 L 178 24 M 178 30 L 183 26"/>
+              <path class="ln th" d="M 150 22 L 155 14 M 155 14 L 151 10 M 155 14 L 155 9 M 155 14 L 159 11"/>
+              <path class="ln lt" d="M 166 52 C 172 50 178 44 182 38"/>
+            </svg></div>
+            <figcaption data-hand data-hd=".4">草花ごよみ</figcaption>
+          </figure>
+          <div class="wnote">
+            <h3>日めくり「道ばた草花ごよみ」</h3>
+            <p class="meta">自主制作のカレンダー・2026</p>
+            <p>たんぽぽは三月の顔。綿毛は四月に。</p>
+          </div>
+        </article>
+
+        <article class="work it" style="--x:394;--y:170;--w:250;--r:-2.5;--mw:300">
+          <figure class="pol doodle">
+            <span class="tape ink" style="--tr:-4deg"></span>
+            <div class="ph"><svg class="draw" viewBox="0 0 200 200" role="img" aria-label="音符を吹き上げるくじらと、波と太陽。">
+              <circle class="wash" cx="160" cy="42" r="20"/>
+              <path class="ln th" d="M 160 22 C 150 22 140 30 140 42 C 140 54 150 62 160 62 C 171 62 180 53 180 42 C 180 31 171 22 158 23"/>
+              <path class="ln lt" d="M 160 10 L 160 16 M 186 42 L 192 42 M 178 22 L 182 18 M 178 62 L 182 66"/>
+              <path class="ln" d="M 30 120 C 30 84 70 70 110 76 C 150 82 166 104 169 119"/>
+              <path class="ln" d="M 30 120 C 40 144 120 150 150 136 C 160 131 165 126 169 119"/>
+              <path class="ln" d="M 168 118 C 176 104 186 96 196 92 C 190 104 188 110 190 118 C 184 116 176 118 166 124"/>
+              <path class="ln th" d="M 58 110 C 58 107 62 107 62 110 C 62 113 58 113 58 110"/>
+              <path class="ln th" d="M 34 124 C 50 130 70 130 84 124"/>
+              <path class="ln lt" d="M 50 134 C 70 140 100 142 120 138"/>
+              <path class="ln lt" d="M 62 141 C 80 146 100 147 116 145"/>
+              <path class="ln th" d="M 80 74 C 78 64 72 60 64 58"/>
+              <path class="ln th" d="M 80 74 C 84 64 92 60 100 60"/>
+              <path class="ln" d="M 77 50 L 77 28 C 83 30 87 34 87 40"/>
+              <path class="ln" d="M 69 51 C 69 47 77 46 78 49 C 79 53 71 55 69 51"/>
+              <path class="ln" d="M 106 40 L 106 20 L 120 16 L 120 36"/>
+              <path class="ln th" d="M 106 26 L 120 22"/>
+              <path class="ln" d="M 99 41 C 99 37 107 36 107 39 C 108 43 100 45 99 41"/>
+              <path class="ln" d="M 113 37 C 113 33 121 32 121 35 C 122 39 114 41 113 37"/>
+              <path class="ln" d="M 8 164 C 20 156 32 172 44 164 C 56 156 68 172 80 164 C 92 156 104 172 116 164 C 128 156 140 172 152 164 C 164 156 176 172 192 162"/>
+              <path class="ln lt" d="M 24 182 C 36 176 48 188 60 182 C 72 176 84 188 96 182 C 108 176 120 188 132 182"/>
+            </svg></div>
+            <figcaption data-hand data-hd=".6">しおかぜ音楽祭</figcaption>
+          </figure>
+          <div class="wnote">
+            <h3>しおかぜ音楽祭のポスター</h3>
+            <p class="meta">海辺の小さな音楽祭（架空）・Tシャツも・2024</p>
+            <p>くじらが歌うのは、ラの音らしい。</p>
+          </div>
+        </article>
+
+        <article class="work it" style="--x:692;--y:136;--w:250;--r:3;--mw:300">
+          <figure class="pol doodle">
+            <span class="tape stripe" style="--tr:2deg"></span>
+            <div class="ph"><svg class="draw" viewBox="0 0 200 200" role="img" aria-label="積んだ本の上で眠る猫と、夜の三日月。">
+              <path class="wash" d="M 52 132 L 150 134 L 149 150 L 51 149 Z"/>
+              <path class="wash" d="M 170 28 C 158 32 156 52 170 56 C 162 50 162 36 170 28 Z"/>
+              <path class="ln" d="M 40 152 L 160 150 L 162 172 L 42 174 Z"/>
+              <path class="ln lt" d="M 52 153 L 53 173 M 148 151 L 149 171"/>
+              <path class="ln" d="M 50 130 L 150 133 L 149 151"/>
+              <path class="ln" d="M 50 130 L 49 151"/>
+              <path class="ln th" d="M 80 140 L 120 141"/>
+              <path class="ln" d="M 62 112 L 144 108 L 146 131"/>
+              <path class="ln" d="M 62 112 L 61 130"/>
+              <path class="ln lt" d="M 132 109 L 133 131"/>
+              <path class="ln" d="M 72 111 C 70 98 76 90 84 87"/>
+              <path class="ln" d="M 126 87 C 136 90 140 99 138 110"/>
+              <path class="ln" d="M 84 87 C 82 73 96 65 106 67 C 118 65 128 73 126 87 C 120 96 90 96 84 87"/>
+              <path class="ln th" d="M 88 75 L 86 61 L 98 69"/>
+              <path class="ln th" d="M 114 68 L 124 59 L 124 75"/>
+              <path class="ln th" d="M 96 81 C 98 83 100 83 102 81"/>
+              <path class="ln th" d="M 110 81 C 112 83 114 83 116 81"/>
+              <path class="ln th" d="M 90 88 L 79 86 M 90 91 L 79 93 M 122 88 L 133 86 M 122 91 L 133 93"/>
+              <path class="ln" d="M 138 106 C 150 112 152 132 146 144"/>
+              <path class="ln th" d="M 170 28 C 158 32 156 52 170 56 C 162 50 162 36 171 27"/>
+              <path class="ln lt" d="M 36 40 L 40 44 M 40 40 L 36 44 M 140 36 L 143 39 M 143 36 L 140 39"/>
+              <path class="ln th" d="M 150 70 L 156 70 L 150 77 L 156 77"/>
+            </svg></div>
+            <figcaption data-hand data-hd=".8">ヨルノ書店</figcaption>
+          </figure>
+          <div class="wnote">
+            <h3>ヨルノ書店　ブックカバー</h3>
+            <p class="meta">町の小さな本屋（架空）・2025</p>
+            <p>本の上で寝ている猫が、店長です。</p>
+          </div>
+        </article>
+
+        <svg class="draw it deco" style="--x:560;--y:640;--w:60;--o:9" viewBox="0 0 60 40" aria-hidden="true"><path class="ln lt" d="M 30 20 C 30 16 36 16 36 20 C 36 26 26 26 26 20 C 26 12 40 12 40 20 C 40 30 22 30 22 20 C 22 8 44 8 44 20"/></svg>
+        <span class="folio" aria-hidden="true">— 3 —</span>
+      </div>
+      <svg class="coil-m" aria-hidden="true"></svg>
+    </section>
+
+    <!-- ===================== 4. process ===================== -->
+    <section class="sheet paper" id="p4" data-name="描きかた、だいたい" aria-labelledby="t4">
+      <div class="face">
+        <h2 id="t4" class="ph-h it wob" style="--x:82;--y:46"><span data-hand data-hd=".1">描きかた、だいたい</span><small>process</small></h2>
+
+        <figure class="thumbs it doodle" style="--x:88;--y:140;--w:520;--mw:370">
+          <svg class="draw" viewBox="0 0 520 130" role="img" aria-label="切手くらいの大きさのサムネイルが4枚。3枚目が赤い線で囲まれ「これ！」と書いてある。">
+            <path class="ln th" d="M 5 15 L 118 13 M 116 11 L 117 94 M 119 92 L 6 93 M 8 95 L 9 12"/>
+            <path class="ln lt" d="M 12 70 C 40 66 80 72 112 68"/>
+            <path class="ln th" d="M 34 44 C 34 34 50 34 50 44 C 50 54 34 54 34 44"/>
+            <path class="ln lt" d="M 80 70 L 80 56 M 74 60 L 86 60"/>
+            <path class="ln th" d="M 133 15 L 246 14 M 244 12 L 245 94 M 247 93 L 134 94 M 136 96 L 137 12"/>
+            <path class="ln lt" d="M 140 90 L 240 22"/>
+            <path class="ln th" d="M 196 62 L 196 52 L 204 46 L 212 52 L 212 62 Z"/>
+            <path class="ln lt" d="M 150 88 L 158 80 M 160 90 L 170 80 M 170 90 L 182 78"/>
+            <path class="ln th" d="M 261 14 L 374 13 M 372 11 L 373 94 M 375 92 L 262 93 M 264 95 L 265 12"/>
+            <path class="ln th" d="M 304 26 C 284 32 282 70 308 78 C 296 66 294 40 304 26"/>
+            <path class="ln th" d="M 300 68 C 304 58 318 58 322 68"/>
+            <path class="ln lt" d="M 306 60 L 305 54 L 310 58 M 314 58 L 318 53 L 318 60"/>
+            <path class="ln lt" d="M 340 30 L 344 34 M 344 30 L 340 34 M 350 50 L 352 52"/>
+            <path class="ln th" d="M 389 15 L 502 13 M 500 11 L 501 94 M 503 93 L 390 94 M 392 96 L 393 12"/>
+            <path class="ln lt" d="M 394 88 C 420 58 470 52 498 72"/>
+            <path class="ln th" d="M 440 62 L 440 50 L 450 43 L 460 50 L 460 62"/>
+            <path class="ln lt" d="M 400 92 C 420 84 430 76 440 64" />
+            <path class="ln red" d="M 256 52 C 252 16 318 4 364 20 C 392 34 390 90 350 102 C 300 114 254 98 254 62 C 254 52 260 42 272 36"/>
+            <text class="t red" x="382" y="124" font-size="19">これ！</text>
+            <path class="ln red th" d="M 378 110 C 372 106 368 104 364 100"/>
+          </svg>
+          <figcaption>① 切手くらいの大きさで、何枚も描く　② 赤でひとつに決める</figcaption>
+        </figure>
+
+        <figure class="chart it doodle" style="--x:88;--y:318;--w:450;--mw:370">
+          <p class="ct" data-hand data-hd=".5">アイデアの数と、コーヒーの杯数<small>（ジュノ調べ）</small></p>
+          <svg class="draw" viewBox="0 0 360 250" role="img" aria-label="冗談のグラフ。コーヒー3杯でアイデアの数がピークになり、5杯を超えると手がふるえて急に減る。">
+            <rect class="wash" x="164" y="22" width="38" height="184" opacity=".7"/>
+            <path class="ln" d="M 44 16 L 44 207"/>
+            <path class="ln th" d="M 38 26 L 44 14 L 50 26"/>
+            <path class="ln" d="M 43 206 L 344 205"/>
+            <path class="ln th" d="M 332 199 L 345 205 L 332 212"/>
+            <path class="ln lt" d="M 90 202 L 90 210 M 136 202 L 136 210 M 182 202 L 182 210 M 228 202 L 228 210 M 274 202 L 274 210 M 320 202 L 320 210"/>
+            <text class="t" x="40" y="228" font-size="13">0</text><text class="t" x="86" y="228" font-size="13">1</text><text class="t" x="132" y="228" font-size="13">2</text><text class="t" x="178" y="228" font-size="13">3</text><text class="t" x="224" y="228" font-size="13">4</text><text class="t" x="270" y="228" font-size="13">5</text><text class="t" x="316" y="228" font-size="13">6</text>
+            <text class="t" x="262" y="248" font-size="13">コーヒー（杯）</text>
+            <text class="t" x="20" y="60" font-size="13" style="writing-mode: vertical-rl">アイデア</text>
+            <path class="ln" d="M 44 186 C 60 178 76 164 90 155 C 108 142 120 118 136 101 C 152 82 166 58 182 56 C 198 54 214 66 228 87 C 244 112 258 150 274 165 C 290 180 304 188 320 192"/>
+            <path class="ln th" d="M 87 155 C 87 151 93 151 93 155 C 93 159 87 159 87 155"/>
+            <path class="ln th" d="M 133 101 C 133 97 139 97 139 101 C 139 105 133 105 133 101"/>
+            <path class="ln th" d="M 225 87 C 225 83 231 83 231 87 C 231 91 225 91 225 87"/>
+            <path class="ln th" d="M 271 165 C 271 161 277 161 277 165 C 277 169 271 169 271 165"/>
+            <path class="ln red" d="M 168 58 C 164 38 196 32 200 50 C 204 70 172 76 166 60 C 164 52 170 44 178 42"/>
+            <text class="t" x="210" y="30" font-size="14">ここがピーク</text>
+            <path class="ln th" d="M 214 34 C 206 40 202 44 198 48"/>
+            <path class="ln th" d="M 282 150 l 4 -5 l 4 5 l 4 -5 l 4 5 M 294 166 l 4 -5 l 4 5 l 4 -5"/>
+            <text class="t" x="262" y="128" font-size="14">手がふるえる</text>
+          </svg>
+        </figure>
+
+        <div class="tools it" style="--x:648;--y:146;--w:300;--r:1;--mw:360">
+          <h3 data-hand data-hd=".3" class="wob">どうぐ</h3>
+          <ul>
+            <li><svg class="draw" viewBox="0 0 30 30" aria-hidden="true"><path class="ln th" d="M 5 7 L 25 6 L 24 25 L 6 24 L 5 5"/><path class="ln red" d="M 8 15 L 14 22 L 28 3"/></svg><span>2Bの鉛筆<small>短くなっても捨てない</small></span></li>
+            <li><svg class="draw" viewBox="0 0 30 30" aria-hidden="true"><path class="ln th" d="M 5 6 L 25 7 L 24 24 L 6 25 L 5 5"/><path class="ln red" d="M 8 15 L 14 22 L 28 3"/></svg><span>練り消し<small>こねると考えがまとまる</small></span></li>
+            <li><svg class="draw" viewBox="0 0 30 30" aria-hidden="true"><path class="ln th" d="M 6 6 L 25 6 L 25 25 L 5 24 L 6 5"/><path class="ln red" d="M 8 15 L 14 22 L 28 3"/></svg><span>黄色の蛍光ペン<small>黄色だけ</small></span></li>
+            <li><svg class="draw" viewBox="0 0 30 30" aria-hidden="true"><path class="ln th" d="M 5 6 L 24 5 L 25 24 L 6 25 L 5 5"/><path class="ln red" d="M 8 15 L 14 22 L 28 3"/></svg><span>赤鉛筆<small>一本だけ</small></span></li>
+            <li><svg class="draw" viewBox="0 0 30 30" aria-hidden="true"><path class="ln th" d="M 5 7 L 25 6 L 24 25 L 6 24 L 5 5"/></svg><span>締め切りの余裕<span class="q">？</span></span></li>
+          </ul>
+        </div>
+
+        <aside class="sticky it" style="--x:630;--y:462;--w:318;--r:3;--mw:300">
+          <p>線は三回まで引き直していい。<br>四回目からは、新しい紙で。</p>
+        </aside>
+
+        <div class="stain it" style="--x:420;--y:470;--w:200;--mw:150;--r:-20" aria-hidden="true">
+          <svg viewBox="0 0 200 200"><g filter="url(#stainF)"><circle cx="100" cy="100" r="72" fill="rgba(146,104,62,.04)" stroke="rgba(126,86,48,.32)" stroke-width="5"/><circle cx="100" cy="100" r="67" fill="none" stroke="rgba(126,86,48,.1)" stroke-width="8"/><path d="M 150 50 C 168 70 174 96 168 124" fill="none" stroke="rgba(126,86,48,.22)" stroke-width="3"/></g><circle cx="186" cy="176" r="4" fill="rgba(126,86,48,.2)"/><circle cx="196" cy="160" r="2" fill="rgba(126,86,48,.2)"/></svg>
+        </div>
+        <span class="folio" aria-hidden="true">— 4 —</span>
+      </div>
+      <svg class="coil-m" aria-hidden="true"></svg>
+    </section>
+
+    <!-- ===================== 5. contact ===================== -->
+    <section class="sheet paper" id="p5" data-name="お便り、まってます" aria-labelledby="t5">
+      <div class="face">
+        <h2 id="t5" class="ph-h it wob" style="--x:82;--y:46"><span data-hand data-hd=".1">お便り、まってます</span><small>contact</small></h2>
+
+        <p class="lead it" style="--x:86;--y:150;--w:336">お仕事のご相談、ちょっとした質問、好きな文房具の話。<span class="dt">封筒にふれると、手紙が出てきます。</span></p>
+
+        <figure class="plane it doodle" style="--x:66;--y:326;--w:380;--o:9" aria-hidden="true">
+          <svg class="draw" viewBox="0 0 360 220">
+            <path class="ln th" d="M 12 196 C 50 206 96 176 92 140 C 88 108 44 112 52 142 C 60 172 120 178 170 150 C 212 128 236 106 258 90" data-dash="7 6"/>
+            <path class="wash" d="M 258 90 L 336 40 L 288 94 Z" opacity=".8"/>
+            <path class="ln" d="M 256 90 L 336 40 L 300 112 L 286 93 Z"/>
+            <path class="ln th" d="M 336 40 L 286 93"/>
+            <path class="ln th" d="M 286 93 L 282 111 L 296 101"/>
+          </svg>
+        </figure>
+
+        <div class="env it" id="env" style="--x:480;--y:346;--w:460;--r:-2;--mw:360">
+          <div class="env-back"></div>
+          <div class="letter" id="letter" inert>
+            <p>こんにちは。</p>
+            <p>ここまでめくってくれて、ありがとう。絵本、パッケージ、地図、お店のメニュー。線で描けるものなら、なんでも相談してください。返事はたいてい、コーヒー二杯ぶんの時間で書きます。</p>
+            <p class="sign">ジュノ</p>
+            <p class="addr"><span id="addr">ジュノのスケッチブック係 ✎</span><button type="button" class="copy" id="copy">コピー</button></p>
+            <p class="fine">※ 架空の宛先です<span id="copied" role="status"></span></p>
+          </div>
+          <div class="env-pocket" aria-hidden="true">
+            <svg class="folds" viewBox="0 0 478 308" preserveAspectRatio="none"><path d="M 9 9 L 239 156 L 469 9" fill="none" stroke="rgba(61,61,61,.22)" stroke-width="1.2"/><path d="M 9 299 L 210 160 M 469 299 L 268 160" fill="none" stroke="rgba(61,61,61,.14)" stroke-width="1.2"/></svg>
+            <div class="pc"><i>★</i><i>♡</i><i>✎</i><i>ね</i><i>こ</i><i>☕</i><i>☆</i></div>
+            <p class="to wob">ジュノ<small>行</small></p>
+            <p class="airmail">AIR MAIL<br>航空便</p>
+            <div class="stamp"><div class="art"><b>∞</b><svg viewBox="0 0 60 44"><path d="M 12 38 C 8 26 16 16 28 16 C 42 14 54 24 52 36 C 50 42 22 44 12 38 Z" fill="none" stroke="#3d3d3d" stroke-width="2" stroke-linejoin="round"/><path d="M 16 20 L 14 8 L 24 15 M 30 15 L 36 5 L 40 17" fill="none" stroke="#3d3d3d" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M 22 28 C 24 30 27 30 28 28" fill="none" stroke="#3d3d3d" stroke-width="1.6" stroke-linecap="round"/></svg><em>SKETCH POST</em></div></div>
+            <svg class="postmark" viewBox="0 0 200 100"><g fill="none" stroke="#3d3d3d" stroke-width="2"><path d="M 0 30 C 15 22 30 38 45 30 C 60 22 75 38 90 30 C 100 25 106 28 112 30"/><path d="M 0 44 C 15 36 30 52 45 44 C 60 36 75 52 90 44 C 100 39 106 42 112 44"/><path d="M 0 58 C 15 50 30 66 45 58 C 60 50 75 66 90 58 C 100 53 106 56 112 58"/><path d="M 0 72 C 15 64 30 80 45 72 C 60 64 75 80 90 72 C 100 67 106 70 112 72"/><circle cx="152" cy="50" r="40"/><path d="M 116 40 L 188 40 M 116 60 L 188 60"/></g><g fill="#3d3d3d" font-family="Hiragino Sans, Noto Sans CJK JP, sans-serif" text-anchor="middle" font-weight="600"><text x="152" y="32" font-size="12">すけっち</text><text x="152" y="55" font-size="14" letter-spacing="1">26.9.25</text><text x="152" y="78" font-size="11">ジュノ局</text></g></svg>
+          </div>
+          <div class="env-flap" aria-hidden="true">
+            <div class="fl">
+              <svg class="out" viewBox="0 0 460 176" preserveAspectRatio="none"><path d="M 2 2 L 458 2 L 236 172 C 232 175 228 175 224 172 Z" fill="#f4efe5" stroke="rgba(61,61,61,.18)"/><path d="M 12 8 L 230 162 L 448 8" fill="none" stroke="#d64545" stroke-width="7" stroke-dasharray="12 28"/><path d="M 12 8 L 230 162 L 448 8" fill="none" stroke="#7c9fd0" stroke-width="7" stroke-dasharray="12 28" stroke-dashoffset="-20"/><circle cx="230" cy="150" r="10" fill="#d64545" opacity=".85"/><path d="M 225 150 L 235 150 M 230 145 L 230 155" stroke="#fbf8f1" stroke-width="1.6"/></svg>
+              <svg class="in" viewBox="0 0 460 176" preserveAspectRatio="none"><defs><pattern id="tint" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M 0 7 L 7 0 L 14 7 L 7 14 Z" fill="none" stroke="rgba(96,138,200,.35)" stroke-width="1"/></pattern></defs><path d="M 2 2 L 458 2 L 236 172 C 232 175 228 175 224 172 Z" fill="#ebe6da"/><path d="M 2 2 L 458 2 L 236 172 C 232 175 228 175 224 172 Z" fill="url(#tint)"/></svg>
+            </div>
+          </div>
+          <button type="button" class="env-btn" id="envBtn" aria-expanded="false" aria-controls="letter"><span class="sr" id="envLabel">封筒をひらく</span></button>
+        </div>
+        <p class="env-hint it" style="--x:600;--y:268;--r:-3" aria-hidden="true">封筒にふれると、ひらきます ↓</p>
+
+        <p class="colophon it" style="--x:88;--y:590;--w:380;--o:10">このスケッチブックも、ジュノも、ここに出てくるお店や町も、すべて架空のものです。残りのページは、まだ白紙。</p>
+        <p class="fin it wob" style="--x:736;--y:648;--r:-4;--o:11" data-hand data-hd="1.2">おしまい。</p>
+        <span class="folio" aria-hidden="true">— 5 —</span>
+      </div>
+      <svg class="coil-m" aria-hidden="true"></svg>
+    </section>
+
+    <svg class="coil" id="coil" aria-hidden="true"></svg>
+    <div class="band" id="band" aria-hidden="true"></div>
+    <button type="button" class="corner" id="corner" aria-label="ページをめくる"></button>
+  </main>
+
+  <div class="hint" id="hint" aria-hidden="true">
+    <p>角をつまんで、めくってね<small>← → キーでも</small></p>
+    <svg viewBox="0 0 58 34"><path d="M 4 30 C 20 32 42 24 52 6"/><path d="M 42 10 L 53 5 L 54 17"/></svg>
+  </div>
+
+  <nav class="bar" aria-label="ページ送り">
+    <button type="button" class="nb prev" id="prev" aria-label="前のページ"><svg viewBox="0 0 44 20" aria-hidden="true"><path d="M 42 11 C 30 9 18 12 3 10"/><path d="M 11 3 L 2 10 L 11 17"/></svg><span aria-hidden="true">まえ</span></button>
+    <p class="where" aria-hidden="true"><b id="pgNum">表紙</b><span id="pgName">ジュノのスケッチブック</span></p>
+    <button type="button" class="nb next" id="next" aria-label="次のページ"><span aria-hidden="true">つぎ</span><svg viewBox="0 0 44 20" aria-hidden="true"><path d="M 2 10 C 14 12 26 8 41 10"/><path d="M 33 3 L 42 10 L 33 17"/></svg></button>
+  </nav>
+</div>
+<canvas id="trail" aria-hidden="true"></canvas>
+<p id="live" class="sr" aria-live="polite"></p>
+
+<script>
+(() => {
+  'use strict';
+  const root = document.documentElement;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const mqMobile = matchMedia('(max-width: 860px)');
+  let reduced = mqReduce.matches;
+  let mobile = mqMobile.matches;
+
+  const stage = $('#stage'), book = $('#book'), band = $('#band'), corner = $('#corner');
+  const sheets = $$('.sheet', book);
+  const N = sheets.length;
+  const SVGNS = 'http://www.w3.org/2000/svg';
+
+  const rng = (seed) => {
+    let s = seed >>> 0 || 1;
+    return () => {
+      s ^= s << 13; s ^= s >>> 17; s ^= s << 5;
+      return (s >>> 0) / 4294967296;
+    };
+  };
+
+  /* ---------- hand lettering: split into glyphs with their own tilt, keep a plain copy for screen readers ---------- */
+  let hseed = 11;
+  $$('[data-hand]').forEach((el) => {
+    const r = rng((hseed += 97));
+    const plain = el.textContent.replace(/\s+/g, ' ').trim();
+    let i = 0;
+    const walk = (node) => {
+      for (const c of Array.from(node.childNodes)) {
+        if (c.nodeType === 3) {
+          const f = document.createDocumentFragment();
+          for (const ch of Array.from(c.textContent)) {
+            if (/\s/.test(ch)) { f.append(ch); continue; }
+            const s = document.createElement('span');
+            s.className = 'ch';
+            s.textContent = ch;
+            s.style.cssText = `--r:${((r() * 2 - 1) * 3.4).toFixed(2)}deg;--y:${((r() * 2 - 1) * 0.05).toFixed(3)}em;--s:${(1 + (r() * 2 - 1) * 0.05).toFixed(3)};--i:${i++}`;
+            f.append(s);
+          }
+          c.replaceWith(f);
+        } else if (c.nodeType === 1 && c.tagName !== 'svg') walk(c);
+      }
+    };
+    walk(el);
+    if (el.dataset.hd) el.style.setProperty('--hd', el.dataset.hd + 's');
+    const wrap = document.createElement('span');
+    wrap.setAttribute('aria-hidden', 'true');
+    wrap.append(...el.childNodes);
+    const sr = document.createElement('span');
+    sr.className = 'sr';
+    sr.textContent = plain;
+    el.append(wrap, sr);
+  });
+
+  /* ---------- procedural strokes: dandelion rays and dashed routes ---------- */
+  $$('g[data-rays]').forEach((g, gi) => {
+    const [cx, cy, R, n] = g.dataset.rays.split(' ').map(Number);
+    const r = rng(40 + gi);
+    let d = '';
+    for (let k = 0; k < n; k++) {
+      const a = (k / n) * Math.PI * 2 + (r() - 0.5) * 0.18;
+      const len = R * (0.86 + r() * 0.2);
+      const x1 = cx + Math.cos(a) * 5, y1 = cy + Math.sin(a) * 5;
+      const x2 = cx + Math.cos(a) * len, y2 = cy + Math.sin(a) * len;
+      const p = document.createElementNS(SVGNS, 'path');
+      p.setAttribute('class', 'ln lt');
+      p.setAttribute('d', `M ${x1.toFixed(1)} ${y1.toFixed(1)} L ${x2.toFixed(1)} ${y2.toFixed(1)} M ${(x2 + Math.cos(a - 0.5) * 3.5).toFixed(1)} ${(y2 + Math.sin(a - 0.5) * 3.5).toFixed(1)} L ${x2.toFixed(1)} ${y2.toFixed(1)} L ${(x2 + Math.cos(a + 0.5) * 3.5).toFixed(1)} ${(y2 + Math.sin(a + 0.5) * 3.5).toFixed(1)}`);
+      g.append(p);
+      d += 'x';
+    }
+  });
+  $$('path[data-dash]').forEach((p) => {
+    const [dash, gap] = p.dataset.dash.split(' ').map(Number);
+    const L = p.getTotalLength();
+    const frag = document.createDocumentFragment();
+    for (let s = 0; s < L; s += dash + gap) {
+      const e = Math.min(L, s + dash);
+      const pts = [0, 0.5, 1].map((k) => p.getPointAtLength(s + (e - s) * k));
+      const q = document.createElementNS(SVGNS, 'path');
+      q.setAttribute('class', p.getAttribute('class'));
+      q.setAttribute('d', `M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)} Q ${(2 * pts[1].x - (pts[0].x + pts[2].x) / 2).toFixed(1)} ${(2 * pts[1].y - (pts[0].y + pts[2].y) / 2).toFixed(1)} ${pts[2].x.toFixed(1)} ${pts[2].y.toFixed(1)}`);
+      frag.append(q);
+    }
+    p.replaceWith(frag);
+  });
+
+  /* ---------- self-drawing: pathLength=1, strokes staggered along each drawing ---------- */
+  sheets.forEach((sheet) => {
+    $$('svg.draw', sheet).forEach((svg, k) => {
+      const base = svg.dataset.delay != null ? +svg.dataset.delay : 0.35 + k * 0.16;
+      const lines = $$('.ln', svg);
+      const lens = lines.map((l) => {
+        try { return Math.max(4, l.getTotalLength()); } catch (e) { return 40; }
+      });
+      const total = lens.reduce((a, b) => a + b, 0) || 1;
+      const T = clamp(0.7 + total / 1500, 0.8, 2.6);
+      let cum = 0;
+      lines.forEach((l, j) => {
+        l.setAttribute('pathLength', '1');
+        l.style.setProperty('--w', (base + (T * cum / total) * 0.82).toFixed(3) + 's');
+        l.style.setProperty('--d', Math.max(0.16, (T * lens[j] / total) * 1.35).toFixed(3) + 's');
+        cum += lens[j];
+      });
+      $$('.wash, .t, .solid', svg).forEach((w) => w.style.setProperty('--w', (base + T * 0.62).toFixed(3) + 's'));
+    });
+  });
+  const drawSheet = (i) => {
+    const s = sheets[i];
+    if (!s || s.classList.contains('drawn')) return;
+    requestAnimationFrame(() => { void s.offsetWidth; s.classList.add('drawn'); });
+  };
+
+  /* ---------- geometry ---------- */
+  let W = 1000, H = 700, U = 1, HP = 24;
+  const LIFT = 0.3;
+
+  function layoutDesk() {
+    const vw = innerWidth, vh = innerHeight;
+    const padX = Math.max(76, vw * 0.085);
+    const top = Math.max(24, vh * 0.045), bottom = Math.max(84, vh * 0.12);
+    W = Math.min((vw - 2 * padX) / 1.07, ((vh - top - bottom) * 1000) / 700);
+    W = Math.max(W, 560);
+    H = W * 0.7;
+    U = W / 1000;
+    const bx = Math.round((vw - W * 1.05) / 2 + W * 0.02);
+    const by = Math.round(top + Math.max(0, (vh - top - bottom - H) / 2));
+    const holes = Math.round(700 / 24);
+    HP = (H / holes);
+    stage.style.cssText = `--W:${W}px;--H:${H}px;--u:${U}px;--bx:${bx}px;--by:${by}px;--hp:${HP}px`;
+    buildCoil($('#coil'), 700, 700 / holes, 'coilD');
+  }
+
+  function buildCoil(svg, hU, hpU, id) {
+    svg.setAttribute('viewBox', `0 0 70 ${hU.toFixed(2)}`);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.innerHTML = `<defs><pattern id="${id}" width="70" height="${hpU.toFixed(3)}" patternUnits="userSpaceOnUse"><use href="#loop" y="${(hpU / 2).toFixed(3)}"/></pattern></defs><rect x="0" y="0" width="70" height="${hU.toFixed(2)}" fill="url(#${id})"/>`;
+  }
+
+  function layoutPhone() {
+    const pw = Math.min(innerWidth - 32, 640);
+    U = Math.min(pw / 460, 1.12);
+    stage.style.cssText = `--pw:${pw}px;--u:${U}px`;
+    requestAnimationFrame(sizePhoneSheets);
+  }
+  function sizePhoneSheets() {
+    sheets.forEach((s, i) => {
+      const h = s.offsetHeight;
+      if (!h) return;
+      const hU = h / U;
+      const n = Math.max(4, Math.round(hU / 24));
+      const hp = hU / n;
+      s.style.setProperty('--hp', (hp * U).toFixed(3) + 'px');
+      buildCoil($('.coil-m', s), hU, hp, 'coilM' + i);
+    });
+  }
+
+  /* ---------- page curl ---------- */
+  const turned = sheets.map(() => false);
+  let cur = 0, logical = 0, inflight = 0, lastDir = 0, drag = null, press = null, cornerFocus = false, queued = null;
+
+  const T = sheets.map((el, i) => {
+    el.style.zIndex = 10 + 2 * (N - i);
+    const bend = document.createElement('div');
+    bend.className = 'bend'; bend.hidden = true;
+    el.append(bend);
+    const cast = document.createElement('div');
+    cast.className = 'cast'; cast.hidden = true;
+    cast.style.zIndex = 9 + 2 * (N - i);
+    cast.innerHTML = '<div class="castband"></div>';
+    const fw = document.createElement('div');
+    fw.className = 'flapwrap'; fw.hidden = true;
+    fw.style.zIndex = 60 + (N - i);
+    fw.innerHTML = `<div class="flap${i === 0 ? ' kraft' : ''}"><div class="back">${i === 0 ? '<p class="found"><b>このスケッチブックを拾った方へ</b>最後のページの封筒へどうぞ。お礼に、似顔絵を描きます。</p>' : ''}</div><div class="sheen"></div></div>`;
+    book.append(cast, fw);
+    return { el, i, bend, cast, castBand: cast.firstChild, fw, flap: fw.firstChild, sheen: fw.querySelector('.sheen'), st: null };
+  });
+
+  const cornerPt = (c) => ({ x: W, y: c === 't' ? 0 : H });
+
+  /* the paper cannot stretch: keep the corner within reach of both ends of the spine */
+  function constrain(P, c) {
+    const near = { x: 0, y: c === 't' ? 0 : H }, far = { x: 0, y: c === 't' ? H : 0 };
+    const D = Math.hypot(W, H);
+    let x = P.x, y = c === 't' ? Math.max(0, P.y) : Math.min(H, P.y);
+    for (let k = 0; k < 3; k++) {
+      let dx = x - near.x, dy = y - near.y, d = Math.hypot(dx, dy);
+      if (d > W) { x = near.x + (dx / d) * W; y = near.y + (dy / d) * W; }
+      dx = x - far.x; dy = y - far.y; d = Math.hypot(dx, dy);
+      if (d > D) { x = far.x + (dx / d) * D; y = far.y + (dy / d) * D; }
+    }
+    return { x, y };
+  }
+
+  function halfPlane(pts, f) {
+    const out = [];
+    for (let i = 0; i < pts.length; i++) {
+      const A = pts[i], B = pts[(i + 1) % pts.length];
+      const fa = f(A[0], A[1]), fb = f(B[0], B[1]);
+      if (fa >= 0) out.push(A);
+      if ((fa >= 0) !== (fb >= 0)) {
+        const t = fa / (fa - fb);
+        out.push([A[0] + (B[0] - A[0]) * t, A[1] + (B[1] - A[1]) * t]);
+      }
+    }
+    return out;
+  }
+  const poly = (pts) => (pts.length < 3 ? 'polygon(0 0, 0 0, 0 0)' : `polygon(${pts.map((p) => `${p[0].toFixed(2)}px ${p[1].toFixed(2)}px`).join(', ')})`);
+
+  function render(t) {
+    const st = t.st, C = cornerPt(st.corner), P = st.P;
+    const dx = C.x - P.x, dy = C.y - P.y, d = Math.hypot(dx, dy);
+    if (d < 0.8) { clearCurl(t); return; }
+    const nx = dx / d, ny = dy / d;
+    const mx = (C.x + P.x) / 2, my = (C.y + P.y) / 2;
+    const k = mx * nx + my * ny;
+    const rect = [[0, 0], [W, 0], [W, H], [0, H]];
+    const keep = halfPlane(rect, (x, y) => k - (x * nx + y * ny));
+    const fold = halfPlane(rect, (x, y) => x * nx + y * ny - k);
+    const ang = (Math.atan2(ny, nx) * 180) / Math.PI;
+    const place = `translate(${mx.toFixed(2)}px, ${my.toFixed(2)}px) rotate(${ang.toFixed(3)}deg) translateY(-50%)`;
+
+    t.el.style.clipPath = poly(keep);
+    /* reflection across the fold line: X' = X - 2((X - M)·n) n */
+    const a = 1 - 2 * nx * nx, b = -2 * nx * ny, e = 1 - 2 * ny * ny;
+    t.flap.style.transform = `matrix(${a.toFixed(5)}, ${b.toFixed(5)}, ${b.toFixed(5)}, ${e.toFixed(5)}, ${(2 * k * nx).toFixed(2)}, ${(2 * k * ny).toFixed(2)})`;
+    t.flap.style.clipPath = poly(fold);
+    t.sheen.style.transform = place;
+    t.sheen.style.width = Math.max(4, d / 2).toFixed(1) + 'px';
+    t.cast.style.clipPath = poly(fold);
+    t.castBand.style.transform = place;
+    t.castBand.style.width = Math.min(d * 0.42, W * 0.2).toFixed(1) + 'px';
+    t.bend.style.transform = `translate(${mx.toFixed(2)}px, ${my.toFixed(2)}px) rotate(${(ang + 180).toFixed(3)}deg) translateY(-50%)`;
+    t.bend.style.width = Math.min(d * 0.3, 90 * U).toFixed(1) + 'px';
+
+    const past = clamp(-P.x / W, 0, 1);
+    t.fw.style.opacity = (1 - Math.pow(past, 1.5)).toFixed(3);
+    t.cast.style.opacity = clamp(d / (W * 0.08), 0, 1) * (1 - past * 0.8);
+    t.fw.hidden = t.cast.hidden = t.bend.hidden = false;
+  }
+
+  function clearCurl(t) {
+    t.el.style.clipPath = '';
+    t.fw.hidden = t.cast.hidden = t.bend.hidden = true;
+  }
+
+  const easeInOut = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+  const easeOut = (p) => 1 - Math.pow(1 - p, 3);
+
+  /* move the corner along a flattened arc around the spine end (paper swings over, it doesn't slide) */
+  function animate(t, thEnd, dur, ease, done, delay = 0) {
+    const st = t.st, c = st.corner, endY = c === 't' ? 0 : H;
+    const ux = st.P.x, uy = (st.P.y - endY) / LIFT;
+    const r0 = Math.hypot(ux, uy) || W;
+    let th0 = Math.atan2(uy, ux);
+    if (c === 'b' && th0 > 1e-6) th0 -= Math.PI * 2;
+    if (c === 't' && th0 < -1e-6) th0 += Math.PI * 2;
+    st.anim = {
+      t0: performance.now() + delay, dur, ease, done,
+      f: (e) => {
+        const r = r0 + (W - r0) * e, th = th0 + (thEnd - th0) * e;
+        return constrain({ x: r * Math.cos(th), y: endY + r * Math.sin(th) * LIFT }, c);
+      },
+    };
+    kick();
+  }
+
+  let raf = 0;
+  const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
+  function loop(now) {
+    raf = 0;
+    let more = false;
+    for (const t of T) {
+      const st = t.st;
+      if (!st) continue;
+      if (st.anim) {
+        const a = st.anim;
+        if (now < a.t0) { more = true; continue; }
+        const p = clamp((now - a.t0) / a.dur, 0, 1);
+        st.P = a.f(a.ease(p));
+        render(t);
+        if (p >= 1) { st.anim = null; if (a.done) a.done(); } else more = true;
+      } else if (st.mode === 'peek') {
+        const tx = st.target.x - st.P.x, ty = st.target.y - st.P.y;
+        const dist = Math.hypot(tx, ty);
+        if (dist < 0.35) st.P = { x: st.target.x, y: st.target.y };
+        else { st.P = { x: st.P.x + tx * 0.2, y: st.P.y + ty * 0.2 }; more = true; }
+        render(t);
+        if (dist < 0.35 && st.release) { t.st = null; clearCurl(t); refresh(); }
+      }
+    }
+    if (more) kick();
+  }
+
+  function forwardDone(t) {
+    turned[t.i] = true;
+    t.st = null;
+    clearCurl(t);
+    inflight--;
+    refresh();
+    runQueued();
+  }
+  function backwardDone(t) {
+    t.st = null;
+    clearCurl(t);
+    inflight--;
+    if (t.i === 0) band.classList.remove('off');
+    refresh();
+    runQueued();
+  }
+  /* a jump asked for mid-riffle waits for the pages in the air to land */
+  function runQueued() {
+    if (inflight || queued == null) return;
+    const q = queued;
+    queued = null;
+    go(q);
+  }
+
+  function startForward(i, dur, delay = 0) {
+    const t = T[i];
+    if (!t || turned[i]) return;
+    if (!t.st) t.st = { corner: 'b', P: cornerPt('b') };
+    t.st.mode = 'anim';
+    t.st.release = false;
+    inflight++;
+    lastDir = 1;
+    drawSheet(i + 1);
+    let wait = delay;
+    if (i === 0 && !band.classList.contains('off')) { band.classList.add('off'); wait += reduced ? 0 : 240; }
+    animate(t, t.st.corner === 't' ? Math.PI : -Math.PI, dur, easeInOut, () => forwardDone(t), wait);
+    refresh();
+  }
+
+  function startBackward(k, dur, delay = 0) {
+    const t = T[k];
+    if (!t || !turned[k]) return;
+    turned[k] = false;
+    inflight++;
+    lastDir = -1;
+    drawSheet(k);
+    t.st = { corner: 'b', P: { x: -W, y: H }, mode: 'anim' };
+    render(t);
+    animate(t, 0, dur, easeInOut, () => backwardDone(t), delay);
+    refresh();
+  }
+
+  function jump(n) {
+    for (const t of T) { t.st = null; clearCurl(t); }
+    turned.forEach((_, i) => (turned[i] = i < n));
+    inflight = 0;
+    queued = null;
+    logical = n;
+    band.classList.toggle('off', n > 0);
+    drawSheet(n);
+    refresh();
+  }
+
+  function go(n, instant) {
+    n = clamp(Math.round(n), 0, N - 1);
+    if (mobile) {
+      sheets[n].scrollIntoView({ behavior: reduced || instant ? 'auto' : 'smooth', block: 'start' });
+      return;
+    }
+    if (drag || n === logical) return;
+    if (instant || reduced) { jump(n); announce(); return; }
+    if (inflight) { queued = n; return; }
+    const k = Math.abs(n - logical);
+    const dur = k > 1 ? 640 : 1000, gap = k > 1 ? 140 : 0;
+    if (n > logical) for (let j = 0; j < k; j++) startForward(logical + j, dur, j * gap);
+    else for (let j = 0; j < k; j++) startBackward(logical - 1 - j, dur, j * gap);
+    logical = n;
+    announce();
+  }
+  function next() {
+    if (mobile) return go(Math.min(N - 1, visibleIndex() + 1));
+    if (drag || logical >= N - 1 || (inflight && lastDir < 0)) return;
+    if (reduced) return go(logical + 1);
+    startForward(logical, inflight ? 760 : 1000);
+    logical++;
+    announce();
+  }
+  function prev() {
+    if (mobile) return go(Math.max(0, visibleIndex() - 1));
+    if (drag || logical <= 0 || (inflight && lastDir > 0)) return;
+    if (reduced) return go(logical - 1);
+    logical--;
+    startBackward(logical, inflight ? 760 : 1000);
+    announce();
+  }
+  const visibleIndex = () => {
+    let best = 0;
+    sheets.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * 0.4) best = i; });
+    return best;
+  };
+
+  /* which sheets exist on screen, which one takes focus, how thick the stack is */
+  function refresh() {
+    let top = 0;
+    while (top < N - 1 && turned[top]) top++;
+    cur = top;
+    if (mobile) {
+      sheets.forEach((s) => { s.style.display = ''; s.inert = false; });
+      updateUI();
+      return;
+    }
+    let maxActive = -1;
+    T.forEach((t) => { if (t.st && t.st.mode !== 'peek') maxActive = Math.max(maxActive, t.i); });
+    T.forEach((t) => {
+      const i = t.i;
+      const vis = (!turned[i] || !!t.st) && (i <= top + 1 || i <= maxActive + 1);
+      t.el.style.display = vis ? '' : 'none';
+      t.el.inert = !(i === top && !inflight);
+    });
+    const rest = N - 1 - cur;
+    const layers = [];
+    for (let j = 1; j <= rest * 2; j++) layers.push(`${(j * 0.55 * U).toFixed(2)}px ${(j * 0.8 * U).toFixed(2)}px 0 ${j % 2 ? '#e4ddcf' : '#f6f2e9'}`);
+    layers.push(`${(rest * 1.1 * U + 0.5).toFixed(2)}px ${(rest * 1.6 * U + 0.5).toFixed(2)}px 0 rgba(90,70,40,.25)`);
+    $('.edges').style.boxShadow = layers.join(', ');
+    updateUI();
+  }
+
+  const tabs = $$('.tab');
+  const numEl = $('#pgNum'), nameEl = $('#pgName'), live = $('#live'), hint = $('#hint');
+  const prevBtn = $('#prev'), nextBtn = $('#next');
+  let announced = -1;
+  function updateUI() {
+    const p = logical;
+    numEl.textContent = p === 0 ? '表紙' : `${p} / ${N - 1}`;
+    nameEl.textContent = p === 0 ? 'ジュノのスケッチブック' : sheets[p].dataset.name;
+    prevBtn.disabled = p <= 0;
+    nextBtn.disabled = p >= N - 1;
+    corner.hidden = mobile || cur >= N - 1 || !!inflight;
+    tabs.forEach((b, j) => {
+      const target = +b.dataset.go;
+      const end = j + 1 < tabs.length ? +tabs[j + 1].dataset.go : N;
+      const here = p >= target && p < end;
+      b.setAttribute('aria-current', here ? 'true' : 'false');
+      b.classList.toggle('behind', p >= end);
+    });
+    if (p > 0) hint.classList.add('gone');
+  }
+  function announce() {
+    updateUI();
+    if (announced === logical) return;
+    announced = logical;
+    live.textContent = logical === 0 ? '表紙' : `${logical}ページ目（全${N - 1}ページ）：${sheets[logical].dataset.name}`;
+    try { history.replaceState(null, '', logical ? '#p' + logical : location.pathname + location.search); } catch (e) { /* file:// may refuse */ }
+  }
+
+  /* ---------- grabbing the corner ---------- */
+  const toLocal = (e) => {
+    const r = book.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  };
+  const canPeel = () => !mobile && !inflight && !drag && logical === cur && cur < N - 1;
+
+  book.addEventListener('pointerdown', (e) => {
+    if (!canPeel() || e.button !== 0) return;
+    if (e.target.closest('.tab, .env, a, input, textarea, select, .copy')) return;
+    const p = toLocal(e);
+    const onCorner = !!e.target.closest('#corner');
+    if (!onCorner && (p.x < W * 0.8 || p.x > W + 6)) return;
+    press = { id: e.pointerId, x: e.clientX, y: e.clientY, p };
+  });
+
+  function beginDrag(e) {
+    const t = T[cur];
+    const c = press.p.y < H / 2 ? 't' : 'b';
+    if (t.st && t.st.corner !== c) { t.st = null; clearCurl(t); }
+    const C = cornerPt(c);
+    if (!t.st) t.st = { corner: c, P: { x: C.x, y: C.y } };
+    t.st.mode = 'drag';
+    t.st.anim = null;
+    t.st.release = false;
+    drag = { id: press.id, t, c, off: { x: C.x - press.p.x, y: C.y - press.p.y }, start: press.p, hist: [] };
+    try { book.setPointerCapture(press.id); } catch (err) { /* pointer already gone */ }
+    document.body.classList.add('dragging');
+    drawSheet(cur + 1);
+    if (cur === 0) band.classList.add('off');
+    refresh();
+  }
+  function moveDrag(e) {
+    const p = toLocal(e);
+    const k = Math.max(0, 1 - Math.hypot(p.x - drag.start.x, p.y - drag.start.y) / (W * 0.35));
+    drag.t.st.P = constrain({ x: p.x + drag.off.x * k, y: p.y + drag.off.y * k }, drag.c);
+    drag.hist.push({ x: p.x, t: performance.now() });
+    if (drag.hist.length > 8) drag.hist.shift();
+    render(drag.t);
+  }
+  function endDrag() {
+    const { t, hist } = drag;
+    drag = null;
+    document.body.classList.remove('dragging');
+    let vx = 0;
+    if (hist.length > 1) {
+      const a = hist[0], b = hist[hist.length - 1];
+      vx = (b.x - a.x) / Math.max(1, b.t - a.t);
+    }
+    const P = t.st.P;
+    const done = P.x < W * 0.42 || (vx < -0.55 && P.x < W * 0.94);
+    if (done) {
+      inflight++;
+      lastDir = 1;
+      logical++;
+      t.st.mode = 'anim';
+      const far = clamp((P.x + W) / (2 * W), 0.15, 1);
+      animate(t, t.st.corner === 't' ? Math.PI : -Math.PI, reduced ? 1 : 360 + 480 * far, easeOut, () => forwardDone(t));
+      announce();
+    } else {
+      t.st.mode = 'anim';
+      animate(t, 0, reduced ? 1 : 420, easeOut, () => {
+        t.st = null;
+        clearCurl(t);
+        if (cur === 0) band.classList.remove('off');
+        refresh();
+      });
+    }
+    refresh();
+  }
+
+  let suppressClick = false;
+  addEventListener('pointermove', (e) => {
+    if (press && e.pointerId === press.id && !drag && Math.hypot(e.clientX - press.x, e.clientY - press.y) > 6) beginDrag(e);
+    if (drag && e.pointerId === drag.id) { moveDrag(e); return; }
+    if (e.pointerType === 'mouse' && !press) hover(e);
+  }, { passive: true });
+  const release = (e) => {
+    if (press && e.pointerId === press.id) {
+      if (drag) { endDrag(); suppressClick = true; setTimeout(() => (suppressClick = false), 60); }
+      press = null;
+    }
+  };
+  addEventListener('pointerup', release);
+  addEventListener('pointercancel', release);
+
+  /* a corner lifts a little when the pencil comes near it */
+  function peekTo(c, amt) {
+    const t = T[cur];
+    if (t.st && t.st.mode !== 'peek') return;
+    if (t.st && t.st.corner !== c) { t.st = null; clearCurl(t); }
+    if (!t.st) { t.st = { mode: 'peek', corner: c, P: cornerPt(c) }; drawSheet(cur + 1); refresh(); }
+    const C = cornerPt(c);
+    t.st.target = constrain({ x: C.x - 70 * U * amt, y: c === 'b' ? C.y - 50 * U * amt : C.y + 50 * U * amt }, c);
+    t.st.release = false;
+    kick();
+  }
+  function unpeek() {
+    const t = T[cur];
+    if (!t || !t.st || t.st.mode !== 'peek') return;
+    t.st.target = cornerPt(t.st.corner);
+    t.st.release = true;
+    kick();
+  }
+  function hover(e) {
+    if (!canPeel()) { book.classList.remove('grab'); return; }
+    const p = toLocal(e);
+    book.classList.toggle('grab', p.x > W * 0.8 && p.x < W + 6 && p.y > -6 && p.y < H + 6 && !e.target.closest('.tab'));
+    if (reduced) return;
+    const R = 150 * U;
+    const db = Math.hypot(W - p.x, H - p.y), dt = Math.hypot(W - p.x, p.y);
+    const dm = Math.min(db, dt);
+    if (dm < R && p.x < W + 30 * U && !e.target.closest('.tab')) peekTo(db <= dt ? 'b' : 't', 0.3 + 0.7 * Math.pow(1 - dm / R, 0.8));
+    else if (!cornerFocus) unpeek();
+  }
+  corner.addEventListener('focus', () => { cornerFocus = true; if (canPeel() && !reduced) peekTo('b', 0.75); });
+  corner.addEventListener('blur', () => { cornerFocus = false; unpeek(); });
+  corner.addEventListener('click', () => {
+    if (suppressClick) return;
+    const t = T[cur];
+    if (t && t.st && t.st.mode === 'peek') t.st.mode = 'anim';
+    next();
+  });
+  book.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse' && !drag && !cornerFocus) { unpeek(); book.classList.remove('grab'); } });
+
+  /* ---------- controls ---------- */
+  prevBtn.addEventListener('click', prev);
+  nextBtn.addEventListener('click', next);
+  tabs.forEach((b) => b.addEventListener('click', () => go(+b.dataset.go)));
+  addEventListener('keydown', (e) => {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.defaultPrevented) return;
+    if (e.target.closest && e.target.closest('input, textarea, select')) return;
+    const k = e.key;
+    if (k === 'ArrowRight' || k === 'PageDown') next();
+    else if (k === 'ArrowLeft' || k === 'PageUp') prev();
+    else if (k === 'Home') go(0);
+    else if (k === 'End') go(N - 1);
+    else return;
+    e.preventDefault();
+  });
+
+  /* ---------- wiggle and line boil ---------- */
+  let boilEl = null, boilTimer = 0;
+  function stopBoil() {
+    clearInterval(boilTimer);
+    if (boilEl) $$('svg.draw', boilEl).forEach((s) => (s.style.filter = ''));
+    boilEl = null;
+  }
+  $$('.doodle').forEach((el) => {
+    el.addEventListener('pointerenter', (e) => {
+      if (reduced || e.pointerType !== 'mouse' || drag) return;
+      el.classList.remove('wig');
+      void el.offsetWidth;
+      el.classList.add('wig');
+      stopBoil();
+      boilEl = el;
+      const svgs = $$('svg.draw', el);
+      let k = 0;
+      boilTimer = setInterval(() => {
+        k = (k + 1) % 3;
+        svgs.forEach((s) => (s.style.filter = `url(#wob${k})`));
+      }, 115);
+    });
+    el.addEventListener('pointerleave', () => { if (boilEl === el) stopBoil(); });
+    el.addEventListener('animationend', () => el.classList.remove('wig'));
+  });
+
+  /* ---------- envelope ---------- */
+  const env = $('#env'), envBtn = $('#envBtn'), letter = $('#letter');
+  let envPinned = false;
+  function setEnv(open) {
+    env.classList.toggle('open', open);
+    envBtn.setAttribute('aria-expanded', String(open));
+    $('#envLabel').textContent = open ? '封筒をとじる' : '封筒をひらく';
+    letter.inert = !open && !mobile;
+  }
+  env.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse' && !drag) setEnv(true); });
+  env.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse' && !envPinned && !env.contains(document.activeElement)) setEnv(false); });
+  envBtn.addEventListener('click', () => {
+    const open = env.classList.contains('open');
+    if (open && envPinned) { envPinned = false; setEnv(false); } else { envPinned = true; setEnv(true); }
+  });
+  envBtn.addEventListener('focus', () => setEnv(true));
+  env.addEventListener('focusout', (e) => { if (!env.contains(e.relatedTarget) && !envPinned && !env.matches(':hover')) setEnv(false); });
+
+  const copied = $('#copied');
+  let copiedTimer = 0;
+  $('#copy').addEventListener('click', async () => {
+    const txt = $('#addr').textContent.trim();
+    let ok = false;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) { await navigator.clipboard.writeText(txt); ok = true; }
+    } catch (e) { ok = false; }
+    if (!ok) {
+      const r = document.createRange();
+      r.selectNodeContents($('#addr'));
+      const s = getSelection();
+      s.removeAllRanges();
+      s.addRange(r);
+    }
+    copied.textContent = ok ? '　コピーしました' : '　選択しました。⌘C / Ctrl+C でどうぞ';
+    clearTimeout(copiedTimer);
+    copiedTimer = setTimeout(() => (copied.textContent = ''), 2600);
+  });
+
+  /* ---------- graphite trail ---------- */
+  const cv = $('#trail'), ctx = cv.getContext('2d');
+  let pts = [], trailRaf = 0, dpr = 1;
+  function sizeTrail() {
+    dpr = Math.min(2, devicePixelRatio || 1);
+    cv.width = Math.round(innerWidth * dpr);
+    cv.height = Math.round(innerHeight * dpr);
+  }
+  addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse' || reduced || mobile) return;
+    const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+    const now = performance.now();
+    for (const ev of evs.length ? evs : [e]) pts.push({ x: ev.clientX, y: ev.clientY, t: now, w: 0.8 + Math.random() * 0.7 });
+    if (!trailRaf) trailRaf = requestAnimationFrame(drawTrail);
+  }, { passive: true });
+  function drawTrail(now) {
+    trailRaf = 0;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    while (pts.length && now - pts[0].t > 1000) pts.shift();
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#3d3d3d';
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1], b = pts[i];
+      if (b.t - a.t > 150) continue;
+      ctx.globalAlpha = Math.max(0, 1 - (now - b.t) / 1000) * 0.3;
+      ctx.lineWidth = b.w;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    if (pts.length > 1) trailRaf = requestAnimationFrame(drawTrail);
+    else ctx.clearRect(0, 0, innerWidth, innerHeight);
+  }
+  document.addEventListener('visibilitychange', () => { if (document.hidden) pts = []; });
+
+  /* ---------- phones: draw each page as it scrolls in ---------- */
+  const io = 'IntersectionObserver' in window
+    ? new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) drawSheet(sheets.indexOf(en.target)); }), { threshold: 0.18 })
+    : null;
+  const ro = 'ResizeObserver' in window ? new ResizeObserver(() => { if (mobile) sizePhoneSheets(); }) : null;
+
+  function applyMode() {
+    mobile = mqMobile.matches;
+    root.classList.toggle('m', mobile);
+    for (const t of T) { t.st = null; clearCurl(t); }
+    drag = null; press = null; inflight = 0;
+    if (mobile) {
+      layoutPhone();
+      if (io) sheets.forEach((s) => io.observe(s));
+      else sheets.forEach((s, i) => drawSheet(i));
+      if (ro) sheets.forEach((s) => ro.observe(s));
+      letter.inert = false;
+    } else {
+      if (io) io.disconnect();
+      if (ro) ro.disconnect();
+      layoutDesk();
+      jump(logical);
+      letter.inert = !env.classList.contains('open');
+    }
+    refresh();
+  }
+
+  let resizeTimer = 0;
+  addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      sizeTrail();
+      if (mqMobile.matches !== mobile) { applyMode(); return; }
+      if (mobile) layoutPhone();
+      else { layoutDesk(); jump(logical); }
+    }, 90);
+  });
+  mqReduce.addEventListener && mqReduce.addEventListener('change', () => { reduced = mqReduce.matches; if (reduced) { pts = []; stopBoil(); } });
+
+  /* ---------- start ---------- */
+  const m = /p?(\d)/.exec(location.hash || '');
+  logical = m ? clamp(+m[1], 0, N - 1) : 0;
+  sizeTrail();
+  applyMode();
+  if (!mobile) {
+    if (logical > 0) hint.classList.add('gone');
+    requestAnimationFrame(() => drawSheet(logical));
+  }
+
+  /* hooks for cover shots and tests */
+  window.SKETCH = {
+    go: (n, instant) => go(n, instant),
+    next, prev,
+    page: () => logical,
+    /* freeze sheet i mid-turn with its bottom corner at (fx·W, fy·H) */
+    curl(i, fx, fy) {
+      if (mobile) return;
+      jump(i);
+      const t = T[i];
+      if (i === 0) band.classList.add('off');
+      t.st = { mode: 'hold', corner: 'b', P: constrain({ x: fx * W, y: fy * H }, 'b') };
+      drawSheet(i + 1);
+      refresh();
+      render(t);
+    },
+    open(v = true) { envPinned = v; setEnv(v); },
+  };
+})();
+</script>
+</body>
+</html>

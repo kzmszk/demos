@@ -1,0 +1,31 @@
+{
+  "no": "087",
+  "title": "ジュノのスケッチブック",
+  "subtitle": {
+    "ja": "角をつまんでめくる、リング綴じのポートフォリオ",
+    "en": "A spiral-bound portfolio you turn by the corner"
+  },
+  "summary": {
+    "ja": "架空のイラストレーター、ジュノの作品帳。ドット方眼のページを本物の紙のようにめくると、鉛筆の線が一本ずつ描かれていく。作品6点、描きかたのメモ、封筒の手紙。",
+    "en": "The sketchbook of Juno, a fictional illustrator. Dot-grid pages peel over like real paper and every drawing pencils itself in: six works, process notes and a letter in an airmail envelope."
+  },
+  "date": "2026-09-26",
+  "tags": [
+    "portfolio",
+    "paper",
+    "svg",
+    "page curl"
+  ],
+  "serve": ".",
+  "entry": "index.html",
+  "shots": [
+    { "path": "index.html", "wait": 900, "eval": "SKETCH.curl(0, 0.46, 0.7)", "after": 3800 },
+    { "path": "index.html", "wait": 2600 },
+    { "path": "index.html#p1", "wait": 4400 },
+    { "path": "index.html#p2", "wait": 900, "eval": "SKETCH.curl(2, 0.3, 0.6)", "after": 4200 },
+    { "path": "index.html#p2", "wait": 4400 },
+    { "path": "index.html#p3", "wait": 4400 },
+    { "path": "index.html#p4", "wait": 4600 },
+    { "path": "index.html#p5", "wait": 1800, "eval": "SKETCH.open(true)", "after": 2400 }
+  ]
+}
