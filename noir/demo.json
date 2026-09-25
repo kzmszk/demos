@@ -1,0 +1,34 @@
+{
+  "no": "077",
+  "title": "硝子のアリバイ",
+  "subtitle": {
+    "ja": "白黒の銀幕で遊ぶ、フィルム・ノワールの探偵物語",
+    "en": "A film noir detective story, played on a black-and-white screen"
+  },
+  "summary": {
+    "ja": "一九四七年の架空の港町。歌手ノーラ・ヴェイルのアリバイは、口紅のついたグラスひとつ。全五景・結末三種。色がつくのは、決定的な手がかりの深紅だけ。",
+    "en": "A fictional port town, 1947. A torch singer's only alibi is a lipstick-marked glass. Five scenes, three endings, and the only colour on screen is the crimson of the one clue that matters."
+  },
+  "date": "2026-09-25",
+  "tags": [
+    "story",
+    "noir",
+    "svg",
+    "canvas",
+    "audio"
+  ],
+  "serve": ".",
+  "entry": "index.html",
+  "shots": [
+    { "path": "index.html", "wait": 2400 },
+    { "path": "index.html", "wait": 900, "eval": "NOIR.start()", "after": 1700 },
+    { "path": "index.html", "wait": 900, "eval": "NOIR.jump('o2')", "after": 1400 },
+    { "path": "index.html", "wait": 900, "eval": "NOIR.jump('a1')", "after": 1400 },
+    { "path": "index.html", "wait": 900, "eval": "NOIR.jump('c1', ['lipstick', 'rim', 'sam'])", "after": 1400 },
+    { "path": "index.html", "wait": 900, "eval": "NOIR.jump('d1', ['lipstick', 'cloth'])", "after": 1400 },
+    { "path": "index.html", "wait": 900, "eval": "NOIR.jump('p1', ['lipstick'])", "after": 1400 },
+    { "path": "index.html", "wait": 900, "eval": "NOIR.jump('p1', ['dead', 'claim', 'lipstick', 'ferry', 'rim', 'reading']); NOIR.file(true)", "after": 1200 },
+    { "path": "index.html", "wait": 900, "eval": "NOIR.end('closed', ['dead', 'claim', 'lipstick', 'ferry', 'sam', 'rim', 'reading'])", "after": 1200 },
+    { "path": "index.html", "wait": 900, "eval": "NOIR.end('ferry', ['lipstick', 'reading', 'confession', 'cloth'])", "after": 1200 }
+  ]
+}

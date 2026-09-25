@@ -1,0 +1,2879 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>硝子のアリバイ — 一九四七年、港町の雨とトーチソング</title>
+<meta name="description" content="白黒の銀幕で遊ぶ、短いフィルム・ノワールの探偵物語。一九四七年の架空の港町ポート・キャロウェイ。歌手ノーラ・ヴェイルのアリバイは、口紅のついたグラスひとつ。全五景、結末は三つ。">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:,">
+<style>
+:root{
+  --mincho: "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "Noto Serif JP", "Noto Serif CJK JP", "Source Han Serif JP", "BIZ UDPMincho", serif;
+  --type: "Courier New", Courier, "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "Noto Serif JP", "Noto Serif CJK JP", "Source Han Serif JP", "BIZ UDPMincho", monospace;
+  --bone: #e9e6df;
+  --ash: #8f8c86;
+  --dim: #5c5a56;
+  --paper: #efebe2;
+  --paper-2: #dad3c4;
+  --manila: #cfc19c;
+  --manila-2: #b9a87c;
+  --ink: #1c1b19;
+  --red: #b3001b;
+  --bar: clamp(40px, 5.6vh, 54px);
+  --edge: clamp(16px, 2.5vh, 22px);
+  --gut: clamp(16px, 4.8vw, 92px);
+  --fs: clamp(15px, calc(.55vw + .95vh), 21px);
+  --band: min(64%, 56vw);
+  --mw: min(calc(100vw - 2 * var(--gut)), 1180px, 132vh);
+  --mratio: .25;
+  --mdrop: .3;
+  color-scheme: dark;
+}
+*, *::before, *::after{ box-sizing: border-box; }
+html, body{ margin: 0; height: 100%; overflow: hidden; background: #000; }
+body{
+  font-family: var(--mincho); color: var(--bone);
+  -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none; font-kerning: normal;
+}
+button{ font: inherit; color: inherit; }
+kbd{ font-family: var(--type); }
+.sr{ position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.defs{ position: absolute; width: 0; height: 0; overflow: hidden; }
+.mn{ font-family: var(--mincho); }
+.ty{ font-family: var(--type); }
+:focus{ outline: none; }
+:focus-visible{ outline: 2px solid #f4f2ec; outline-offset: 3px; }
+
+/* ---------- the film: letterbox bar, frame, edge ---------- */
+.film{
+  position: fixed; inset: 0; height: 100vh; height: 100dvh;
+  display: grid; grid-template-rows: var(--bar) minmax(0, 1fr) var(--edge);
+  background: #000;
+}
+.bar{
+  position: relative; z-index: 8; display: flex; align-items: center; gap: clamp(10px, 2.2vw, 30px);
+  padding: 0 max(var(--gut), env(safe-area-inset-right)) 0 max(var(--gut), env(safe-area-inset-left));
+}
+.brand{ display: block; height: 17px; width: auto; flex: none; fill: var(--bone); overflow: visible; }
+.where{
+  margin: 0; display: flex; gap: 1.1em; align-items: baseline; white-space: nowrap; min-width: 0;
+  font-size: 12px; letter-spacing: .24em; color: var(--ash); opacity: 0; transition: opacity .8s;
+}
+.where.on{ opacity: 1; }
+.where b{ font-weight: 400; color: #c9c6bf; }
+.tools{ margin-left: auto; display: flex; align-items: center; gap: clamp(0px, 1vw, 14px); }
+.tool{
+  position: relative; display: inline-flex; align-items: center; gap: .55em;
+  appearance: none; background: none; border: 0; border-radius: 2px; cursor: pointer;
+  padding: 9px 8px; font-size: 13px; letter-spacing: .16em; color: #b8b5ad; white-space: nowrap;
+  transition: color .25s;
+}
+.tool::after{
+  content: ""; position: absolute; left: 8px; right: 8px; bottom: 5px; height: 1px; background: currentColor;
+  transform: scaleX(0); transform-origin: left center; transition: transform .35s cubic-bezier(.2, .7, .2, 1);
+}
+.tool:hover{ color: #fff; }
+.tool:hover::after{ transform: scaleX(1); }
+.tool kbd{ font-size: 10px; line-height: 1; letter-spacing: 0; color: #6d6b66; border: 1px solid #2d2c2a; border-radius: 2px; padding: 2px 4px 1px; }
+.count{
+  position: relative; display: inline-grid; place-items: center; min-width: 1.75em; height: 1.75em; padding: 0 .3em;
+  font: 11px/1 var(--type); letter-spacing: 0; color: #e6e3dc; border: 1px solid #4a4845; border-radius: 50%;
+}
+.count::after{ content: ""; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid #e6e3dc; opacity: 0; }
+.stamped .count{ animation: stampCount .7s cubic-bezier(.2, 1.5, .4, 1); }
+.stamped .count::after{ animation: inkRing .8s ease-out; }
+@keyframes stampCount{ 0%{ transform: scale(2.3) rotate(-14deg); opacity: 0; } 55%{ transform: scale(.88) rotate(2deg); opacity: 1; } 100%{ transform: none; } }
+@keyframes inkRing{ 0%{ opacity: .9; transform: scale(.6); } 100%{ opacity: 0; transform: scale(2.4); } }
+.eq{ display: inline-flex; align-items: flex-end; gap: 2px; height: 10px; }
+.eq i{ width: 2px; height: 3px; background: currentColor; opacity: .55; }
+.snd-on .eq i{ animation: eq .9s ease-in-out infinite alternate; opacity: .9; }
+.snd-on .eq i:nth-child(2){ animation-delay: -.3s; }
+.snd-on .eq i:nth-child(3){ animation-delay: -.6s; }
+@keyframes eq{ from{ height: 2px; } to{ height: 10px; } }
+.snd{ font-family: var(--type); color: #e9e6df; }
+#bRestart.confirm{ color: #fff; }
+.tool[aria-disabled="true"]{ opacity: .32; cursor: default; }
+.tool[aria-disabled="true"]:hover{ color: #b8b5ad; }
+.tool[aria-disabled="true"]:hover::after{ transform: scaleX(0); }
+
+.frame{ position: relative; min-height: 0; overflow: hidden; background: #000; }
+.reel{
+  position: absolute; inset: 0; display: grid;
+  grid-template-rows: var(--band) minmax(0, 1fr); grid-template-columns: minmax(0, 1fr);
+  will-change: transform;
+}
+.reel.shut{ visibility: hidden; }
+
+/* ---------- the picture ---------- */
+.screen{ grid-area: 1 / 1; position: relative; overflow: hidden; background: #050505; isolation: isolate; }
+.screen > svg, .screen > canvas{ position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.screen > .depth{ will-change: transform; }
+.sc{ display: none; }
+[data-scene="office"] #s-office, [data-scene="office"] #f-office,
+[data-scene="alley"] #s-alley, [data-scene="alley"] #f-alley,
+[data-scene="club"] #s-club, [data-scene="club"] #f-club,
+[data-scene="dressing"] #s-dressing, [data-scene="dressing"] #f-dressing,
+[data-scene="pier"] #s-pier, [data-scene="pier"] #f-pier{ display: inline; }
+
+.nora-door, .nora-room{ transition: opacity 1.4s ease; }
+[data-nora="door"] .nora-room, [data-nora="room"] .nora-door,
+[data-nora="gone"] .nora-door, [data-nora="gone"] .nora-room{ opacity: 0; }
+.clue-lip, .clue-ferry{ transition: opacity 1.2s ease; }
+.has-lipstick .clue-lip, .has-ferry .clue-ferry{ opacity: 0; }
+.club-glass{ opacity: 0; transition: opacity 1.4s ease; }
+.has-rim .club-glass{ opacity: 1; }
+.pier-nora, .ferry, .pier-lamp, .gulls, .dawn-wash{ transition: opacity 2.4s ease, transform 18s linear; }
+.gulls, .dawn-wash{ opacity: 0; }
+[data-pier="leaving"] .pier-nora{ opacity: 0; }
+[data-pier="leaving"] .ferry{ transform: translateX(240px); opacity: .15; }
+[data-pier="dawn"] .pier-nora, [data-pier="dawn"] .ferry, [data-pier="dawn"] .pier-lamp{ opacity: 0; transition-duration: 0s; }
+[data-pier="dawn"] .gulls{ opacity: 1; }
+[data-pier="dawn"] .dawn-wash{ opacity: 1; transition-duration: 0s; }
+
+.swing{ transform-box: view-box; transform-origin: 620px 145px; animation: swing 3.3s ease-in-out infinite alternate; }
+.bulb-reflect{ transform-box: view-box; transform-origin: 620px 780px; animation: reflect 3.3s ease-in-out infinite alternate; }
+@keyframes swing{ from{ transform: rotate(-5deg); } to{ transform: rotate(5deg); } }
+@keyframes reflect{ from{ transform: translateX(10px); } to{ transform: translateX(-10px); } }
+.steam path{ transform-box: fill-box; transform-origin: 50% 100%; opacity: 0; animation: steam 5.2s ease-in-out infinite; }
+.steam .s2{ animation-delay: -1.7s; }
+.steam .s3{ animation-delay: -3.4s; }
+@keyframes steam{
+  0%{ opacity: 0; transform: translateY(16px) scale(.9, .7); }
+  25%{ opacity: .55; }
+  70%{ opacity: .2; }
+  100%{ opacity: 0; transform: translateY(-50px) scale(1.3, 1.2) skewX(10deg); }
+}
+.neon{ animation: neon 7.3s steps(1, end) infinite; }
+@keyframes neon{ 0%, 60%, 63.5%, 66%, 100%{ opacity: .95; } 61%, 64.5%{ opacity: .3; } }
+.lip-glow{ animation: glint 2.8s ease-in-out infinite; }
+@keyframes glint{ 0%, 100%{ opacity: .25; } 50%{ opacity: .7; } }
+.shimmer{ transform-box: fill-box; transform-origin: 50% 0; animation: shimmer 2.6s ease-in-out infinite alternate; }
+@keyframes shimmer{ from{ transform: scaleX(.75) skewX(-4deg); } to{ transform: scaleX(1.2) skewX(4deg); } }
+.sparkle{ animation: twinkle 3.1s ease-in-out infinite; }
+@keyframes twinkle{ 0%, 100%{ opacity: .15; } 50%{ opacity: .85; } }
+
+/* light through the blinds, headlights, lightning, vignette */
+.blinds, .sweep, .flash, .vig{ position: absolute; pointer-events: none; }
+.blinds{ inset: 0; opacity: 0; transition: opacity 1.2s; mix-blend-mode: screen; }
+.blinds::before{
+  content: ""; position: absolute; left: 4%; top: -6%; width: 64%; height: 84%;
+  background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, .11) 0 1.7%, transparent 1.7% 3.6%);
+  transform: skewY(-11deg);
+  -webkit-mask-image: radial-gradient(70% 62% at 58% 46%, #000 30%, transparent 78%);
+  mask-image: radial-gradient(70% 62% at 58% 46%, #000 30%, transparent 78%);
+}
+[data-scene="office"] .blinds{ opacity: 1; }
+.sweep{
+  top: -12%; bottom: -12%; left: 0; width: 64%; opacity: 0; mix-blend-mode: screen;
+  background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, .15) 0 1.5%, transparent 1.5% 3.3%);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 32%, #000 68%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 32%, #000 68%, transparent);
+  transform: translateX(-120%) skewX(-18deg);
+}
+.flash{ inset: 0; background: #d9d9d9; opacity: 0; mix-blend-mode: screen; }
+.vig{
+  inset: 0;
+  background:
+    radial-gradient(118% 92% at 50% 44%, transparent 48%, rgba(0, 0, 0, .5) 78%, rgba(0, 0, 0, .94) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, .35), transparent 16%, transparent 84%, rgba(0, 0, 0, .55));
+}
+
+/* ---------- the story: narration and index cards ---------- */
+.story{
+  grid-area: 2 / 1; position: relative; min-height: 0;
+  display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr); grid-auto-rows: max-content; align-content: start;
+  gap: clamp(18px, 4.2vw, 76px); align-items: start;
+  padding: clamp(16px, 3.3vh, 38px) var(--gut) clamp(14px, 2.6vh, 28px);
+  overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin; scrollbar-color: #2e2e2e transparent;
+  transition: opacity .6s, visibility .6s;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 clamp(14px, 3vh, 30px));
+  mask-image: linear-gradient(to bottom, transparent 0, #000 clamp(14px, 3vh, 30px));
+}
+.is-title .story{ opacity: 0; visibility: hidden; }
+.narr{
+  min-height: 2em; max-width: 35em; cursor: default;
+  font-size: var(--fs); line-height: 1.95; letter-spacing: .045em;
+}
+.ln{ margin: 0 0 .4em; color: #b6b3ab; line-break: strict; text-wrap: pretty; transition: opacity .6s ease; }
+.ln.past{ opacity: .5; }
+.ln.q{ color: #f2efe8; }
+.ln .rest{ visibility: hidden; }
+.ln.typing .typed::after{
+  content: ""; display: inline-block; width: .09em; height: 1.05em; margin-right: -.09em; vertical-align: -.17em;
+  background: #f2efe8; animation: caret .75s steps(1, end) infinite;
+}
+@keyframes caret{ 50%{ opacity: 0; } }
+.narr.fade .ln{ opacity: 0; }
+
+.cards{
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(10px, 1.5vw, 18px) clamp(10px, 1.4vw, 18px);
+  align-content: start; padding: .35em 0 .5em;
+  position: sticky; top: 0;
+}
+.card{
+  --tilt: 0deg;
+  position: relative; display: flex; flex-direction: column; gap: .3em; min-height: 5.5em; margin: 0;
+  padding: .62em 1em .95em; text-align: left; cursor: pointer; appearance: none; border: 0; border-radius: 2px;
+  font-family: var(--type); font-size: clamp(13.5px, calc(.42vw + .78vh), 16.5px); line-height: 1.52; letter-spacing: .08em; color: #1d1c1a;
+  background:
+    linear-gradient(to bottom, transparent 1.95em, rgba(28, 28, 28, .55) 1.95em, rgba(28, 28, 28, .55) calc(1.95em + 1px), transparent calc(1.95em + 1px), transparent calc(1.95em + 3px), rgba(28, 28, 28, .3) calc(1.95em + 3px), rgba(28, 28, 28, .3) calc(1.95em + 4px), transparent calc(1.95em + 4px)),
+    repeating-linear-gradient(to bottom, transparent 0, transparent calc(1.52em - 1px), rgba(40, 40, 40, .12) calc(1.52em - 1px), rgba(40, 40, 40, .12) 1.52em) 0 calc(1.95em + 4px) / 100% 100% no-repeat,
+    radial-gradient(130% 110% at 28% 12%, #f4f1e9 0%, #e6e0d3 55%, #d4ccbb 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .55), 0 16px 26px -14px rgba(0, 0, 0, .95), 0 2px 6px rgba(0, 0, 0, .55);
+  transform: rotate(var(--tilt));
+  transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s, filter .3s;
+  touch-action: manipulation;
+}
+.card:hover{ transform: rotate(calc(var(--tilt) * .25)) translateY(-5px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .55), 0 26px 34px -16px rgba(0, 0, 0, .95), 0 3px 8px rgba(0, 0, 0, .5); }
+.card:active{ transform: rotate(0deg) translateY(-1px) scale(.985); transition-duration: .08s; }
+.card:focus-visible{ outline: 2px solid #f4f2ec; outline-offset: 5px; }
+.card-no{ display: flex; justify-content: space-between; align-items: center; font-size: .7em; letter-spacing: .22em; color: #5a5750; }
+.card-no kbd{ font-size: 1em; letter-spacing: 0; border: 1px solid rgba(40, 40, 40, .35); border-radius: 2px; padding: 0 .35em; color: #4a4843; }
+.card-t{ position: relative; padding-top: .28em; }
+.ch{ opacity: var(--o, 1); position: relative; top: var(--y, 0); }
+.card.locked{ cursor: not-allowed; color: #6f6b63; filter: saturate(.6) brightness(.93); }
+.card.locked:hover{ transform: rotate(var(--tilt)); }
+.card.locked .card-t::after{
+  content: ""; position: absolute; left: -.15em; right: -.15em; top: calc(50% + .14em); height: 2px;
+  background: #27261f; transform: rotate(-1.4deg); opacity: .85;
+}
+.card-hint{ font-family: var(--mincho); font-size: .78em; letter-spacing: .03em; line-height: 1.55; color: #3e3b35; }
+.card.shake{ animation: shake .42s cubic-bezier(.36, .07, .19, .97); }
+@keyframes shake{ 20%{ transform: rotate(var(--tilt)) translateX(-5px); } 40%{ transform: rotate(var(--tilt)) translateX(5px); } 60%{ transform: rotate(var(--tilt)) translateX(-3px); } 80%{ transform: rotate(var(--tilt)) translateX(2px); } }
+
+/* ---------- title card ---------- */
+.titlecard{
+  grid-area: 1 / 1 / 3 / 2; position: relative; z-index: 3; display: grid; grid-template-rows: inherit; min-height: 0;
+  transition: opacity .9s ease, visibility .9s;
+}
+.reel:not(.is-title) .titlecard{ opacity: 0; visibility: hidden; pointer-events: none; }
+.t-top{ grid-row: 1; align-self: end; padding: 0 var(--gut); display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.t-over{
+  width: var(--mw); display: flex; justify-content: space-between; align-items: baseline; gap: 1em;
+  margin: 0 0 clamp(6px, 1.4vh, 14px); padding-bottom: .7em; border-bottom: 1px solid rgba(233, 230, 223, .38);
+  font-size: clamp(10px, 1.3vh, 13px); letter-spacing: .34em; color: #d4d1c9; text-shadow: 0 1px 8px #000;
+}
+.t-over .en{ font-family: var(--type); letter-spacing: .5em; font-size: .92em; }
+.tmark{ display: block; width: var(--mw); height: auto; overflow: visible; margin-bottom: calc(var(--mw) * var(--mratio) * var(--mdrop) * -1); }
+.tmark.tall{ display: none; }
+.t-bottom{
+  grid-row: 2; min-height: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
+  padding: calc(var(--mw) * var(--mratio) * var(--mdrop) + clamp(14px, 2.6vh, 30px)) var(--gut) clamp(12px, 2vh, 22px);
+  display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr); grid-auto-rows: max-content; align-content: start;
+  gap: clamp(18px, 4.2vw, 76px); align-items: start;
+}
+.t-bottom::-webkit-scrollbar{ display: none; }
+.t-tag{ margin: 0 0 .8em; font-size: clamp(16px, calc(.6vw + 1vh), 23px); line-height: 1.7; letter-spacing: .14em; color: #f0ede6; }
+.t-bill{ margin: 0 0 1.4em; font-size: 12px; letter-spacing: .26em; line-height: 2; color: var(--ash); }
+.t-bill span{ display: inline-block; margin-left: 1.4em; }
+.t-rec{ display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; margin: 0; padding: 0; list-style: none; }
+.t-rec-l{ font-size: 11px; letter-spacing: .3em; color: var(--dim); margin-right: 4px; }
+.rec{
+  display: inline-grid; justify-items: center; gap: 1px; padding: 5px 10px 4px; border: 1px solid #3a3936; outline: 1px solid #1e1d1b; outline-offset: 2px;
+  font-size: 11px; letter-spacing: .18em; color: #57554f; transform: rotate(var(--r, -2deg));
+}
+.rec b{ font-weight: 600; }
+.rec i{ font-style: normal; font-size: 9.5px; letter-spacing: .12em; }
+.rec.seen{ color: #d8d5cd; border-color: #aaa69d; outline-color: #55534e; }
+.t-cards{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-content: start; }
+.t-cards .t-help{ grid-column: 1 / -1; }
+.t-help{ margin: .2em 0 0; font-size: 11px; letter-spacing: .14em; color: var(--dim); line-height: 1.9; }
+
+/* ---------- overlays: grain, flicker, intertitles, verdict ---------- */
+.grain, .flick{ position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9; }
+.grain{ display: block; }
+.flick{ background: #000; opacity: .03; }
+.inter{
+  position: absolute; inset: 0; z-index: 7; display: grid; place-items: center; padding: 16px;
+  background: #000; opacity: 0; visibility: hidden; cursor: pointer; transition: opacity .45s ease, visibility .45s;
+}
+.inter.on{ opacity: 1; visibility: visible; }
+.inter-card{
+  position: relative; writing-mode: vertical-rl; text-align: center;
+  padding: clamp(26px, 4.6vh, 50px) clamp(24px, 4vw, 54px);
+  border: 1px solid rgba(233, 230, 223, .62); outline: 1px solid rgba(233, 230, 223, .24); outline-offset: 8px;
+  color: var(--bone);
+}
+.inter-card::before, .inter-card::after{
+  content: ""; position: absolute; left: 50%; width: 7px; height: 7px; margin-left: -3.5px; background: var(--bone); transform: rotate(45deg);
+}
+.inter-card::before{ top: -13px; }
+.inter-card::after{ bottom: -13px; }
+.inter-no{ text-align: start; margin: 0 0 0 1.3em; font-size: clamp(13px, 1.9vh, 17px); letter-spacing: .55em; color: #c4c1b9; }
+.inter-title{ margin: 0 0 0 .9em; font-size: clamp(26px, min(5.4vh, 9vw), 56px); line-height: 1.25; letter-spacing: .32em; font-weight: 500; }
+.inter-time{ text-align: end; margin: 0; font-size: clamp(12px, 1.6vh, 15px); letter-spacing: .42em; color: #8e8b84; }
+
+.verdict{
+  position: absolute; inset: 0; z-index: 6; display: grid; place-items: center; padding: 18px;
+  background: radial-gradient(80% 80% at 50% 50%, rgba(0, 0, 0, .45), rgba(0, 0, 0, .85));
+  opacity: 0; visibility: hidden; transition: opacity .8s ease, visibility .8s;
+}
+.verdict.on{ opacity: 1; visibility: visible; }
+.vcard{
+  position: relative; width: min(600px, 100%); max-height: 100%; overflow: auto; scrollbar-width: none;
+  padding: clamp(20px, 3.4vh, 34px) clamp(20px, 3.6vw, 40px) clamp(18px, 3vh, 28px);
+  font-family: var(--type); color: var(--ink);
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 27px, rgba(60, 50, 30, .1) 27px 28px) 0 118px / 100% 100% no-repeat,
+    radial-gradient(130% 100% at 30% 10%, #efe9da, #ddd4bf 70%, #cfc4aa);
+  box-shadow: 0 40px 70px -20px #000, 0 4px 14px rgba(0, 0, 0, .6);
+  transform: rotate(-1.2deg);
+}
+.vcard.torn{
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 1.6% 96%, 0 92%, 1.8% 88%, .4% 84%, 2% 79%, .2% 75%, 1.5% 70%, 0 66%, 1.9% 61%, .6% 57%, 2.1% 52%, .3% 48%, 1.6% 43%, 0 39%, 1.8% 34%, .5% 30%, 2% 25%, .2% 21%, 1.4% 16%, 0 12%, 1.7% 7%, .4% 3%);
+  padding-left: clamp(30px, 5vw, 52px);
+}
+.v-head{ display: flex; justify-content: space-between; gap: 1em; margin: 0 0 1.3em; font-size: 11px; letter-spacing: .22em; color: #5b5445; border-bottom: 1px solid rgba(40, 32, 20, .5); padding-bottom: .8em; }
+.v-kicker{ margin: 0; font-size: 12px; letter-spacing: .5em; color: #5b5445; }
+.v-title{ margin: .1em 0 .2em; font-family: var(--mincho); font-weight: 600; font-size: clamp(30px, min(7.4vh, 11vw), 66px); line-height: 1.15; letter-spacing: .06em; }
+.v-title span{ display: inline-block; white-space: nowrap; transform: scaleX(.8); transform-origin: 0 50%; }
+.v-note{ margin: 0 0 1.4em; font-size: 13px; letter-spacing: .1em; line-height: 1.8; }
+.v-stats{ display: grid; grid-template-columns: auto 1fr; gap: .45em 1.4em; margin: 0 0 1.6em; font-size: 12.5px; letter-spacing: .12em; }
+.v-stats dt{ color: #5b5445; }
+.v-stats dd{ margin: 0; display: flex; align-items: center; gap: 8px; }
+.kiss-slot{ display: inline-block; width: 34px; height: 21px; border: 1px dashed rgba(40, 32, 20, .4); border-radius: 50%; }
+.kiss{ display: inline-block; width: 34px; height: 21px; }
+.stamp{
+  position: absolute; right: 5%; top: clamp(70px, 14vh, 120px); width: min(290px, 52%); height: auto; color: #1f1d1a;
+  transform: rotate(-9deg); mix-blend-mode: multiply; opacity: .9; pointer-events: none; overflow: visible;
+}
+.v-cards{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.vcard .card{ min-height: 4.4em; }
+
+/* ---------- case file (manila drawer) ---------- */
+dialog.file{
+  position: fixed; inset: var(--bar) 0 var(--edge) auto; margin: 0; padding: 0; border: 0;
+  width: min(560px, 100vw); height: auto; max-width: none; max-height: none; overflow: visible;
+  background: transparent; color: var(--ink);
+}
+dialog.file::backdrop{ background: rgba(0, 0, 0, .55); }
+.file-in{
+  position: absolute; inset: 26px 0 0 0; display: flex; flex-direction: column;
+  padding: clamp(18px, 3vh, 28px) clamp(18px, 3.2vw, 34px) clamp(12px, 2vh, 18px);
+  background:
+    repeating-linear-gradient(94deg, rgba(90, 70, 30, .035) 0 2px, transparent 2px 7px),
+    radial-gradient(120% 80% at 20% 0%, #d8cba8, var(--manila) 45%, var(--manila-2));
+  box-shadow: -30px 0 70px rgba(0, 0, 0, .75), inset 1px 0 0 rgba(255, 255, 255, .35);
+  font-family: var(--type);
+}
+.file-tab{
+  position: absolute; top: -26px; left: clamp(18px, 3.2vw, 34px); height: 27px; padding: 0 20px;
+  border-radius: 7px 7px 0 0; background: #d6c9a6; font-size: 12px; line-height: 28px; letter-spacing: .4em; color: #3b3322;
+}
+.file-head{ border-bottom: 2px solid rgba(40, 32, 20, .55); padding-bottom: .8em; margin-bottom: .6em; }
+.file-org{ margin: 0; font-size: 11px; letter-spacing: .3em; color: #5a4f38; }
+.file-head h2{ margin: .3em 0 .5em; font-family: var(--mincho); font-weight: 600; font-size: clamp(20px, 2.8vh, 26px); letter-spacing: .14em; }
+.file-meta{ display: grid; grid-template-columns: auto 1fr; gap: .2em 1.2em; margin: 0; font-size: 12px; letter-spacing: .1em; }
+.file-meta dt{ color: #5a4f38; }
+.file-meta dd{ margin: 0; }
+.file-list{
+  flex: 1; min-height: 0; overflow-y: auto; margin: 0; padding: 0 4px 0 0; list-style: none; scrollbar-width: thin; scrollbar-color: rgba(60, 50, 30, .4) transparent;
+}
+.ent{ position: relative; display: grid; grid-template-columns: 2.6em minmax(0, 1fr); gap: 0 .6em; padding: .75em 3.2em .8em 0; border-bottom: 1px solid rgba(60, 48, 25, .28); }
+.ent-no{ font-size: 13px; letter-spacing: .06em; color: #5a4f38; padding-top: .1em; }
+.ent-t{ margin: 0 0 .2em; font-size: 14.5px; letter-spacing: .14em; font-weight: 700; }
+.ent-d{ margin: 0; font-family: var(--type); font-size: 13px; line-height: 1.75; letter-spacing: .04em; color: #2a261f; }
+.ent .kiss{ position: absolute; right: 0; top: .8em; width: 46px; height: 28px; transform: rotate(-12deg); }
+.ent.blank{ color: rgba(60, 48, 25, .45); font-size: 13px; letter-spacing: .3em; padding: .9em 0; }
+.ent.new{ animation: typedIn .9s ease both; }
+@keyframes typedIn{ from{ background: rgba(255, 255, 255, .35); } to{ background: transparent; } }
+.file-foot{ display: flex; justify-content: space-between; gap: 12px; padding-top: .9em; border-top: 2px solid rgba(40, 32, 20, .55); margin-top: .4em; }
+.fbtn{
+  appearance: none; border: 1px solid rgba(40, 32, 20, .55); background: rgba(255, 255, 255, .18); color: var(--ink);
+  font-family: var(--type); font-size: 12.5px; letter-spacing: .18em; padding: .6em 1.1em; border-radius: 2px; cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+.fbtn:hover{ background: rgba(255, 255, 255, .42); transform: translateY(-1px); }
+.fbtn:focus-visible{ outline: 2px solid #1c1b19; outline-offset: 3px; }
+.fbtn kbd{ font-size: 10px; opacity: .6; margin-left: .4em; }
+
+/* ---------- toast & edge ---------- */
+.toast{
+  position: absolute; z-index: 10; top: 12px; right: var(--gut); max-width: calc(100% - 2 * var(--gut));
+  display: flex; gap: .9em; align-items: baseline; padding: .55em 1em .5em;
+  font-family: var(--type); font-size: 12.5px; letter-spacing: .12em; color: var(--ink);
+  background: linear-gradient(170deg, #efebe1, #d8d1c1); box-shadow: 0 12px 26px -10px #000;
+  opacity: 0; transform: translateY(-14px) rotate(-1deg); pointer-events: none;
+  transition: opacity .4s ease, transform .5s cubic-bezier(.2, .9, .3, 1.2);
+}
+.toast.on{ opacity: 1; transform: translateY(0) rotate(-1deg); }
+.toast .t-k{ font-size: .86em; color: #5a574f; letter-spacing: .24em; }
+.toast .t-t{ font-weight: 700; font-family: var(--mincho); letter-spacing: .1em; }
+.edge{
+  position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 0 max(var(--gut), env(safe-area-inset-right)) env(safe-area-inset-bottom) max(var(--gut), env(safe-area-inset-left));
+  font: 10px/1 var(--type); letter-spacing: .28em; color: #4f4d49; white-space: nowrap; overflow: hidden;
+}
+.edge::before{
+  content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 6px; margin-top: -3px;
+  background: repeating-linear-gradient(90deg, #141414 0 11px, transparent 11px 25px); pointer-events: none;
+}
+.edge span{ position: relative; background: #000; padding: 0 .9em; }
+.edge span:first-child{ padding-left: 0; }
+.edge span:last-child{ padding-right: 0; }
+
+/* ---------- small screens ---------- */
+@media (max-width: 760px){
+  :root{ --band: min(40%, 66vw); --mw: calc(100vw - 2 * var(--gut)); --mratio: .85; --mdrop: .36; }
+  .where{ display: none; }
+  .tool{ padding: 9px 6px; letter-spacing: .08em; }
+  .tool kbd{ display: none; }
+  .story{ grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .cards{ grid-template-columns: minmax(0, 1fr); gap: 10px; position: static; }
+  .card{ min-height: 0; padding: .55em .95em .75em; }
+  .tmark.wide{ display: none; }
+  .tmark.tall{ display: block; }
+  .t-top{ align-items: stretch; }
+  .t-over{ width: 100%; }
+  .t-bottom{ grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .t-bill span{ display: block; margin-left: 0; }
+  .v-cards{ grid-template-columns: minmax(0, 1fr); }
+  .stamp{ top: 64px; width: 56%; }
+  .edge .fic{ display: none; }
+}
+@media (max-width: 380px){
+  .brand{ height: 14px; }
+  .tool{ font-size: 12px; padding: 9px 4px; }
+}
+@media (max-height: 520px) and (min-aspect-ratio: 4/3){
+  :root{ --band: 100%; --mw: min(calc(50vw - 2 * var(--gut)), 110vh); --mratio: .25; --mdrop: 0; }
+  .reel{ grid-template-rows: minmax(0, 1fr); grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+  .screen{ grid-area: 1 / 1; }
+  .story{ grid-area: 1 / 2; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 14px 18px; }
+  .cards{ grid-template-columns: minmax(0, 1fr); }
+  .card{ min-height: 0; }
+  .titlecard{ grid-area: 1 / 1 / 2 / 3; grid-template-rows: minmax(0, 1fr); grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+  .t-top{ grid-area: 1 / 1; padding: 0 14px 16px; }
+  .tmark.wide{ display: block; }
+  .tmark.tall{ display: none; }
+  .t-bottom{ grid-area: 1 / 2; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 14px 18px; }
+  .where{ display: none; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .swing, .bulb-reflect, .steam path, .neon, .lip-glow, .shimmer, .sparkle, .snd-on .eq i{ animation: none; }
+  .steam path{ opacity: .26; }
+  .sparkle{ opacity: .5; }
+  .card, .tool::after, .toast{ transition: none; }
+  .stamped .count, .stamped .count::after{ animation: none; }
+  .ln.typing .typed::after{ animation: none; }
+  .ent.new{ animation: none; }
+  .card.shake{ animation: none; }
+}
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+<defs>
+  <linearGradient id="g-cone" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+    <stop offset=".55" stop-color="#fff" stop-opacity=".14"/>
+    <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient>
+  <radialGradient id="g-halo">
+    <stop offset="0" stop-color="#fff" stop-opacity="1"/>
+    <stop offset=".1" stop-color="#fff" stop-opacity=".6"/>
+    <stop offset=".35" stop-color="#fff" stop-opacity=".16"/>
+    <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="g-pool">
+    <stop offset="0" stop-color="#fff" stop-opacity=".34"/>
+    <stop offset=".5" stop-color="#fff" stop-opacity=".1"/>
+    <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="g-frost" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#a6a6a6"/><stop offset=".5" stop-color="#878787"/><stop offset="1" stop-color="#5c5c5c"/>
+  </linearGradient>
+  <radialGradient id="g-office-wall" cx="1180" cy="380" r="1050" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#303030"/><stop offset=".38" stop-color="#1a1a1a"/><stop offset="1" stop-color="#050505"/>
+  </radialGradient>
+  <linearGradient id="g-night" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#0d0d0d"/><stop offset=".62" stop-color="#282828"/><stop offset="1" stop-color="#474747"/>
+  </linearGradient>
+  <linearGradient id="g-desk" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#1d1d1d"/><stop offset=".4" stop-color="#0d0d0d"/><stop offset="1" stop-color="#040404"/>
+  </linearGradient>
+  <linearGradient id="g-cup" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#9a9a9a"/><stop offset=".35" stop-color="#3c3c3c"/><stop offset="1" stop-color="#0e0e0e"/>
+  </linearGradient>
+  <radialGradient id="g-alley-dark" cx="620" cy="300" r="760" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".3" stop-color="#000" stop-opacity=".42"/><stop offset=".7" stop-color="#000" stop-opacity=".9"/><stop offset="1" stop-color="#000" stop-opacity=".98"/>
+  </radialGradient>
+  <linearGradient id="g-harbor" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#0c0c0c"/><stop offset=".55" stop-color="#3a3a3a"/><stop offset=".8" stop-color="#6e6e6e"/><stop offset="1" stop-color="#2a2a2a"/>
+  </linearGradient>
+  <linearGradient id="g-ground" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#161616"/><stop offset="1" stop-color="#030303"/>
+  </linearGradient>
+  <linearGradient id="g-door" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#3c3c3c"/><stop offset=".5" stop-color="#1a1a1a"/><stop offset="1" stop-color="#0c0c0c"/>
+  </linearGradient>
+  <radialGradient id="g-club-wall" cx="470" cy="330" r="900" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#2c2c2c"/><stop offset=".4" stop-color="#121212"/><stop offset="1" stop-color="#050505"/>
+  </radialGradient>
+  <linearGradient id="g-fold" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#090909"/><stop offset=".45" stop-color="#282828"/><stop offset="1" stop-color="#090909"/>
+  </linearGradient>
+  <linearGradient id="g-backbar" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#1a1a1a"/><stop offset=".5" stop-color="#4c4c4c"/><stop offset="1" stop-color="#1c1c1c"/>
+  </linearGradient>
+  <radialGradient id="g-dress-wall" cx="800" cy="360" r="900" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#404040"/><stop offset=".35" stop-color="#1c1c1c"/><stop offset="1" stop-color="#060606"/>
+  </radialGradient>
+  <linearGradient id="g-mirror" x1="0" y1="0" x2=".4" y2="1">
+    <stop offset="0" stop-color="#626262"/><stop offset=".5" stop-color="#2e2e2e"/><stop offset="1" stop-color="#1a1a1a"/>
+  </linearGradient>
+  <linearGradient id="g-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#141414"/><stop offset=".7" stop-color="#3e3e3e"/><stop offset="1" stop-color="#606060"/>
+  </linearGradient>
+  <linearGradient id="g-water" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#2c2c2c"/><stop offset=".22" stop-color="#111"/><stop offset="1" stop-color="#020202"/>
+  </linearGradient>
+  <linearGradient id="g-deck" x1="0" y1="1" x2=".5" y2="0">
+    <stop offset="0" stop-color="#0a0a0a"/><stop offset="1" stop-color="#282828"/>
+  </linearGradient>
+  <linearGradient id="g-title" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f8f6f0"/><stop offset=".62" stop-color="#e1ddd4"/><stop offset="1" stop-color="#8e8b84"/>
+  </linearGradient>
+  <pattern id="p-brick" width="120" height="44" patternUnits="userSpaceOnUse">
+    <rect width="120" height="44" fill="#2e2e2e"/>
+    <rect x="34" y="3" width="52" height="16" fill="#363636"/>
+    <rect x="64" y="25" width="54" height="16" fill="#272727"/>
+    <rect x="2" y="25" width="30" height="16" fill="#333"/>
+    <path d="M0 21.5h120M0 43.5h120M30 0v21.5M90 0v21.5M0 22v21.5M60 22v21.5M120 22v21.5" stroke="#111" stroke-width="3"/>
+  </pattern>
+  <pattern id="p-slats" width="40" height="17" patternUnits="userSpaceOnUse">
+    <rect width="40" height="11" fill="#1a1a1a"/>
+    <rect width="40" height="1.6" fill="#4a4a4a"/>
+    <rect y="9.4" width="40" height="1.6" fill="#0a0a0a"/>
+  </pattern>
+  <pattern id="p-stripe" width="30" height="30" patternUnits="userSpaceOnUse">
+    <rect width="15" height="30" fill="#fff" fill-opacity=".045"/>
+  </pattern>
+  <clipPath id="c-glass"><rect x="380" y="186" width="210" height="280"/></clipPath>
+  <clipPath id="c-poster"><rect x="184" y="344" width="182" height="210"/></clipPath>
+  <clipPath id="c-gown"><path d="M1296 190C1276 200 1268 240 1276 290C1282 350 1266 460 1244 580H1350C1330 460 1316 350 1322 290C1330 240 1322 200 1304 190Z"/></clipPath>
+  <filter id="f-frost" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9"/></filter>
+  <filter id="f-blur4" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="f-blur2" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2"/></filter>
+  <filter id="f-soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation=".9"/></filter>
+  <filter id="f-glow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="6" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="f-halation" x="-6%" y="-20%" width="112%" height="140%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="b"/>
+    <feFlood flood-color="#fff" flood-opacity=".3"/>
+    <feComposite in2="b" operator="in" result="h"/>
+    <feMerge><feMergeNode in="h"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="f-ink" x="-4%" y="-8%" width="108%" height="116%">
+    <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="11" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -3 0 0 0 2.2" result="m"/>
+    <feComposite in="SourceGraphic" in2="m" operator="in" result="ink"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4" result="w"/>
+    <feDisplacementMap in="ink" in2="w" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <symbol id="y-woman" viewBox="0 0 200 560">
+    <path fill-rule="evenodd" d="M96 14C110 10 124 14 128 30L131 36C150 36 168 40 172 46C174 51 164 54 150 54C138 54 130 53 124 55C128 64 128 77 122 86C126 92 130 97 124 102C138 104 152 108 158 116C168 128 176 156 182 186C184 198 178 206 170 210L140 238C136 242 136 248 140 252C146 320 152 400 152 438C138 444 124 446 118 446L116 528C118 540 124 546 128 548L128 553L108 553L106 530L104 452L96 452L94 530L92 553L72 553L72 548C76 546 82 540 84 528L82 446C76 446 62 444 48 438C48 400 52 330 56 272C50 272 46 262 46 250L42 160C38 140 38 124 44 116C50 108 62 104 76 102C70 98 72 90 76 86C70 76 70 63 74 55C60 55 40 57 30 53C22 49 28 43 44 41C56 39 64 37 68 35L70 28C74 16 84 12 96 14ZM150 130C158 150 164 172 166 190L144 222C140 192 142 160 150 130Z"/>
+  </symbol>
+  <symbol id="y-kiss" viewBox="0 0 120 72">
+    <g fill="#b3001b" filter="url(#f-ink)">
+      <path d="M4 36C16 22 30 10 44 10c8 0 12 4 16 9 4-5 8-9 16-9 14 0 28 12 40 26-18 2-36 0-56 2-20-2-38 0-56-2Z"/>
+      <path d="M8 40c18 2 34 1 52 2 18-1 34 0 52-2-10 18-28 28-52 28S18 58 8 40Z"/>
+    </g>
+    <path d="M28 46l3 12M38 44l2 17M49 43l1 20M60 43v21M71 43l-1 20M82 44l-2 17M92 46l-3 12M34 30l2-12M46 32l1-16M74 32l-1-16M86 30l-2-12" stroke="#efe6d2" stroke-opacity=".32" stroke-width="1.3" fill="none"/>
+  </symbol>
+</defs>
+</svg>
+
+<div class="film" id="film">
+  <header class="bar">
+    <svg class="brand" viewBox="0 0 150 30" role="img" aria-label="硝子のアリバイ"><text class="mn" x="0" y="26" font-size="30" font-weight="600" textLength="150" lengthAdjust="spacingAndGlyphs">硝子のアリバイ</text></svg>
+    <p class="where" id="where"><b id="whereNo">第一景</b><span id="whereTitle">深夜の事務所</span><span id="whereTime">午前零時四十分</span></p>
+    <nav class="tools" aria-label="操作">
+      <button type="button" class="tool" id="bFile" aria-haspopup="dialog" aria-controls="file">事件簿<span class="count" id="fileCount">0</span><kbd aria-hidden="true">C</kbd></button>
+      <button type="button" class="tool" id="bSound" aria-pressed="false" aria-label="環境音"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span aria-hidden="true">音</span><span class="snd" id="sndState" aria-hidden="true">切</span><kbd aria-hidden="true">S</kbd></button>
+      <button type="button" class="tool" id="bRestart">最初から</button>
+    </nav>
+  </header>
+
+  <main class="frame" id="frame">
+    <h1 class="sr">硝子のアリバイ</h1>
+    <h2 class="sr" id="sceneTitle">タイトル</h2>
+    <div class="reel is-title" id="reel" data-scene="office" data-nora="door">
+      <div class="screen" id="screen" role="img" aria-label="雨の夜の探偵事務所。すりガラスのドアに女の影が映っている。">
+        <svg class="depth" id="back" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+          <!-- ======== 第一景 事務所 ======== -->
+          <g id="s-office" class="sc">
+            <rect width="1600" height="900" fill="url(#g-office-wall)"/>
+            <rect y="604" width="1600" height="10" fill="#060606"/>
+            <rect y="614" width="1600" height="286" fill="#0a0a0a"/>
+            <rect x="70" y="330" width="170" height="370" fill="#131313"/>
+            <rect x="70" y="330" width="170" height="5" fill="#2c2c2c"/>
+            <g fill="#0b0b0b"><rect x="84" y="350" width="142" height="104"/><rect x="84" y="466" width="142" height="104"/><rect x="84" y="582" width="142" height="104"/></g>
+            <g fill="#1e1e1e"><rect x="136" y="370" width="38" height="14"/><rect x="136" y="486" width="38" height="14"/><rect x="136" y="602" width="38" height="14"/></g>
+            <g fill="#4a4a4a"><rect x="140" y="396" width="30" height="6" rx="2"/><rect x="140" y="512" width="30" height="6" rx="2"/><rect x="140" y="628" width="30" height="6" rx="2"/></g>
+            <path d="M104 330v-58c0-9 7-13 7-24v-20h12v20c0 11 7 15 7 24v58z" fill="#191919"/>
+            <path d="M104 330v-58c0-9 7-13 7-24v-20h3v20c0 11-6 15-6 24v58z" fill="#3c3c3c"/>
+            <path d="M150 330l-3-34h30l-3 34z" fill="#232323"/>
+            <g fill="#080808">
+              <rect x="287" y="232" width="8" height="468"/>
+              <path d="M262 700h58l-8-12h-42z"/>
+              <path d="M259 252c-2 90 2 200 8 300h44c5-100 8-210 5-300-10-12-22-16-29-16s-20 4-28 16z" fill="#0f0f0f"/>
+              <path d="M276 250l15 60 15-60" stroke="#050505" stroke-width="3" fill="none"/>
+              <rect x="262" y="360" width="54" height="7" fill="#070707"/>
+              <ellipse cx="291" cy="218" rx="52" ry="9" fill="#0d0d0d"/>
+              <path d="M259 216c0-24 14-36 32-36s32 12 32 36z" fill="#0d0d0d"/>
+              <rect x="261" y="206" width="60" height="7" fill="#202020"/>
+            </g>
+            <rect x="340" y="140" width="290" height="564" fill="#060606"/>
+            <rect x="356" y="156" width="258" height="548" fill="#121212"/>
+            <rect x="380" y="500" width="210" height="176" fill="none" stroke="#0a0a0a" stroke-width="6"/>
+            <rect x="384" y="504" width="202" height="168" fill="none" stroke="#1e1e1e" stroke-width="1.5"/>
+            <rect x="380" y="186" width="210" height="280" fill="url(#g-frost)"/>
+            <g clip-path="url(#c-glass)"><g class="nora-door" filter="url(#f-frost)"><use href="#y-woman" x="412" y="206" width="150" height="420" fill="#2a2a2a"/></g></g>
+            <g class="mn" transform="matrix(-1 0 0 1 970 0)" fill="#222" text-anchor="middle">
+              <text x="485" y="236" font-size="15" letter-spacing="9">私立探偵</text>
+              <text x="485" y="276" font-size="30" font-weight="600" letter-spacing="3">E・クレイン</text>
+            </g>
+            <rect x="376" y="182" width="218" height="288" fill="none" stroke="#070707" stroke-width="8"/>
+            <circle cx="594" cy="474" r="10" fill="#2a2a2a"/><circle cx="591" cy="471" r="3.5" fill="#8a8a8a"/>
+            <rect x="356" y="699" width="258" height="5" fill="#a0a0a0" opacity=".55"/>
+            <rect x="990" y="110" width="480" height="540" fill="#050505"/>
+            <rect x="1010" y="130" width="440" height="500" fill="url(#g-night)"/>
+            <g id="city"></g>
+            <g filter="url(#f-glow)" opacity=".55"><rect x="1356" y="300" width="9" height="170" fill="#e6e6e6"/></g>
+            <path d="M1230 130v500M1010 382h440" stroke="#050505" stroke-width="12"/>
+            <rect x="978" y="644" width="504" height="16" fill="#1c1c1c"/><rect x="978" y="644" width="504" height="2" fill="#5a5a5a"/>
+          </g>
+
+          <!-- ======== 第二景 路地 ======== -->
+          <g id="s-alley" class="sc">
+            <rect width="1600" height="900" fill="#040404"/>
+            <rect width="1110" height="668" fill="url(#p-brick)"/>
+            <rect x="782" y="0" width="16" height="664" fill="#0c0c0c"/><rect x="782" y="0" width="3" height="664" fill="#2e2e2e"/>
+            <g fill="#161616"><rect x="776" y="120" width="28" height="7"/><rect x="776" y="340" width="28" height="7"/><rect x="776" y="560" width="28" height="7"/></g>
+            <path d="M500 394h240l-16-22H516z" fill="#0a0a0a"/>
+            <rect x="520" y="400" width="200" height="266" fill="#050505"/>
+            <rect x="534" y="412" width="172" height="254" fill="url(#g-door)"/>
+            <path d="M534 470h172M534 540h172M534 610h172" stroke="#0a0a0a" stroke-width="3"/>
+            <rect x="548" y="560" width="144" height="10" fill="#2e2e2e"/>
+            <rect x="588" y="428" width="64" height="20" fill="#4a4a4a"/><rect x="592" y="432" width="56" height="12" fill="#2a2a2a"/>
+            <rect x="500" y="664" width="240" height="12" fill="#1c1c1c"/><rect x="500" y="664" width="240" height="2" fill="#474747"/>
+            <path d="M300 560h84l-7 106h-70z" fill="#0d0d0d"/>
+            <path d="M304 590h76M306 624h72" stroke="#1c1c1c" stroke-width="3"/>
+            <path d="M318 562l-4 104" stroke="#2e2e2e" stroke-width="4" opacity=".7"/>
+            <ellipse cx="342" cy="556" rx="46" ry="9" fill="#1a1a1a"/><rect x="334" y="540" width="16" height="8" rx="3" fill="#1a1a1a"/>
+            <rect x="170" y="584" width="118" height="82" fill="#0e0e0e"/>
+            <path d="M170 604h118M170 626h118M170 648h118" stroke="#1a1a1a" stroke-width="3"/>
+            <rect x="196" y="540" width="84" height="46" fill="#0b0b0b"/>
+            <path d="M196 556h84M196 572h84" stroke="#171717" stroke-width="3"/>
+            <rect width="1110" height="668" fill="url(#g-alley-dark)"/>
+            <rect x="1110" y="0" width="236" height="668" fill="url(#g-harbor)"/>
+            <g id="steps"></g>
+            <g fill="#4a4a4a" filter="url(#f-blur2)" opacity=".6"><path d="M1196 520v-170h7v170zM1150 356h128v6h-128zM1262 362l-2 60h3zM1112 520h60v-40h-60zM1290 520h56v-64h-56z"/></g>
+            <rect x="1346" y="0" width="254" height="900" fill="#070707"/>
+            <rect x="1346" y="0" width="3" height="900" fill="#1f1f1f"/>
+            <rect x="1440" y="232" width="64" height="86" fill="#3c3c3c"/><rect x="1440" y="232" width="64" height="38" fill="#1f1f1f"/>
+            <path d="M1440 275h64M1472 232v86" stroke="#070707" stroke-width="4"/>
+            <g id="escape" stroke="#1b1b1b" stroke-width="4" fill="none"></g>
+            <path d="M0 118Q685 172 1110 110" stroke="#0b0b0b" stroke-width="3" fill="none"/>
+            <g class="swing">
+              <path d="M620 143V224" stroke="#101010" stroke-width="2.5"/>
+              <path d="M596 238h48l-10-16h-28z" fill="#1c1c1c"/>
+              <path d="M600 240h40l280 460H320z" fill="url(#g-cone)" opacity=".26"/>
+              <circle cx="620" cy="246" r="120" fill="url(#g-halo)" opacity=".62"/>
+              <ellipse cx="620" cy="246" rx="9" ry="11" fill="#fff"/>
+            </g>
+            <rect y="668" width="1600" height="232" fill="url(#g-ground)"/>
+            <g id="cobbles"></g>
+            <rect y="662" width="1110" height="14" fill="#020202"/>
+            <rect y="662" width="1110" height="2" fill="#272727"/>
+            <path d="M782 640h40v24h-16v-10h-24z" fill="#0c0c0c"/>
+            <ellipse cx="620" cy="790" rx="210" ry="30" fill="#1d1d1d"/>
+            <ellipse cx="1228" cy="742" rx="110" ry="40" fill="#4a4a4a" opacity=".45" filter="url(#f-blur4)"/>
+            <ellipse class="bulb-reflect" cx="620" cy="790" rx="12" ry="74" fill="#fff" opacity=".26" filter="url(#f-blur4)"/>
+            <rect x="836" y="660" width="122" height="22" fill="#060606" stroke="#3c3c3c" stroke-width="2"/>
+            <path d="M848 662v18M860 662v18M872 662v18M884 662v18M896 662v18M908 662v18M920 662v18M932 662v18M944 662v18" stroke="#2c2c2c" stroke-width="3"/>
+            <g class="clue-lip">
+              <ellipse class="lip-glow" cx="894" cy="666" rx="34" ry="12" fill="#b3001b" filter="url(#f-blur4)"/>
+              <rect x="866" y="658" width="28" height="11" rx="2" fill="#8e8e8e"/>
+              <rect x="866" y="658" width="28" height="3.4" rx="1.5" fill="#e0e0e0"/>
+              <rect x="890" y="657.5" width="5" height="12" fill="#5a5a5a"/>
+              <path d="M895 659.5h7c5 0 9 2 9 4.5s-4 4.5-9 4.5h-7z" fill="#b3001b"/>
+              <path d="M897 661h5c3 0 5.5 .8 6.5 2" stroke="#fff" stroke-opacity=".35" stroke-width="1.2" fill="none"/>
+              <rect x="868" y="686" width="44" height="22" fill="#b3001b" opacity=".22" filter="url(#f-blur4)"/>
+            </g>
+            <g class="clue-ferry">
+              <path d="M1000 734L1088 724L1096 776L1008 788Z" fill="#6e6e6e"/>
+              <path d="M1012 746L1080 738M1014 756L1070 750M1015 766L1084 758M1017 776L1060 772" stroke="#4a4a4a" stroke-width="2"/>
+              <ellipse cx="1060" cy="757" rx="16" ry="7" fill="none" stroke="#262626" stroke-width="2" transform="rotate(-7 1060 757)"/>
+            </g>
+          </g>
+
+          <!-- ======== 第三景 ブルー・ランタン ======== -->
+          <g id="s-club" class="sc">
+            <rect width="1600" height="900" fill="#050505"/>
+            <rect width="1600" height="640" fill="url(#g-club-wall)"/>
+            <g id="curtain"></g>
+            <path d="M110 80H830V104C700 128 240 128 110 104Z" fill="#070707"/>
+            <g fill="#040404">
+              <path d="M150 474H372L394 450H424V560H150Z"/>
+              <path d="M196 474L330 392L338 398L214 474Z"/>
+            </g>
+            <path d="M150 474H372L394 450H424" stroke="#3c3c3c" stroke-width="2" fill="none"/>
+            <g transform="rotate(-11 726 520)">
+              <rect x="720" y="250" width="12" height="150" fill="#070707"/>
+              <circle cx="726" cy="246" r="9" fill="#070707"/>
+              <ellipse cx="726" cy="430" rx="36" ry="44" fill="#080808"/>
+              <ellipse cx="726" cy="500" rx="48" ry="56" fill="#080808"/>
+              <path d="M688 486C684 520 700 552 726 556" stroke="#3c3c3c" stroke-width="2" fill="none"/>
+              <path d="M708 462c-4 12-4 26 0 38M744 462c4 12 4 26 0 38" stroke="#262626" stroke-width="2" fill="none"/>
+              <rect x="724" y="556" width="4" height="16" fill="#080808"/>
+            </g>
+            <path d="M96 560H846L868 600H74Z" fill="#161616"/>
+            <rect x="74" y="600" width="794" height="44" fill="#0a0a0a"/>
+            <path d="M96 560H846" stroke="#525252" stroke-width="2"/>
+            <path d="M438-30H502L640 566H300Z" fill="url(#g-cone)" opacity=".24"/>
+            <ellipse cx="470" cy="570" rx="170" ry="22" fill="url(#g-pool)"/>
+            <ellipse cx="470" cy="562" rx="28" ry="5" fill="#121212"/>
+            <rect x="468.5" y="410" width="3" height="152" fill="#2c2c2c"/>
+            <path d="M470 412v-8" stroke="#3c3c3c" stroke-width="5"/>
+            <rect x="451" y="352" width="38" height="54" rx="19" fill="#262626"/>
+            <path d="M455 366h30M454 376h32M454 386h32M455 396h30" stroke="#727272" stroke-width="2"/>
+            <rect x="451" y="352" width="38" height="54" rx="19" fill="none" stroke="#e6e6e6" stroke-width="1.5" opacity=".8"/>
+            <path d="M458 358C462 354 468 353 472 354" stroke="#fff" stroke-width="2.5" fill="none"/>
+            <g class="neon" filter="url(#f-glow)" stroke="#f2f2f2" stroke-width="4" fill="none" stroke-linecap="round" transform="translate(0 84)">
+              <path d="M960 112v12M936 124h48M940 124C924 150 924 192 940 216H980C996 192 996 150 980 124M936 216h48M960 216v12M960 124v92M946 126C938 150 938 190 946 214M974 126C982 150 982 190 974 214"/>
+            </g>
+            <g>
+              <ellipse cx="952" cy="514" rx="64" ry="11" fill="#1a1a1a"/>
+              <rect x="948" y="518" width="8" height="60" fill="#0c0c0c"/><ellipse cx="952" cy="580" rx="30" ry="5" fill="#0c0c0c"/>
+              <path d="M878 470v108M878 470h26v44M1026 470v108M1026 470h-26v44" stroke="#0b0b0b" stroke-width="6" fill="none"/>
+              <circle cx="936" cy="496" r="40" fill="url(#g-halo)" opacity=".16"/>
+              <path d="M958 506l9-16 9 16z" fill="#9e9e9e"/>
+              <text class="ty" x="967" y="504" font-size="9" font-weight="700" text-anchor="middle" fill="#111">6</text>
+            </g>
+            <rect x="1060" y="140" width="540" height="420" fill="url(#g-backbar)"/>
+            <rect x="1060" y="300" width="540" height="8" fill="#060606"/><rect x="1060" y="420" width="540" height="8" fill="#060606"/>
+            <g id="bottles" fill="#060606"></g>
+            <g id="pendants"></g>
+            <g fill="#040404">
+              <ellipse cx="1262" cy="352" rx="27" ry="33"/>
+              <rect x="1250" y="378" width="24" height="26"/>
+              <path d="M1180 480C1184 424 1216 402 1262 400C1308 402 1340 424 1344 480L1350 560H1174Z"/>
+              <path d="M1196 470C1200 510 1220 536 1250 540L1290 536C1300 530 1296 520 1286 520L1252 522C1232 516 1224 494 1226 470Z"/>
+            </g>
+            <path d="M1236 344C1236 314 1290 312 1290 342C1282 330 1244 330 1236 344Z" fill="#141414"/>
+            <path d="M1246 516C1262 506 1286 510 1298 522C1290 540 1262 544 1246 534Z" fill="#6c6c6c"/>
+            <path d="M1300 408C1326 418 1340 440 1344 480M1289 336C1292 352 1288 372 1276 382" stroke="#5c5c5c" stroke-width="2" fill="none"/>
+            <rect x="1040" y="556" width="560" height="16" fill="#262626"/>
+            <rect x="1040" y="556" width="560" height="2" fill="#8c8c8c"/>
+            <rect x="1040" y="572" width="560" height="130" fill="#090909"/>
+            <path d="M1110 572v130M1200 572v130M1290 572v130M1380 572v130M1470 572v130M1560 572v130" stroke="#121212" stroke-width="3"/>
+            <g class="club-glass">
+              <path d="M1086 556L1150 552L1156 560L1082 562Z" fill="#d8d8d8" opacity=".8"/>
+              <path d="M1100 518L1140 518L1136 556L1104 556Z" fill="#bdbdbd" fill-opacity=".18" stroke="#e2e2e2" stroke-width="1.6"/>
+              <path d="M1102 524L1138 524L1135.5 555L1104.5 555Z" fill="#c8c8c8" opacity=".3"/>
+              <path d="M1106 521V552" stroke="#fff" stroke-width="2" opacity=".5"/>
+              <path d="M1108 518.5C1111 514.5 1119 514.5 1122 518.5C1119 521.5 1111 521.5 1108 518.5Z" fill="#b3001b"/>
+            </g>
+            <g fill="#050505">
+              <ellipse cx="1130" cy="636" rx="36" ry="9"/><rect x="1126" y="640" width="8" height="150"/>
+              <ellipse cx="1310" cy="636" rx="36" ry="9"/><rect x="1306" y="640" width="8" height="150"/>
+              <ellipse cx="1490" cy="636" rx="36" ry="9"/><rect x="1486" y="640" width="8" height="150"/>
+            </g>
+            <path d="M1108 720h44M1288 720h44M1468 720h44" stroke="#050505" stroke-width="5"/>
+            <ellipse cx="250" cy="724" rx="150" ry="22" fill="#0e0e0e"/>
+            <ellipse cx="250" cy="720" rx="150" ry="20" fill="none" stroke="#3c3c3c" stroke-width="1.5"/>
+            <rect x="243" y="744" width="14" height="160" fill="#060606"/>
+            <circle cx="250" cy="664" r="120" fill="url(#g-halo)" opacity=".3"/>
+            <ellipse cx="250" cy="720" rx="120" ry="16" fill="url(#g-pool)"/>
+            <rect x="246" y="672" width="8" height="46" fill="#0c0c0c"/>
+            <path d="M226 676h48l-10-32h-28z" fill="#1c1c1c"/>
+            <path d="M226 676h48" stroke="#bdbdbd" stroke-width="2"/>
+            <path d="M60 690v200M60 690h40v60M440 690v200M440 690h-40v60" stroke="#050505" stroke-width="8" fill="none"/>
+            <rect y="770" width="1600" height="130" fill="#000" opacity=".45"/>
+          </g>
+
+          <!-- ======== 第四景 楽屋 ======== -->
+          <g id="s-dressing" class="sc">
+            <rect width="1600" height="900" fill="url(#g-dress-wall)"/>
+            <rect width="1600" height="720" fill="url(#p-stripe)"/>
+            <g transform="translate(0 36)">
+            <rect x="150" y="104" width="206" height="160" fill="#050505"/>
+            <rect x="162" y="116" width="182" height="136" fill="#333"/>
+            <rect x="162" y="116" width="182" height="136" fill="url(#p-slats)"/>
+            <g opacity=".72">
+              <rect x="172" y="332" width="206" height="286" fill="#8e8e8e"/>
+              <g clip-path="url(#c-poster)"><use href="#y-woman" x="212" y="360" width="124" height="348" fill="#1c1c1c"/></g>
+              <rect x="184" y="344" width="182" height="262" fill="none" stroke="#2a2a2a" stroke-width="2"/>
+              <text class="mn" x="275" y="582" font-size="24" font-weight="600" text-anchor="middle" textLength="148" lengthAdjust="spacingAndGlyphs" fill="#111">ノーラ・ヴェイル</text>
+              <text class="mn" x="275" y="600" font-size="10" text-anchor="middle" textLength="140" lengthAdjust="spacingAndGlyphs" fill="#1a1a1a">今宵〈ブルー・ランタン〉にて</text>
+            </g>
+            <rect x="540" y="146" width="520" height="408" fill="#0d0d0d"/>
+            <rect x="566" y="172" width="468" height="356" fill="url(#g-mirror)"/>
+            <ellipse cx="822" cy="330" rx="44" ry="56" fill="#8a8a8a" opacity=".35" filter="url(#f-blur4)"/>
+            <path d="M776 318C776 272 868 272 868 318C852 298 792 298 776 318Z" fill="#101010" opacity=".6" filter="url(#f-blur2)"/>
+            <g id="bulbs"></g>
+            <rect x="500" y="548" width="600" height="20" fill="#2c2c2c"/>
+            <rect x="500" y="548" width="600" height="3" fill="#9c9c9c"/>
+            <rect x="520" y="568" width="560" height="200" fill="#0b0b0b"/>
+            <path d="M520 640h560M800 568v200" stroke="#050505" stroke-width="4"/>
+            <rect x="578" y="514" width="50" height="34" rx="3" fill="#a8a8a8"/><rect x="574" y="506" width="58" height="12" rx="2" fill="#2e2e2e"/>
+            <rect x="584" y="518" width="6" height="28" fill="#dcdcdc" opacity=".7"/>
+            <path d="M664 548c-16 0-20-12-20-22 0-14 10-20 20-20s20 6 20 20c0 10-4 22-20 22Z" fill="#5a5a5a" opacity=".85"/>
+            <rect x="660" y="494" width="8" height="14" fill="#2a2a2a"/>
+            <path d="M668 498c10-4 16-6 20-2" stroke="#2a2a2a" stroke-width="3" fill="none"/><circle cx="692" cy="498" r="8" fill="#1a1a1a"/>
+            <rect x="1024" y="508" width="26" height="40" fill="#1e1e1e"/>
+            <path d="M1030 508l-6-40M1037 508l0-44M1044 508l6-38" stroke="#262626" stroke-width="4"/>
+            <path d="M880 550C900 532 962 530 1002 540L1014 550L1018 606C1002 616 982 600 968 612C952 602 932 618 918 604L906 560Z" fill="#d0d0d0"/>
+            <path d="M920 560C930 580 926 596 918 604M960 552C966 574 968 594 968 612M996 548C1002 570 1008 590 1018 606" stroke="#9a9a9a" stroke-width="2" fill="none"/>
+            <path d="M912 552C932 545 956 552 978 546C968 556 946 562 920 563Z" fill="#b3001b" opacity=".9"/>
+            <path d="M934 572C946 568 960 574 970 570C962 578 948 580 938 579Z" fill="#b3001b" opacity=".6"/>
+            <path d="M700 640C694 560 700 480 720 470H880C900 480 906 560 900 640Z" fill="#070707"/>
+            <g fill="#030303">
+              <path d="M702 560C702 500 724 462 764 452H836C876 462 898 500 898 560V640H702Z"/>
+              <rect x="786" y="420" width="28" height="36"/>
+              <path d="M800 318C762 318 744 344 746 378C747 402 740 418 732 430C744 442 764 440 776 432C786 438 814 438 824 432C836 440 856 442 868 430C860 418 853 402 854 378C856 344 838 318 800 318Z"/>
+              <ellipse cx="800" cy="324" rx="36" ry="15"/>
+            </g>
+            <path d="M750 360C748 390 744 412 734 428M850 360C852 390 856 412 866 428M768 314C786 306 814 306 832 314" stroke="#6c6c6c" stroke-width="2" fill="none" opacity=".7"/>
+            <rect x="1150" y="196" width="104" height="524" fill="#161616"/>
+            <rect x="1258" y="196" width="104" height="524" fill="#1c1c1c"/>
+            <rect x="1366" y="196" width="104" height="524" fill="#121212"/>
+            <path d="M1150 260h320M1150 330h320M1202 196v134M1310 196v134M1418 196v134" stroke="#0a0a0a" stroke-width="3"/>
+            <path d="M1254 196v524M1362 196v524" stroke="#050505" stroke-width="4"/>
+            <path d="M1296 190C1276 200 1268 240 1276 290C1282 350 1266 460 1244 580H1350C1330 460 1316 350 1322 290C1330 240 1322 200 1304 190Z" fill="#242424"/>
+            <g id="sequins" clip-path="url(#c-gown)"></g>
+            <path d="M1300 190c0-14 14-14 14-4" stroke="#3c3c3c" stroke-width="3" fill="none"/>
+            <rect x="1522" y="330" width="6" height="390" fill="#0a0a0a"/>
+            <path d="M1490 330c0-26 18-38 35-38s35 12 35 38z" fill="#101010"/><ellipse cx="1525" cy="332" rx="58" ry="10" fill="#0e0e0e"/>
+            <rect y="720" width="1600" height="180" fill="#060606"/>
+            <rect y="720" width="1600" height="2" fill="#1f1f1f"/>
+            </g>
+          </g>
+
+          <!-- ======== 第五景 桟橋 ======== -->
+          <g id="s-pier" class="sc">
+            <rect width="1600" height="482" fill="url(#g-sky)"/>
+            <rect y="480" width="1600" height="420" fill="url(#g-water)"/>
+            <g id="skyline" fill="#3a3a3a" filter="url(#f-blur2)" opacity=".7"></g>
+            <g class="ferry" filter="url(#f-blur2)">
+              <path d="M1190 470H1470L1452 492H1206Z" fill="#232323"/>
+              <rect x="1236" y="444" width="170" height="26" fill="#262626"/>
+              <rect x="1274" y="424" width="96" height="20" fill="#262626"/>
+              <rect x="1340" y="396" width="16" height="30" fill="#232323"/>
+              <path d="M1300 424V398" stroke="#232323" stroke-width="3"/>
+              <g id="ferryWin" fill="#ececec" filter="url(#f-glow)"></g>
+              <circle cx="1300" cy="398" r="3" fill="#fff"/>
+            </g>
+            <g class="pier-lamp">
+              <circle cx="1100" cy="300" r="380" fill="url(#g-halo)" opacity=".3"/>
+              <rect class="shimmer" x="1086" y="596" width="30" height="230" fill="#fff" opacity=".2" filter="url(#f-blur4)"/>
+            </g>
+            <g class="dawn-wash"><rect width="1600" height="900" fill="#c4c4c4" opacity=".42"/><rect width="1600" height="482" fill="#e2e2e2" opacity=".35"/></g>
+            <path d="M-100 900L929 580H1157L860 900Z" fill="url(#g-deck)"/>
+            <g id="planks" stroke="#060606" stroke-width="2.2" fill="none"></g>
+            <g id="pilings" fill="#050505"></g>
+            <path d="M-100 900L929 580" stroke="#3e3e3e" stroke-width="2"/>
+            <path d="M860 900L1157 580" stroke="#2c2c2c" stroke-width="2"/>
+            <path d="M929 580H1157" stroke="#5c5c5c" stroke-width="1.5"/>
+            <g fill="#070707">
+              <path d="M958 772h44v-34c9-2 13-9 13-14h-70c0 5 4 12 13 14z"/>
+              <ellipse cx="980" cy="724" rx="35" ry="8" fill="#161616"/>
+            </g>
+            <ellipse cx="1040" cy="778" rx="38" ry="9" fill="none" stroke="#1a1a1a" stroke-width="6"/>
+            <rect x="388" y="598" width="36" height="148" fill="#080808"/>
+            <rect x="388" y="598" width="4" height="148" fill="#262626"/>
+            <text class="ty" x="406" y="664" font-size="40" font-weight="700" text-anchor="middle" fill="#a2a2a2" opacity=".85">9</text>
+            <rect x="1096" y="306" width="8" height="276" fill="#0a0a0a"/>
+            <path d="M1086 306h28l-4-34h-20z" fill="#121212"/>
+            <path d="M1082 274h36l-18-14z" fill="#0a0a0a"/>
+            <g class="pier-lamp"><circle cx="1100" cy="292" r="64" fill="url(#g-halo)"/><circle cx="1100" cy="290" r="8" fill="#fff"/></g>
+            <g class="pier-nora">
+              <use href="#y-woman" x="1004" y="410" width="62" height="174" fill="#050505"/>
+              <rect x="1062" y="562" width="26" height="19" rx="2" fill="#070707"/>
+              <path d="M1068 562c0-6 14-6 14 0" stroke="#070707" stroke-width="3" fill="none"/>
+            </g>
+            <g class="gulls" stroke="#262626" stroke-width="3" fill="none"><path d="M620 250q12-10 24 0q12-10 24 0"/><path d="M700 210q9-8 18 0q9-8 18 0"/><path d="M1220 330q10-9 20 0q10-9 20 0"/></g>
+          </g>
+        </svg>
+        <canvas class="depth" id="wx" aria-hidden="true"></canvas>
+        <svg class="depth" id="front" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+          <g id="f-office" class="sc">
+            <rect x="1010" y="130" width="440" height="192" fill="url(#p-slats)"/>
+            <rect x="1002" y="122" width="456" height="13" fill="#0e0e0e"/>
+            <rect x="1010" y="320" width="440" height="7" fill="#2c2c2c"/>
+            <path d="M1044 135V486M1052 135V470" stroke="#262626" stroke-width="1.4"/>
+            <circle cx="1044" cy="490" r="4" fill="#2c2c2c"/>
+            <g class="nora-room"><use href="#y-woman" x="1112" y="196" width="168" height="470" fill="#030303"/></g>
+            <g class="lampglow"><ellipse cx="760" cy="500" rx="460" ry="260" fill="url(#g-pool)" opacity=".5"/></g>
+            <g transform="translate(0 -70)">
+            <path d="M0 704L1600 676V970H0Z" fill="url(#g-desk)"/>
+            <path d="M0 704L1600 676V683L0 711Z" fill="#303030"/>
+            <g class="lampglow"><ellipse cx="760" cy="778" rx="400" ry="92" fill="url(#g-pool)"/></g>
+            <path d="M500 772L716 762L728 826L508 840Z" fill="#9c9c9c" opacity=".3"/>
+            <path d="M530 782L700 774M534 796L690 789M538 810L702 802" stroke="#555" stroke-width="2" opacity=".5"/>
+            <g fill="#070707">
+              <ellipse cx="400" cy="772" rx="44" ry="11"/>
+              <path d="M390 772V660h20v112Z"/>
+              <path d="M384 664h32l-6-26h-20Z"/>
+              <ellipse cx="400" cy="636" rx="16" ry="6" fill="#171717"/>
+              <path d="M410 690h26v-8h-26Z"/>
+              <rect x="430" y="668" width="14" height="80" rx="4"/>
+              <ellipse cx="437" cy="668" rx="12" ry="6"/><ellipse cx="437" cy="748" rx="12" ry="6"/>
+            </g>
+            <path d="M391 700V770" stroke="#333" stroke-width="2"/>
+            <ellipse cx="760" cy="758" rx="74" ry="14" fill="#0a0a0a"/>
+            <path d="M688 758h144v-8H688z" fill="#161616"/>
+            <rect x="754" y="642" width="12" height="112" fill="#101010"/>
+            <rect x="754" y="642" width="3" height="112" fill="#3c3c3c"/>
+            <path d="M664 654C664 614 700 598 760 598S856 614 856 654Z" fill="#1b1b1b"/>
+            <path d="M676 646C678 620 706 608 740 606" stroke="#4c4c4c" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M664 654H856" stroke="#2c2c2c" stroke-width="3"/>
+            <path d="M812 652V694" stroke="#2c2c2c" stroke-width="2"/><circle cx="812" cy="698" r="4" fill="#3c3c3c"/>
+            <g class="lampglow">
+              <path d="M672 658H848L1010 790H510Z" fill="url(#g-cone)" opacity=".26"/>
+              <ellipse cx="760" cy="657" rx="88" ry="4.5" fill="#fff" opacity=".8" filter="url(#f-soft)"/>
+            </g>
+            <ellipse cx="1010" cy="780" rx="66" ry="12" fill="#1a1a1a"/>
+            <ellipse cx="1010" cy="777" rx="66" ry="11" fill="none" stroke="#6c6c6c" stroke-width="1.5" opacity=".7"/>
+            <path d="M970 718H1050C1048 758 1036 774 1010 776C984 774 972 758 970 718Z" fill="url(#g-cup)"/>
+            <path d="M1048 728c26-2 30 30 0 34" stroke="#2a2a2a" stroke-width="8" fill="none"/>
+            <ellipse cx="1010" cy="718" rx="40" ry="7.5" fill="#0a0a0a" stroke="#b4b4b4" stroke-width="1.6"/>
+            <g class="steam" filter="url(#f-blur4)" stroke="#dedede" stroke-width="7" fill="none" stroke-linecap="round">
+              <path class="s1" d="M1000 706C985 676 1015 656 1000 626C988 602 1006 586 1000 566"/>
+              <path class="s2" d="M1016 706C1030 678 1006 658 1020 630C1032 606 1014 590 1022 572"/>
+              <path class="s3" d="M1008 706C1000 686 1014 670 1006 646"/>
+            </g>
+            <ellipse cx="1260" cy="782" rx="54" ry="11" fill="#141414"/><ellipse cx="1260" cy="779" rx="40" ry="7" fill="#070707"/>
+            <path d="M1262 776L1318 768" stroke="#bdbdbd" stroke-width="4.5" stroke-linecap="round"/>
+            <circle cx="1319" cy="768" r="3" fill="#fff" filter="url(#f-soft)"/>
+            <path d="M1320 764C1330 740 1310 720 1324 690C1334 668 1320 650 1330 630" stroke="#aaa" stroke-width="2" fill="none" opacity=".35" filter="url(#f-soft)"/>
+            </g>
+          </g>
+        </svg>
+        <div class="blinds" aria-hidden="true"></div>
+        <div class="sweep" id="sweep" aria-hidden="true"></div>
+        <div class="flash" id="flash" aria-hidden="true"></div>
+        <div class="vig" aria-hidden="true"></div>
+      </div>
+
+      <section class="story" id="story" aria-label="物語">
+        <div class="narr" id="narr" aria-hidden="true"></div>
+        <div class="cards" id="cards" role="group" aria-label="選択肢のカード"></div>
+      </section>
+
+      <section class="titlecard" id="titlecard" aria-label="タイトル">
+        <div class="t-top">
+          <p class="t-over"><span>E・クレイン事件簿</span><span class="en" lang="en">THE GLASS ALIBI</span></p>
+          <svg class="tmark wide" viewBox="0 0 1000 250" aria-hidden="true" focusable="false">
+            <text class="mn" x="500" y="222" font-size="252" font-weight="600" text-anchor="middle" textLength="1000" lengthAdjust="spacingAndGlyphs" fill="url(#g-title)" filter="url(#f-halation)">硝子のアリバイ</text>
+          </svg>
+          <svg class="tmark tall" viewBox="0 0 600 510" aria-hidden="true" focusable="false">
+            <g class="mn" font-size="252" font-weight="600" fill="url(#g-title)" filter="url(#f-halation)">
+              <text x="0" y="222" textLength="432" lengthAdjust="spacingAndGlyphs">硝子の</text>
+              <text x="26" y="482" textLength="574" lengthAdjust="spacingAndGlyphs">アリバイ</text>
+            </g>
+          </svg>
+        </div>
+        <div class="t-bottom">
+          <div>
+            <p class="t-tag">彼女のアリバイは、<br>口紅のついたグラスひとつだった。</p>
+            <p class="t-bill">一九四七年　港町ポート・キャロウェイ<span>全五景・結末三種</span></p>
+            <div class="t-rec" id="tRec"></div>
+          </div>
+          <div class="t-cards" id="tCards"></div>
+        </div>
+      </section>
+    </div>
+
+    <canvas class="grain" id="grain" aria-hidden="true"></canvas>
+    <div class="flick" id="flick" aria-hidden="true"></div>
+    <div class="inter" id="inter" aria-hidden="true">
+      <div class="inter-card"><p class="inter-no" id="interNo"></p><p class="inter-title" id="interTitle"></p><p class="inter-time" id="interTime"></p></div>
+    </div>
+    <section class="verdict" id="verdict" aria-label="判定"></section>
+    <div class="toast" id="toast" role="status"></div>
+    <div class="sr" id="live" aria-live="polite"></div>
+    <div class="sr" id="say" aria-live="polite"></div>
+  </main>
+
+  <footer class="edge">
+    <span id="edgeCode" aria-hidden="true">第一巻　0000＋00</span>
+    <span class="fic">この物語はフィクションです。人物・店・町・事件はすべて架空です。</span>
+  </footer>
+</div>
+
+<dialog class="file" id="file" aria-labelledby="fileTitle">
+  <div class="file-in" id="fileIn">
+    <div class="file-tab" aria-hidden="true">事件簿</div>
+    <header class="file-head">
+      <p class="file-org">E・クレイン探偵事務所　事件記録</p>
+      <h2 id="fileTitle">硝子のアリバイ</h2>
+      <dl class="file-meta">
+        <dt>依頼人</dt><dd>ノーラ・ヴェイル（歌手）</dd>
+        <dt>受付</dt><dd>一九四七年十一月　午前零時四十分</dd>
+        <dt>記録</dt><dd id="fileMeta">0／10</dd>
+      </dl>
+    </header>
+    <ol class="file-list" id="fileList"></ol>
+    <div class="file-foot">
+      <button type="button" class="fbtn" id="fileRestart">最初からやり直す</button>
+      <button type="button" class="fbtn" id="fileClose">閉じる<kbd aria-hidden="true">Esc</kbd></button>
+    </div>
+  </div>
+</dialog>
+<script>
+(() => {
+'use strict';
+
+/* ================================================================
+ *  硝子のアリバイ — a short interactive film noir in five scenes.
+ *  Content (clues, scenes, beats, endings) first, engine after.
+ * ================================================================ */
+
+const CLUES = {
+  dead: { t: '死んだ男', d: 'レオ・マーケット。港の賭場の帳簿係。第九桟橋の下で見つかった。ノーラの昔を種に、彼女を強請っていた。' },
+  claim: { t: '依頼人の申し立て', d: '出番は二十三時十五分に終了。以後、一時近くまで六番テーブルにいたという。証拠はサムが預かっているグラス。口紅は彼女のためだけに調合した、一本きりの深紅。' },
+  lipstick: { t: '排水溝の口紅', d: '楽屋口の路地、排水溝の格子で拾った。金色のケースの底に「N.V.」の刻印。中身は一本きりの深紅。', key: true },
+  ferry: { t: '最終フェリーの時刻表', d: '路地の水たまりに落ちていた。最終便・午前一時十分発に、万年筆で丸印。' },
+  sam: { t: 'バーテンダーの証言', d: '「確かにノーラさんでしたよ。暗かったがね」。六番は店の奥の暗い席。見えたのはドレスと帽子と口紅。' },
+  rim: { t: 'グラスの縁', d: '六番テーブルのグラス。縁に深紅の跡がひとつ。ライの水割りは、縁の下までなみなみと残っている。' },
+  reading: { t: 'グラスの読み', d: '一本きりの深紅が、同じ夜に路地と六番テーブルの二か所に。跡はひとつきりで、酒は減っていない。六番の女は、飲むためではなく見せるために座っていた。', key: true },
+  cloth: { t: '拭き取った布', d: '楽屋の鏡台。コールドクリームで深紅を拭き取った布。衝立のドレスは、裾がまだ湿っていた。' },
+  vera: { t: '楽屋係の証言', d: '「ノーラさんなら、出番のあとはずっと六番にいたわ」。膝の上で組んだ指が白くなっていた。' },
+  confession: { t: 'ヴェラの告白', d: '「あの夜、六番テーブルに座っていたのは私よ」。ノーラのドレスと口紅で代役を務めた。戻ってきたノーラに路地で口紅を返そうとして、落とした。', key: true },
+};
+const CLUE_TOTAL = Object.keys(CLUES).length;
+const KEYS = ['lipstick', 'reading', 'confession'];
+
+const SCENES = {
+  office: {
+    no: '第一景', title: '深夜の事務所', time: '午前零時四十分', reel: '一', wx: 'window', sweep: true, bolt: true,
+    iris: [485, 330], start: 'o1', state: { nora: 'room' },
+    aria: '雨の夜の探偵事務所。すりガラスのドア、ブラインドの窓、ちらつく卓上ランプと湯気の立つコーヒー。',
+  },
+  alley: {
+    no: '第二景', title: '雨の路地', time: '午前零時五十分', reel: '二', wx: 'rain', bolt: true,
+    iris: [894, 664], start: 'a1',
+    aria: '雨に濡れた煉瓦の路地。楽屋口の上で裸電球が揺れ、排水溝の格子で小さな赤いものが光っている。',
+  },
+  club: {
+    no: '第三景', title: '〈ブルー・ランタン〉', time: '午前零時五十五分', reel: '三', wx: 'smoke', sweep: true,
+    iris: [470, 380], start: 'c1',
+    aria: '閉店まぎわのジャズクラブ。スポットライトを浴びた無人のマイク、カウンターの向こうにバーテンダー。',
+  },
+  dressing: {
+    no: '第四景', title: '楽屋', time: '午前一時', reel: '四', wx: 'none', sweep: true,
+    iris: [945, 556], start: 'd1',
+    aria: '楽屋。電球に囲まれた鏡の前に娘が座り、鏡台の端に深紅のついた布がある。',
+  },
+  pier: {
+    no: '第五景', title: '霧の桟橋', time: '午前一時五分', reel: '五', wx: 'fog',
+    iris: [1034, 500], start: 'p1', state: { pier: 'night' },
+    aria: '霧の桟橋。街灯の下に女がひとり立ち、沖にフェリーの灯がにじんでいる。',
+  },
+};
+
+/* A line is a string, or { t, if, set, fx }. `if` is "flag", "!flag" or "a|b".
+ * A card is { t, go, cut, show, need }. `need` is a list of { any, hint } groups;
+ * the first group that fails locks the card and shows its hint. A beat with `back`
+ * gets a single 「続ける」 card that returns to its hub. */
+const BEATS = {
+  /* ---------- 第一景 深夜の事務所 ---------- */
+  o1: {
+    sc: 'office', state: { nora: 'door' },
+    lines: [
+      '雨は三日前から降りつづいていた。この町の雨は罪を洗い流しはしない。少し見えにくくするだけだ。',
+      '午前零時を回ったころ、ドアのすりガラスに女の影が映った。',
+      { t: 'ノックは二度。ためらいと覚悟が、ちょうど半分ずつ混じった音だった。', fx: 'knock' },
+    ],
+    cards: [{ t: '入れ、と言う', go: 'o2' }],
+  },
+  o2: {
+    sc: 'office', hub: true,
+    lines: [
+      { t: '女は雨の匂いといっしょに入ってきた。帽子のつばから、しずくがひとつ床に落ちた。', set: { nora: 'room' } },
+      '「クレインさん？　人殺しの疑いをかけられた女の話、聞いてくださる？」',
+      '「聞くだけなら、コーヒー一杯ぶんだ」',
+      'ノーラ・ヴェイル。〈ブルー・ランタン〉の歌手だ。この町で彼女の声を知らないのは、耳の悪い男だけだった。',
+    ],
+    again: [
+      'ノーラは煙草に火をつけず、指のあいだで転がしていた。',
+      { t: '卓上ランプがまたたいた。電球の寿命か、この事務所の寿命か。', fx: 'lamp' },
+      '窓の外で、雨がネオンをゆっくり溶かしていた。',
+    ],
+    cards: [
+      { t: '死んだ男のことを訊く', go: 'o_dead' },
+      { t: 'グラスのことを訊く', go: 'o_glass' },
+      { t: '依頼を受ける', go: 'o_take' },
+    ],
+  },
+  o_dead: {
+    sc: 'office', clue: 'dead', back: 'o2',
+    lines: [
+      '「第九桟橋の下で、男が見つかったの。レオ・マーケット」',
+      '「港の賭場で帳簿をつけていた男だな」',
+      '「帳簿だけじゃないわ。あの人は、他人の昔のことまで細かく書きとめておくの。……私の昔のことも」',
+      '強請りという言葉を、彼女は口にしなかった。口にしなくても、その言葉は部屋の真ん中に立っていた。',
+      '「警察は、私に理由があると考えるでしょうね。理由なら、たしかにあったもの」',
+    ],
+  },
+  o_glass: {
+    sc: 'office', clue: 'claim', back: 'o2',
+    lines: [
+      '「十一時十五分に出番が終わって、それからずっと六番テーブルにいたわ。一時近くまで」',
+      '「証人は」',
+      '「グラスよ。サムに頼んで、そのまま取っておいてもらったの。縁に私の口紅がついてる」',
+      '口紅の跡をアリバイにする女には、はじめて会った。やましいところのない人間は、ふつうグラスのことなど気にしない。',
+      '「私の口紅はね、クレインさん、この世に一本しかない色なの。私のためだけに調合させた深紅よ」',
+    ],
+  },
+  o_take: {
+    sc: 'office',
+    lines: [
+      '「前金で五十ドル。経費は別だ」',
+      '彼女はハンドバッグから紙幣を出して、机に置いた。数えもしなかった。数える必要のない暮らしをしてきた女の手つきだった。',
+      '「〈ブルー・ランタン〉へ行って。サムがグラスを見せてくれるわ」',
+      { t: 'ドアが閉まると、香水の匂いだけが残った。私は帽子をかぶり、雨の中へ出た。', set: { nora: 'gone' } },
+    ],
+    cards: [{ t: '雨の中へ出る', cut: { scene: 'alley' } }],
+  },
+
+  /* ---------- 第二景 雨の路地 ---------- */
+  a1: {
+    sc: 'alley', hub: true,
+    lines: [
+      '第九桟橋には、もう警官の縄が張られていた。私は引き返して、店の裏へ上る路地を選んだ。死体と歌手を結ぶ、いちばん短い道だ。',
+      '楽屋口の上で、裸電球が電線に吊られて揺れていた。光は右へ行き、左へ戻り、どちらにも決めかねていた。',
+      '煉瓦の壁が雨を吸って、黒い汗をかいていた。',
+      '排水溝の格子に、何か小さなものが引っかかっていた。この夜の中で、それだけが色を持っていた。',
+    ],
+    again: [
+      '電球が揺れるたびに、路地の影が伸びたり縮んだりした。',
+      '雨が帽子のつばを叩いた。急げと言っているのか、やめておけと言っているのか。',
+    ],
+    cards: [
+      { t: '排水溝の赤いものを拾う', go: 'a_lip' },
+      { t: '濡れた紙切れを拾う', go: 'a_ferry' },
+      { t: '裏口から店に入る', cut: { scene: 'club' } },
+    ],
+  },
+  a_lip: {
+    sc: 'alley', clue: 'lipstick', back: 'a1',
+    lines: [
+      '格子に引っかかっていたのは、金色の口紅のケースだった。蓋がはずれ、中身が雨に濡れていた。',
+      '深紅だった。雨と煉瓦と夜しかない路地で、そこだけが血の色をしていた。',
+      'ケースの底に、小さく「N.V.」と刻まれていた。',
+      '一本しかない色が、殺しのあった夜に、桟橋へ下る道に落ちていた。偶然という言葉は、こういうときのためにあるのではない。',
+    ],
+  },
+  a_ferry: {
+    sc: 'alley', clue: 'ferry', back: 'a1',
+    lines: [
+      '水たまりに、フェリーの時刻表が貼りついていた。雨を吸って、活字がにじんでいた。',
+      '最終便、午前一時十分発。その数字だけが、万年筆で丸く囲んであった。',
+      '誰かが今夜、この町を出ようとしている。そして、その誰かは急いでいる。',
+    ],
+  },
+
+  /* ---------- 第三景 ブルー・ランタン ---------- */
+  c1: {
+    sc: 'club', hub: true,
+    lines: [
+      '〈ブルー・ランタン〉は、看板まぎわの店に特有の、くたびれた顔をしていた。',
+      '誰もいないステージで、マイクだけがスポットライトを浴びていた。歌い手のいないマイクほど、さびしいものはない。',
+      'カウンターの向こうで、サムがグラスを磨いていた。三十分前から同じグラスを磨いているような顔だった。',
+    ],
+    again: [
+      '客のいないテーブルで、灰皿だけが今夜の売り上げを数えていた。',
+      '煙草の煙が天井の下で行き場をなくして、ゆっくり渦を巻いていた。',
+    ],
+    cards: [
+      { t: 'サムに話を聞く', go: 'c_sam' },
+      { t: '六番テーブルのグラスを見る', go: 'c_glass' },
+      { t: '縁の赤を読みなおす', go: 'c_read', show: 'rim', need: [{ any: 'lipstick', hint: '比べるものがない——この赤を、どこかで見なかったか' }] },
+      { t: '楽屋へ行く', cut: { scene: 'dressing' } },
+    ],
+  },
+  c_sam: {
+    sc: 'club', clue: 'sam', back: 'c1',
+    lines: [
+      '「ノーラさんですかい。ええ、出番のあとは六番に座ってましたよ。一時近くまでね」',
+      '「顔を見たのか」',
+      '「見ましたとも。……まあ、六番は奥の暗い席ですがね。あのドレスと、あの帽子と、あの口紅だ。確かにノーラさんでしたよ。暗かったがね」',
+      '暗かったがね。証言の最後につく但し書きは、たいてい本文より正直だ。',
+    ],
+  },
+  c_glass: {
+    sc: 'club', clue: 'rim', back: 'c1',
+    lines: [
+      'サムはカウンターの下から、ナプキンにくるんだグラスを出した。宝石でも扱うような手つきだった。',
+      '縁に、深紅の跡がひとつ。唇のかたちが、そのまま残っていた。',
+      '「ノーラさんに頼まれましてね。誰にも触らせるなって」',
+      'ライの水割りは、縁のすぐ下までなみなみと残っていた。氷はとうに溶けていた。',
+    ],
+  },
+  c_read: {
+    sc: 'club', clue: 'reading', back: 'c1',
+    lines: [
+      '私は路地で拾った口紅を、グラスの横に置いた。サムが息をのんだ。',
+      '同じ深紅だった。この世に一本しかない色が、同じ夜、二つの場所にあった。六番テーブルと、桟橋へ下る路地に。',
+      'それに、跡はひとつきりだ。一時間半も座っていた女が、一度しか口をつけなかったことになる。',
+      '六番に座っていたのは、飲むための客ではなかった。見せるための誰かだった。',
+    ],
+  },
+
+  /* ---------- 第四景 楽屋 ---------- */
+  d1: {
+    sc: 'dressing', hub: true,
+    lines: [
+      '楽屋は、白粉とコールドクリームと、泣いたあとの匂いがした。',
+      '鏡のまわりの電球は、半分が切れかけていた。点いたり消えたりするたびに、鏡の中の娘が現れたり消えたりした。',
+      'ヴェラ。ノーラの楽屋係で、ときどき代役も務める娘だ。化粧を落としたばかりの顔は、思っていたより幼かった。',
+    ],
+    again: [
+      { t: '鏡の電球がひとつ、ため息みたいに消えて、また点いた。', fx: 'bulb' },
+      '衝立に掛かったドレスが、誰かの抜け殻のように見えた。',
+    ],
+    cards: [
+      { t: '鏡台の布を調べる', go: 'd_cloth' },
+      { t: 'ヴェラに話を聞く', go: 'd_vera' },
+      { t: 'ヴェラに口紅を見せる', go: 'd_conf', need: [{ any: 'lipstick', hint: '見せるものがない——路地で何か拾わなかったか' }] },
+      { t: '桟橋へ急ぐ', cut: { scene: 'pier' } },
+    ],
+  },
+  d_cloth: {
+    sc: 'dressing', clue: 'cloth', back: 'd1',
+    lines: [
+      '鏡台の端に、丸めた布が置いてあった。広げると、コールドクリームの白の中に、深紅がこすりつけてあった。',
+      '誰かが急いで口紅を落としたのだ。自分の唇から、自分のものではない色を。',
+      '衝立には、ステージ用のドレスが掛かっていた。裾が、まだ少し湿っていた。',
+    ],
+  },
+  d_vera: {
+    sc: 'dressing', clue: 'vera', back: 'd1',
+    lines: [
+      '「ノーラさんなら、出番のあとはずっと六番にいたわ。サムに訊いてみて」',
+      '「サムには訊いた。暗かったそうだ」',
+      '「暗いのが、あの店の取り柄よ」',
+      'ヴェラは鏡の中の私を見て、それから自分の手を見た。膝の上で組んだ指が、何かを握りつぶすように白くなっていた。',
+    ],
+  },
+  d_conf: {
+    sc: 'dressing', clue: 'confession', back: 'd1',
+    lines: [
+      '私は口紅を鏡台に置いた。「N.V.」の刻印が、電球の明かりの下で上を向いた。',
+      { t: 'ヴェラはそれを長いあいだ見ていた。電球がふたつ消えて、ひとつだけ点きなおした。', fx: 'bulbs' },
+      '「……路地で返そうとしたの。あの人が戻ってきたとき。手がふるえて、落としてしまって」',
+      '「あの夜、六番テーブルに座っていたのは私よ。あの人のドレスを着て、あの人の口紅をつけて」',
+      '「グラスには一度だけ口をつけたわ。それ以上は飲めなかった。あの人の唇で、あの人のふりをして飲むなんて」',
+      '「ノーラさんは、最終のフェリーに乗るって。一時十分の」',
+    ],
+  },
+
+  /* ---------- 第五景 霧の桟橋 ---------- */
+  p1: {
+    sc: 'pier', hub: true,
+    lines: [
+      '霧が港をまるごと呑みこんでいた。街灯の光は霧の中で行き場をなくし、ぼんやりとした球になっていた。',
+      '第九桟橋の先に、女がひとり立っていた。帽子と、コートと、小さなトランク。',
+      { t: '沖のほうで、フェリーの汽笛が一度だけ鳴った。一時十分まで、あと五分。', fx: 'horn' },
+      '「来ると思ってたわ、クレインさん。グラスは見てくれた？」',
+    ],
+    again: [
+      { t: '霧笛が、誰かの名前を呼ぶように低く鳴った。', fx: 'horn' },
+      '黒い水が杭のあいだで、何かを言いかけてはやめていた。',
+    ],
+    cards: [
+      { t: 'ノーラと話す', go: 'p_talk' },
+      {
+        t: 'ノーラを告発する', go: 'p_acc',
+        need: [
+          { any: 'lipstick', hint: '証拠が足りない——赤いものを見落としていないか' },
+          { any: 'reading|confession', hint: '口紅だけでは足りない——グラスか、楽屋の娘か' },
+        ],
+      },
+      { t: '黙って見送る', go: 'e_cold' },
+    ],
+  },
+  p_talk: {
+    sc: 'pier', back: 'p1',
+    lines: [
+      '「見たよ。いいグラスだった。縁の跡も、きれいなもんだ」',
+      '「でしょう？」',
+      '「きれいすぎるくらいだ」',
+      '彼女は笑った。客席のいちばん後ろの席まで届かせるための笑い方だった。',
+      '「レオはね、一度も私の歌を聴いたことがなかったのよ。帳簿ばかり見てた」',
+    ],
+  },
+  p_acc: {
+    sc: 'pier',
+    lines: [
+      '私はポケットから口紅を出した。霧の中で、その深紅だけがはっきりしていた。',
+      '「路地の排水溝に落ちていた。君の色だ。一本しかない色が、同じ夜に二か所にあった」',
+      { t: '「グラスの跡はひとつきりで、酒は縁まで残っていた。六番に座っていた誰かは、飲むためにいたんじゃない。見せるためにいたんだ」', if: 'reading' },
+      { t: '「ヴェラが話したよ。あの夜、六番に座っていたのは自分だと」', if: 'confession' },
+      { t: 'ノーラは長いあいだ黙っていた。汽笛がもう一度鳴った。', fx: 'horn' },
+      '「レオは、私を一生、帳簿につけておくつもりだったのよ。……揉み合いになったの。桟橋は、雨で滑った」',
+      '「その話は、陪審にするといい」',
+      '「陪審は、トーチソングを聴いてくれるかしら」',
+    ],
+    cards: [
+      { t: '手錠をかける', go: 'e_closed' },
+      { t: '最終フェリーに乗せる', go: 'e_ferry' },
+    ],
+  },
+
+  /* ---------- 結末 ---------- */
+  e_closed: {
+    sc: 'pier', end: 'closed',
+    lines: [
+      '私は手錠を出した。彼女は両手を差し出した。ステージでお辞儀をするときと同じ、きれいな角度だった。',
+      '手錠の閉まる音は、霧の中で思ったより小さかった。',
+      { t: '一時十分きっかりに、最終フェリーは出ていった。乗るはずだった客をひとり残して。', fx: 'horn' },
+      'グラスの赤は、嘘の色だった。',
+    ],
+  },
+  e_ferry: {
+    sc: 'pier',
+    lines: [
+      '「行け。一時十分だ」',
+      'ノーラは私の顔を見た。礼を言うかわりに、私の手から口紅を取って、コートのポケットにしまった。',
+      { t: 'タラップが上がり、フェリーは霧の中へ溶けていった。汽笛が、歌の最後の一音のように長く残った。', set: { pier: 'leaving' }, fx: 'horn' },
+    ],
+    cards: [{ t: '続ける', go: 'e_ferry2', cut: { scene: 'office', state: { nora: 'gone' }, card: ['同夜', '事務所', '午前二時十分'] } }],
+  },
+  e_ferry2: {
+    sc: 'office', state: { nora: 'gone' }, end: 'ferry',
+    lines: [
+      '事務所に戻ると、私は事件簿のそのページを破り、灰皿の上で燃やした。',
+      'ヴェラには、あの夜は何も見なかったことにしろと言った。彼女はうなずいた。うなずくのが得意な娘だった。',
+      '記録にない事件は、起きなかった事件だ。この町には、そういう事件がいくらでもある。',
+    ],
+  },
+  e_cold: {
+    sc: 'pier',
+    lines: [
+      { t: '言うべきことはあった。ただ、私はそれを言わなかった。', if: 'accuse' },
+      { t: '私は何も言わなかった。言うべきことを、ひとつも持っていなかった。', if: '!accuse' },
+      { t: 'ノーラはタラップを上りながら、一度だけ振り返った。帽子のつばの下で、唇が何か言った。礼だったのか、歌の一節だったのか。', set: { pier: 'leaving' } },
+    ],
+    cards: [{ t: '続ける', go: 'e_cold2', cut: { scene: 'pier', state: { pier: 'dawn' }, card: ['翌朝', '第九桟橋', '午前六時'] } }],
+  },
+  e_cold2: {
+    sc: 'pier', state: { pier: 'dawn' }, end: 'cold',
+    lines: [
+      '朝が来て、霧が晴れた。第九桟橋には、警官と、カモメと、何もない海だけが残っていた。',
+      '昼すぎ、ヴェラが警察に出頭した。レオ・マーケットを殺したのは自分だと言った。誰もそれを疑わなかった。',
+      { t: 'ポケットの口紅だけが、ゆうべの色を覚えていた。', if: 'lipstick' },
+      'あの夜、私は違う歌を聴いていた。',
+    ],
+  },
+};
+
+const ENDINGS = {
+  closed: { title: 'グラスの赤', stamp: '事件解決', en: 'CASE CLOSED', note: '被疑者ノーラ・ヴェイル、第九桟橋にて身柄確保。' },
+  ferry: { title: '最終フェリー', stamp: '記録外', en: 'OFF THE RECORD', note: 'この頁は、事件簿に綴じられていない。', torn: true },
+  cold: { title: '違う歌', stamp: '迷宮入り', en: 'CASE COLD', note: 'ヴェラ出頭。真相は霧の向こうに残された。' },
+};
+const END_ORDER = ['closed', 'ferry', 'cold'];
+const END_KEY = 'glass-alibi:endings';
+
+/* ================================================================
+ *  helpers
+ * ================================================================ */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const rand = (a, b) => a + Math.random() * (b - a);
+const pick = (a) => a[(Math.random() * a.length) | 0];
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const pad = (n) => String(n).padStart(2, '0');
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const store = {
+  get(k, d) {
+    try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; }
+  },
+  set(k, v) {
+    try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage unavailable: endings simply aren't remembered */ }
+  },
+};
+const mulberry = (seed) => () => {
+  seed = (seed + 0x6d2b79f5) | 0;
+  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
+const mq = matchMedia('(prefers-reduced-motion: reduce)');
+let reduced = mq.matches;
+let lastInput = 'pointer';
+
+const film = $('#film'), frame = $('#frame'), reel = $('#reel'), screenEl = $('#screen');
+const backEl = $('#back'), frontEl = $('#front'), wx = $('#wx'), grain = $('#grain'), flick = $('#flick');
+const sweepEl = $('#sweep'), flashEl = $('#flash');
+const story = $('#story'), narr = $('#narr'), cardsEl = $('#cards'), live = $('#live'), sayEl = $('#say');
+const inter = $('#inter'), verdictEl = $('#verdict'), toast = $('#toast');
+const tCards = $('#tCards'), tRec = $('#tRec');
+const fileDlg = $('#file'), fileIn = $('#fileIn'), fileList = $('#fileList'), fileMeta = $('#fileMeta');
+const bFile = $('#bFile'), bSound = $('#bSound'), bRestart = $('#bRestart'), fileCount = $('#fileCount'), sndState = $('#sndState');
+const where = $('#where'), edgeCode = $('#edgeCode');
+const wctx = wx.getContext('2d'), gctx = grain.getContext('2d');
+
+/* ================================================================
+ *  procedural details of the scenes (seeded, so every visit matches)
+ * ================================================================ */
+function buildArt() {
+  const R = mulberry(1947), r = (a, b) => a + R() * (b - a), f = (n) => n.toFixed(1);
+  const put = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+  let s = '';
+  for (let x = 1004; x < 1452;) {
+    const w = r(34, 96), top = r(300, 540);
+    s += `<rect x="${f(x)}" y="${f(top)}" width="${f(w)}" height="${f(632 - top)}" fill="#0a0a0a"/>`;
+    for (let wy = top + 12; wy < 616; wy += 20) {
+      for (let wx2 = x + 7; wx2 < x + w - 9; wx2 += 15) if (R() < 0.09) s += `<rect x="${f(wx2)}" y="${f(wy)}" width="6" height="9" fill="${R() < 0.5 ? '#555' : '#8c8c8c'}"/>`;
+    }
+    x += w + r(3, 16);
+  }
+  put('city', s);
+
+  let lit = '', dark = '';
+  for (let y = 684, row = 0; y < 905; row++) {
+    const h = 7 + row * 4.2, w = 26 + row * 13;
+    for (let x = -r(0, w); x < 1600; x += w + 3 + r(0, 5)) {
+      const d = `M${f(x)} ${f(y + h * 0.55)}q${f(w / 2)} ${f(-h * 0.8)} ${f(w)} 0`;
+      if (Math.abs(x + w / 2 - 620) < 240 + row * 22 && R() < 0.8) lit += d; else dark += d;
+    }
+    y += h + 2;
+  }
+  put('cobbles', `<path d="${dark}" stroke="#1d1d1d" stroke-width="2" fill="none"/><path d="${lit}" stroke="#383838" stroke-width="2" fill="none"/>`);
+
+  s = '';
+  for (let i = 0; i < 10; i++) {
+    const y = 666 - (i * i * 1.25 + i * 7);
+    s += `<path d="M1110 ${f(y)}H1346" stroke="#909090" stroke-opacity="${(0.1 + i * 0.045).toFixed(2)}" stroke-width="${f(2.4 - i * 0.14)}"/>`;
+  }
+  s += '<path d="M1124 560V474M1162 560V482M1200 560V490M1238 560V496M1124 474L1346 512" stroke="#0e0e0e" stroke-width="5" fill="none"/>';
+  put('steps', s);
+
+  s = '';
+  for (const py of [168, 428]) {
+    s += `<path d="M1352 ${py}H1596" stroke-width="7"/><path d="M1352 ${py - 42}H1596"/>`;
+    for (let x = 1360; x <= 1596; x += 16) s += `<path d="M${x} ${py}v-42"/>`;
+  }
+  s += '<path d="M1372 168L1566 428" stroke-width="6"/>';
+  for (let i = 1; i < 12; i++) s += `<path d="M${f(1362 + 194 * i / 12)} ${f(168 + 260 * i / 12)}h20" stroke-width="3"/>`;
+  s += '<path d="M1566 428V650M1590 428V650" stroke-width="4"/>';
+  for (let y = 450; y < 650; y += 22) s += `<path d="M1566 ${y}H1590" stroke-width="3"/>`;
+  put('escape', s);
+
+  s = '';
+  for (let x = 110; x < 830; x += 26) s += `<rect x="${x}" y="100" width="27" height="462" fill="url(#g-fold)"/>`;
+  put('curtain', s);
+
+  s = '';
+  for (const shelf of [300, 420]) {
+    for (let x = 1072; x < 1586;) {
+      const w = r(15, 26), h = r(50, 92), nw = w * r(0.3, 0.4), nh = r(14, 28), nx = x + (w - nw) / 2;
+      s += `<rect x="${f(x)}" y="${f(shelf - h)}" width="${f(w)}" height="${f(h)}" rx="3"/><rect x="${f(nx)}" y="${f(shelf - h - nh)}" width="${f(nw)}" height="${f(nh + 4)}"/>`;
+      if (R() < 0.35) s += `<rect x="${f(x + 3)}" y="${f(shelf - h + 6)}" width="1.6" height="${f(h - 14)}" fill="#6c6c6c"/>`;
+      x += w + r(4, 16);
+    }
+  }
+  put('bottles', s);
+
+  s = '';
+  for (const x of [1150, 1330, 1510]) {
+    s += `<path d="M${x} 0V98" stroke="#0a0a0a" stroke-width="2"/><circle cx="${x}" cy="126" r="130" fill="url(#g-halo)" opacity=".38"/><path d="M${x - 26} 124H${x + 26}L${x + 12} 98H${x - 12}Z" fill="#141414"/><ellipse cx="${x}" cy="124" rx="17" ry="4" fill="#fff"/>`;
+  }
+  put('pendants', s);
+
+  const bp = [];
+  for (let i = 0; i < 10; i++) bp.push([578 + i * 49.3, 160]);
+  for (let y = 214; y <= 520; y += 61) bp.push([552, y], [1048, y]);
+  put('bulbs', bp.map(([x, y]) => `<g class="bulb"><circle cx="${f(x)}" cy="${y}" r="36" fill="url(#g-halo)" opacity=".55"/><circle cx="${f(x)}" cy="${y}" r="10" fill="#f3f3f3"/></g>`).join(''));
+
+  s = '';
+  for (let i = 0; i < 90; i++) {
+    const sp = R() < 0.18 ? ` class="sparkle" style="animation-delay:${f(-r(0, 3))}s"` : '';
+    s += `<circle${sp} cx="${f(r(1244, 1350))}" cy="${f(r(196, 580))}" r="${f(r(1.2, 2.6))}" fill="#9c9c9c" opacity=".55"/>`;
+  }
+  put('sequins', s);
+
+  s = '';
+  for (let x = -10; x < 900;) { const w = r(40, 140), h = r(10, 54); s += `<rect x="${f(x)}" y="${f(482 - h)}" width="${f(w)}" height="${f(h + 2)}"/>`; x += w + r(0, 40); }
+  for (const cx of [210, 560]) s += `<path d="M${cx} 482V368h8V482ZM${cx - 70} 372h190v6h-190ZM${cx + 110} 378v46h3v-46Z"/>`;
+  for (let x = 1480; x < 1610;) { const w = r(40, 90), h = r(16, 40); s += `<rect x="${f(x)}" y="${f(482 - h)}" width="${f(w)}" height="${f(h + 2)}"/>`; x += w + r(0, 20); }
+  put('skyline', s);
+
+  s = '';
+  for (let x = 1246; x < 1400; x += 15) s += `<rect x="${x}" y="452" width="7" height="6"/>`;
+  for (let x = 1284; x < 1364; x += 14) s += `<rect x="${x}" y="430" width="6" height="5"/>`;
+  put('ferryWin', s);
+
+  /* the pier in one-point perspective: vanishing point on the horizon */
+  const at = (x0, z) => [1250 + (x0 - 1250) / z, 480 + 420 / z];
+  s = '';
+  for (let z = 1.08; z < 4.2; z += 0.11) { const a = at(-100, z), b = at(860, z); s += `M${f(a[0])} ${f(a[1])}L${f(b[0])} ${f(b[1])}`; }
+  put('planks', `<path d="${s}"/>`);
+  s = '';
+  for (const z of [1.15, 1.45, 1.8, 2.25, 2.8, 3.5, 4.2]) {
+    for (const x0 of [-100, 860]) { const [x, y] = at(x0, z), w = 34 / z, h = 150 / z; s += `<rect x="${f(x - w / 2)}" y="${f(y)}" width="${f(w)}" height="${f(h)}"/>`; }
+  }
+  put('pilings', s);
+}
+
+/* ================================================================
+ *  state
+ * ================================================================ */
+const S = {
+  scene: 'office', beat: null, title: true, busy: false, picking: false, fast: false, token: 0, ended: null,
+  flags: new Set(), used: new Set(), seen: new Set(), found: [], again: {}, state: {}, filed: 0,
+};
+const canAccuse = () => S.flags.has('lipstick') && (S.flags.has('reading') || S.flags.has('confession'));
+const has = (f) => (f === 'accuse' ? canAccuse() : S.flags.has(f));
+const test = (expr) => !expr || expr.split('|').some((tok) => (tok[0] === '!' ? !has(tok.slice(1)) : has(tok)));
+function lockOf(card) {
+  for (const g of card.need || []) if (!test(g.any)) return g.hint;
+  return null;
+}
+
+function say(text) {
+  sayEl.textContent = '';
+  requestAnimationFrame(() => { sayEl.textContent = text; });
+}
+
+/* ================================================================
+ *  typewriter
+ * ================================================================ */
+const TW = { run: null };
+let pauseRes = null;
+
+function beatAfter(ch, nx) {
+  switch (ch) {
+    case '。': return 400;
+    case '、': return 170;
+    case '…': return nx === '…' ? 60 : 300;
+    case '—': return nx === '—' ? 40 : 240;
+    case '？': case '！': return 340;
+    case '」': return nx ? 180 : 0;
+    default: return 24 + Math.random() * 26;
+  }
+}
+
+function keepVisible(el) {
+  if (!el) return;
+  const r = el.getBoundingClientRect(), sr = story.getBoundingClientRect();
+  if (r.bottom > sr.bottom - 10) story.scrollTop += Math.min(r.bottom - sr.bottom + 16, Math.max(0, r.top - sr.top - 12));
+}
+
+function typeLine(text) {
+  const p = document.createElement('p');
+  p.className = 'ln' + (text[0] === '「' ? ' q' : '');
+  narr.append(p);
+  const all = narr.children;
+  if (all.length > 3) for (let i = 0; i < all.length - 2; i++) all[i].classList.add('past');
+  const lp = document.createElement('p');
+  lp.textContent = text;
+  live.append(lp);
+  if (reduced || S.fast) {
+    p.textContent = text;
+    keepVisible(p);
+    return Promise.resolve();
+  }
+  const a = document.createElement('span'), rest = document.createElement('span');
+  a.className = 'typed';
+  rest.className = 'rest';
+  rest.textContent = text;
+  p.append(a, rest);
+  p.classList.add('typing');
+  keepVisible(p);
+  return new Promise((resolve) => {
+    let i = 0, next = 0, raf = 0;
+    const done = (quiet) => {
+      cancelAnimationFrame(raf);
+      a.textContent = text;
+      rest.textContent = '';
+      p.classList.remove('typing');
+      TW.run = null;
+      if (quiet !== true) bellSnd();
+      resolve();
+    };
+    TW.run = { done };
+    const step = (now) => {
+      if (!next) next = now;
+      let typed = false;
+      while (now >= next && i < text.length) {
+        const ch = text[i++];
+        next += beatAfter(ch, text[i]);
+        typed = true;
+      }
+      if (typed) {
+        a.textContent = text.slice(0, i);
+        rest.textContent = text.slice(i);
+        keySnd();
+      }
+      if (i >= text.length) { done(); return; }
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+  });
+}
+
+function pause(ms) {
+  if (!ms) return Promise.resolve();
+  return new Promise((resolve) => {
+    const t = setTimeout(() => { pauseRes = null; resolve(); }, ms);
+    pauseRes = () => { clearTimeout(t); pauseRes = null; resolve(); };
+  });
+}
+
+function skip() {
+  if (TW.run) TW.run.done();
+  else if (pauseRes) pauseRes();
+}
+
+function clearNarr() {
+  if (!narr.children.length) return Promise.resolve();
+  if (reduced || S.fast) { narr.textContent = ''; return Promise.resolve(); }
+  narr.classList.add('fade');
+  return sleep(220).then(() => { narr.textContent = ''; narr.classList.remove('fade'); story.scrollTop = 0; });
+}
+
+/* ================================================================
+ *  index cards
+ * ================================================================ */
+const inked = (t) => Array.from(t).map((ch) => `<span class="ch" style="--o:${(0.74 + Math.random() * 0.26).toFixed(2)};--y:${(Math.random() * 1.2 - 0.6).toFixed(1)}px">${esc(ch)}</span>`).join('');
+
+function makeCard(n, label, hint, onPick) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'card' + (hint ? ' locked' : '');
+  const tilt = rand(-2.3, 2.3);
+  b.dataset.tilt = tilt.toFixed(2);
+  b.style.setProperty('--tilt', tilt.toFixed(2) + 'deg');
+  b.innerHTML = `<span class="card-no" aria-hidden="true"><span>No.${n}</span><kbd>${n}</kbd></span><span class="card-t" aria-hidden="true">${inked(label)}</span>${hint ? `<span class="card-hint" aria-hidden="true">※${esc(hint)}</span>` : ''}`;
+  b.setAttribute('aria-label', `${n}　${label}${hint ? `（まだ選べません。${hint}）` : ''}`);
+  if (hint) b.setAttribute('aria-disabled', 'true');
+  b.addEventListener('click', () => onPick(b));
+  return b;
+}
+
+function dropIn(els, delay = 0) {
+  if (reduced || S.fast) return;
+  els.forEach((el, i) => {
+    const t = +el.dataset.tilt, d = delay + 70 + i * 95;
+    el.animate(
+      [
+        { transform: `translateY(-34px) rotate(${t + 7}deg)`, opacity: 0 },
+        { transform: `translateY(3px) rotate(${t - 0.6}deg)`, opacity: 1, offset: 0.72 },
+        { transform: `rotate(${t}deg)`, opacity: 1 },
+      ],
+      { duration: 560, delay: d, easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'backwards' }
+    );
+    setTimeout(paperSnd, d + 330);
+  });
+}
+
+function cardsOf(b) {
+  if (b.back) return [{ t: '続ける', go: b.back }];
+  return (b.cards || []).filter((c) => test(c.show) && !(c.go && BEATS[c.go] && BEATS[c.go].back && S.used.has(c.go)));
+}
+
+function deal(list) {
+  cardsEl.textContent = '';
+  const els = list.map((c, i) => makeCard(i + 1, c.t, lockOf(c), (btn) => pickCard(c, btn)));
+  cardsEl.append(...els);
+  dropIn(els);
+  if (lastInput === 'key' && els[0]) els[0].focus({ preventScroll: true });
+  requestAnimationFrame(() => keepVisible(cardsEl.firstElementChild));
+}
+
+function nudge(btn, hint) {
+  if (!reduced) {
+    btn.classList.remove('shake');
+    void btn.offsetWidth;
+    btn.classList.add('shake');
+  }
+  say(hint);
+  thudSnd();
+}
+
+function collect(chosen) {
+  const els = Array.from(cardsEl.children);
+  if (reduced || S.fast || !els.length) { cardsEl.textContent = ''; return Promise.resolve(); }
+  const anims = els.map((el) => {
+    const t = +el.dataset.tilt;
+    return el === chosen
+      ? el.animate(
+          [
+            { transform: `rotate(${t}deg)`, opacity: 1 },
+            { transform: 'translateY(-8px) rotate(0deg) scale(1.03)', opacity: 1, offset: 0.3 },
+            { transform: 'translateY(26px) rotate(-2deg) scale(.97)', opacity: 0 },
+          ],
+          { duration: 460, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards' }
+        )
+      : el.animate([{ opacity: 1, transform: `rotate(${t}deg)` }, { opacity: 0, transform: `translateY(18px) rotate(${t}deg)` }], { duration: 260, easing: 'ease-in', fill: 'forwards' });
+  });
+  return Promise.all(anims.map((a) => a.finished.catch(() => {}))).then(() => { cardsEl.textContent = ''; });
+}
+
+function pickCard(c, btn) {
+  if (S.busy || S.picking) return;
+  const hint = lockOf(c);
+  if (hint) { nudge(btn, hint); return; }
+  S.picking = true;
+  if (c.go) S.used.add(c.go);
+  paperSnd();
+  collect(btn).then(() => {
+    S.picking = false;
+    if (c.cut) cut(c.cut, c.go);
+    else play(c.go);
+  });
+}
+
+function activeCards() {
+  if (verdictEl.classList.contains('on')) return $$('.card', verdictEl);
+  if (S.title) return $$('.card', tCards);
+  return $$('.card', cardsEl);
+}
+
+/* ================================================================
+ *  beats, scenes, transitions
+ * ================================================================ */
+async function play(id) {
+  const b = BEATS[id];
+  if (!b) return;
+  const token = ++S.token;
+  S.beat = id;
+  S.busy = true;
+  if (b.state) setState(b.state);
+  let lines = b.lines;
+  if (b.hub && S.seen.has(id)) {
+    const n = S.again[id] || 0;
+    lines = [b.again[n % b.again.length]];
+    S.again[id] = n + 1;
+  }
+  S.seen.add(id);
+  await clearNarr();
+  if (token !== S.token) return;
+  live.textContent = '';
+  for (const raw of lines) {
+    const L = typeof raw === 'string' ? { t: raw } : raw;
+    if (!test(L.if)) continue;
+    if (L.set) setState(L.set);
+    if (L.fx) sceneFx(L.fx);
+    await typeLine(L.t);
+    if (token !== S.token) return;
+    await pause(reduced || S.fast ? 0 : 260);
+    if (token !== S.token) return;
+  }
+  if (b.clue) record(b.clue);
+  S.busy = false;
+  if (b.end) { verdict(b.end); return; }
+  deal(cardsOf(b));
+}
+
+function setState(st) {
+  for (const [k, v] of Object.entries(st)) {
+    S.state[k] = v;
+    reel.dataset[k] = v;
+  }
+}
+
+function setWhere(no, title, time) {
+  $('#whereNo').textContent = no;
+  $('#whereTitle').textContent = title;
+  $('#whereTime').textContent = time || '';
+  $('#sceneTitle').textContent = `${no}　${title}`;
+}
+
+function setScene(id, state, card) {
+  const m = SCENES[id];
+  S.scene = id;
+  reel.dataset.scene = id;
+  S.state = {};
+  delete reel.dataset.nora;
+  delete reel.dataset.pier;
+  setState(Object.assign({}, m.state, state));
+  screenEl.setAttribute('aria-label', m.aria);
+  if (card) setWhere(card[0], card[1], card[2]);
+  else setWhere(m.no, m.title, m.time);
+  footage = 0;
+  mode = m.wx;
+  layout();
+  resetTimers();
+  mix(id);
+}
+
+function setTitle(on) {
+  S.title = on;
+  reel.classList.toggle('is-title', on);
+  where.classList.toggle('on', !on);
+  bRestart.setAttribute('aria-disabled', String(on));
+  if (on) $('#sceneTitle').textContent = 'タイトル';
+}
+
+function irisAt() {
+  const m = SCENES[S.scene].iris || [800, 450];
+  const x = screenEl.offsetLeft + MAP.ox + m[0] * MAP.s, y = screenEl.offsetTop + MAP.oy + m[1] * MAP.s;
+  return `${Math.round(x)}px ${Math.round(y)}px`;
+}
+
+function irisClose() {
+  if (reduced || S.fast || !reel.animate) {
+    reel.classList.add('shut');
+    return sleep(reduced ? 160 : 0);
+  }
+  const at = irisAt();
+  const a = reel.animate([{ clipPath: `circle(150% at ${at})` }, { clipPath: `circle(0% at ${at})` }], { duration: 900, easing: 'cubic-bezier(.55,0,.75,.45)', fill: 'forwards' });
+  return a.finished.then(
+    () => { reel.classList.add('shut'); a.cancel(); },
+    () => { reel.classList.add('shut'); }
+  );
+}
+
+function irisOpen() {
+  reel.classList.remove('shut');
+  if (reduced || S.fast || !reel.animate) return Promise.resolve();
+  const at = irisAt();
+  const a = reel.animate([{ clipPath: `circle(0% at ${at})` }, { clipPath: `circle(150% at ${at})` }], { duration: 1150, easing: 'cubic-bezier(.25,.6,.3,1)' });
+  return a.finished.catch(() => {});
+}
+
+let interSkip = null;
+function intertitle([no, title, time]) {
+  $('#interNo').textContent = no;
+  $('#interTitle').textContent = title;
+  $('#interTime').textContent = time || '';
+  say(`${no}　${title}${time ? '。' + time : ''}`);
+  inter.classList.add('on');
+  projector(true);
+  return new Promise((resolve) => {
+    let over = false;
+    const finish = () => {
+      if (over) return;
+      over = true;
+      clearTimeout(t);
+      interSkip = null;
+      inter.classList.remove('on');
+      projector(false);
+      setTimeout(resolve, reduced ? 0 : 420);
+    };
+    const t = setTimeout(finish, reduced ? 1500 : 2400);
+    interSkip = finish;
+  });
+}
+
+async function cut(spec, go) {
+  const token = ++S.token;
+  S.busy = true;
+  await irisClose();
+  if (token !== S.token) return;
+  narr.textContent = '';
+  cardsEl.textContent = '';
+  live.textContent = '';
+  story.scrollTop = 0;
+  if (S.title) setTitle(false);
+  const m = SCENES[spec.scene];
+  setScene(spec.scene, spec.state || {}, spec.card);
+  await intertitle(spec.card || [m.no, m.title, m.time]);
+  if (token !== S.token) return;
+  irisOpen();
+  await sleep(reduced ? 0 : 420);
+  if (token !== S.token) return;
+  play(go || m.start);
+}
+
+function start(withSound) {
+  if (!S.title || S.busy) return;
+  if (withSound) setSound(true);
+  cut({ scene: 'office', state: { nora: 'door' } }, 'o1');
+}
+
+function resetRun() {
+  S.flags.clear();
+  S.used.clear();
+  S.seen.clear();
+  S.found = [];
+  S.again = {};
+  S.ended = null;
+  S.picking = false;
+  S.filed = 0;
+  for (const c of Array.from(reel.classList)) if (c.startsWith('has-')) reel.classList.remove(c);
+  fileCount.textContent = '0';
+}
+
+async function restart() {
+  const token = ++S.token;
+  if (TW.run) TW.run.done(true);
+  if (pauseRes) pauseRes();
+  if (interSkip) interSkip();
+  if (fileDlg.open) closeFile(true);
+  S.busy = true;
+  verdictOff();
+  await irisClose();
+  if (token !== S.token) return;
+  resetRun();
+  narr.textContent = '';
+  cardsEl.textContent = '';
+  live.textContent = '';
+  setScene('office', { nora: 'door' });
+  setTitle(true);
+  renderTitle();
+  await irisOpen();
+  if (token !== S.token) return;
+  S.busy = false;
+  if (lastInput === 'key') { const c = $('.card', tCards); if (c) c.focus({ preventScroll: true }); }
+}
+
+/* two-step confirm for restarting in the middle of a case */
+function confirmable(btn, label, ask) {
+  let t = 0;
+  btn.addEventListener('click', () => {
+    if (S.title && !fileDlg.open) return;
+    if (S.ended || btn.classList.contains('confirm')) {
+      clearTimeout(t);
+      btn.classList.remove('confirm');
+      btn.textContent = label;
+      restart();
+      return;
+    }
+    btn.classList.add('confirm');
+    btn.textContent = ask;
+    say(`${ask}　もう一度押すと、最初からやり直します。`);
+    t = setTimeout(() => { btn.classList.remove('confirm'); btn.textContent = label; }, 3200);
+  });
+}
+
+/* ================================================================
+ *  clues, case file, toast
+ * ================================================================ */
+let toastT = 0;
+function record(id, quiet) {
+  if (S.flags.has(id)) return;
+  S.flags.add(id);
+  reel.classList.add('has-' + id);
+  if (!CLUES[id]) return;
+  S.found.push(id);
+  fileCount.textContent = String(S.found.length);
+  if (quiet) return;
+  const c = CLUES[id];
+  toast.innerHTML = `<span class="t-k">事件簿に記録</span><span class="t-n">No.${pad(S.found.length)}</span><span class="t-t">${esc(c.t)}</span>`;
+  toast.classList.remove('on');
+  void toast.offsetWidth;
+  toast.classList.add('on');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => toast.classList.remove('on'), 2900);
+  bFile.classList.remove('stamped');
+  void bFile.offsetWidth;
+  bFile.classList.add('stamped');
+  stampSnd(0.35);
+}
+
+const kissSvg = (label) => `<svg class="kiss" viewBox="0 0 120 72" role="img" aria-label="${label}"><use href="#y-kiss"/></svg>`;
+
+function renderFile() {
+  fileMeta.textContent = `${S.found.length}／${CLUE_TOTAL}`;
+  let h = '';
+  S.found.forEach((id, i) => {
+    const c = CLUES[id];
+    h += `<li class="ent${i >= S.filed ? ' new' : ''}"><span class="ent-no">${pad(i + 1)}</span><div><h3 class="ent-t">${esc(c.t)}</h3><p class="ent-d">${esc(c.d)}</p></div>${c.key ? kissSvg('決定的な証拠') : ''}</li>`;
+  });
+  for (let i = S.found.length; i < CLUE_TOTAL; i++) h += `<li class="ent blank" aria-hidden="true"><span class="ent-no">${pad(i + 1)}</span><span>—— 未記入 ——</span></li>`;
+  fileList.innerHTML = h;
+  S.filed = S.found.length;
+}
+
+let fileReturn = null;
+function openFile() {
+  if (fileDlg.open) return;
+  renderFile();
+  fileReturn = document.activeElement;
+  try { fileDlg.showModal(); } catch (e) { fileDlg.setAttribute('open', ''); }
+  if (!reduced) fileIn.animate([{ transform: 'translateX(104%)' }, { transform: 'none' }], { duration: 560, easing: 'cubic-bezier(.2,.85,.2,1)' });
+  drawerSnd();
+  $('#fileClose').focus({ preventScroll: true });
+}
+
+function closeFile(instant) {
+  if (!fileDlg.open || fileDlg.dataset.closing) return;
+  const fin = () => {
+    delete fileDlg.dataset.closing;
+    if (fileDlg.open) fileDlg.close();
+    if (fileReturn && fileReturn.isConnected) fileReturn.focus({ preventScroll: true });
+  };
+  if (reduced || instant === true) { fin(); return; }
+  fileDlg.dataset.closing = '1';
+  const a = fileIn.animate([{ transform: 'none' }, { transform: 'translateX(104%)' }], { duration: 340, easing: 'cubic-bezier(.5,0,.8,.4)', fill: 'forwards' });
+  a.finished.then(() => { fin(); a.cancel(); }, fin);
+}
+
+/* ================================================================
+ *  verdict & title
+ * ================================================================ */
+function stampSvg(E) {
+  const n = Array.from(E.stamp).length;
+  return `<svg class="stamp" viewBox="0 0 380 170" aria-hidden="true" focusable="false"><g filter="url(#f-ink)" fill="currentColor"><rect x="6" y="6" width="368" height="158" rx="12" fill="none" stroke="currentColor" stroke-width="7"/><rect x="19" y="19" width="342" height="132" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><text class="mn" x="190" y="106" font-size="80" font-weight="700" text-anchor="middle" textLength="${n * 64}" lengthAdjust="spacingAndGlyphs">${E.stamp}</text><text class="ty" x="190" y="140" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="7">${E.en}</text></g></svg>`;
+}
+
+function verdict(id) {
+  const E = ENDINGS[id];
+  S.ended = id;
+  const seen = store.get(END_KEY, []);
+  if (Array.isArray(seen) && !seen.includes(id)) { seen.push(id); store.set(END_KEY, seen); }
+  const nKeys = KEYS.filter((k) => S.flags.has(k)).length;
+  const kisses = KEYS.map((k) => (S.flags.has(k) ? kissSvg(CLUES[k].t) : '<span class="kiss-slot" aria-hidden="true"></span>')).join('');
+  verdictEl.innerHTML = `<article class="vcard${E.torn ? ' torn' : ''}" aria-labelledby="vTitle">
+    <p class="v-head"><span>E・クレイン探偵事務所</span><span>事件簿　最終頁</span></p>
+    <p class="v-kicker">結末</p>
+    <h2 class="v-title" id="vTitle"><span>${E.title}</span></h2>
+    <p class="v-note">${E.note}</p>
+    <dl class="v-stats"><dt>記録した手がかり</dt><dd>${S.found.length}／${CLUE_TOTAL}</dd><dt>決定的な証拠</dt><dd>${kisses}<span class="sr">${nKeys}／3</span></dd><dt>判定</dt><dd>${E.stamp}<span class="sr">（${E.en}）</span></dd></dl>
+    ${stampSvg(E)}
+    <div class="v-cards" role="group" aria-label="次の操作"></div>
+  </article>`;
+  const c1 = makeCard(1, '最初から', null, () => restart());
+  const c2 = makeCard(2, '事件簿を見る', null, () => openFile());
+  $('.v-cards', verdictEl).append(c1, c2);
+  verdictEl.classList.add('on');
+  say(`判定、${E.stamp}。結末「${E.title}」。`);
+  const card = $('.vcard', verdictEl), stamp = $('.stamp', verdictEl);
+  if (reduced || S.fast) {
+    if (lastInput === 'key') c1.focus({ preventScroll: true });
+    return;
+  }
+  card.animate([{ transform: 'translateY(40px) rotate(-4deg)', opacity: 0 }, { transform: 'rotate(-1.2deg)', opacity: 1 }], { duration: 760, delay: 250, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'backwards' });
+  stamp.animate(
+    [
+      { transform: 'scale(2.6) rotate(-18deg)', opacity: 0 },
+      { transform: 'scale(.94) rotate(-8deg)', opacity: 0.95, offset: 0.78 },
+      { transform: 'rotate(-9deg)', opacity: 0.9 },
+    ],
+    { duration: 340, delay: 1250, easing: 'cubic-bezier(.6,0,.9,.6)', fill: 'backwards' }
+  );
+  setTimeout(() => {
+    stampSnd(1);
+    card.animate([{ transform: 'rotate(-1.2deg)' }, { transform: 'rotate(-1.2deg) translate(2px,3px)' }, { transform: 'rotate(-1.2deg) translate(-1px,-1px)' }, { transform: 'rotate(-1.2deg)' }], { duration: 200 });
+  }, 1510);
+  dropIn([c1, c2], 1650);
+  setTimeout(() => { if (lastInput === 'key' && c1.isConnected) c1.focus({ preventScroll: true }); }, 2000);
+}
+
+function verdictOff() {
+  verdictEl.classList.remove('on');
+  setTimeout(() => { if (!verdictEl.classList.contains('on')) verdictEl.textContent = ''; }, 820);
+}
+
+function renderTitle() {
+  tCards.textContent = '';
+  const c1 = makeCard(1, 'ドアを開ける', null, () => start(false));
+  const c2 = makeCard(2, '音を入れて、ドアを開ける', null, () => start(true));
+  const help = document.createElement('p');
+  help.className = 't-help';
+  help.textContent = 'カードはクリックか 1〜4 キー。文字をクリックするか Space で、その行を一度に表示。事件簿は C、音は S。';
+  tCards.append(c1, c2, help);
+  const seen = store.get(END_KEY, []);
+  const got = Array.isArray(seen) ? seen : [];
+  tRec.innerHTML = '<span class="t-rec-l">これまでの判定</span>' + END_ORDER.map((k, i) => {
+    const E = ENDINGS[k], on = got.includes(k);
+    return `<span class="rec${on ? ' seen' : ''}" style="--r:${[-2.5, 1.6, -1][i]}deg">${on ? `<b>${E.stamp}</b><i>${E.title}</i>` : '<b aria-hidden="true">・・・</b><i>未見</i>'}</span>`;
+  }).join('');
+}
+
+/* ================================================================
+ *  audio — everything synthesized, off until the viewer asks
+ * ================================================================ */
+const AU = { ctx: null, on: false, master: null, rainG: null, rainLP: null, musG: null, musLP: null, sfx: null, noise: null, brown: null, timer: 0, next: 0, step: 0, lastKey: 0, proj: null };
+const BEAT = 60 / 94;
+/* a twelve-bar minor blues, walked in C */
+const WALK = [
+  36, 39, 43, 46, 48, 46, 43, 42, 41, 43, 39, 38, 36, 38, 39, 40,
+  41, 44, 48, 44, 41, 44, 46, 47, 48, 46, 43, 39, 36, 38, 39, 43,
+  44, 48, 51, 49, 43, 41, 38, 35, 36, 39, 43, 38, 43, 41, 38, 35,
+];
+const MIX = {
+  office: [0.55, 1400, 0.42, 380],
+  alley: [0.95, 7000, 0.5, 700],
+  club: [0.12, 700, 1, 3600],
+  dressing: [0.22, 900, 0.62, 1000],
+  pier: [0.38, 2600, 0.22, 300],
+};
+
+function auInit() {
+  if (AU.ctx) return true;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return false;
+  let c;
+  try { c = new AC(); } catch (e) { return false; }
+  AU.ctx = c;
+  const sr = c.sampleRate;
+  const white = c.createBuffer(1, sr * 2, sr), wd = white.getChannelData(0);
+  for (let i = 0; i < wd.length; i++) wd[i] = Math.random() * 2 - 1;
+  const brown = c.createBuffer(1, sr * 3, sr), bd = brown.getChannelData(0);
+  let last = 0;
+  for (let i = 0; i < bd.length; i++) { last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02; bd[i] = last * 3.5; }
+  AU.noise = white;
+  AU.brown = brown;
+
+  const master = (AU.master = c.createGain());
+  master.gain.value = 0.0001;
+  const comp = c.createDynamicsCompressor();
+  comp.threshold.value = -16;
+  comp.ratio.value = 3;
+  master.connect(comp);
+  comp.connect(c.destination);
+
+  AU.rainLP = c.createBiquadFilter();
+  AU.rainLP.type = 'lowpass';
+  AU.rainLP.frequency.value = 3000;
+  AU.rainG = c.createGain();
+  AU.rainG.gain.value = 0;
+  AU.rainLP.connect(AU.rainG);
+  AU.rainG.connect(master);
+  const hiss = loopSrc(white, 0), hp = c.createBiquadFilter(), hg = c.createGain();
+  hp.type = 'highpass'; hp.frequency.value = 600; hg.gain.value = 0.22;
+  hiss.connect(hp); hp.connect(hg); hg.connect(AU.rainLP);
+  const patter = loopSrc(white, 1), bp = c.createBiquadFilter(), pg = c.createGain(), lfo = c.createOscillator(), lfoG = c.createGain();
+  bp.type = 'bandpass'; bp.frequency.value = 2600; bp.Q.value = 0.8; pg.gain.value = 0.25;
+  lfo.frequency.value = 0.11; lfoG.gain.value = 0.12;
+  lfo.connect(lfoG); lfoG.connect(pg.gain); lfo.start();
+  patter.connect(bp); bp.connect(pg); pg.connect(AU.rainLP);
+  const rumble = loopSrc(brown, 0), rl = c.createBiquadFilter(), rg = c.createGain();
+  rl.type = 'lowpass'; rl.frequency.value = 150; rg.gain.value = 0.5;
+  rumble.connect(rl); rl.connect(rg); rg.connect(AU.rainG);
+
+  AU.musLP = c.createBiquadFilter();
+  AU.musLP.type = 'lowpass';
+  AU.musLP.frequency.value = 800;
+  AU.musLP.Q.value = 0.4;
+  AU.musG = c.createGain();
+  AU.musG.gain.value = 0;
+  AU.musLP.connect(AU.musG);
+  AU.musG.connect(master);
+  AU.sfx = c.createGain();
+  AU.sfx.gain.value = 0.9;
+  AU.sfx.connect(master);
+  return true;
+}
+function loopSrc(buf, off) {
+  const s = AU.ctx.createBufferSource();
+  s.buffer = buf;
+  s.loop = true;
+  s.start(0, off || 0);
+  return s;
+}
+function noiseAt(t, dur, buf) {
+  const b = buf || AU.noise, s = AU.ctx.createBufferSource();
+  s.buffer = b;
+  s.loop = true;
+  s.start(t, Math.random() * (b.duration - 0.1));
+  s.stop(t + dur + 0.03);
+  return s;
+}
+function env(g, t, a, peak, d) {
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(peak, t + a);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + a + d);
+}
+const audible = () => AU.on && AU.ctx && AU.ctx.state === 'running';
+
+function mix(scene) {
+  if (!AU.ctx) return;
+  const [rv, rf, mv, mf] = MIX[scene] || MIX.office, t = AU.ctx.currentTime;
+  AU.rainG.gain.setTargetAtTime(rv * 0.6, t, 0.8);
+  AU.rainLP.frequency.setTargetAtTime(rf, t, 0.8);
+  AU.musG.gain.setTargetAtTime(mv * 0.5, t, 0.8);
+  AU.musLP.frequency.setTargetAtTime(mf, t, 0.8);
+}
+
+function bass(t, midi, v) {
+  const c = AU.ctx, f = 440 * Math.pow(2, (midi - 69) / 12);
+  const o = c.createOscillator(), o2 = c.createOscillator(), lp = c.createBiquadFilter(), g = c.createGain();
+  o.type = 'triangle';
+  o2.type = 'sine';
+  o.frequency.setValueAtTime(f * 1.015, t);
+  o.frequency.exponentialRampToValueAtTime(f, t + 0.05);
+  o2.frequency.setValueAtTime(f, t);
+  lp.type = 'lowpass';
+  lp.Q.value = 2.5;
+  lp.frequency.setValueAtTime(1200, t);
+  lp.frequency.exponentialRampToValueAtTime(230, t + 0.28);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(v, t + 0.01);
+  g.gain.exponentialRampToValueAtTime(v * 0.38, t + 0.2);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+  o.connect(lp); o2.connect(lp); lp.connect(g); g.connect(AU.musLP);
+  o.start(t); o2.start(t); o.stop(t + 0.65); o2.stop(t + 0.65);
+  const s = noiseAt(t, 0.03), nl = c.createBiquadFilter(), ng = c.createGain();
+  nl.type = 'lowpass'; nl.frequency.value = 700;
+  env(ng, t, 0.002, v * 0.35, 0.03);
+  s.connect(nl); nl.connect(ng); ng.connect(AU.musLP);
+}
+function swish(t, d, v) {
+  const c = AU.ctx, s = noiseAt(t, d), bp = c.createBiquadFilter(), g = c.createGain();
+  bp.type = 'bandpass'; bp.frequency.value = 4200; bp.Q.value = 0.5;
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.linearRampToValueAtTime(v, t + d * 0.55);
+  g.gain.linearRampToValueAtTime(0.0001, t + d);
+  s.connect(bp); bp.connect(g); g.connect(AU.musLP);
+}
+function tap(t, v) {
+  const c = AU.ctx;
+  if (t < c.currentTime) return;
+  const s = noiseAt(t, 0.12), bp = c.createBiquadFilter(), g = c.createGain();
+  bp.type = 'bandpass'; bp.frequency.value = 2300; bp.Q.value = 0.7;
+  env(g, t, 0.003, v, 0.11);
+  s.connect(bp); bp.connect(g); g.connect(AU.musLP);
+}
+function playStep(n, t) {
+  const b = n % 4;
+  bass(t, WALK[n % WALK.length], b === 0 ? 0.55 : 0.42 + Math.random() * 0.06);
+  if (b === 3 && (n >> 2) % 2 === 1) bass(t + (BEAT * 2) / 3, WALK[(n + 1) % WALK.length] + (Math.random() < 0.5 ? 1 : -1), 0.16);
+  swish(t, BEAT * 0.95, 0.05 + (b % 2) * 0.02);
+  if (b === 1 || b === 3) { tap(t, 0.16); tap(t - BEAT / 3, 0.05); }
+}
+function sched() {
+  const c = AU.ctx;
+  if (!AU.on || !c || c.state !== 'running') return;
+  if (AU.next < c.currentTime + 0.02) AU.next = c.currentTime + 0.08;
+  while (AU.next < c.currentTime + 0.35) { playStep(AU.step, AU.next); AU.next += BEAT; AU.step++; }
+}
+
+function keySnd() {
+  if (!audible()) return;
+  const c = AU.ctx, t = c.currentTime;
+  if (t - AU.lastKey < 0.035) return;
+  AU.lastKey = t;
+  const s = noiseAt(t, 0.03), hp = c.createBiquadFilter(), g = c.createGain();
+  hp.type = 'highpass'; hp.frequency.value = 1800;
+  env(g, t, 0.002, 0.08 * rand(0.5, 1), 0.025);
+  s.connect(hp); hp.connect(g); g.connect(AU.sfx);
+  const o = c.createOscillator(), og = c.createGain();
+  o.frequency.value = rand(170, 220);
+  env(og, t, 0.002, 0.05, 0.035);
+  o.connect(og); og.connect(AU.sfx); o.start(t); o.stop(t + 0.05);
+}
+function bellSnd() {
+  if (!audible()) return;
+  const c = AU.ctx, t = c.currentTime + 0.02;
+  for (const [f, v] of [[2250, 0.04], [4510, 0.012], [6760, 0.005]]) {
+    const o = c.createOscillator(), g = c.createGain();
+    o.frequency.value = f;
+    env(g, t, 0.003, v, 1.3);
+    o.connect(g); g.connect(AU.sfx); o.start(t); o.stop(t + 1.4);
+  }
+}
+function paperSnd() {
+  if (!audible()) return;
+  const c = AU.ctx, t = c.currentTime, s = noiseAt(t, 0.1), lp = c.createBiquadFilter(), g = c.createGain();
+  lp.type = 'lowpass'; lp.frequency.value = 1500;
+  env(g, t, 0.004, 0.12, 0.08);
+  s.connect(lp); lp.connect(g); g.connect(AU.sfx);
+}
+function drawerSnd() {
+  if (!audible()) return;
+  const c = AU.ctx, t = c.currentTime, s = noiseAt(t, 0.45), bp = c.createBiquadFilter(), g = c.createGain();
+  bp.type = 'bandpass'; bp.frequency.setValueAtTime(500, t); bp.frequency.linearRampToValueAtTime(1100, t + 0.4); bp.Q.value = 0.9;
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.16, t + 0.12); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+  s.connect(bp); bp.connect(g); g.connect(AU.sfx);
+}
+function stampSnd(v) {
+  if (!audible()) return;
+  const c = AU.ctx, t = c.currentTime, o = c.createOscillator(), g = c.createGain();
+  o.frequency.setValueAtTime(120, t); o.frequency.exponentialRampToValueAtTime(40, t + 0.16);
+  env(g, t, 0.004, 0.5 * v, 0.18);
+  o.connect(g); g.connect(AU.sfx); o.start(t); o.stop(t + 0.25);
+  const s = noiseAt(t, 0.14), lp = c.createBiquadFilter(), ng = c.createGain();
+  lp.type = 'lowpass'; lp.frequency.value = 600;
+  env(ng, t, 0.002, 0.3 * v, 0.12);
+  s.connect(lp); lp.connect(ng); ng.connect(AU.sfx);
+}
+function thudSnd() {
+  if (!audible()) return;
+  const c = AU.ctx, t = c.currentTime, o = c.createOscillator(), g = c.createGain();
+  o.frequency.setValueAtTime(90, t); o.frequency.exponentialRampToValueAtTime(55, t + 0.1);
+  env(g, t, 0.004, 0.18, 0.12);
+  o.connect(g); g.connect(AU.sfx); o.start(t); o.stop(t + 0.2);
+}
+function knockSnd() {
+  if (!audible()) return;
+  const c = AU.ctx;
+  for (const d of [0.35, 0.68]) {
+    const t = c.currentTime + d, o = c.createOscillator(), g = c.createGain();
+    o.frequency.setValueAtTime(160, t); o.frequency.exponentialRampToValueAtTime(95, t + 0.08);
+    env(g, t, 0.003, 0.45, 0.11);
+    o.connect(g); g.connect(AU.sfx); o.start(t); o.stop(t + 0.18);
+    const s = noiseAt(t, 0.06), lp = c.createBiquadFilter(), ng = c.createGain();
+    lp.type = 'lowpass'; lp.frequency.value = 900;
+    env(ng, t, 0.002, 0.3, 0.05);
+    s.connect(lp); lp.connect(ng); ng.connect(AU.sfx);
+  }
+}
+function hornSnd() {
+  if (!audible()) return;
+  const c = AU.ctx, t = c.currentTime + 0.2, lp = c.createBiquadFilter(), g = c.createGain();
+  lp.type = 'lowpass'; lp.frequency.value = 520;
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(0.16, t + 0.5);
+  g.gain.setValueAtTime(0.16, t + 1.7);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 2.9);
+  lp.connect(g); g.connect(AU.sfx);
+  for (const f of [92, 138.5]) { const o = c.createOscillator(); o.type = 'sawtooth'; o.frequency.value = f; o.connect(lp); o.start(t); o.stop(t + 3); }
+}
+function thunderSnd(delay) {
+  if (!audible()) return;
+  const c = AU.ctx, t = c.currentTime + delay, s = noiseAt(t, 5, AU.brown), lp = c.createBiquadFilter(), g = c.createGain();
+  lp.type = 'lowpass';
+  lp.frequency.setValueAtTime(900, t);
+  lp.frequency.exponentialRampToValueAtTime(60, t + 3.5);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(S.scene === 'office' ? 0.5 : 0.85, t + 0.08);
+  g.gain.exponentialRampToValueAtTime(0.3, t + 0.8);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 4.8);
+  s.connect(lp); lp.connect(g); g.connect(AU.sfx);
+}
+function carSnd() {
+  if (!audible()) return;
+  const c = AU.ctx, t = c.currentTime, s = noiseAt(t, 2.8), bp = c.createBiquadFilter(), g = c.createGain();
+  bp.type = 'bandpass'; bp.Q.value = 0.7;
+  bp.frequency.setValueAtTime(600, t); bp.frequency.linearRampToValueAtTime(1300, t + 1.3); bp.frequency.linearRampToValueAtTime(500, t + 2.7);
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.07, t + 1.3); g.gain.exponentialRampToValueAtTime(0.0001, t + 2.8);
+  s.connect(bp); bp.connect(g); g.connect(AU.sfx);
+}
+function projector(on) {
+  if (!on) {
+    if (!AU.proj) return;
+    const p = AU.proj, t = AU.ctx.currentTime;
+    AU.proj = null;
+    p.g.gain.setTargetAtTime(0.0001, t, 0.12);
+    p.s.stop(t + 0.7);
+    p.lfo.stop(t + 0.7);
+    return;
+  }
+  if (!audible() || AU.proj) return;
+  const c = AU.ctx, t = c.currentTime, s = loopSrc(AU.noise, 0.3), bp = c.createBiquadFilter(), am = c.createGain(), lfo = c.createOscillator(), depth = c.createGain(), g = c.createGain();
+  bp.type = 'bandpass'; bp.frequency.value = 1500; bp.Q.value = 1.4;
+  am.gain.value = 0.03;
+  lfo.type = 'square'; lfo.frequency.value = 18; depth.gain.value = 0.03;
+  lfo.connect(depth); depth.connect(am.gain); lfo.start();
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(1, t + 0.25);
+  s.connect(bp); bp.connect(am); am.connect(g); g.connect(AU.sfx);
+  AU.proj = { s, lfo, g };
+}
+
+function setSound(on) {
+  if (on && !auInit()) { say('このブラウザでは音を鳴らせません。'); return; }
+  AU.on = on;
+  bSound.setAttribute('aria-pressed', String(on));
+  sndState.textContent = on ? '入' : '切';
+  bSound.classList.toggle('snd-on', on);
+  const c = AU.ctx;
+  if (!c) return;
+  const t = c.currentTime;
+  AU.master.gain.cancelScheduledValues(t);
+  clearInterval(AU.timer);
+  AU.timer = 0;
+  if (on) {
+    const go = () => {
+      if (!AU.on) return;
+      AU.master.gain.setTargetAtTime(0.85, c.currentTime, 0.3);
+      mix(S.scene);
+      AU.next = 0;
+      clearInterval(AU.timer);
+      AU.timer = setInterval(sched, 60);
+      sched();
+    };
+    c.resume().then(go, go);
+  } else {
+    projector(false);
+    AU.master.gain.setTargetAtTime(0.0001, t, 0.12);
+    setTimeout(() => { if (!AU.on && c.state === 'running') c.suspend(); }, 700);
+  }
+}
+
+/* ================================================================
+ *  the film: weather canvas, grain, flicker, gate weave, lamps
+ * ================================================================ */
+let W = 1, H = 1, DPR = 1, mode = 'window', footage = 0;
+const MAP = { s: 1, ox: 0, oy: 0 };
+const px = (x) => MAP.ox + x * MAP.s, py = (y) => MAP.oy + y * MAP.s;
+let drops = [], splashes = [], beads = [], runners = [], puffs = [], clip = null, gY = 0;
+
+const SPRITE = (() => {
+  const c = document.createElement('canvas');
+  c.width = c.height = 128;
+  const x = c.getContext('2d'), g = x.createRadialGradient(64, 64, 0, 64, 64, 64);
+  g.addColorStop(0, 'rgba(255,255,255,.9)');
+  g.addColorStop(0.5, 'rgba(255,255,255,.32)');
+  g.addColorStop(1, 'rgba(255,255,255,0)');
+  x.fillStyle = g;
+  x.fillRect(0, 0, 128, 128);
+  return c;
+})();
+
+function newDrop(anywhere) {
+  const bx = clip || { x: 0, y: 0, w: W, h: H };
+  const z = Math.random(), k = clip ? 0.6 : mode === 'fog' ? 0.8 : 1, s = Math.max(0.45, MAP.s);
+  return {
+    x: bx.x + (Math.random() * 1.2 - 0.15) * bx.w,
+    y: anywhere ? bx.y + Math.random() * bx.h : bx.y - Math.random() * 0.4 * bx.h - 10,
+    z, len: (10 + z * 32) * s * k, v: (500 + z * 1000) * s * k,
+    land: gY + Math.random() * Math.max(1, H - gY),
+  };
+}
+function newRunner(any) {
+  const s = Math.max(0.6, MAP.s);
+  return { x: clip.x + Math.random() * clip.w, y0: 0, y: clip.y + Math.random() * clip.h * (any ? 0.8 : 0.4), v: 0, r: (1.6 + Math.random() * 1.6) * s, wait: Math.random() * 4 };
+}
+function newPuff(any) {
+  const s = Math.max(0.5, MAP.s);
+  if (mode === 'fog') {
+    const r = (180 + Math.random() * 280) * s;
+    return { r, x: any ? -r + Math.random() * (W + 2 * r) : -r, y: H * (0.3 + Math.random() * 0.75), vx: (8 + Math.random() * 16) * s, vy: 0, gr: 0, a: 0.07 + Math.random() * 0.1, ph: Math.random() * 6, sq: 0.42 };
+  }
+  const r = (60 + Math.random() * 110) * s;
+  return { r, x: Math.random() * W, y: any ? H * (0.15 + Math.random() * 0.85) : H + r * 0.5, vx: (3 + Math.random() * 10) * s, vy: -(6 + Math.random() * 12) * s, gr: (2 + Math.random() * 6) * s, a: 0.06 + Math.random() * 0.06, ph: Math.random() * 6, sq: 0.7 };
+}
+
+function seed() {
+  drops = []; splashes = []; beads = []; runners = []; puffs = [];
+  clip = mode === 'window' ? { x: px(1010), y: py(130), w: 440 * MAP.s, h: 500 * MAP.s } : null;
+  gY = py(672);
+  const area = clip ? clip.w * clip.h : W * H;
+  const clampN = (v, a, b) => Math.round(Math.max(a, Math.min(b, v)));
+  const n = mode === 'rain' ? clampN(area / 2200, 140, 520) : mode === 'window' ? clampN(area / 1800, 50, 200) : mode === 'fog' ? clampN(area / 9000, 30, 120) : 0;
+  for (let i = 0; i < n; i++) drops.push(newDrop(true));
+  if (clip) {
+    const nb = Math.min(90, Math.round(area / 2200));
+    for (let i = 0; i < nb; i++) beads.push({ x: clip.x + Math.random() * clip.w, y: clip.y + Math.random() * clip.h, r: (0.8 + Math.random() * 2.2) * Math.max(0.6, MAP.s) });
+    for (let i = 0; i < 7; i++) runners.push(newRunner(true));
+  }
+  if (mode === 'smoke' || mode === 'fog') for (let i = 0; i < (mode === 'fog' ? 12 : 14); i++) puffs.push(newPuff(true));
+}
+
+function drawRain(dt) {
+  const bx = clip || { x: 0, y: 0, w: W, h: H };
+  const layers = [[], [], []];
+  for (const d of drops) {
+    d.y += d.v * dt;
+    d.x += d.v * 0.14 * dt;
+    if (mode === 'rain' && d.z > 0.55 && d.y > d.land) {
+      if (splashes.length < 140) splashes.push({ x: d.x, y: d.land, t: 0, r: (1.5 + d.z * 3.5) * Math.max(0.5, MAP.s) * 1.6 });
+      Object.assign(d, newDrop(false));
+      continue;
+    }
+    if (d.y - d.len > bx.y + bx.h) { Object.assign(d, newDrop(false)); continue; }
+    layers[d.z < 0.35 ? 0 : d.z < 0.7 ? 1 : 2].push(d);
+  }
+  const alpha = mode === 'fog' ? [0.08, 0.13, 0.19] : mode === 'window' ? [0.12, 0.2, 0.3] : [0.13, 0.22, 0.36];
+  const widths = [0.6, 0.9, 1.3], lw = Math.max(0.7, MAP.s);
+  wctx.lineCap = 'round';
+  for (let l = 0; l < 3; l++) {
+    wctx.strokeStyle = `rgba(225,225,225,${alpha[l]})`;
+    wctx.lineWidth = widths[l] * lw;
+    wctx.beginPath();
+    for (const d of layers[l]) { wctx.moveTo(d.x, d.y); wctx.lineTo(d.x - d.len * 0.14, d.y - d.len); }
+    wctx.stroke();
+  }
+}
+function drawSplashes(dt) {
+  wctx.lineWidth = Math.max(0.8, MAP.s * 0.9);
+  for (let i = splashes.length - 1; i >= 0; i--) {
+    const p = splashes[i];
+    p.t += dt;
+    const k = p.t / 0.3;
+    if (k >= 1) { splashes.splice(i, 1); continue; }
+    const rr = p.r * (0.4 + k * 1.6);
+    wctx.strokeStyle = `rgba(215,215,215,${(0.42 * (1 - k)).toFixed(3)})`;
+    wctx.beginPath();
+    wctx.ellipse(p.x, p.y, rr, rr * 0.32, 0, Math.PI, Math.PI * 2);
+    wctx.stroke();
+    const hop = p.r * 3.2 * k * (1 - k) * 4;
+    wctx.fillStyle = `rgba(225,225,225,${(0.5 * (1 - k)).toFixed(3)})`;
+    wctx.fillRect(p.x - p.r * k * 1.4, p.y - hop, 1.3, 1.3);
+    wctx.fillRect(p.x + p.r * k * 1.2, p.y - hop * 0.8, 1.3, 1.3);
+  }
+}
+function drawBeads(dt) {
+  wctx.fillStyle = 'rgba(210,210,210,.15)';
+  wctx.beginPath();
+  for (const b of beads) { wctx.moveTo(b.x + b.r, b.y); wctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); }
+  wctx.fill();
+  wctx.fillStyle = 'rgba(255,255,255,.4)';
+  wctx.beginPath();
+  for (const b of beads) wctx.rect(b.x - b.r * 0.35, b.y - b.r * 0.45, 1, 1);
+  wctx.fill();
+  for (const u of runners) {
+    if (u.wait > 0) {
+      u.wait -= dt;
+      if (u.wait <= 0) u.y0 = u.y;
+    } else {
+      u.v = Math.min(u.v + 90 * dt * MAP.s, 160 * MAP.s);
+      u.y += u.v * dt;
+      u.x += Math.sin(u.y * 0.07) * 0.15;
+    }
+    if (u.y > clip.y + clip.h + 6) { Object.assign(u, newRunner(false)); continue; }
+    if (u.wait <= 0 && u.y0) {
+      wctx.strokeStyle = 'rgba(210,210,210,.13)';
+      wctx.lineWidth = u.r * 0.7;
+      wctx.beginPath();
+      wctx.moveTo(u.x, u.y0);
+      wctx.lineTo(u.x, u.y);
+      wctx.stroke();
+    }
+    wctx.fillStyle = 'rgba(228,228,228,.3)';
+    wctx.beginPath();
+    wctx.arc(u.x, u.y, u.r, 0, Math.PI * 2);
+    wctx.fill();
+  }
+}
+function drawPuffs(dt) {
+  for (const p of puffs) {
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+    p.r += p.gr * dt;
+    p.ph += dt * 0.4;
+    if (p.x - p.r > W || p.y + p.r * p.sq < 0) Object.assign(p, newPuff(false));
+    wctx.globalAlpha = p.a * (0.75 + 0.25 * Math.sin(p.ph));
+    wctx.drawImage(SPRITE, p.x - p.r, p.y - p.r * p.sq, p.r * 2, p.r * 2 * p.sq);
+  }
+  wctx.globalAlpha = 1;
+}
+function drawWeather(dt) {
+  wctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  wctx.clearRect(0, 0, W, H);
+  if (mode === 'window') {
+    wctx.save();
+    wctx.beginPath();
+    wctx.rect(clip.x, clip.y, clip.w, clip.h);
+    wctx.clip();
+    drawRain(dt);
+    drawBeads(dt);
+    wctx.restore();
+  } else if (mode === 'rain') {
+    drawRain(dt);
+    drawSplashes(dt);
+  } else if (mode === 'smoke') {
+    drawPuffs(dt);
+  } else if (mode === 'fog') {
+    drawPuffs(dt);
+    drawRain(dt);
+  }
+}
+
+/* grain: four baked noise tiles, stepped at half the frame rate */
+const TILE = 160, pats = [];
+function bakeGrain() {
+  for (let k = 0; k < 4; k++) {
+    const c = document.createElement('canvas');
+    c.width = c.height = TILE;
+    const x = c.getContext('2d'), img = x.createImageData(TILE, TILE), d = img.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const v = (Math.random() + Math.random() + Math.random() - 1.5) * 1.6, w = v > 0;
+      d[i] = d[i + 1] = d[i + 2] = w ? 255 : 0;
+      d[i + 3] = Math.min(1, Math.abs(v)) * (w ? 20 : 30);
+    }
+    x.putImageData(img, 0, 0);
+    pats.push(gctx.createPattern(c, 'repeat'));
+  }
+}
+let scratches = [];
+function drawGrain(still) {
+  const w = grain.width / DPR, h = grain.height / DPR;
+  gctx.setTransform(1, 0, 0, 1, 0, 0);
+  gctx.clearRect(0, 0, grain.width, grain.height);
+  const ox = (Math.random() * TILE) | 0, oy = (Math.random() * TILE) | 0;
+  gctx.setTransform(DPR, 0, 0, DPR, ox * DPR, oy * DPR);
+  gctx.fillStyle = pats[(Math.random() * pats.length) | 0];
+  gctx.fillRect(-ox, -oy, w, h);
+  gctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  if (still) return;
+  if (Math.random() < 0.035) scratches.push({ x: Math.random() * w, life: (3 + Math.random() * 12) | 0, a: 0.1 + Math.random() * 0.25, lw: 0.5 + Math.random() * 0.9, c: Math.random() < 0.6 ? '255,255,255' : '0,0,0', dx: Math.random() * 1.2 - 0.6 });
+  for (const s of scratches) {
+    gctx.strokeStyle = `rgba(${s.c},${s.a})`;
+    gctx.lineWidth = s.lw;
+    gctx.beginPath();
+    gctx.moveTo(s.x, 0);
+    gctx.quadraticCurveTo(s.x + Math.random() * 4 - 2, h / 2, s.x + Math.random() * 6 - 3, h);
+    gctx.stroke();
+    s.x += s.dx;
+    s.life--;
+  }
+  scratches = scratches.filter((s) => s.life > 0);
+  if (Math.random() < 0.09) {
+    gctx.fillStyle = Math.random() < 0.55 ? 'rgba(0,0,0,.55)' : 'rgba(255,255,255,.35)';
+    gctx.beginPath();
+    gctx.arc(Math.random() * w, Math.random() * h, 0.6 + Math.random() * 1.8, 0, Math.PI * 2);
+    gctx.fill();
+  }
+  if (Math.random() < 0.006) {
+    const x = Math.random() * w, y = Math.random() * h;
+    gctx.strokeStyle = 'rgba(0,0,0,.45)';
+    gctx.lineWidth = 0.8;
+    gctx.beginPath();
+    gctx.moveTo(x, y);
+    gctx.bezierCurveTo(x + 14, y - 10, x + 6, y + 18, x + 22, y + 12);
+    gctx.stroke();
+  }
+}
+
+function layout() {
+  const r = screenEl.getBoundingClientRect();
+  W = Math.max(1, r.width);
+  H = Math.max(1, r.height);
+  DPR = Math.min(2, window.devicePixelRatio || 1);
+  wx.width = Math.round(W * DPR);
+  wx.height = Math.round(H * DPR);
+  MAP.s = Math.max(W / 1600, H / 900);
+  MAP.ox = (W - 1600 * MAP.s) / 2;
+  MAP.oy = (H - 900 * MAP.s) / 2;
+  const fr = frame.getBoundingClientRect();
+  grain.width = Math.max(1, Math.round(fr.width * DPR));
+  grain.height = Math.max(1, Math.round(fr.height * DPR));
+  seed();
+  if (reduced || !FX.raf) drawStill();
+}
+
+function drawStill() {
+  drawWeather(0);
+  drawGrain(true);
+  flick.style.opacity = '0.03';
+}
+
+const FX = { raf: 0, last: 0, frame: 0, weaveAt: 0, weaving: 0, sweepAt: 0, boltAt: 0 };
+const LAMP = { on: true, until: 0, burst: 0, shown: 1 };
+let lampEls = [], bulbs = [];
+const PX = { tx: 0, ty: 0, x: 0, y: 0 };
+
+function resetTimers() {
+  const now = performance.now();
+  FX.sweepAt = now + rand(3500, 8000);
+  FX.boltAt = now + rand(9000, 18000);
+  FX.weaveAt = now + rand(2000, 5000);
+}
+
+function lampTick(now) {
+  if (now < LAMP.until) return;
+  if (LAMP.burst > 0) {
+    LAMP.burst--;
+    LAMP.on = !LAMP.on;
+    LAMP.until = now + (LAMP.on ? rand(40, 150) : rand(30, 110));
+  } else {
+    LAMP.on = true;
+    LAMP.until = now + rand(1600, 6500);
+    LAMP.burst = Math.random() < 0.7 ? 2 * ((1 + Math.random() * 3) | 0) : 0;
+  }
+  const v = LAMP.on ? 1 : rand(0.22, 0.45);
+  if (v !== LAMP.shown) { LAMP.shown = v; for (const el of lampEls) el.style.opacity = v.toFixed(2); }
+}
+function bulbTick(now) {
+  for (const b of bulbs) {
+    if (!b.flaky || b.forced || now < b.until) continue;
+    b.on = !b.on;
+    b.until = now + (b.on ? rand(500, 5000) : rand(60, 700));
+    b.el.style.opacity = b.on ? '1' : '0.12';
+  }
+}
+
+function sceneFx(name) {
+  if (name === 'knock') knockSnd();
+  else if (name === 'horn') hornSnd();
+  if (reduced) return;
+  if (name === 'lamp') { LAMP.burst = 7; LAMP.until = 0; }
+  else if (name === 'bulb' || name === 'bulbs') {
+    const steady = bulbs.filter((b) => !b.flaky);
+    if (steady.length < 2) return;
+    const a = pick(steady), b = pick(steady.filter((x) => x !== a));
+    const out = name === 'bulb' ? [a] : [a, b];
+    out.forEach((x) => { x.forced = true; x.el.style.opacity = '0.1'; });
+    setTimeout(() => { a.el.style.opacity = '1'; a.forced = false; }, 900);
+    if (name === 'bulbs') setTimeout(() => { b.el.style.opacity = '1'; b.forced = false; }, 2800);
+  }
+}
+
+function loop(now) {
+  FX.raf = requestAnimationFrame(loop);
+  const dt = FX.last ? Math.min(0.05, (now - FX.last) / 1000) : 1 / 60;
+  FX.last = now;
+  FX.frame++;
+  drawWeather(dt);
+  if (FX.frame % 2 === 0) {
+    drawGrain(false);
+    flick.style.opacity = (0.02 + Math.random() * 0.05 + (Math.random() < 0.012 ? 0.14 : 0)).toFixed(3);
+  }
+  /* gate weave: a few frames of jitter every several seconds */
+  if (!FX.weaving && now > FX.weaveAt) FX.weaving = 5;
+  if (FX.weaving && FX.frame % 2 === 0) {
+    FX.weaving--;
+    reel.style.transform = FX.weaving ? `translate(${rand(-2.4, 2.4).toFixed(1)}px,${rand(-3.2, 3.2).toFixed(1)}px)` : '';
+    if (!FX.weaving) FX.weaveAt = now + rand(2800, 7200);
+  }
+  const m = SCENES[S.scene];
+  if (S.scene === 'office') lampTick(now);
+  if (S.scene === 'dressing') bulbTick(now);
+  if (m.sweep && now > FX.sweepAt) {
+    FX.sweepAt = now + rand(9000, 17000);
+    sweepEl.animate(
+      [
+        { transform: 'translateX(-120%) skewX(-18deg)', opacity: 0 },
+        { opacity: 0.95, offset: 0.25 },
+        { opacity: 0.95, offset: 0.7 },
+        { transform: 'translateX(175%) skewX(-18deg)', opacity: 0 },
+      ],
+      { duration: rand(2300, 3300), easing: 'cubic-bezier(.4,0,.6,1)' }
+    );
+    carSnd();
+  }
+  if (m.bolt && now > FX.boltAt) {
+    FX.boltAt = now + rand(24000, 50000);
+    flashEl.animate([{ opacity: 0 }, { opacity: 0.5, offset: 0.08 }, { opacity: 0.04, offset: 0.2 }, { opacity: 0.34, offset: 0.3 }, { opacity: 0 }], { duration: 720, easing: 'linear' });
+    thunderSnd(rand(0.9, 2.4));
+  }
+  /* a little parallax between the back plate and the foreground */
+  PX.x += (PX.tx - PX.x) * 0.06;
+  PX.y += (PX.ty - PX.y) * 0.06;
+  if (Math.abs(PX.tx - PX.x) > 0.001 || Math.abs(PX.ty - PX.y) > 0.001) {
+    const b = `translate3d(${(-PX.x * 4).toFixed(2)}px,${(-PX.y * 3).toFixed(2)}px,0)`;
+    backEl.style.transform = b;
+    wx.style.transform = b;
+    frontEl.style.transform = `translate3d(${(-PX.x * 11).toFixed(2)}px,${(-PX.y * 6).toFixed(2)}px,0) scale(1.02)`;
+  }
+  footage += dt * 24;
+  if (FX.frame % 12 === 0) edgeCode.textContent = `第${m.reel}巻　${String(Math.floor(footage / 16)).padStart(4, '0')}＋${pad(Math.floor(footage % 16))}`;
+}
+function startLoop() {
+  if (FX.raf || reduced || document.hidden) return;
+  FX.last = 0;
+  FX.raf = requestAnimationFrame(loop);
+}
+function stopLoop() {
+  cancelAnimationFrame(FX.raf);
+  FX.raf = 0;
+}
+
+/* ================================================================
+ *  wiring
+ * ================================================================ */
+function init() {
+  buildArt();
+  lampEls = $$('#f-office .lampglow');
+  bulbs = $$('#bulbs .bulb').map((el, i) => ({ el, flaky: [2, 9, 13, 18].includes(i), on: true, until: 0, forced: false }));
+  bakeGrain();
+  renderTitle();
+  setScene('office', { nora: 'door' });
+  setTitle(true);
+  startLoop();
+  if (!FX.raf) drawStill();
+
+  bFile.addEventListener('click', openFile);
+  bSound.addEventListener('click', () => setSound(!AU.on));
+  confirmable(bRestart, '最初から', '本当に最初から？');
+  confirmable($('#fileRestart'), '最初からやり直す', '本当に？もう一度押す');
+  $('#fileClose').addEventListener('click', () => closeFile());
+  fileDlg.addEventListener('cancel', (e) => { e.preventDefault(); closeFile(); });
+  fileDlg.addEventListener('close', () => { delete fileDlg.dataset.closing; });
+  fileDlg.addEventListener('click', (e) => { if (e.target === fileDlg) closeFile(); });
+  inter.addEventListener('click', () => { if (interSkip) interSkip(); });
+  story.addEventListener('click', (e) => { if (!e.target.closest('.card')) skip(); });
+  screenEl.addEventListener('click', skip);
+
+  document.addEventListener('pointerdown', () => { lastInput = 'pointer'; }, true);
+  film.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse' || reduced) return;
+    PX.tx = (e.clientX / window.innerWidth - 0.5) * 2;
+    PX.ty = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+  document.addEventListener('keydown', (e) => {
+    lastInput = 'key';
+    if (e.metaKey || e.ctrlKey || e.altKey || e.isComposing) return;
+    const k = e.key;
+    if (fileDlg.open) {
+      if (k === 'c' || k === 'C') { e.preventDefault(); closeFile(); }
+      return;
+    }
+    if (interSkip && inter.classList.contains('on')) {
+      if (k !== 'Tab' && k !== 'Shift') { e.preventDefault(); interSkip(); }
+      return;
+    }
+    if (k >= '1' && k <= '4') {
+      const c = activeCards()[+k - 1];
+      if (c) { e.preventDefault(); c.click(); }
+      return;
+    }
+    if (k === 'c' || k === 'C') { e.preventDefault(); openFile(); return; }
+    if (k === 's' || k === 'S') { e.preventDefault(); setSound(!AU.on); return; }
+    if ((k === ' ' || k === 'Enter') && !(e.target instanceof Element && e.target.closest('button, a, dialog'))) {
+      if (TW.run || pauseRes) { e.preventDefault(); skip(); }
+    }
+  });
+
+  let rq = 0;
+  const onResize = () => { cancelAnimationFrame(rq); rq = requestAnimationFrame(layout); };
+  if ('ResizeObserver' in window) new ResizeObserver(onResize).observe(frame);
+  window.addEventListener('resize', onResize);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopLoop();
+      if (AU.ctx && AU.on) { clearInterval(AU.timer); AU.timer = 0; AU.ctx.suspend(); }
+    } else {
+      startLoop();
+      if (AU.ctx && AU.on) setSound(true);
+    }
+  });
+  const onMotion = (e) => {
+    reduced = e.matches;
+    if (reduced) {
+      stopLoop();
+      reel.style.transform = '';
+      backEl.style.transform = wx.style.transform = frontEl.style.transform = '';
+      for (const el of lampEls) el.style.opacity = '1';
+      for (const b of bulbs) b.el.style.opacity = '1';
+      drawStill();
+    } else startLoop();
+  };
+  if (mq.addEventListener) mq.addEventListener('change', onMotion);
+  else if (mq.addListener) mq.addListener(onMotion);
+}
+
+/* hooks for cover shots and tests: NOIR.jump('c1', ['lipstick']) etc. */
+async function jump(id, clues = []) {
+  const b = BEATS[id];
+  if (!b) return;
+  ++S.token;
+  if (TW.run) TW.run.done(true);
+  if (pauseRes) pauseRes();
+  if (fileDlg.open) closeFile(true);
+  verdictEl.classList.remove('on');
+  verdictEl.textContent = '';
+  inter.classList.remove('on');
+  interSkip = null;
+  resetRun();
+  cardsEl.textContent = '';
+  clues.forEach((c) => record(c, true));
+  reel.classList.remove('shut');
+  setTitle(false);
+  setScene(b.sc, b.state || {});
+  S.fast = true;
+  try { await play(id); } finally { S.fast = false; }
+}
+window.NOIR = {
+  start: (withSound) => start(!!withSound),
+  jump,
+  end: (id, clues = []) => jump({ closed: 'e_closed', ferry: 'e_ferry2', cold: 'e_cold2' }[id], clues),
+  file: (open = true) => (open ? openFile() : closeFile(true)),
+  skip,
+};
+
+init();
+})();
+</script>
+</body>
+</html>
