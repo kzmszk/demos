@@ -1,0 +1,27 @@
+{
+  "format": "kinetic-manifesto@1",
+  "lang": "ja",
+  "meta": {
+    "title": "間 — 止まることの宣言",
+    "description": "動きと動きのあいだにある「間」についての六つの宣言。スクロールで再生するキネティック・タイポグラフィ。",
+    "slug": "ma-ja"
+  },
+  "palette": { "bg": "#ede7db", "fg": "#151311", "accent": "#c62d08" },
+  "intro": {
+    "word": "間",
+    "kicker": "止まることの宣言 — Ma, the Interval",
+    "sub": "動きと動きのあいだにあるもの。六つの宣言で、間を測ります。",
+    "ticker": "間 — Ma — The interval — スクロールで再生 — 6 + 1 scenes",
+    "slate": { "prod": "間 MA", "roll": "B", "take": "03", "date": "2026.09.25", "dir": "—" }
+  },
+  "scenes": [
+    { "type": "cascade", "text": "一拍おいて、すべてが動き出す。", "gloss": "One beat, then everything moves." },
+    { "type": "stretch", "text": "間は\n伸び\n縮みする。", "gloss": "The interval stretches and shrinks." },
+    { "type": "prism", "text": "待つ。\n溜める。\n放つ。", "gloss": "Wait. Hold. Release." },
+    { "type": "split", "text": "沈黙が", "insert": "次の音をつくる。", "gloss": "Silence makes the next sound." },
+    { "type": "type", "text": "{余白|よはく}は~~{空白|くうはく}~~{呼吸|こきゅう}である。", "gloss": "Margin is not emptiness. It is breath." },
+    { "type": "assemble", "text": "止まることも、\n動きのうち。", "gloss": "Stopping is part of moving." }
+  ],
+  "finale": { "text": "間を、つくれ。", "gloss": "Make room.", "portal": "auto", "replay": "最初から再生" },
+  "options": { "uppercase": true, "editable": true }
+}

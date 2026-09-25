@@ -1,0 +1,119 @@
+TITLE: MOVE — A Manifesto in Motion (JA/EN · editable template)
+FILE: 014-kinetic-manifesto.html
+TEMPLATE: kinetic/ (one engine + one JSON per page → standalone HTML; see kinetic/README.md)
+REVISION: v2 — Japanese support, copy editable in the browser, built for series production. v1 is kept at kinetic/prompts/014-kinetic-manifesto.original.txt
+
+=== PROMPT (exact prompt used) ===
+Design "MOVE — A Manifesto in Motion", a scroll-driven kinetic typography experience built as a reusable template. The design, the motion and the code are fixed; every word of copy, the order of the scenes and the three colours live in one JSON content object embedded in the page, so new manifestos can be produced in series without touching code and without losing quality. The page must work equally well with Japanese (lang "ja") and English (lang "en") content, including mixed Japanese/Latin lines.
+
+Visual system. Exactly three colours from content.palette: ground (default #0a0a0a), type (default #f1f1ec) and one accent (default acid #c6ff00). The page opens on a film-slate title card: the title word set huge and rising letter by letter, with the counter of one of its glyphs filled with the accent, above a row of hairline slate cells (PROD., ROLL, SCENE, TAKE, DATE, DIR.) and an accent ticker. Then come 3–9 statements (default seven). Each is a full-screen sticky scene whose motion is driven by scroll progress. Every scene except the last uses one of six motion types, chosen per scene in the content:
+- assemble: glyphs assemble from seeded scattered positions (translate, rotate, scale) with staggered quartic easing, over faint registration marks at their targets.
+- stretch: each line stretches with scaleX until the lines form a justified block against a measure rule, with live ×n readouts.
+- split: one line is cut at its measured ink centre by an accent blade, and the halves part to reveal an accent insert band that carries a second line.
+- cascade: glyphs rise from their baseline in perspective like dominoes standing up, with a damped overshoot and accent landing ticks.
+- prism: a solid 3D prism with two to four faces and one phrase per face turns with stepped hold-and-flip easing, face shading and a pointer-driven tilt.
+- type: the sentence is typed with an accent caret. It includes a mistake that is typed, struck through and backspaced. Japanese adds simulated IME input: kana are composed with an underline, then converted to kanji.
+The last scene is always the finale. The title word returns, and the camera zooms into the counter of one of its glyphs until the accent-filled counter becomes the background of the closing page ("YOUR MOVE." / 「君の番だ。」). The counter is found procedurally from the rendered glyph, so O, D, 0, 回, 口, 間 and so on all work. If the title has no enclosed counter, the zoom dives into the thickest stroke of a glyph painted in the accent.
+
+Typography. Use local system stacks only: a heavy condensed grotesque for Latin, a heavy gothic (W8–W9 class) for Japanese, and monospace for annotations such as scene numbers ("SC. 03 / 07"), "t = 0.600" and a running timecode. A string that contains Japanese uses the Japanese stack first, so the Latin inside it matches the gothic. A string with no Japanese uses the condensed Latin stack. All display type is fitted to the stage in JS from measured glyph advances, so layouts hold across fonts, languages and viewports. There is a progress rail at the side, which becomes a bottom bar on phones. With reduced motion, statements appear in their final state with simple fades.
+
+Content and editing. The page reads all of its content from <script type="application/json" id="k-content"> (schema below). An edit mode opens with the E key, #edit in the URL or the EDIT button in the header. It is a side panel with plain form fields for every item. It gives a live preview that re-fits as you type, per-scene "show" and "play" buttons, scene reordering, adding and removing, curated palette presets with contrast checks, and inline quality warnings. Edits autosave to guarded localStorage and are clearly marked as a local draft. "Save HTML" downloads a new standalone file with the edited content embedded, using the same engine and design. "Save JSON" and "Load" move content in and out, and loading also accepts a previously saved HTML file. Nobody should have to touch code to change copy.
+
+SHARED REQUIREMENTS (apply to every page in this 100-page collection; items 1–3 and 9 carry page-specific additions in [brackets]):
+1. One standalone HTML5 file. All CSS inline in <style>, all JavaScript inline in <script>. No external resources of any kind: no CDN, no libraries, no web fonts, no external images/SVG/audio files, no network requests. All visuals come from CSS, inline SVG, Canvas and procedural code. [The content is embedded in the same file as JSON; the edit mode re-exports the same file.]
+2. Valid HTML5: <!DOCTYPE html>, <html lang="…"> [set from content.lang: "ja" or "en"], <meta charset="utf-8">, a viewport meta tag, a meaningful <title> and meta description [both from content.meta], well-nested semantic markup, unique ids, labels/aria attributes for controls, <button type="button"> for actions.
+3. Typography from local system font stacks only, always ending in a generic family; display lettering may be drawn with SVG or Canvas. [Japanese: "Hiragino Sans", "Hiragino Kaku Gothic StdN", "Noto Sans CJK JP", "Noto Sans JP", "Source Han Sans JP", "BIZ UDPGothic", "Yu Gothic", Meiryo, sans-serif.]
+4. Responsive from 360px phones to large desktops with no horizontal page scroll; canvases match their container and devicePixelRatio (capped at 2) and re-layout on resize.
+5. Works offline by opening the file directly (file://); no console errors; storage access guarded with try/catch.
+6. Smooth motion via requestAnimationFrame and transform/opacity; animation pauses when the tab is hidden where it matters; honours prefers-reduced-motion with a calmer fallback.
+7. Pointer events so mouse and touch both work; visible :focus-visible styles; keyboard support where it makes sense.
+8. Any sound is synthesized with the Web Audio API, starts only after a user gesture, and has a visible mute/toggle.
+9. Premium finish: a deliberate palette and spacing, polished micro-interactions, a beautiful first frame before any interaction, and original copy (no lorem ipsum). Factual content must be accurate; fictional brands, people and data are clearly fictional. [Copy is written natively in the content language, not machine-translated; a gloss line may carry a translation.]
+10. Quality bar: visually impressive, bookmark-worthy, showcase-grade, premium, full of delightful details, and clearly distinct from the other 99 pages in concept, layout, palette, typography and motion.
+
+=== CONTENT MODEL (k-content JSON, format "kinetic-manifesto@1") ===
+{
+  "format":  "kinetic-manifesto@1",
+  "lang":    "ja" | "en",
+  "meta":    { "title": "<title>", "description": "<meta description>", "slug": "output file name" },
+  "palette": { "bg": "#0a0a0a", "fg": "#f1f1ec", "accent": "#c6ff00" },
+  "intro":   { "word": "title word (also the finale's zoom target)", "kicker": "line above the word",
+               "sub": "one-sentence introduction", "ticker": "ticker text",
+               "slate": { "prod": "", "roll": "", "take": "", "date": "", "dir": "" } },
+  "scenes":  [ { "type": "assemble | stretch | split | cascade | prism | type",
+                 "text": "the statement", "insert": "second line (split only)",
+                 "gloss": "optional translation or note" } ],
+  "finale":  { "text": "closing line", "gloss": "optional", "portal": "auto" | glyph index, "replay": "button label" },
+  "options": { "uppercase": true, "editable": true }
+}
+Text rules:
+- A newline in "text" is a hard line break. Without newlines the engine breaks lines itself: Latin at spaces, Japanese at phrase boundaries (see below). It picks the line count that gives the largest type for the current stage.
+- In stretch, every line is one stretched row. In prism, every line is one face.
+- In type, ~~word~~ marks the mistake that is typed, struck through and deleted. {漢字|かんじ} marks IME conversion: the kana are typed, then converted.
+- Missing fields fall back to defaults; UI labels (scroll cue, buttons) follow "lang".
+
+=== JAPANESE TYPOGRAPHY ===
+- Phrase-aware line breaking: word segments from Intl.Segmenter("ja") are merged into bunsetsu-like phrases, where particles, auxiliaries, okurigana, punctuation and small kana attach to the preceding word. The phrases are balanced across lines, and a phrase is never split. Kinsoku applies: no line starts with 、。」ー or small kana, and no line ends with 「（. There is a character-class fallback when Segmenter is missing.
+- Display lines use font-feature-settings "palt". Glyph advances are measured from the real text run (per-grapheme Range rects), so palt, kerning and punctuation trimming survive per-glyph animation.
+- Japanese display is set at weight 800 (W8) with line-height about 1.1. Latin display is set at weight 900, condensed, with line-height about 0.88 for caps. EN strings are uppercased when options.uppercase is set.
+- Monospace annotations stay Latin (SC., t =, TC). The gloss line lets a Japanese page carry an English translation, or the reverse.
+- Typing scenes simulate Japanese input honestly. Kana appear with a composition underline, the conversion flashes in the accent, and then the text is committed. Committed text is set as unbreakable phrase spans, so the growing sentence wraps only between phrases, whatever the browser's support for word-break: auto-phrase.
+
+=== MASS PRODUCTION & QUALITY GUARDRAILS ===
+- One engine, many content files. The build step (node build.mjs) validates each JSON and writes one standalone HTML per file, plus a contact-sheet index. The same validator runs live in the edit panel.
+- Recommended limits, counted in non-space characters (ja / en):
+  - title word 1–4 / 2–8, and it should contain a glyph with an enclosed counter
+  - assemble ≤18 / ≤32
+  - stretch 2–4 lines of ≤5 / ≤10
+  - split ≤10 / ≤16, with insert ≤16 / ≤28
+  - cascade ≤20 / ≤36
+  - prism 2–4 faces of ≤6 / ≤12
+  - type ≤30 / ≤48 visible, with at most one mistake
+  - closing line ≤10 / ≤16
+  - 3–9 scenes, with no two identical motion types in a row
+- Contrast: type on ground ≥ 7:1. Accent against ground ≥ 4.5:1, because ground-coloured type sits on the accent in the insert band and on the closing page (below 3:1 is an error).
+- Errors (empty text, broken markup, unknown type, invalid colour) stop the build. Warnings are reported.
+- Copy voice: short declarative statements, one idea each, written for the motion they get: fragments for assemble, measure and duration for stretch, cuts and turns for split, chains for cascade, looking and shifting for prism, revision for type.
+- Scatter seeds derive from the text, so every page and every rebuild is deterministic.
+- A writing brief for producing new content with an LLM is in kinetic/prompts/content-brief.md.
+
+=== DESCRIPTION ===
+MOVE is a scroll-played kinetic typography manifesto in three colours only, and it is a template: the same engine renders any manifesto written into its JSON, in Japanese or English. The default Japanese edition opens on a film-slate title card. A huge "MOVE" rises letter by letter, and the counter of its O is already filled with acid. Below it sit a row of hairline slate cells and an acid ticker. Seven sticky full-screen scenes follow, each with its own statement and its own scroll-driven motion:
+- 「すべては、欠片で届く。」 assembles from scattered, rotated glyphs.
+- 「時間は／素材／である。」 stretches each row with scaleX until the three rows form a justified block, with live ×n readouts.
+- 「つなぎ目こそ、」 is sliced by an acid blade, and its halves part to reveal 「本編だ。」 on an acid band.
+- 「ひとつの動きが、次を起こす。」 rises glyph by glyph like dominoes standing up.
+- 「もう一度／見る。／それから、／近づく。」 turns on a solid four-faced prism like a trivision billboard.
+- 「動くなら、意味を持て。」 is typed with a caret. The kana are composed and converted to kanji, and a typed 「飾れ」 is struck through and backspaced.
+- The finale zooms into the counter of the O until the acid becomes the background of the closing 「君の番だ。」 page.
+Monospace annotations (SC. 03 / 07, t = 0.600, a running timecode) frame everything like an editor's timeline. English glosses give the Japanese edition a second voice. An English edition and a second Japanese manifesto, 「間」 on a light ground with a vermilion accent, ship as samples of series production.
+
+=== MAJOR VISUAL TECHNIQUES ===
+- Sticky 100svh stages inside tall sections, with per-scene progress computed from cached section offsets and lightly smoothed toward the scroll target. Glyphs move with transform and opacity only.
+- A glyph-run measurer lays out each line as real text and reads per-grapheme Range rects, then rebuilds the line as inline-block glyphs with those exact advances. palt, kerning and yakumono trimming stay intact while every glyph animates independently.
+- Line fitting tries one to N lines of balanced phrases and keeps the layout that gives the largest type for the stage. Japanese phrases come from Intl.Segmenter word segments merged into bunsetsu-like units.
+- Procedural counter detection. The portal glyph is rendered to an offscreen canvas, the outside is flood-filled, enclosed components are labelled, and a two-pass chamfer distance transform finds the largest inscribed circle. That gives the zoom origin, the zoom scale needed to cover the viewport, and a dilated accent mask that sits under the glyph on the title card and in the finale.
+- The finale zoom is drawn on a DPR-aware canvas with glyphs as vector fillText under a log-space scale and a focus point that migrates to the centre, so it stays sharp at ×100 and more.
+- The assembly scene uses seeded scatter (translate, rotate, scale) per glyph, a shuffled arrival order with quartic easing, and fading registration crosses at the targets.
+- The stretch scene sets scaleX from measured natural widths so each row ends exactly at a hairline measure rule, with live ×n readouts.
+- The split scene takes two clip-path copies of the same line, cut at the ink centre measured with canvas actualBoundingBox metrics. An acid blade draws across, and an acid band is revealed with inset clipping.
+- The cascade scene rotates each glyph with rotateX about its measured baseline, using its own perspective and a damped overshoot, and acid landing ticks draw on a hairline floor.
+- The prism is an n-gon (two to four faces) in preserve-3d. The apothem comes from the face height, with stepped hold-and-flip easing, cosine face shading and a smoothed pointer tilt.
+- The typing scene uses an event timeline (type, compose, convert, commit, pause, strike, backspace) weighted by duration and mapped to scroll. It has a blinking accent caret when idle and live KEYS / DEL counters.
+- Outlined ghost scene numerals move with parallax. The title card carries a 12-column hairline grid and a CSS marquee ticker, and a timecode treats the scroll as a playhead.
+- On tall screens, a title word of four or more glyphs stacks into two rows (MO / VE) when that makes it at least 35% larger. The portal counter follows its glyph to the new row.
+- The palette is applied as CSS custom properties. Light or dark ground is detected from luminance, and color-scheme and theme-color follow it.
+
+=== INTERACTION MODEL ===
+- Scroll is the playhead: every scene plays forward and backward with the wheel, trackpad or touch.
+- The side progress rail (a bottom bar on phones) shows each scene's progress. Click a segment to jump to that scene, or hover to preview its statement.
+- Keys 1–9 jump to scenes, 0 returns to the top, M toggles motion and E toggles the editor. Native keyboard scrolling works throughout.
+- Pointer velocity skews the title word, which springs back. Pointer position tilts the prism.
+- The "Motion on/off" toggle, remembered in guarded localStorage, switches to a static reading mode. prefers-reduced-motion starts in that mode.
+- The closing page lists every statement as a button that jumps back to its scene, plus a "Replay from the top" button.
+- Edit mode:
+  - A side panel shrinks the stage, and the stage re-fits live. On phones the panel is full screen with a preview toggle.
+  - Focusing a scene card shows that scene in its final state. "Play" scrubs through it.
+  - Warnings appear inline.
+  - Drafts autosave locally and are marked DRAFT in the header.
+  - Save HTML / Save JSON / Load (JSON or HTML) / Revert. Dropping a file on the panel also loads it.

@@ -1,0 +1,102 @@
+<meta charset="utf-8">
+<title>RASTER ポスターマシン</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="css/style.css">
+
+<div class="app">
+  <main id="stage" class="stage" title="クリックで再構成">
+    <svg id="poster" role="img" aria-labelledby="poster-title" xmlns="http://www.w3.org/2000/svg"></svg>
+  </main>
+
+  <aside id="editor" class="editor" aria-labelledby="editor-title" hidden>
+    <div class="editor-head">
+      <h2 id="editor-title">掲載内容</h2>
+      <button type="button" id="editor-close" class="plain" aria-label="編集パネルを閉じる">閉じる</button>
+    </div>
+    <p id="editor-status" class="editor-status">サンプルを表示中。入力すると、どのエディションにも同じ内容が組まれます。</p>
+
+    <form id="copy" class="copy" autocomplete="off">
+      <fieldset>
+        <legend>タイトル</legend>
+        <label class="pair"><span>JA</span><input id="f-title-ja" data-path="title.ja"></label>
+        <label class="pair"><span>EN</span><input id="f-title-en" data-path="title.en" lang="en"></label>
+      </fieldset>
+      <fieldset>
+        <legend>日付</legend>
+        <div class="dates">
+          <label class="stack"><span>開始日</span><input id="f-start" type="date" data-path="dates.start"></label>
+          <label class="stack"><span>終了日（1日なら空欄）</span><input id="f-end" type="date" data-path="dates.end"></label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>時間</legend>
+        <label class="pair"><span>JA</span><input id="f-time-ja" data-path="time.ja"></label>
+        <label class="pair"><span>EN</span><input id="f-time-en" data-path="time.en" lang="en"></label>
+      </fieldset>
+      <fieldset>
+        <legend>会場</legend>
+        <label class="pair"><span>JA</span><input id="f-venue-ja" data-path="venue.ja"></label>
+        <label class="pair"><span>EN</span><input id="f-venue-en" data-path="venue.en" lang="en"></label>
+      </fieldset>
+      <fieldset>
+        <legend>料金</legend>
+        <label class="pair"><span>JA</span><input id="f-price-ja" data-path="price.ja"></label>
+        <label class="pair"><span>EN</span><input id="f-price-en" data-path="price.en" lang="en"></label>
+      </fieldset>
+      <fieldset>
+        <legend>主催</legend>
+        <label class="pair"><span>JA</span><input id="f-kicker-ja" data-path="kicker.ja"></label>
+      </fieldset>
+      <fieldset>
+        <legend>本文</legend>
+        <label class="pair"><span>JA</span><textarea id="f-body-ja" data-path="body.ja" rows="4"></textarea></label>
+        <label class="pair"><span>EN</span><textarea id="f-body-en" data-path="body.en" rows="4" lang="en"></textarea></label>
+      </fieldset>
+      <fieldset id="motif-words">
+        <legend>図像の文字</legend>
+        <div id="motif-fields" class="motif-fields"></div>
+      </fieldset>
+    </form>
+
+    <div class="editor-foot">
+      <button type="button" id="editor-reset" class="plain">サンプルに戻す</button>
+      <span class="note">内容はこのブラウザにだけ保存されます</span>
+    </div>
+  </aside>
+
+  <footer class="bar">
+    <div class="brand"><span class="square" aria-hidden="true"></span><strong>RASTER</strong><span class="sub">ポスターマシン</span></div>
+    <p class="hints" aria-hidden="true">
+      <kbd>Space</kbd> 再構成 <span class="dot">·</span> <kbd>←</kbd><kbd>→</kbd> 番号 <span class="dot">·</span>
+      <kbd>G</kbd> グリッド <span class="dot">·</span> <kbd>I</kbd> 反転 <span class="dot">·</span> <kbd>E</kbd> 編集 <span class="dot">·</span> <kbd>P</kbd> PNG
+    </p>
+    <div class="controls">
+      <label class="pick"><span>図像</span><select id="motif" aria-label="このモチーフになる次のエディションへ"></select></label>
+      <div class="edition" role="group" aria-label="エディション">
+        <button type="button" id="prev" class="plain arrow" aria-label="前のエディション">←</button>
+        <label for="edition">No.</label>
+        <input id="edition" type="text" inputmode="numeric" maxlength="4" autocomplete="off" spellcheck="false" aria-label="エディション番号（0000〜9999）" value="0417">
+        <button type="button" id="next" class="plain arrow" aria-label="次のエディション">→</button>
+      </div>
+      <div id="export" class="export" role="group" aria-label="書き出し" hidden>
+        <span>書き出し</span>
+        <button type="button" id="save-png" class="plain">PNG</button>
+        <button type="button" id="save-svg" class="plain">SVG</button>
+      </div>
+      <button type="button" id="grid" class="toggle" aria-pressed="false"><span class="box" aria-hidden="true"></span>グリッド</button>
+      <button type="button" id="invert" class="toggle" aria-pressed="false"><span class="box" aria-hidden="true"></span>反転</button>
+      <button type="button" id="edit" class="toggle" aria-pressed="false" aria-controls="editor"><span class="box" aria-hidden="true"></span>編集</button>
+    </div>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </footer>
+</div>
+
+<script src="js/core.js"></script>
+<script src="js/content.js"></script>
+<script src="js/motifs-a.js"></script>
+<script src="js/motifs-b.js"></script>
+<script src="js/compose.js"></script>
+<script src="js/export.js"></script>
+<script src="js/app.js"></script>

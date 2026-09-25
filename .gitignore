@@ -1,0 +1,5 @@
+node_modules/
+site/
+.wrangler/
+.dev.vars
+kinetic/dist/

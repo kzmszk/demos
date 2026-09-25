@@ -1,0 +1,27 @@
+{
+  "format": "kinetic-manifesto@1",
+  "lang": "en",
+  "meta": {
+    "title": "MOVE — A Manifesto in Motion",
+    "description": "Seven statements about motion, attention and design, played by scrolling. A kinetic typography manifesto in three colours.",
+    "slug": "move-en"
+  },
+  "palette": { "bg": "#0a0a0a", "fg": "#f1f1ec", "accent": "#c6ff00" },
+  "intro": {
+    "word": "MOVE",
+    "kicker": "A Manifesto in Motion",
+    "sub": "Seven statements about motion, attention and design. The scroll is the playhead.",
+    "ticker": "Scroll to play — 7 scenes — 3 colours — 0 images — set in system fonts",
+    "slate": { "prod": "MOVE", "roll": "A", "take": "01", "date": "2026.09.25", "dir": "—" }
+  },
+  "scenes": [
+    { "type": "assemble", "text": "Nothing arrives whole.", "gloss": "すべては、欠片で届く。" },
+    { "type": "stretch", "text": "Time\nis\nmaterial.", "gloss": "時間は素材である。" },
+    { "type": "split", "text": "Transitions", "insert": "are the content.", "gloss": "つなぎ目こそ、本編だ。" },
+    { "type": "cascade", "text": "Every move sets off the next.", "gloss": "ひとつの動きが、次を起こす。" },
+    { "type": "prism", "text": "Look\nagain.\nThen\ncloser.", "gloss": "もう一度見る。それから、近づく。" },
+    { "type": "type", "text": "If it moves, it must ~~decorate~~ mean something.", "gloss": "動くなら、意味を持て。" }
+  ],
+  "finale": { "text": "Your move.", "gloss": "君の番だ。", "portal": "auto", "replay": "Replay from the top" },
+  "options": { "uppercase": true, "editable": true }
+}

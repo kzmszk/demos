@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "demos",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8417", "--bind", "127.0.0.1", "--directory", "/home/kazu/work/demos"],
+      "port": 8417
+    },
+    {
+      "name": "demos-alt",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8418", "--bind", "127.0.0.1", "--directory", "/home/kazu/work/demos"],
+      "port": 8418
+    },
+    {
+      "name": "gallery",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["wrangler", "dev", "--port", "8787", "--ip", "127.0.0.1"],
+      "port": 8787
+    }
+  ]
+}

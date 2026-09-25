@@ -1,0 +1,48 @@
+{
+  "no": "003",
+  "title": "RASTER",
+  "subtitle": {
+    "ja": "スイス・ポスター・マシン",
+    "en": "Swiss Poster Machine"
+  },
+  "summary": {
+    "ja": "国際タイポグラフィ様式へのオマージュ。エディション番号をシードに、生きた12段グリッドの上でポスターを組み直し続ける。",
+    "en": "An homage to the International Typographic Style. Every edition number seeds a new poster, recomposed on a live 12-column grid."
+  },
+  "date": "2026-09-25",
+  "tags": [
+    "poster",
+    "grid",
+    "generative"
+  ],
+  "serve": ".",
+  "entry": "index.html",
+  "shots": [
+    {
+      "path": "index.html#0417"
+    },
+    {
+      "path": "index.html#5519"
+    },
+    {
+      "path": "index.html#1966"
+    },
+    {
+      "path": "index.html#2718"
+    },
+    {
+      "path": "index.html#0003"
+    },
+    {
+      "path": "index.html#8080"
+    },
+    {
+      "path": "index.html#0417",
+      "eval": "document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'g', bubbles: true }))"
+    },
+    {
+      "path": "index.html#3141",
+      "eval": "document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'i', bubbles: true }))"
+    }
+  ]
+}

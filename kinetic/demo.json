@@ -1,0 +1,78 @@
+{
+  "no": "014",
+  "title": "Kinetic Manifesto",
+  "subtitle": {
+    "ja": "動きのための宣言 — 日英テンプレート",
+    "en": "MOVE and 間, from one template"
+  },
+  "summary": {
+    "ja": "スクロールで再生するキネティック・タイポグラフィのテンプレート。原稿 JSON 1 枚から、日本語でも英語でも同じ品質のページを量産する。E キーでその場で編集。",
+    "en": "A scroll-played kinetic typography template. One JSON per page, Japanese or English, at the same quality — press E to edit in place."
+  },
+  "date": "2026-09-25",
+  "tags": [
+    "typography",
+    "scroll",
+    "template"
+  ],
+  "prebuild": "node build.mjs",
+  "serve": "dist",
+  "entry": "move-ja.html",
+  "links": [
+    {
+      "label": "日本語",
+      "href": "move-ja.html"
+    },
+    {
+      "label": "English",
+      "href": "move-en.html"
+    },
+    {
+      "label": "間",
+      "href": "ma-ja.html"
+    }
+  ],
+  "shots": [
+    {
+      "path": "move-ja.html",
+      "wait": 2600
+    },
+    {
+      "path": "move-ja.html",
+      "eval": "K.app.jump(0, 'start', { instant: true }); scrollBy(0, innerHeight * 0.7)"
+    },
+    {
+      "path": "move-en.html",
+      "eval": "K.app.jump(1, 'end', { instant: true })"
+    },
+    {
+      "path": "ma-ja.html",
+      "eval": "K.app.jump(2, 'start', { instant: true }); scrollBy(0, innerHeight * 0.95)"
+    },
+    {
+      "path": "move-ja.html",
+      "eval": "K.app.jump(2, 'end', { instant: true })"
+    },
+    {
+      "path": "ma-ja.html",
+      "eval": "K.app.jump(4, 'start', { instant: true }); scrollBy(0, innerHeight * 1.5)"
+    },
+    {
+      "path": "move-en.html",
+      "eval": "K.app.jump(3, 'start', { instant: true }); scrollBy(0, innerHeight * 1.0)"
+    },
+    {
+      "path": "move-ja.html",
+      "eval": "K.app.jump(6, 'start', { instant: true }); scrollBy(0, innerHeight * 1.25)"
+    },
+    {
+      "path": "ma-ja.html",
+      "wait": 2600
+    },
+    {
+      "path": "move-en.html",
+      "eval": "scrollTo(0, document.documentElement.scrollHeight)",
+      "after": 1600
+    }
+  ]
+}

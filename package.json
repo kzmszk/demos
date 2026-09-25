@@ -1,0 +1,15 @@
+{
+  "name": "demos",
+  "private": true,
+  "type": "module",
+  "description": "Web experiments gallery, served as static assets on Cloudflare Workers.",
+  "scripts": {
+    "build": "node gallery/build.mjs",
+    "shoot": "node gallery/shoot.mjs",
+    "dev": "node gallery/build.mjs && wrangler dev",
+    "deploy": "node gallery/build.mjs && wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.140.0"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "DEMOS",
+  "tagline": {
+    "ja": "ウェブの実験帳。動くもの、組むもの、読ませるもの。",
+    "en": "A running index of experiments for the web."
+  },
+  "description": "Web experiments — generative posters, kinetic typography and other small apps, each a single page.",
+  "lang": "ja"
+}
