@@ -1,0 +1,43 @@
+{
+  "no": "081",
+  "title": "SIGNAL/NOISE",
+  "subtitle": {
+    "ja": "架空のグリッチ・アーティスト k.oshiro の作品集",
+    "en": "The portfolio of k.oshiro, a fictional glitch artist"
+  },
+  "summary": {
+    "ja": "RGB に割れる見出し、ブラウザの中でいま生成される8点の作品、ノイズから自分を解読する略歴。ときどき画面が裂け、「安定化」ひとつですべてが鎮まる。日本語と英語に対応。",
+    "en": "A headline split into RGB, eight works generated live in the browser, and a biography that decodes itself out of noise. Now and then the screen tears; one Stabilize switch calms it all. Japanese and English."
+  },
+  "date": "2026-09-25",
+  "tags": [
+    "portfolio",
+    "glitch",
+    "canvas",
+    "svg-filter"
+  ],
+  "serve": ".",
+  "entry": "index.html",
+  "links": [
+    {
+      "label": "日本語",
+      "href": "index.html#ja"
+    },
+    {
+      "label": "English",
+      "href": "index.html#en"
+    }
+  ],
+  "shots": [
+    { "path": "index.html", "wait": 700, "eval": "SN.burst()", "after": 170 },
+    { "path": "index.html", "wait": 700, "eval": "SN.go('works'); SN.hot(4)", "after": 1600 },
+    { "path": "index.html", "wait": 700, "eval": "SN.open(4, 45)", "after": 1900 },
+    { "path": "index.html", "wait": 700, "eval": "SN.open(7, 25)", "after": 2200 },
+    { "path": "index.html", "wait": 700, "eval": "SN.go('about')", "after": 2700 },
+    { "path": "index.html", "wait": 700, "eval": "SN.go('shows')", "after": 700 },
+    { "path": "index.html", "wait": 900, "eval": "SN.go('works'); setTimeout(() => SN.tear(700), 300)", "after": 480 },
+    { "path": "index.html", "wait": 700, "eval": "SN.open(6, 30)", "after": 1700 },
+    { "path": "index.html#en", "wait": 700, "eval": "SN.go('contact')", "after": 700 },
+    { "path": "index.html#en", "wait": 700, "eval": "SN.stable(true)", "after": 700 }
+  ]
+}

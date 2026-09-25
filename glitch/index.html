@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SIGNAL/NOISE — 架空のグリッチ・アーティスト k.oshiro の作品集</title>
+<meta name="description" content="架空のグリッチ・アーティスト k.oshiro のポートフォリオ。RGB に割れる見出し、ブラウザの中でいま生成される8点の作品、ノイズから自分を解読する略歴。ときどき画面が裂けます。">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<style>
+:root {
+  --r: #ff0040; --g: #00ff9f; --b: #0070ff;
+  --dim: rgba(255, 255, 255, .58); --faint: rgba(255, 255, 255, .32); --hair: rgba(255, 255, 255, .2);
+  --side: 232px; --hdr: 46px; --pad: clamp(16px, 2.8vw, 44px);
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, "Cascadia Mono", Consolas, "DejaVu Sans Mono", "Liberation Mono", "BIZ UDGothic", "Noto Sans Mono CJK JP", "Noto Sans CJK JP", "Hiragino Sans", "MS Gothic", monospace;
+  --grot: "Helvetica Neue", Helvetica, "Nimbus Sans", "Arial Black", Arial, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic, "Noto Sans CJK JP", "Noto Sans JP", Meiryo, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { background: #000; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; }
+html.modal { overflow: hidden; }
+html:lang(ja) { line-break: strict; }
+:lang(ja) .sec-note, :lang(ja) .contact-sub, :lang(ja) .addr-note, :lang(ja) .v-desc, :lang(ja) .ftr p, :lang(ja) .work-sub, :lang(ja) .mf-text { word-break: auto-phrase; }
+.sec-note, .contact-sub, .addr-note { text-wrap: pretty; }
+body { margin: 0; background: #000; color: #fff; font: 400 13px/1.6 var(--mono); -webkit-font-smoothing: antialiased; overflow-wrap: break-word; }
+::selection { background: var(--r); color: #fff; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--g); outline-offset: 3px; }
+.sr { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+.defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.skip { position: fixed; left: 12px; top: 12px; z-index: 100; padding: 9px 14px; background: #fff; color: #000; text-decoration: none; transform: translateY(-200%); }
+.skip:focus { transform: none; }
+
+/* ---------- RGB jitter (stepped) ---------- */
+@keyframes rgbJit {
+  0% { text-shadow: -2px 0 var(--r), 2px 0 var(--b); }
+  20% { text-shadow: 1px 0 var(--r), -3px 0 var(--b); }
+  40% { text-shadow: -3px 1px var(--r), 2px -1px var(--b); }
+  60% { text-shadow: 2px 0 var(--r), -1px 0 var(--g); }
+  80% { text-shadow: -1px 0 var(--r), 3px 0 var(--b); }
+  100% { text-shadow: 0 0 transparent; }
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---------- hex dump sidebar ---------- */
+.hex { position: fixed; z-index: 30; left: 0; top: 0; bottom: 0; width: var(--side); display: flex; flex-direction: column; background: #000; border-right: 1px solid var(--hair); font: 10px/14px var(--mono); color: var(--faint); overflow: hidden; }
+.hex-head, .hex-foot { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 0 12px; color: var(--dim); letter-spacing: .04em; white-space: nowrap; }
+.hex-head { height: var(--hdr); border-bottom: 1px solid var(--hair); }
+.hex-head b { font-weight: 400; color: #fff; }
+.hex-foot { height: 38px; border-top: 1px solid var(--hair); font-variant-numeric: tabular-nums; }
+.hex-win { position: relative; flex: 1; min-height: 0; overflow: hidden; padding: 0 12px; }
+.hex-win::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: linear-gradient(rgba(0,0,0,0), #000); pointer-events: none; }
+.hex-feed { will-change: transform; }
+.hx { display: block; height: 14px; white-space: pre; }
+.hx i { font-style: normal; }
+.hx .ad { color: rgba(255, 255, 255, .2); }
+.hx .as { color: rgba(255, 255, 255, .52); }
+.hx .cr { color: var(--r); } .hx .cg { color: var(--g); } .hx .cb { color: var(--b); }
+.hx.inv { background: #fff; color: #000; }
+.hx.inv .ad, .hx.inv .as { color: #000; }
+
+#page { margin-left: var(--side); overflow-x: clip; }
+.tearing { filter: url(#tear); }
+
+/* ---------- header ---------- */
+.hdr { position: sticky; top: 0; z-index: 40; min-height: var(--hdr); display: flex; flex-wrap: wrap; align-items: center; gap: 0 clamp(12px, 2vw, 30px); padding: 0 var(--pad); background: #000; border-bottom: 1px solid var(--hair); font-size: 11px; letter-spacing: .05em; }
+.brand { display: flex; align-items: baseline; gap: 10px; text-decoration: none; white-space: nowrap; padding: 8px 0; }
+.brand b { font: 800 17px/1 var(--grot); letter-spacing: -.03em; }
+.brand span { color: var(--dim); font-size: 10px; }
+.brand:hover b { animation: rgbJit .34s steps(1) infinite; }
+.nav { display: flex; gap: clamp(12px, 1.8vw, 28px); margin-right: auto; }
+.nav a { display: inline-flex; gap: 6px; padding: 12px 0; text-decoration: none; white-space: nowrap; }
+.nav a i { font-style: normal; color: var(--faint); }
+.nav a span { padding-bottom: 2px; border-bottom: 1px solid transparent; transition: border-color .12s steps(2); }
+.nav a.on span { border-color: #fff; }
+.nav a:hover span { animation: rgbJit .34s steps(1) infinite; }
+.tele { display: flex; align-items: center; gap: 8px; white-space: nowrap; color: var(--dim); font-variant-numeric: tabular-nums; }
+.tele b { font-weight: 400; color: #fff; }
+#sig { min-width: 5.4ch; text-align: right; }
+.meter { display: inline-flex; gap: 2px; }
+.meter i { width: 3px; height: 10px; background: rgba(255, 255, 255, .16); }
+.meter i.on { background: #fff; }
+.meter i.lo { background: var(--r); }
+.lang { display: inline-flex; padding: 0; background: none; border: 1px solid var(--hair); cursor: pointer; letter-spacing: .06em; }
+.lang span { padding: 4px 7px; transition: background-color .1s steps(2), color .1s steps(2); }
+.lang span.on { background: #fff; color: #000; }
+.lang:hover { box-shadow: -2px 0 0 var(--r), 2px 0 0 var(--b); }
+.switch { display: inline-flex; align-items: center; gap: 9px; padding: 8px 0; background: none; border: 0; cursor: pointer; letter-spacing: .06em; white-space: nowrap; }
+.sw-track { position: relative; width: 30px; height: 14px; border: 1px solid #fff; }
+.sw-knob { position: absolute; top: 2px; left: 2px; width: 8px; height: 8px; background: #fff; box-shadow: -2px 0 0 var(--r), 2px 0 0 var(--b); transition: transform .14s steps(3); }
+.switch[aria-checked="true"] .sw-knob { transform: translateX(16px); background: var(--g); box-shadow: none; }
+.switch:hover .sw-track { box-shadow: -2px 0 0 var(--r), 2px 0 0 var(--b); }
+
+/* ---------- hero ---------- */
+.hero { position: relative; min-height: calc(100vh - var(--hdrH, 46px)); min-height: calc(100svh - var(--hdrH, 46px)); display: grid; grid-template-rows: auto 1fr auto; gap: 22px; padding: 18px var(--pad) 22px; }
+.hero-top, .hero-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; color: var(--dim); font-size: 11px; letter-spacing: .05em; }
+.hero-top b { font-weight: 400; color: #fff; }
+.hero-top span:nth-child(2), .hero-foot span:nth-child(2) { flex: 1; text-align: center; }
+.hero-foot { font-variant-numeric: tabular-nums; }
+.hero-foot .rec::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 7px; background: var(--r); animation: blink 1s steps(1) infinite; }
+.hl-wrap { position: relative; align-self: center; }
+.hl { margin: 0; cursor: crosshair; outline-offset: 10px; }
+.hl canvas { display: block; width: 100%; height: 120px; }
+.manifesto { position: absolute; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; margin: 0; font-size: 12.5px; line-height: 1.75; text-shadow: 0 0 4px #000, 0 0 2px #000; pointer-events: none; }
+.manifesto p { margin: 0; }
+.mf-label { color: var(--dim); font-size: 10.5px; letter-spacing: .1em; }
+.mf-label::before { content: ""; display: inline-block; width: 18px; height: 1px; margin-right: 8px; vertical-align: middle; background: var(--r); }
+.mf-text { white-space: pre-line; }
+.mf-sign { color: var(--dim); }
+.manifesto.below { position: static; max-width: 36em; margin-top: 26px; }
+
+/* ---------- stats ---------- */
+.stats { border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+.stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; }
+.stat { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 12px; padding: 24px var(--pad) 22px; border-left: 1px solid var(--hair); }
+.stat:first-child { border-left: 0; }
+.stat dt { color: var(--dim); font-size: 11px; letter-spacing: .04em; }
+.stat dd { margin: 0; font: 800 clamp(44px, 6vw, 96px)/.84 var(--grot); letter-spacing: -.055em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.stat dd small { margin-left: .06em; font-size: .38em; letter-spacing: -.02em; }
+.stat.hot dd { color: var(--r); }
+
+/* ---------- sections ---------- */
+.sec { padding: clamp(72px, 10vw, 150px) var(--pad); scroll-margin-top: var(--hdrH, 46px); }
+.sec-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 10px 24px; margin-bottom: clamp(28px, 4vw, 56px); padding-bottom: 16px; border-bottom: 1px solid var(--hair); }
+.sec-label { grid-column: 1 / -1; margin: 0; color: var(--dim); font-size: 11px; letter-spacing: .08em; }
+.sec-title { margin: 0 0 0 -.045em; font: 800 clamp(40px, calc((100vw - var(--side)) * .105), 150px)/.8 var(--grot); letter-spacing: -.055em; }
+.sec-title:hover { animation: rgbJit .34s steps(1) infinite; }
+.sec-note { max-width: 25em; margin: 0; color: var(--dim); font-size: 11.5px; text-align: right; }
+
+/* ---------- works ---------- */
+.works { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(30px, 3.4vw, 52px) clamp(14px, 1.6vw, 24px); margin: 0; padding: 0; list-style: none; }
+.work { position: relative; }
+.work-frame { position: relative; aspect-ratio: 4 / 3; background: #000; outline: 1px solid var(--hair); transition: box-shadow .16s steps(2), outline-color .16s steps(2); }
+.work canvas { display: block; width: 100%; height: 100%; image-rendering: crisp-edges; image-rendering: pixelated; }
+.work-tag { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 6px; padding: 3px 7px 3px 6px; background: #000; font-size: 9.5px; line-height: 1.4; letter-spacing: .08em; color: #fff; font-variant-numeric: tabular-nums; }
+.work-tag i { width: 5px; height: 5px; background: #fff; }
+.work.hot .work-tag i { animation: blink .5s steps(1) infinite; }
+.work.hot .work-frame { outline-color: #fff; box-shadow: -4px 0 0 var(--r), 4px 0 0 var(--b); }
+.work-meta { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: baseline; gap: 4px 12px; margin-top: 14px; }
+.work-no { color: var(--faint); font-size: 11px; }
+.work-title { margin: 0; font: 700 clamp(17px, 1.5vw, 21px)/1.1 var(--grot); letter-spacing: -.025em; }
+.work-open { padding: 0; background: none; border: 0; font: inherit; letter-spacing: inherit; text-align: left; cursor: pointer; }
+.work-open::after { content: ""; position: absolute; inset: -6px; z-index: 1; }
+.work-open:focus-visible { outline: none; }
+.work-open:focus-visible::after { outline: 2px solid var(--g); outline-offset: 2px; }
+.work-year { color: var(--dim); font-size: 11px; font-variant-numeric: tabular-nums; }
+.work-sub { grid-column: 2 / -1; color: var(--dim); font-size: 10.5px; line-height: 1.5; }
+.work.hot .work-title { animation: rgbJit .34s steps(1) infinite; }
+
+/* ---------- about ---------- */
+.about-grid { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); gap: clamp(36px, 6vw, 100px); align-items: start; }
+.decode { max-width: 64ch; min-height: 12em; margin: 0; font-size: clamp(14px, 1.15vw, 16.5px); line-height: 1.95; white-space: pre-line; }
+.decode i { font-style: normal; }
+.decode .s { color: var(--g); }
+.decode .u { background: #fff; color: #000; }
+.decode .c { color: var(--r); }
+.decode .h { color: transparent; }
+.facts { margin: 0; border-top: 1px solid #fff; font-size: 12px; }
+.facts div { display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--hair); }
+.facts dt { color: var(--dim); }
+.facts dd { margin: 0; }
+.facts div:last-child dd { color: var(--r); }
+
+/* ---------- exhibitions (inverted) ---------- */
+.inv { background: #fff; color: #000; --dim: rgba(0, 0, 0, .6); --faint: rgba(0, 0, 0, .38); --hair: rgba(0, 0, 0, .2); }
+.inv :focus-visible { outline-color: #000; }
+.ex-list { margin: 0; padding: 0; list-style: none; border-top: 2px solid #000; }
+.ex { display: grid; grid-template-columns: 5em minmax(0, 1.3fr) minmax(0, 1fr) 8em; align-items: baseline; gap: 6px 24px; margin: 0 -12px; padding: 20px 12px; border-bottom: 1px solid var(--hair); transition: background-color .12s steps(2), color .12s steps(2); }
+.ex:hover { background: #000; color: #fff; --dim: rgba(255, 255, 255, .6); }
+.ex-year { font: 800 clamp(22px, 2.2vw, 32px)/1 var(--grot); letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
+.ex-title { font: 700 clamp(20px, 2.6vw, 38px)/1.05 var(--grot); letter-spacing: -.035em; }
+.ex:hover .ex-title { animation: rgbJit .34s steps(1) infinite; }
+.ex-now { display: inline-block; margin-left: 12px; padding: 3px 6px 2px; background: var(--r); color: #fff; font: 10px/1.3 var(--mono); letter-spacing: .08em; vertical-align: .5em; }
+.ex-venue { font-size: 12px; line-height: 1.5; }
+.ex-venue span { display: block; color: var(--dim); }
+.ex-type { font-size: 11px; letter-spacing: .06em; text-align: right; }
+
+/* ---------- contact ---------- */
+.send { margin: 0 0 0 -.05em; font: 800 clamp(44px, calc((100vw - var(--side)) * .155), 260px)/.8 var(--grot); letter-spacing: -.065em; text-transform: lowercase; white-space: nowrap; }
+.send em { font-style: normal; color: var(--r); }
+.send:hover { animation: rgbJit .34s steps(1) infinite; }
+.contact-sub { max-width: 44em; margin: 34px 0 44px; color: var(--dim); font-size: 13px; }
+.addr-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 28px; padding: 22px 0; border-top: 1px solid #fff; border-bottom: 1px solid var(--hair); }
+.addr { font: 400 clamp(15px, 1.9vw, 24px)/1.4 var(--mono); overflow-wrap: anywhere; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 16px; background: #fff; color: #000; border: 0; border-radius: 0; font: 600 11.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; box-shadow: -3px 0 0 var(--r), 3px 0 0 var(--b); transition: box-shadow .1s steps(2), transform .1s steps(2); }
+.btn:hover { box-shadow: -6px 0 0 var(--r), 6px 0 0 var(--b); transform: translateX(1px); }
+.btn:active { box-shadow: none; transform: translateY(1px); }
+.btn.ghost { background: #000; color: #fff; outline: 1px solid #fff; outline-offset: -1px; box-shadow: none; }
+.btn.ghost:hover { box-shadow: -4px 0 0 var(--r), 4px 0 0 var(--b); }
+.btn.ghost:focus-visible { outline: 2px solid var(--g); outline-offset: 3px; }
+.copy-status { min-height: 1.6em; margin: 14px 0 0; color: var(--g); font-size: 12px; }
+.copy-status.err { color: var(--r); }
+.addr-note { max-width: 62ch; margin: 18px 0 0; color: var(--dim); font-size: 11px; }
+
+.ftr { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 40px; padding: 24px var(--pad) 30px; border-top: 1px solid var(--hair); color: var(--dim); font-size: 11px; }
+.ftr p { max-width: 72ch; margin: 0; }
+
+/* ---------- CRT, tears ---------- */
+.crt { position: fixed; inset: 0; z-index: 70; pointer-events: none; background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, .2) 2px, rgba(0, 0, 0, .2) 3px), radial-gradient(130% 95% at 50% 50%, rgba(0, 0, 0, 0) 58%, rgba(0, 0, 0, .5) 100%); }
+.crt::after { content: ""; position: absolute; inset: 0; background: #fff; opacity: 0; animation: flicker 5.3s steps(1, end) infinite; }
+@keyframes flicker { 0% { opacity: 0; } 7% { opacity: .035; } 8% { opacity: 0; } 33% { opacity: .02; } 34% { opacity: 0; } 35% { opacity: .045; } 36% { opacity: 0; } 71% { opacity: .025; } 72% { opacity: 0; } }
+.tear { position: fixed; inset: 0; z-index: 71; width: 100%; height: 100%; pointer-events: none; visibility: hidden; }
+.tear.on { visibility: visible; }
+
+/* ---------- viewer ---------- */
+.viewer { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: #000; color: #fff; overflow: hidden; }
+.viewer[open] { display: grid; grid-template-columns: minmax(0, 1fr) clamp(310px, 30vw, 440px); }
+.viewer::backdrop { background: #000; }
+.viewer::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, .22) 2px, rgba(0, 0, 0, .22) 3px); }
+.v-stage { position: relative; display: grid; place-items: center; min-height: 0; padding: clamp(18px, 4vw, 60px); border-right: 1px solid var(--hair); }
+.v-frame { position: relative; width: min(100%, calc((100vh - 2 * clamp(18px, 4vw, 60px) - 40px) * 4 / 3)); }
+.v-stage canvas { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; outline: 1px solid var(--hair); image-rendering: crisp-edges; image-rendering: pixelated; }
+.v-hud { position: absolute; left: 0; right: 0; bottom: 100%; display: flex; justify-content: space-between; margin: 0 0 10px; color: var(--dim); font-size: 10.5px; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+.v-hud span:first-child::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 7px; background: var(--r); animation: blink 1s steps(1) infinite; }
+.v-panel { display: flex; flex-direction: column; gap: 18px; min-height: 0; padding: 64px clamp(20px, 2.4vw, 38px) 28px; overflow-y: auto; }
+.v-count { margin: 0; color: var(--dim); font-size: 11px; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+.v-title { margin: 0; font: 800 clamp(34px, 3.5vw, 58px)/.9 var(--grot); letter-spacing: -.045em; }
+.v-sub { margin: -6px 0 0; color: var(--dim); font-size: 12px; }
+.v-desc { margin: 0; font-size: 13px; line-height: 1.85; }
+.v-spec { margin: 0; border-top: 1px solid var(--hair); font-size: 11.5px; }
+.v-spec div { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--hair); }
+.v-spec dt { color: var(--dim); }
+.v-spec dd { margin: 0; }
+.v-ctl { padding: 14px 0 4px; }
+.v-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 11px; letter-spacing: .08em; }
+.v-row output { font: 800 30px/1 var(--grot); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.v-ends { margin-top: 4px; color: var(--dim); font-size: 10px; }
+.range { --p: 35%; display: block; width: 100%; height: 26px; margin: 8px 0 0; background: transparent; cursor: pointer; -webkit-appearance: none; appearance: none; }
+.range::-webkit-slider-runnable-track { height: 2px; background: linear-gradient(90deg, #fff var(--p), rgba(255, 255, 255, .22) var(--p)); }
+.range::-webkit-slider-thumb { width: 14px; height: 14px; margin-top: -6px; background: #fff; border: 0; border-radius: 0; box-shadow: -3px 0 0 var(--r), 3px 0 0 var(--b); -webkit-appearance: none; appearance: none; }
+.range::-moz-range-track { height: 2px; background: rgba(255, 255, 255, .22); }
+.range::-moz-range-progress { height: 2px; background: #fff; }
+.range::-moz-range-thumb { width: 14px; height: 14px; background: #fff; border: 0; border-radius: 0; box-shadow: -3px 0 0 var(--r), 3px 0 0 var(--b); }
+.range:focus-visible { outline: 2px solid var(--g); outline-offset: 4px; }
+.v-nav { display: flex; gap: 14px; margin-top: auto; padding-top: 8px; }
+.v-nav .btn { flex: 1; justify-content: center; }
+.v-keys { margin: 0; color: var(--faint); font-size: 10.5px; }
+.v-close { position: absolute; top: 12px; right: 12px; z-index: 2; width: 40px; height: 40px; padding: 0; background: #000; border: 1px solid #fff; font: 400 22px/1 var(--mono); cursor: pointer; }
+.v-close:hover { box-shadow: -3px 0 0 var(--r), 3px 0 0 var(--b); }
+
+/* ---------- stabilized ---------- */
+.stable .crt::after { animation: none; opacity: 0; }
+.stable .rec::before, .stable .v-hud span:first-child::before, .stable .work.hot .work-tag i { animation: none; }
+.stable .work.hot .work-title, .stable .nav a:hover span, .stable .sec-title:hover, .stable .send:hover, .stable .ex:hover .ex-title, .stable .brand:hover b { animation: none; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1180px) {
+  :root { --side: 188px; }
+  .works { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .frmg { display: none; }
+}
+@media (max-width: 900px) {
+  .brand span { display: none; }
+  .hero-top span:nth-child(2), .hero-foot span:nth-child(2) { display: none; }
+  .about-grid { grid-template-columns: minmax(0, 1fr); }
+  .ex { grid-template-columns: 4.2em minmax(0, 1fr) auto; }
+  .ex-venue { grid-column: 2 / 3; }
+  .ex-type { grid-column: 3; grid-row: 1; }
+}
+@media (max-width: 820px) {
+  .viewer[open] { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; overflow-y: auto; }
+  .v-stage { padding: 88px 16px 16px; border-right: 0; border-bottom: 1px solid var(--hair); }
+  .v-frame { width: 100%; }
+  .v-panel { padding: 22px 16px 28px; overflow: visible; }
+}
+@media (max-width: 720px) {
+  :root { --side: 0px; }
+  .hex { position: relative; z-index: auto; width: auto; height: auto; border-right: 0; border-bottom: 1px solid var(--hair); font-size: 9px; line-height: 13px; }
+  .hx { height: 13px; }
+  .hex-head, .hex-foot { display: none; }
+  .hex-win { flex: none; height: 39px; margin: 6px 0 5px; padding: 0 var(--pad); }
+  .hex-win::after { display: none; }
+  .hdr { padding-top: 4px; }
+  .brand { margin-right: auto; }
+  .nav { order: 5; width: 100%; margin: 0; justify-content: space-between; border-top: 1px solid var(--hair); }
+  .nav a { padding: 9px 0; }
+  .nav a i { display: none; }
+  .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat:nth-child(3) { border-left: 0; }
+  .stat:nth-child(n+3) { border-top: 1px solid var(--hair); }
+  .sec-head { grid-template-columns: minmax(0, 1fr); }
+  .sec-note { text-align: left; }
+  .hero { min-height: 0; gap: 40px; padding-top: 22px; padding-bottom: 26px; }
+}
+@media (max-width: 560px) {
+  .works { grid-template-columns: minmax(0, 1fr); }
+  .tele .meter { display: none; }
+  .ex { grid-template-columns: minmax(0, 1fr) auto; margin: 0; padding: 18px 0; }
+  .ex:hover { margin: 0 -12px; padding: 18px 12px; }
+  .ex-year { grid-column: 1; grid-row: 1; font-size: 20px; }
+  .ex-type { grid-column: 2; grid-row: 1; }
+  .ex-title, .ex-venue { grid-column: 1 / -1; }
+  .addr-row .btn { width: 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <filter id="tear" x="-5%" y="0" width="110%" height="100%" color-interpolation-filters="sRGB">
+    <feTurbulence id="tearT" type="fractalNoise" baseFrequency="0.00001 0.03" numOctaves="1" seed="3" result="n"/>
+    <feComponentTransfer in="n" result="bands">
+      <feFuncR id="tearR" type="discrete" tableValues="0.5 0.5 0.9 0.5 0.5 0.2 0.5 0.5 0.7 0.5"/>
+      <feFuncG type="linear" slope="0" intercept="0.5"/>
+      <feFuncB type="linear" slope="0" intercept="0"/>
+      <feFuncA type="linear" slope="0" intercept="1"/>
+    </feComponentTransfer>
+    <feDisplacementMap id="tearD" in="SourceGraphic" in2="bands" scale="90" xChannelSelector="R" yChannelSelector="G" result="d"/>
+    <feColorMatrix in="d" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red"/>
+    <feOffset id="tearO" in="red" dx="8" dy="0" result="redS"/>
+    <feBlend in="d" in2="redS" mode="screen"/>
+  </filter>
+</svg>
+<a class="skip" href="#works" data-t="skip">作品へ移動</a>
+
+<aside class="hex" id="hex" aria-hidden="true">
+  <div class="hex-head"><span>hexdump <b>/dev/ksig0</b></span><span id="hexAddr">0x0000</span></div>
+  <div class="hex-win" id="hexWin"><div class="hex-feed" id="hexFeed"></div></div>
+  <div class="hex-foot"><span id="hexRate">RD 0.0 KB/s</span><span id="hexErr">ERR 0.0%</span></div>
+</aside>
+
+<div id="page">
+  <header class="hdr" id="hdr">
+    <a class="brand" href="#top" id="brand" aria-label="SIGNAL/NOISE — ページの先頭へ"><b>k.oshiro</b><span>SIGNAL/NOISE</span></a>
+    <nav class="nav" id="nav" aria-label="セクション">
+      <a href="#works"><i>01</i><span>作品</span></a>
+      <a href="#about"><i>02</i><span>略歴</span></a>
+      <a href="#shows"><i>03</i><span>展示</span></a>
+      <a href="#contact"><i>04</i><span>連絡</span></a>
+    </nav>
+    <div class="tele" aria-hidden="true">
+      <span>SIG</span><span class="meter" id="meter"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b id="sig">97.0%</b>
+      <span class="frmg">FRM</span><b class="frmg" id="frm">000000</b>
+    </div>
+    <button type="button" class="lang" id="langBtn" aria-label="英語に切り替える（Switch to English）"><span class="on">JA</span><span>EN</span></button>
+    <button type="button" class="switch" id="stab" role="switch" aria-checked="false"><span class="sw-track" aria-hidden="true"><span class="sw-knob"></span></span><span data-t="stab">安定化</span></button>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hlTitle">
+      <p class="hero-top"><b>k.oshiro</b><span data-t="heroM">架空のグリッチ・アーティスト／東京</span><span data-t="heroR">作品 2014—2026</span></p>
+      <div class="hl-wrap" id="hlWrap">
+        <h1 class="hl" id="hlTitle" tabindex="0"><span class="sr">SIGNAL/NOISE</span><canvas id="hlCv" aria-hidden="true"></canvas></h1>
+        <div class="manifesto" id="manifesto">
+          <p class="mf-label" data-t="mfLabel">宣言</p>
+          <p class="mf-text" id="mfText"></p>
+          <p class="mf-sign">— k.o.</p>
+        </div>
+      </div>
+      <p class="hero-foot"><span data-t="footL">↓ 8つの作品が、いま生成されている</span><span data-t="hint">タイトルに触れると、信号が途切れる</span><span class="rec" id="tc" aria-hidden="true">TC 00:00:00:00</span></p>
+    </section>
+
+    <section class="stats" id="stats" aria-label="数字で見る k.oshiro">
+      <dl class="stat-grid" id="statGrid"></dl>
+    </section>
+
+    <section class="sec" id="works" aria-labelledby="worksH">
+      <div class="sec-head">
+        <p class="sec-label" data-t="worksLabel">01 — 作品</p>
+        <h2 class="sec-title" id="worksH">Works</h2>
+        <p class="sec-note" data-t="worksNote"></p>
+      </div>
+      <ol class="works" id="worksList"></ol>
+    </section>
+
+    <section class="sec" id="about" aria-labelledby="aboutH">
+      <div class="sec-head">
+        <p class="sec-label" data-t="aboutLabel">02 — 略歴</p>
+        <h2 class="sec-title" id="aboutH">About</h2>
+        <p class="sec-note" data-t="aboutNote"></p>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p class="sr" id="aboutPlain"></p>
+          <p class="decode" id="decode" aria-hidden="true"></p>
+        </div>
+        <dl class="facts" id="facts"></dl>
+      </div>
+    </section>
+
+    <section class="sec inv" id="shows" aria-labelledby="showsH">
+      <div class="sec-head">
+        <p class="sec-label" data-t="showsLabel">03 — 展示</p>
+        <h2 class="sec-title" id="showsH">Exhibitions</h2>
+        <p class="sec-note" data-t="showsNote"></p>
+      </div>
+      <ol class="ex-list" id="exList"></ol>
+    </section>
+
+    <section class="sec" id="contact" aria-labelledby="contactH">
+      <div class="sec-head">
+        <p class="sec-label" data-t="contactLabel">04 — 連絡</p>
+      </div>
+      <h2 class="send" id="contactH">send noise<em>.</em></h2>
+      <p class="contact-sub" data-t="contactSub"></p>
+      <div class="addr-row">
+        <code class="addr" id="addr">k.oshiro [at] signal-noise [dot] invalid</code>
+        <button type="button" class="btn" id="copyBtn"><span aria-hidden="true">⧉</span><span data-t="copy">アドレスをコピー</span></button>
+      </div>
+      <p class="copy-status" id="copyStatus" role="status" aria-live="polite"></p>
+      <p class="addr-note" data-t="addrNote"></p>
+    </section>
+  </main>
+
+  <footer class="ftr">
+    <p data-t="foot1"></p>
+    <p><span data-t="foot2"></span> · No. 081</p>
+  </footer>
+</div>
+
+<div class="crt" aria-hidden="true"></div>
+<canvas class="tear" id="tearCv" aria-hidden="true"></canvas>
+
+<dialog class="viewer" id="viewer" aria-labelledby="vTitle" aria-describedby="vDesc">
+  <div class="v-stage">
+    <div class="v-frame">
+      <p class="v-hud" aria-hidden="true"><span id="vHudL">LIVE 384×288</span><span id="vHudR">C 035</span></p>
+      <canvas id="vCv" width="384" height="288" role="img" aria-label=""></canvas>
+    </div>
+  </div>
+  <div class="v-panel">
+    <p class="v-count"><span id="vNo">01</span> / 08</p>
+    <h2 class="v-title" id="vTitle">Dawn Buffer</h2>
+    <p class="v-sub" id="vSub"></p>
+    <p class="v-desc" id="vDesc"></p>
+    <dl class="v-spec" id="vSpec"></dl>
+    <div class="v-ctl">
+      <div class="v-row"><label for="vCorr" id="vCorrL">破損</label><output id="vOut" for="vCorr">35</output></div>
+      <input class="range" type="range" id="vCorr" min="0" max="100" step="1" value="35">
+      <div class="v-row v-ends" aria-hidden="true"><span id="vClean">無傷</span><span id="vLost">全損</span></div>
+    </div>
+    <div class="v-nav">
+      <button type="button" class="btn ghost" id="vPrev"><span aria-hidden="true">←</span><span id="vPrevL">前へ</span></button>
+      <button type="button" class="btn ghost" id="vNext"><span id="vNextL">次へ</span><span aria-hidden="true">→</span></button>
+    </div>
+    <p class="v-keys" id="vKeys" aria-hidden="true"></p>
+  </div>
+  <button type="button" class="v-close" id="vClose" aria-label="閉じる"><span aria-hidden="true">×</span></button>
+</dialog>
+
+<textarea id="copyField" class="sr" aria-hidden="true" tabindex="-1" readonly></textarea>
+<noscript><p style="padding:24px">このページは JavaScript で作品を生成します。/ This page generates its works with JavaScript.</p></noscript>
+
+<script>
+(() => {
+'use strict';
+
+/* =====================================================================
+   SIGNAL/NOISE — k.oshiro (a fictional glitch artist)
+   One loop drives the headline, the eight live works, the hex dump,
+   the self-decoding biography, the telemetry and the occasional tear.
+   ===================================================================== */
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const root = document.documentElement;
+const hdr = $('#hdr');
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } },
+};
+const reduceMQ = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+const GROT = '"Helvetica Neue", Helvetica, "Nimbus Sans", "Arial Black", Arial, sans-serif';
+const TAU = Math.PI * 2, DEG = Math.PI / 180;
+const RED = '#ff0040', GRN = '#00ff9f', BLU = '#0070ff';
+const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
+const c8 = (v) => (v <= 0 ? 0 : v >= 255 ? 255 : v | 0);
+const pack = (r, g, b) => 0xff000000 | (b << 16) | (g << 8) | r;
+const RED32 = pack(255, 0, 64), GRN32 = pack(0, 255, 159), BLU32 = pack(0, 112, 255), WHT32 = pack(255, 255, 255);
+const rand = Math.random;
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/* ---------------------------------------------------------------------
+   Copy (JA / EN). Everything about k.oshiro is fictional.
+   --------------------------------------------------------------------- */
+const T = {
+  ja: {
+    title: 'SIGNAL/NOISE — 架空のグリッチ・アーティスト k.oshiro の作品集',
+    desc: '架空のグリッチ・アーティスト k.oshiro のポートフォリオ。RGB に割れる見出し、ブラウザの中でいま生成される8点の作品、ノイズから自分を解読する略歴。ときどき画面が裂けます。',
+    skip: '作品へ移動',
+    brandAria: 'SIGNAL/NOISE — ページの先頭へ',
+    navAria: 'セクション',
+    nav: ['作品', '略歴', '展示', '連絡'],
+    langAria: '英語に切り替える（Switch to English）',
+    stab: '安定化',
+    heroM: '架空のグリッチ・アーティスト／東京',
+    heroR: '作品 2014—2026',
+    mfLabel: '宣言',
+    manifesto: '壊れた画像は、嘘をつかない。\n圧縮が捨てたもの、\n回線が落としたもの。\n記録は、その欠け方のなかに残る。',
+    footL: '↓ 8つの作品が、いま生成されている',
+    hint: 'タイトルに触れると、信号が途切れる',
+    statsAria: '数字で見る k.oshiro',
+    stats: [['公開中の作品', '08'], ['2014年からの展示', '23'], ['わざと壊したデータ', '4.7', 'TB'], ['復元できたファイル', '0']],
+    worksLabel: '01 — 作品',
+    worksNote: '8点、すべてこの場で生成。触れると壊れ、押すと開く。',
+    openAria: (w) => `${w.title}（${w.year}年）を開く`,
+    aboutLabel: '02 — 略歴',
+    aboutNote: '見えたところで、文章が自分を解読しはじめる。',
+    about: 'k.oshiro は、画像をわざと傷つけることで作品をつくる。その前の六年間は放送技術者として、他人のために信号をきれいに保っていた。作品が始まったのは、エラーを直すのをやめて、取っておくことにした夜からだ。\n\n圧縮も、伝送も、保存も、木目のある素材として扱う。コーデックには癖があり、ケーブルには機嫌があり、ハードディスクは模様を描きながら忘れていく。このページの作品はすべて、あなたのブラウザの中で、コードから、192×144 画素で、いま生成されている。同じフレームは二度と来ない。ここにあるものは、ひとつも偶然には壊れていない。',
+    facts: [['拠点', '東京'], ['生年', '1990年（架空）'], ['素材', 'コード、コーデック、ブラウン管'], ['活動', '2014年—'], ['実在', 'しない']],
+    showsLabel: '03 — 展示',
+    showsNote: '主な展示 2014—2026。会場はすべて架空です。',
+    now: '開催中',
+    types: ['個展', 'グループ展', '初個展'],
+    contactLabel: '04 — 連絡',
+    contactSub: '依頼、滞在制作、壊れたファイル。返信はたいてい、少し壊れて届きます。',
+    copy: 'アドレスをコピー',
+    copied: 'コピーしました：',
+    copiedFallback: 'コピーしました（予備の方法で）：',
+    copyFail: 'クリップボードに届きませんでした。アドレスを選択して、手でコピーしてください。',
+    addrNote: '「.invalid」は、どこにも届かないように予約されたドメインです。このアドレスも、作家も、架空です。',
+    foot1: 'SIGNAL/NOISE は、架空のグリッチ・アーティスト k.oshiro の架空の作品集です。作品はすべて、このページの中でコードから生成しています。',
+    foot2: '動きがつらいときは、右上の「安定化」をオンに。',
+    v: { corr: '破損', clean: '無傷', lost: '全損', prev: '前へ', next: '次へ', prevAria: '前の作品', nextAria: '次の作品', close: '閉じる', keys: '← → で作品を移動、Esc で閉じる', spec: ['技法', '解像度', '制作年'], res: '384×288（サムネイルの2倍）', img: (w, d) => `${w.title}：${d}` },
+  },
+  en: {
+    title: 'SIGNAL/NOISE — portfolio of k.oshiro, a fictional glitch artist',
+    desc: 'The portfolio of k.oshiro, a fictional glitch artist: a headline split into RGB, eight works generated live in your browser, and a biography that decodes itself out of noise. Now and then the screen tears.',
+    skip: 'Skip to works',
+    brandAria: 'SIGNAL/NOISE — back to top',
+    navAria: 'Sections',
+    nav: ['Works', 'About', 'Exhibitions', 'Contact'],
+    langAria: 'Switch to Japanese (日本語に切り替える)',
+    stab: 'Stabilize',
+    heroM: 'glitch artist (fictional) / Tokyo',
+    heroR: 'works 2014—2026',
+    mfLabel: 'MANIFESTO',
+    manifesto: 'A broken image cannot lie.\nWhat the codec threw away,\nwhat the line dropped:\nthe record survives in the shape of the loss.',
+    footL: '↓ eight works, generated live',
+    hint: 'touch the title to lose the signal',
+    statsAria: 'k.oshiro in numbers',
+    stats: [['works on view', '08'], ['exhibitions since 2014', '23'], ['data corrupted on purpose', '4.7', 'TB'], ['files recovered', '0']],
+    worksLabel: '01 — Index',
+    worksNote: 'Eight pieces, all generated right here. Hover to corrupt, click to open.',
+    openAria: (w) => `Open ${w.title}, ${w.year}`,
+    aboutLabel: '02 — Biography',
+    aboutNote: 'Once it scrolls into view, the text starts decoding itself.',
+    about: 'k.oshiro makes images by damaging them on purpose. Before the art came six years as a broadcast engineer, keeping signals clean for other people. The work began on the night they stopped correcting the errors and started keeping them.\n\nCompression, transmission and storage are treated as materials with a grain. A codec has habits, a cable has moods, a hard drive forgets in patterns. Every piece on this page is generated in your browser, from code, at 192 by 144 pixels, right now, and no frame comes twice. Nothing here broke by accident.',
+    facts: [['Based', 'Tokyo'], ['Born', '1990 (fictional)'], ['Materials', 'code, codecs, cathode-ray tubes'], ['Active', 'since 2014'], ['Exists', 'no']],
+    showsLabel: '03 — Record',
+    showsNote: 'Selected, 2014—2026. All venues are fictional.',
+    now: 'ON VIEW',
+    types: ['Solo', 'Group', 'First solo'],
+    contactLabel: '04 — Contact',
+    contactSub: 'Commissions, residencies, broken files. Replies usually arrive slightly corrupted.',
+    copy: 'Copy address',
+    copied: 'Copied: ',
+    copiedFallback: 'Copied (fallback method): ',
+    copyFail: 'Could not reach the clipboard. Select the address and copy it by hand.',
+    addrNote: '.invalid is a top-level domain reserved so that it never resolves. This address, like the artist, is fictional.',
+    foot1: 'SIGNAL/NOISE is the fictional portfolio of k.oshiro, a fictional glitch artist. Every work is generated from code inside this page.',
+    foot2: 'If the motion is too much, switch on Stabilize (top right).',
+    v: { corr: 'Corruption', clean: 'clean', lost: 'lost', prev: 'Prev', next: 'Next', prevAria: 'Previous work', nextAria: 'Next work', close: 'Close', keys: '← → to browse, Esc to close', spec: ['Technique', 'Resolution', 'Year'], res: '384×288 (double the thumbnail)', img: (w, d) => `${w.title}: ${d}` },
+  },
+};
+
+/* ---------------------------------------------------------------------
+   Tiny 3×5 pixel font for on-screen captions inside the works
+   --------------------------------------------------------------------- */
+const PF = {
+  '0': '111101101101111', '1': '010110010010111', '2': '111001111100111', '3': '111001111001111', '4': '101101111001001',
+  '5': '111100111001111', '6': '111100111101111', '7': '111001001010010', '8': '111101111101111', '9': '111101111001111',
+  A: '111101111101101', C: '111100100100111', E: '111100110100111', G: '111100101101111', H: '101101111101101',
+  I: '111010010010111', L: '100100100100111', N: '110101101101101', O: '111101101101111', S: '111100111001111',
+  '°': '010101010000000', ' ': '000000000000000', '/': '001001010100100',
+};
+const pfWidth = (str, sc) => str.length * 4 * sc - sc;
+function pfDraw(d, w, h, str, x0, y0, sc, col) {
+  let x = Math.round(x0);
+  y0 = Math.round(y0);
+  for (const ch of str) {
+    const g = PF[ch];
+    if (g) {
+      for (let gy = 0; gy < 5; gy++) for (let gx = 0; gx < 3; gx++) {
+        if (g[gy * 3 + gx] !== '1') continue;
+        for (let yy = 0; yy < sc; yy++) {
+          const py = y0 + gy * sc + yy;
+          if (py < 0 || py >= h) continue;
+          for (let xx = 0; xx < sc; xx++) {
+            const px = x + gx * sc + xx;
+            if (px >= 0 && px < w) d[py * w + px] = col;
+          }
+        }
+      }
+    }
+    x += 4 * sc;
+  }
+}
+function pfMask(w, h, str, x0, y0, sc) {
+  const tmp = new Uint32Array(w * h);
+  pfDraw(tmp, w, h, str, x0, y0, sc, 1);
+  return Uint8Array.from(tmp);
+}
+const easeIO = (u) => (u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2);
+
+/* ---------------------------------------------------------------------
+   The eight works. Each factory returns gen(t, d, calm, dt) that writes
+   packed pixels into d; the shared corruption pass runs afterwards.
+   --------------------------------------------------------------------- */
+
+/* 01 Dawn Buffer — column pixel sort of a sunrise */
+function genDawn(w, h, rng) {
+  const s = w / 192, N = w * h, hz = Math.round(h * 0.7);
+  const lum = new Uint8Array(N), key = new Uint32Array(h), grain = new Int8Array(N);
+  for (let i = 0; i < N; i++) grain[i] = (rng() * 2 - 1) * 16;
+  const stops = [[0, 10, 12, 44], [0.3, 48, 22, 98], [0.5, 150, 34, 104], [0.62, 246, 90, 70], [0.7, 255, 200, 124]];
+  const sky = new Float32Array(h * 3);
+  for (let y = 0; y < h; y++) {
+    const f = y / h;
+    let k = 0;
+    while (k < stops.length - 2 && f > stops[k + 1][0]) k++;
+    const a = stops[k], b = stops[k + 1], u = clamp((f - a[0]) / (b[0] - a[0]), 0, 1);
+    for (let c = 0; c < 3; c++) sky[y * 3 + c] = a[c + 1] + (b[c + 1] - a[c + 1]) * u;
+  }
+  return (t, d) => {
+    const rise = 0.5 + 0.5 * Math.sin(t * 0.16 - 1.4);
+    const sx = w * (0.5 + 0.07 * Math.sin(t * 0.05)), sy = hz - (0.05 + 0.3 * rise) * h, sr = 12 * s, gr = (26 + 30 * rise) * s;
+    for (let y = 0; y < h; y++) {
+      const row = y * w;
+      if (y < hz) {
+        const br = sky[y * 3], bg = sky[y * 3 + 1], bb = sky[y * 3 + 2];
+        const band = Math.sin(y * 0.55 / s + Math.sin(y * 0.13 / s) * 3 + t * 0.1);
+        for (let x = 0; x < w; x++) {
+          const dx = x - sx, dy = y - sy, dd = Math.sqrt(dx * dx + dy * dy), gl = Math.exp(-dd / gr);
+          let r = br + 230 * gl, g = bg + 140 * gl, b = bb + 30 * gl;
+          if (dd < sr) { r = 255; g = 240; b = 206; }
+          if (band > 0.82 && Math.sin(x * 0.021 / s + y * 0.9 / s + t * 0.15) > 0.15) { r *= 0.52; g *= 0.42; b *= 0.72; }
+          const i = row + x, n = grain[i];
+          r = c8(r + n); g = c8(g + n); b = c8(b + n);
+          d[i] = pack(r, g, b);
+          lum[i] = (r * 77 + g * 150 + b * 29) >> 8;
+        }
+      } else {
+        const dep = (y - hz) / (h - hz);
+        const spread = (5 + 44 * dep) * s * (0.6 + 0.6 * rise);
+        for (let x = 0; x < w; x++) {
+          let r = 14 + 26 * (1 - dep), g = 10 + 14 * (1 - dep), b = 32 + 18 * (1 - dep);
+          const ax = Math.abs(x - sx);
+          if (ax < spread) {
+            const k = 1 - ax / spread;
+            if (Math.sin(y * 1.9 / s + t * 2.2 + Math.sin(x * 0.3 / s) * 1.5) > 0.35 - 0.6 * k) {
+              const e = k * (1 - dep * 0.6);
+              r += 240 * e; g += 150 * e; b += 70 * e;
+            }
+          }
+          const i = row + x, n = grain[i];
+          r = c8(r + n); g = c8(g + n); b = c8(b + n);
+          d[i] = pack(r, g, b);
+          lum[i] = (r * 77 + g * 150 + b * 29) >> 8;
+        }
+      }
+    }
+    const th = 120 + 68 * Math.sin(t * 0.42);
+    for (let x = 0; x < w; x++) {
+      const tx = th + 44 * Math.sin(x * 0.085 / s + t * 0.6) + 22 * Math.sin(x * 0.37 / s - t * 0.3);
+      const rev = ((x / (26 * s)) | 0) % 3 === 1;
+      let y = 0;
+      while (y < h) {
+        while (y < h && lum[y * w + x] < tx) y++;
+        const y0 = y;
+        while (y < h && lum[y * w + x] >= tx) y++;
+        const n = y - y0;
+        if (n > 2) {
+          for (let k = 0; k < n; k++) { const i = (y0 + k) * w + x; key[k] = (lum[i] << 24) | (d[i] & 0xffffff); }
+          const sub = key.subarray(0, n);
+          sub.sort();
+          for (let k = 0; k < n; k++) d[(y0 + k) * w + x] = 0xff000000 | (sub[rev ? n - 1 - k : k] & 0xffffff);
+        }
+      }
+    }
+  };
+}
+
+/* 02 Vertical Hold — three drifting scanline fields, one per accent channel */
+function genVHold(w, h) {
+  const s = w / 192, P = [5.1 * s, 5.45 * s, 5.85 * s], V = [7 * s, -5 * s, 3.2 * s];
+  const line = (p) => { const v = 0.5 + 2.4 * Math.sin(p * TAU); return v < 0 ? 0 : v > 1 ? 1 : v; };
+  return (t, d) => {
+    const A = [0.012 * Math.sin(t * 0.21), 0.05 + 0.03 * Math.sin(t * 0.13), -0.035 + 0.02 * Math.cos(t * 0.17)];
+    const ca = A.map(Math.cos), sa = A.map(Math.sin);
+    const cyc = t / 7, ph = cyc - Math.floor(cyc);
+    const roll = (Math.floor(cyc) + easeIO(clamp((ph - 0.74) / 0.26, 0, 1))) * h;
+    const barH = 0.085 * h;
+    for (let y = 0; y < h; y++) {
+      const yy = (((y + roll) % h) + h) % h, row = y * w;
+      if (yy > h - barH) {
+        const k = (yy - (h - barH)) / barH, pulse = k > 0.42 && k < 0.58;
+        for (let x = 0; x < w; x++) d[row + x] = pulse && x > w * 0.07 && x < w * 0.19 ? pack(210, 210, 210) : pack(5, 5, 6);
+        continue;
+      }
+      const near = Math.exp(-Math.pow((h - barH - yy) / (7 * s), 2));
+      const hs = (Math.sin(yy * 0.05 + t) * 1.2 + near * 6 * Math.sin(yy * 0.9 + t * 20)) * s;
+      for (let x = 0; x < w; x++) {
+        const xx = x + hs;
+        const f1 = line((yy * ca[0] + xx * sa[0] + t * V[0]) / P[0]);
+        const f2 = line((yy * ca[1] + xx * sa[1] + t * V[1]) / P[1]);
+        const f3 = line((yy * ca[2] + xx * sa[2] + t * V[2]) / P[2]);
+        d[row + x] = pack(c8(255 * f1), c8(255 * f2 + 112 * f3), c8(64 * f1 + 159 * f2 + 255 * f3));
+      }
+    }
+  };
+}
+
+/* 03 Chroma Bleed — plain shapes, red leaks right and blue leaks left */
+function genBleed(w, h) {
+  const s = w / 192, base = new Uint8Array(w * h), rr = new Float32Array(w);
+  return (t, d) => {
+    const cx = w * (0.5 + 0.26 * Math.sin(t * 0.31)), cy = h * 0.38 + 6 * s * Math.sin(t * 0.7), cr = 21 * s;
+    const rx = w * 0.13 + 12 * s * Math.sin(t * 0.23), ry = h * 0.58, rw = 44 * s, rh = 24 * s;
+    const hy = h * 0.83, ht = Math.max(1, Math.round(2 * s));
+    const qx0 = w * 0.76, qy0 = h * 0.64 + 4 * s * Math.cos(t * 0.5), qr = 15 * s, ca = Math.cos(t * 0.4), sa = Math.sin(t * 0.4);
+    for (let y = 0; y < h; y++) {
+      const row = y * w, bg = 6 + 12 * (y / h);
+      for (let x = 0; x < w; x++) {
+        let v = bg;
+        const dx = x - cx, dy = y - cy;
+        if (dx * dx + dy * dy < cr * cr) v = 238;
+        if (x >= rx && x < rx + rw && y >= ry && y < ry + rh) v = (x - rx < 2 * s || rx + rw - x <= 2 * s || y - ry < 2 * s || ry + rh - y <= 2 * s) ? 250 : 120;
+        if (y >= hy && y < hy + ht && x > w * 0.06 && x < w * 0.94) v = 250;
+        const qx = (x - qx0) * ca + (y - qy0) * sa, qy = -(x - qx0) * sa + (y - qy0) * ca;
+        if (Math.abs(qx) + Math.abs(qy) < qr) v = 255;
+        base[row + x] = v;
+      }
+    }
+    const kr0 = 0.935 + 0.045 * Math.sin(t * 0.5), kb0 = 0.9 + 0.06 * Math.cos(t * 0.37);
+    for (let y = 0; y < h; y++) {
+      const row = y * w;
+      const kr = Math.min(0.992, kr0 + 0.03 * Math.sin(y * 0.4 / s + t * 2));
+      const kb = Math.min(0.99, kb0 + 0.03 * Math.cos(y * 0.33 / s - t * 1.6));
+      let a = 0;
+      for (let x = 0; x < w; x++) { const v = base[row + x]; a = v > a ? v : a * kr; rr[x] = a; }
+      a = 0;
+      for (let x = w - 1; x >= 0; x--) {
+        const v = base[row + x];
+        a = v > a ? v : a * kb;
+        d[row + x] = pack(c8(rr[x]), v, c8(a));
+      }
+    }
+  };
+}
+
+/* 04 Dead Channel — live static, a rolling bar and a ghosted NO SIGNAL */
+function genStatic(w, h, rng) {
+  const s = w / 192, sc = Math.max(2, Math.round(4 * s)), txt = 'NO SIGNAL';
+  const mask = pfMask(w, h, txt, (w - pfWidth(txt, sc)) / 2, h / 2 - (sc * 5) / 2, sc);
+  const os = Math.max(1, Math.round(2 * s)), osd = 'CH 03';
+  const osdMask = pfMask(w, h, osd, w - pfWidth(osd, os) - 8 * s, 7 * s, os);
+  const gOff = Math.round(6 * s);
+  return (t, d, calm) => {
+    const R = calm ? mulberry32(((t * 2) | 0) + 11) : rng;
+    const bc = (((t * 0.23) % 1.35) - 0.18) * h, bw = 0.14 * h;
+    const gh = 0.22 + 0.1 * Math.sin(t * 2.1), amp = calm ? 0.45 : 1;
+    for (let y = 0; y < h; y++) {
+      const q = (y - bc) / bw, bar = Math.exp(-q * q), row = y * w;
+      const jolt = R() < 0.04 ? 30 + R() * 50 : 0;
+      const shift = bar > 0.5 ? Math.round((R() * 2 - 1) * 3 * s) : 0;
+      let prev = 128;
+      for (let x = 0; x < w; x++) {
+        let v = R() * 255;
+        v = v * 0.62 + prev * 0.38;
+        prev = v;
+        v = 110 + (v * (0.5 + 0.55 * bar) + jolt - 110) * amp;
+        const mx = clamp(x - shift, 0, w - 1), mx2 = clamp(mx - gOff, 0, w - 1);
+        if (mask[row + mx]) v = v * (1 - gh) + 245 * gh;
+        else if (mask[row + mx2]) v = v * (1 - gh * 0.45) + 210 * gh * 0.45;
+        const c = c8(v);
+        d[row + x] = osdMask[row + x] ? GRN32 : pack(c, c, c8(c * 1.04 + 6));
+      }
+    }
+  };
+}
+
+/* 05 Macroblock Elegy — a portrait smeared by blocks copied along foreign motion vectors */
+function portrait(w, h) {
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const g = c.getContext('2d', { willReadFrequently: true }), s = w / 192;
+  let gr = g.createLinearGradient(0, 0, 0, h);
+  gr.addColorStop(0, '#1d3940'); gr.addColorStop(0.55, '#0e1a22'); gr.addColorStop(1, '#040507');
+  g.fillStyle = gr; g.fillRect(0, 0, w, h);
+  g.fillStyle = 'rgba(160, 214, 224, .18)'; g.fillRect(12 * s, 16 * s, 36 * s, 72 * s);
+  g.fillStyle = 'rgba(0, 0, 0, .4)'; g.fillRect(29 * s, 16 * s, 2 * s, 72 * s); g.fillRect(12 * s, 50 * s, 36 * s, 2 * s);
+  gr = g.createRadialGradient(122 * s, 56 * s, 4 * s, 122 * s, 56 * s, 74 * s);
+  gr.addColorStop(0, 'rgba(255, 40, 100, .5)'); gr.addColorStop(1, 'rgba(255, 40, 100, 0)');
+  g.fillStyle = gr; g.fillRect(0, 0, w, h);
+  gr = g.createLinearGradient(40 * s, 0, 170 * s, 0);
+  gr.addColorStop(0, '#2a2c36'); gr.addColorStop(1, '#0c0c10');
+  g.fillStyle = gr; g.beginPath(); g.ellipse(100 * s, 164 * s, 80 * s, 54 * s, 0, 0, TAU); g.fill();
+  gr = g.createLinearGradient(88 * s, 0, 112 * s, 0);
+  gr.addColorStop(0, '#b87c60'); gr.addColorStop(1, '#5a3326');
+  g.fillStyle = gr; g.fillRect(89 * s, 78 * s, 22 * s, 38 * s);
+  gr = g.createRadialGradient(90 * s, 48 * s, 3 * s, 100 * s, 60 * s, 36 * s);
+  gr.addColorStop(0, '#f6d4b8'); gr.addColorStop(0.55, '#c98c6c'); gr.addColorStop(1, '#4c2a20');
+  g.fillStyle = gr; g.beginPath(); g.ellipse(100 * s, 58 * s, 24 * s, 31 * s, -0.08, 0, TAU); g.fill();
+  g.fillStyle = '#120e12';
+  g.beginPath(); g.ellipse(102 * s, 38 * s, 28 * s, 19 * s, -0.1, Math.PI * 0.95, Math.PI * 2.08); g.fill();
+  g.beginPath(); g.ellipse(122 * s, 60 * s, 9 * s, 29 * s, 0.1, 0, TAU); g.fill();
+  g.strokeStyle = '#2a1512'; g.lineWidth = 1.6 * s; g.lineCap = 'round';
+  g.beginPath();
+  g.moveTo(86 * s, 58 * s); g.quadraticCurveTo(90.5 * s, 61 * s, 95 * s, 58 * s);
+  g.moveTo(104 * s, 58 * s); g.quadraticCurveTo(108.5 * s, 61 * s, 113 * s, 58 * s);
+  g.stroke();
+  g.fillStyle = 'rgba(80, 40, 30, .5)'; g.beginPath(); g.ellipse(101 * s, 68 * s, 3 * s, 5 * s, 0, 0, TAU); g.fill();
+  g.fillStyle = '#9d3b48'; g.beginPath(); g.ellipse(100 * s, 78 * s, 6 * s, 2.2 * s, 0, 0, TAU); g.fill();
+  g.strokeStyle = 'rgba(0, 255, 159, .6)'; g.lineWidth = 1.6 * s;
+  g.beginPath(); g.ellipse(100 * s, 58 * s, 24 * s, 31 * s, -0.08, -1.25, 0.95); g.stroke();
+  return new Uint32Array(g.getImageData(0, 0, w, h).data.buffer.slice(0));
+}
+function genMosh(w, h, rng) {
+  const s = w / 192, bs = Math.round(8 * s), N = w * h;
+  const base = portrait(w, h);
+  let A = new Uint32Array(base), B = new Uint32Array(N), key = -1e9;
+  const bw = Math.ceil(w / bs), bh = Math.ceil(h / bs), period = 6.5;
+  const copy = (src, dst, sx, sy, dx, dy) => {
+    for (let yy = 0; yy < bs; yy++) {
+      const Y = dy + yy;
+      if (Y >= h) break;
+      const SY = clamp(sy + yy, 0, h - 1) * w;
+      for (let xx = 0; xx < bs; xx++) {
+        const X = dx + xx;
+        if (X >= w) break;
+        dst[Y * w + X] = src[SY + clamp(sx + xx, 0, w - 1)];
+      }
+    }
+  };
+  return (t, d) => {
+    if (t - key > period || t < key) { A.set(base); key = t; }
+    const ph = (t - key) / period;
+    B.set(A);
+    for (let by = 0; by < bh; by++) for (let bx = 0; bx < bw; bx++) {
+      const r = rng(), x0 = bx * bs, y0 = by * bs;
+      if (r < 0.1) continue;
+      if (r > 0.986) { copy(base, B, x0, y0, x0, y0); continue; }
+      const a = Math.sin(bx * 0.31 + t * 0.5) * 2.2 + Math.cos(by * 0.43 - t * 0.35) * 1.6 + ph * 2;
+      const m = (0.8 + 1.8 * (0.5 + 0.5 * Math.sin(bx * 0.7 + by * 0.45 + t * 1.3))) * s;
+      const vx = Math.round(Math.cos(a) * m + 0.6 * s), vy = Math.round(Math.sin(a) * m * 0.7 + 0.4 * s);
+      copy(A, B, x0 - vx, y0 - vy, x0, y0);
+    }
+    const tmp = A; A = B; B = tmp;
+    d.set(A);
+  };
+}
+
+/* 06 Bit Rot Season — XOR and multiply patterns, left out in the weather */
+function genBitrot(w, h, rng) {
+  const s = w / 192, N = w * h, flips = new Uint8Array(N), L = 13;
+  let season = -1;
+  const pal = [RED32, GRN32, BLU32];
+  return (t, d, calm, dt) => {
+    const yr = Math.floor(t / L), ph = t / L - yr;
+    if (yr !== season) { flips.fill(0); season = yr; }
+    const add = Math.floor(N * dt * 0.1 * ph * ph * ph);
+    for (let k = 0; k < add; k++) flips[(rng() * N) | 0] = 1 + ((rng() * 3) | 0);
+    const ox = (t * 3) | 0, oy = (t * 1.2) | 0, mul = 1 + (((t / 4) | 0) % 4), sh = (t * 16) | 0;
+    for (let y = 0; y < h; y++) {
+      const Y = ((y / (2 * s)) | 0) + oy, row = y * w;
+      for (let x = 0; x < w; x++) {
+        const X = ((x / (2 * s)) | 0) + ox;
+        const v1 = ((X ^ Y) + sh) & 63, v2 = ((X * Y * mul) >> 3) & 63;
+        const v = ((v1 ^ v2) >> 4) * 85;
+        const i = row + x, f = flips[i];
+        if (f) d[i] = v > 100 ? pal[f - 1] : pack(40, 0, 12);
+        else d[i] = pack(v, v, c8(v + 8));
+      }
+    }
+  };
+}
+
+/* 07 Q-Table Ghost — 8×8 DCT, posterised quantisation, chroma from the wrong block */
+const BASIS = new Float32Array(64 * 64);
+(() => {
+  for (let v = 0; v < 8; v++) for (let u = 0; u < 8; u++) {
+    const au = u ? 1 : Math.SQRT1_2, av = v ? 1 : Math.SQRT1_2;
+    for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) {
+      BASIS[(v * 8 + u) * 64 + y * 8 + x] = 0.25 * au * av * Math.cos(((2 * x + 1) * u * Math.PI) / 16) * Math.cos(((2 * y + 1) * v * Math.PI) / 16);
+    }
+  }
+})();
+const QT = [16, 11, 10, 16, 24, 40, 51, 61, 12, 12, 14, 19, 26, 58, 60, 55, 14, 13, 16, 24, 40, 57, 69, 56, 14, 17, 22, 29, 51, 87, 80, 62, 18, 22, 37, 56, 68, 109, 103, 77, 24, 35, 55, 64, 81, 104, 113, 92, 49, 64, 78, 87, 103, 121, 120, 101, 72, 92, 95, 98, 112, 100, 103, 99];
+const ZZ = [0, 1, 8, 16, 9, 2, 3, 10, 17, 24, 32, 25, 18, 11, 4, 5, 12, 19, 26, 33, 40, 48, 41, 34, 27, 20, 13, 6, 7, 14, 21, 28];
+function genQTable(w, h) {
+  const s = w / 192, bw = w >> 3, bh = h >> 3, mbw = Math.ceil(w / 16), mbh = Math.ceil(h / 16);
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const g = c.getContext('2d', { willReadFrequently: true });
+  let gr = g.createLinearGradient(0, 0, w, 0);
+  gr.addColorStop(0, '#0e6a70'); gr.addColorStop(0.5, '#25234a'); gr.addColorStop(1, '#7a1a52');
+  g.fillStyle = gr; g.fillRect(0, 0, w, h);
+  g.fillStyle = '#e2d8bf'; g.fillRect(120 * s, 18 * s, 42 * s, 104 * s);
+  g.fillStyle = '#0a0a12'; g.fillRect(0, 118 * s, w, 26 * s);
+  gr = g.createRadialGradient(74 * s, 46 * s, 2 * s, 74 * s, 46 * s, 19 * s);
+  gr.addColorStop(0, 'rgba(255,255,255,.96)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = gr; g.beginPath(); g.arc(74 * s, 46 * s, 19 * s, 0, TAU); g.fill();
+  gr = g.createLinearGradient(0, 58 * s, 0, 132 * s);
+  gr.addColorStop(0, 'rgba(236,244,255,.9)'); gr.addColorStop(1, 'rgba(236,244,255,0)');
+  g.fillStyle = gr; g.beginPath(); g.ellipse(74 * s, 96 * s, 23 * s, 40 * s, 0, 0, TAU); g.fill();
+  const px = g.getImageData(0, 0, w, h).data;
+  const Yc = new Float32Array(w * h), Cb = new Float32Array(mbw * mbh), Cr = new Float32Array(mbw * mbh), cnt = new Float32Array(mbw * mbh);
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const i = y * w + x, r = px[i * 4], gg = px[i * 4 + 1], b = px[i * 4 + 2];
+    Yc[i] = 0.299 * r + 0.587 * gg + 0.114 * b - 128;
+    const m = (y >> 4) * mbw + (x >> 4);
+    Cb[m] += -0.168736 * r - 0.331264 * gg + 0.5 * b;
+    Cr[m] += 0.5 * r - 0.418688 * gg - 0.081312 * b;
+    cnt[m]++;
+  }
+  for (let m = 0; m < Cb.length; m++) { Cb[m] /= cnt[m] || 1; Cr[m] /= cnt[m] || 1; }
+  const coef = new Float32Array(bw * bh * 64);
+  for (let by = 0; by < bh; by++) for (let bx = 0; bx < bw; bx++) {
+    const o = (by * bw + bx) * 64;
+    for (let k = 0; k < ZZ.length; k++) {
+      const uv = ZZ[k], bo = uv * 64;
+      let sum = 0;
+      for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) sum += Yc[(by * 8 + y) * w + bx * 8 + x] * BASIS[bo + y * 8 + x];
+      coef[o + uv] = sum;
+    }
+  }
+  const blk = new Float32Array(64), src = new Int32Array(mbw * mbh), swap = new Uint8Array(mbw * mbh);
+  let epoch = -1;
+  return (t, d) => {
+    const q = 0.5 + 9 * Math.pow(0.5 + 0.5 * Math.sin(t * 0.42), 2.2);
+    const e = (t * 1.3) | 0;
+    if (e !== epoch) {
+      epoch = e;
+      const er = mulberry32(e * 977 + 13);
+      for (let m = 0; m < src.length; m++) {
+        const r = er();
+        src[m] = r < 0.12 ? (m + (er() < 0.5 ? 1 : mbw)) % src.length : m;
+        swap[m] = r > 0.95 ? 1 : 0;
+      }
+    }
+    const sweep = (((t * 0.3) % 1.5) - 0.25) * (bw + bh);
+    for (let by = 0; by < bh; by++) for (let bx = 0; bx < bw; bx++) {
+      const o = (by * bw + bx) * 64;
+      blk.fill(0);
+      if (Math.abs(bx + by - sweep) < 1.5) {
+        const uv = ((bx * 3 + by * 5 + ((t * 2) | 0)) % 63) + 1, bo = uv * 64, dc = coef[o] * 0.125;
+        for (let k = 0; k < 64; k++) blk[k] = dc + 380 * BASIS[bo + k];
+      } else {
+        for (let z = 0; z < ZZ.length; z++) {
+          const uv = ZZ[z], Q = QT[uv] * q, cq = Math.round(coef[o + uv] / Q) * Q;
+          if (cq !== 0) { const bo = uv * 64; for (let k = 0; k < 64; k++) blk[k] += cq * BASIS[bo + k]; }
+        }
+      }
+      const m = (by >> 1) * mbw + (bx >> 1), sm = src[m];
+      let cb = Cb[sm], cr = Cr[sm];
+      if (swap[m]) { const tmp = cb; cb = -cr * 1.4; cr = tmp * 1.4; }
+      for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) {
+        const Yv = Math.round((blk[y * 8 + x] + 128) / 34) * 34;
+        d[(by * 8 + y) * w + bx * 8 + x] = pack(c8(Yv + 1.402 * cr), c8(Yv - 0.344136 * cb - 0.714136 * cr), c8(Yv + 1.772 * cb));
+      }
+    }
+  };
+}
+
+/* 08 Null Island — orthographic globe; misparsed points pile up on 0°N 0°E */
+function genNull(w, h, rng) {
+  const s = w / 192, R = 0.41 * h, cx = w * 0.5, cy = h * 0.5;
+  const lat0 = 16 * DEG, sl0 = Math.sin(lat0), cl0 = Math.cos(lat0);
+  const P = [];
+  for (let i = 0; i < 240; i++) P.push([Math.asin(rng() * 2 - 1), (rng() * 2 - 1) * Math.PI]);
+  const stars = [];
+  for (let i = 0; i < 70; i++) stars.push([(rng() * w) | 0, (rng() * h) | 0, 30 + rng() * 70]);
+  const MAX = 420, mound = [];
+  while (mound.length < MAX) {
+    const x = rng() * 2 - 1, y = rng();
+    if (y < Math.pow(1 - Math.abs(x), 1.25)) mound.push([x, y]);
+  }
+  mound.sort((a, b) => a[1] - b[1]);
+  const fall = [];
+  let pile = 90, spawn = 0;
+  const lbl = '0°N 0°E', ls = Math.max(1, Math.round(s));
+  const dot = (d, x, y, col, sz) => {
+    x = Math.round(x); y = Math.round(y);
+    for (let yy = 0; yy < sz; yy++) for (let xx = 0; xx < sz; xx++) {
+      const X = x + xx, Y = y + yy;
+      if (X >= 0 && X < w && Y >= 0 && Y < h) d[Y * w + X] = col;
+    }
+  };
+  return (t, d, calm, dt) => {
+    const lon0 = (18 * Math.sin(t * 0.11) - 4) * DEG;
+    d.fill(0xff000000);
+    for (const st of stars) d[st[1] * w + st[0]] = pack(st[2], st[2], c8(st[2] + 20));
+    const pd = 1 / R / DEG;
+    const y0 = Math.max(0, (cy - R - 2) | 0), y1 = Math.min(h, (cy + R + 3) | 0), x0 = Math.max(0, (cx - R - 2) | 0), x1 = Math.min(w, (cx + R + 3) | 0);
+    for (let y = y0; y < y1; y++) {
+      const ny = (cy - y - 0.5) / R;
+      for (let x = x0; x < x1; x++) {
+        const nx = (x + 0.5 - cx) / R, rr = nx * nx + ny * ny, i = y * w + x;
+        if (rr > 1) { if (rr < 1 + 3 / R) d[i] = pack(26, 56, 66); continue; }
+        const nz = Math.sqrt(1 - rr);
+        const lat = Math.asin(clamp(nz * sl0 + ny * cl0, -1, 1));
+        let lo = (lon0 + Math.atan2(nx, nz * cl0 - ny * sl0)) / DEG;
+        lo = ((((lo + 180) % 360) + 360) % 360) - 180;
+        const la = lat / DEG, clat = Math.cos(lat);
+        const lit = 0.22 + 0.78 * Math.max(0, -0.45 * nx + 0.35 * ny + 0.82 * nz);
+        let r = 6 + 16 * lit, g = 14 + 30 * lit, b = 28 + 62 * lit;
+        const pw = (pd / Math.max(0.2, nz)) * 0.7;
+        const ml = ((lo % 15) + 15) % 15;
+        const dl = Math.abs(la - Math.round(la / 15) * 15), dm = Math.min(ml, 15 - ml) * clat;
+        if (dl < pw || dm < pw) { r += 46 * lit; g += 58 * lit; b += 66 * lit; }
+        if (Math.abs(la) < pw * 1.2) { g += 150 * lit; b += 70 * lit; }
+        if (Math.abs(lo) * clat < pw * 1.2) { r += 130 * lit; g += 130 * lit; b += 130 * lit; }
+        d[i] = pack(c8(r), c8(g), c8(b));
+      }
+    }
+    const proj = (la, lo) => {
+      const cl = Math.cos(la), sl = Math.sin(la), cd = Math.cos(lo - lon0), sd = Math.sin(lo - lon0);
+      return [cx + R * cl * sd, cy - R * (cl0 * sl - sl0 * cl * cd), sl0 * sl + cl0 * cl * cd];
+    };
+    const ps = Math.max(1, Math.round(s));
+    for (const p of P) {
+      const q = proj(p[0], p[1]);
+      if (q[2] > 0) { const v = c8(90 + 150 * q[2]); dot(d, q[0], q[1], pack(v, v, v), ps); }
+    }
+    spawn += dt * (calm ? 0.8 : 3.4);
+    while (spawn >= 1) {
+      spawn--;
+      const p = P[(rng() * P.length) | 0];
+      fall.push({ la: p[0], lo: p[1], u: 0, dur: 1.2 + rng() * 0.9 });
+    }
+    for (let k = fall.length - 1; k >= 0; k--) {
+      const f = fall[k];
+      f.u += dt / f.dur;
+      if (f.u >= 1) { fall.splice(k, 1); pile = pile >= MAX ? 0 : pile + 1; continue; }
+      for (let tr = 0; tr < 3; tr++) {
+        const u = Math.max(0, f.u - tr * 0.035), e = u * u;
+        const q = proj(f.la * (1 - e), f.lo * (1 - e));
+        if (q[2] <= 0) continue;
+        const lift = 1 + 0.28 * Math.sin(Math.PI * u);
+        const X = cx + (q[0] - cx) * lift, Y = cy + (q[1] - cy) * lift;
+        dot(d, X, Y, tr ? pack(120, 0, 30) : RED32, tr ? ps : ps + 1);
+      }
+    }
+    const o = proj(0, 0);
+    if (o[2] > 0) {
+      for (let k = 0; k < pile; k++) {
+        const m = mound[k];
+        dot(d, o[0] + m[0] * 13 * s, o[1] - m[1] * 19 * s, k % 9 === 0 ? WHT32 : RED32, ps);
+      }
+      for (let k = 3; k < 7; k++) {
+        dot(d, o[0] + k * s, o[1] + 2 * s, GRN32, ps);
+        dot(d, o[0] - k * s, o[1] + 2 * s, GRN32, ps);
+      }
+      pfDraw(d, w, h, lbl, o[0] + 15 * s, o[1] + 4 * s, ls, GRN32);
+    }
+  };
+}
+
+const WORKS = [
+  { title: 'Dawn Buffer', year: 2019, make: genDawn,
+    ja: { sub: '夜明けのバッファ', med: '列ごとのピクセルソート', desc: '朝焼けのグラデーションを、明るさのしきい値を越えた区間ごとに、列単位で並べ替える。太陽は昇りきらない。昇るたびに、バッファが並べ直してしまうから。' },
+    en: { med: 'column pixel sort of a sunrise', desc: 'A sunrise gradient, re-sorted column by column wherever it crosses a moving brightness threshold. The sun never finishes rising; the buffer keeps rearranging it.' } },
+  { title: 'Vertical Hold', year: 2016, make: genVHold,
+    ja: { sub: '垂直同期', med: '流れる3枚の走査線', desc: 'チャンネルごとに一枚ずつ、三枚の走査線がわずかに違う間隔と角度で流れる。重ならない場所に、誰も送っていない色が現れる。ときどき同期が外れ、画面がひとコマ転がる。' },
+    en: { med: 'three drifting scanline fields', desc: 'Three scanline fields, one per channel, drift at slightly different pitches and angles. Where they disagree, colours appear that nobody transmitted. Now and then the hold slips and the frame rolls.' } },
+  { title: 'Chroma Bleed', year: 2017, make: genBleed,
+    ja: { sub: '色のにじみ', med: '指数関数的なチャンネルのにじみ', desc: '漆黒の上の、単純な図形。赤は右へ、青は左へ、指数関数的に薄れながら漏れ出していく。走査の向きを覚えているインクのように。' },
+    en: { med: 'exponential channel bleed', desc: 'Plain shapes on a dead-black field. Red leaks to the right and blue to the left, each fading exponentially, like ink that remembers which way the scan was going.' } },
+  { title: 'Dead Channel', year: 2014, make: genStatic,
+    ja: { sub: '空きチャンネル', med: '砂嵐と流れる帯', desc: '生きた砂嵐と、ゆっくり流れる帯と、受像機が出そうとし続ける「NO SIGNAL」。最初の作品。何も映らないチャンネルを、真剣に見つめたもの。' },
+    en: { med: 'live static, rolling bar', desc: 'Live static, a slow rolling bar, and a caption the set keeps trying to show. The first piece: a television tuned to nothing, taken seriously.' } },
+  { title: 'Macroblock Elegy', year: 2021, make: genMosh,
+    ja: { sub: 'マクロブロック哀歌', med: '動きベクトルに沿ったブロックの複写', desc: 'キーフレームを抜かれた肖像。すべてのブロックが、よその場面の動きベクトルに沿って複写され、顔は別の動きに運ばれていく。数秒おきに、次のキーフレームが顔を連れ戻す。' },
+    en: { med: 'macroblocks copied along motion vectors', desc: 'A portrait with its keyframe taken away. Every block is copied along motion vectors from some other scene, so the face is carried off by someone else’s movement until the next keyframe brings it back.' } },
+  { title: 'Bit Rot Season', year: 2022, make: genBitrot,
+    ja: { sub: 'ビット腐れの季節', med: 'XOR と掛け算のビット模様', desc: '画素の座標に XOR と掛け算をほどこし、風雨にさらす。ビットが反転する確率は季節とともに上がり、年が明けるたびに元に戻る。' },
+    en: { med: 'XOR and multiply bit patterns', desc: 'XOR and multiplication applied to pixel coordinates, then left out in the weather. Bits flip at a rate that rises through the season and resets with each new year.' } },
+  { title: 'Q-Table Ghost', year: 2024, make: genQTable,
+    ja: { sub: '量子化表の幽霊', med: '8×8 DCT、ポスタリゼーションした量子化', desc: '8×8 のブロックごとに離散コサイン変換し、基底の模様しか残らなくなるまで量子化した人影。色差はときどき隣のブロックから取り違えられ、幽霊はよその色をまとう。' },
+    en: { med: '8×8 DCT, posterised quantisation', desc: 'A figure transformed in 8×8 blocks and quantised until little but the basis patterns remain. Now and then the chroma comes from the wrong block, so the ghost wears someone else’s colour.' } },
+  { title: 'Null Island', year: 2026, make: genNull,
+    ja: { sub: 'ヌル島', med: '正射図法の地球、読み違えた座標', desc: '正射図法の地球。座標の読み取りに失敗した点は、ギニア湾の北緯0度・東経0度へ落ち、存在しない島の上に積もっていく。' },
+    en: { med: 'orthographic globe, misparsed points', desc: 'An orthographic globe. Points whose coordinates failed to parse fall to 0°N 0°E in the Gulf of Guinea, and pile up on an island that does not exist.' } },
+];
+
+const SHOWS = [
+  [2026, 'Null Island', ['Gallery Parity', 'ギャラリー・パリティ'], ['Tokyo', '東京'], 0, true],
+  [2025, 'Lossy Bodies', ['Kunsthalle Rauschen', 'クンストハレ・ラウシェン'], ['Leipzig', 'ライプツィヒ'], 1],
+  [2024, 'Q-Table Ghost', ['Sala Aliasing', 'サラ・エイリアシング'], ['Mexico City', 'メキシコシティ'], 0],
+  [2023, 'Checksum Garden', ['Harbour Signal House', '港の信号舎'], ['Naha', '那覇'], 1],
+  [2022, 'Bit Rot Season', ['Parity Error Space', 'パリティ・エラー・スペース'], ['Osaka', '大阪'], 0],
+  [2021, 'Keyframe Missing', ['Low Frequency Hall', '低周波ホール'], ['Seoul', 'ソウル'], 1],
+  [2019, 'Dawn Buffer', ['Buffer Gallery', 'バッファ画廊'], ['Taipei', '台北'], 0],
+  [2017, 'Interference', ['The Blank Channel', 'ブランク・チャンネル'], ['London', 'ロンドン'], 1],
+  [2014, 'Dead Channel', ['Room 404', 'ルーム404'], ['Tokyo', '東京'], 2],
+];
+
+/* ---------------------------------------------------------------------
+   Shared corruption pass on raw pixels
+   --------------------------------------------------------------------- */
+function corrupt(src, dst, w, h, amt, seed, t, s, off) {
+  const R = mulberry32(seed);
+  off.fill(0);
+  const nb = Math.round(amt * 9 * R() + amt * 2);
+  for (let k = 0; k < nb; k++) {
+    const y0 = (R() * h) | 0, bh = 1 + ((R() * R() * h * 0.3) | 0);
+    const dx = Math.round((R() * 2 - 1) * w * (0.02 + 0.3 * amt * R()));
+    for (let y = y0, e = Math.min(h, y0 + bh); y < e; y++) off[y] += dx;
+  }
+  const wob = amt * amt * 3 * s, cs = Math.round(amt * 5 * s * (0.5 + R())), dark = 0.06 + 0.3 * amt;
+  for (let y = 0; y < h; y++) {
+    const o = off[y] + Math.round(Math.sin((y * 0.21) / s + t * 9) * wob);
+    const row = y * w, m = (((y / s) | 0) & 1) ? 1 - dark : 1;
+    for (let x = 0; x < w; x++) {
+      let xg = (x - o) % w;
+      if (xg < 0) xg += w;
+      let xr = xg + cs, xb = xg - cs;
+      if (xr >= w) xr -= w;
+      if (xb < 0) xb += w;
+      const r = ((src[row + xr] & 255) * m) | 0, g = (((src[row + xg] >> 8) & 255) * m) | 0, b = (((src[row + xb] >> 16) & 255) * m) | 0;
+      dst[row + x] = 0xff000000 | (b << 16) | (g << 8) | r;
+    }
+  }
+  const nk = Math.floor(amt * amt * 16 * R());
+  for (let k = 0; k < nk; k++) {
+    const bw = Math.min(w - 1, ((6 + R() * 40 * amt) * s) | 0), bh = Math.min(h - 1, ((3 + R() * 18) * s) | 0);
+    const x0 = (R() * (w - bw)) | 0, y0 = (R() * (h - bh)) | 0, mode = R();
+    const sx = clamp(x0 + (((R() * 2 - 1) * 30 * s) | 0), 0, w - bw), sy = clamp(y0 + (((R() * 2 - 1) * 10 * s) | 0), 0, h - bh);
+    for (let yy = 0; yy < bh; yy++) for (let xx = 0; xx < bw; xx++) {
+      const di = (y0 + yy) * w + x0 + xx;
+      let v = mode < 0.5 ? dst[(sy + yy) * w + sx + xx] : dst[di];
+      if (mode >= 0.5 && mode < 0.75) v ^= 0x00ffffff;
+      else if (mode >= 0.75) v = 0xff000000 | ((v & 255) << 16) | (v & 0xff00) | ((v >> 16) & 255);
+      dst[di] = v;
+    }
+  }
+  if (R() < amt * 0.7) {
+    const n = 1 + ((R() * 3 * amt) | 0), cols = [WHT32, RED32, GRN32, BLU32];
+    for (let k = 0; k < n; k++) {
+      const y = (R() * h) | 0, x0 = (R() * w * 0.5) | 0, x1 = Math.min(w, x0 + ((R() * w) | 0)), col = cols[(R() * 4) | 0];
+      const lh = Math.max(1, Math.round(s));
+      for (let yy = y; yy < Math.min(h, y + lh); yy++) for (let x = x0; x < x1; x++) dst[yy * w + x] = col;
+    }
+  }
+}
+
+function makeRenderer(cv, work, w, h, seed) {
+  cv.width = w; cv.height = h;
+  const ctx = cv.getContext('2d');
+  const img = ctx.createImageData(w, h);
+  return {
+    cv, ctx, img, w, h, s: w / 192, seed,
+    out: new Uint32Array(img.data.buffer),
+    src: new Uint32Array(w * h).fill(0xff000000),
+    off: new Int16Array(h),
+    gen: work.make(w, h, mulberry32(seed)),
+    t: 3 + (seed % 7) * 1.7, amt: 0.14, last: 0, next: 0,
+  };
+}
+function renderWork(R, dt, calm) {
+  const k = calm ? 0.35 : 1;
+  R.t += dt * k;
+  R.gen(R.t, R.src, calm, dt * k);
+  const step = Math.floor(R.t * (3 + R.amt * 20));
+  corrupt(R.src, R.out, R.w, R.h, R.amt, (R.seed * 7919 + step * 104729) | 0, R.t, R.s, R.off);
+  R.ctx.putImageData(R.img, 0, 0);
+}
+
+/* ---------------------------------------------------------------------
+   State
+   --------------------------------------------------------------------- */
+const hash = (location.hash || '').toLowerCase();
+const S = {
+  lang: /\ben\b/.test(hash) ? 'en' : /\bja\b/.test(hash) ? 'ja' : store.get('sn.lang', 'ja') === 'en' ? 'en' : 'ja',
+  stable: false,
+  frame: 0,
+  hot: -1,
+  viewer: -1,
+  t0: performance.now(),
+};
+{
+  const saved = store.get('sn.stable', null);
+  S.stable = /\bstable\b/.test(hash) ? true : saved === '1' ? true : saved === '0' ? false : !!reduceMQ.matches;
+}
+const L = () => T[S.lang];
+
+/* ---------------------------------------------------------------------
+   Headline: three tinted copies composited with "lighter"
+   --------------------------------------------------------------------- */
+const HL = {
+  wrap: $('#hlWrap'), el: $('#hlTitle'), cv: $('#hlCv'), mf: $('#manifesto'),
+  ctx: null, tint: [], bands: [], w: 0, h: 0, F: 0, dpr: 1,
+  hover: false, focus: false, py: null, touchUntil: 0, force: 0,
+  burstAt: 0, burstEnd: 0, nextSlice: 0, mode: '', lost: false, flash: [],
+};
+HL.ctx = HL.cv.getContext('2d');
+const mctx = document.createElement('canvas').getContext('2d');
+function advance(ctx, str, tr) {
+  const xs = [];
+  for (let i = 0; i < str.length; i++) xs.push(ctx.measureText(str.slice(0, i)).width + i * tr);
+  return { xs, w: ctx.measureText(str).width + (str.length - 1) * tr };
+}
+function hlLayout() {
+  const cw = HL.wrap.clientWidth;
+  if (!cw) return;
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const TRK = -0.03, LW = 0.026, GAP = 0.07;
+  mctx.font = `900 200px ${GROT}`;
+  const a1 = advance(mctx, 'SIGNAL/', TRK * 200), a2 = advance(mctx, 'NOISE', TRK * 200);
+  const mt = mctx.measureText('SIGNAL/NOISE');
+  const asc = (mt.actualBoundingBoxAscent || 146) / 200, desc = Math.max(0.01, (mt.actualBoundingBoxDescent || 8) / 200);
+  let F = (cw - 2) / (a1.w / 200 + LW);
+  const small = cw < 640;
+  const availH = window.innerHeight - hdr.offsetHeight - 200;
+  if (!small && availH > 220) F = Math.min(F, availH / (2 * (asc + desc) + GAP + LW));
+  F = Math.max(34, F);
+  const pad = (F * LW) / 2 + 2;
+  const y1 = pad + asc * F, y2 = y1 + desc * F + GAP * F + asc * F;
+  const cssH = Math.ceil(y2 + desc * F + pad);
+  const W = Math.round(cw * dpr), H = Math.round(cssH * dpr);
+  HL.cv.width = W; HL.cv.height = H;
+  HL.cv.style.height = cssH + 'px';
+  Object.assign(HL, { w: W, h: H, F, dpr });
+  const mk = document.createElement('canvas');
+  mk.width = W; mk.height = H;
+  const m = mk.getContext('2d'), Fd = F * dpr, sc = Fd / 200, x0 = pad * dpr;
+  m.font = `900 ${Fd}px ${GROT}`;
+  m.fillStyle = m.strokeStyle = '#fff';
+  m.lineWidth = Fd * LW; m.lineJoin = 'miter'; m.miterLimit = 2.5;
+  const draw = (str, a, y) => { for (let i = 0; i < str.length; i++) { const x = x0 + a.xs[i] * sc; m.fillText(str[i], x, y); m.strokeText(str[i], x, y); } };
+  draw('SIGNAL/', a1, y1 * dpr);
+  draw('NOISE', a2, y2 * dpr);
+  HL.tint = [RED, GRN, BLU].map((col) => {
+    const c = document.createElement('canvas');
+    c.width = W; c.height = H;
+    const x = c.getContext('2d');
+    x.drawImage(mk, 0, 0);
+    x.globalCompositeOperation = 'source-in';
+    x.fillStyle = col;
+    x.fillRect(0, 0, W, H);
+    return c;
+  });
+  const mf = HL.mf, nx = pad + (a2.w / 200) * F + F * LW + F * 0.07, room = cw - nx, capH = asc * F;
+  mf.classList.remove('below');
+  mf.style.cssText = '';
+  let below = room < 210;
+  if (!below) {
+    Object.assign(mf.style, { left: nx + 'px', width: Math.min(room, 440) + 'px', top: y2 - capH + 'px', height: capH + 'px' });
+    below = mf.scrollHeight > capH * 1.04;
+  }
+  if (below) { mf.style.cssText = ''; mf.classList.add('below'); }
+  HL.mode = '';
+  hlTick(performance.now());
+}
+function hlBands(k, focusY) {
+  const { h, F, dpr } = HL, Fd = F * dpr, bands = [];
+  let y = 0;
+  while (y < h) {
+    let bh = Math.round(2 * dpr + Math.pow(rand(), 2.2) * 0.34 * Fd);
+    if (y + bh > h) bh = h - y;
+    const near = focusY == null ? 0 : Math.exp(-Math.pow((y + bh / 2 - focusY) / (Fd * 0.35), 2));
+    const hit = rand() < 0.26 + 0.4 * k + near * 0.4;
+    const amp = Fd * ((hit ? 0.04 + 0.16 * k * Math.pow(rand(), 1.4) : 0) + near * 0.08 * k);
+    bands.push({
+      y, h: bh,
+      dx: hit ? (rand() * 2 - 1) * amp : 0,
+      split: (1.5 + rand() * (2 + 12 * k)) * dpr * (rand() < 0.5 ? -1 : 1),
+      only: rand() < 0.08 + 0.14 * k ? (rand() * 3) | 0 : -1,
+    });
+    y += bh;
+  }
+  HL.bands = bands;
+  HL.flash = [];
+  const nf = rand() < 0.5 * k ? 1 + ((rand() * 3) | 0) : 0;
+  for (let i = 0; i < nf; i++) HL.flash.push([(rand() * h) | 0, rand() < 0.5 ? '#fff' : [RED, GRN, BLU][(rand() * 3) | 0], rand() * 0.6 * HL.w, (0.2 + rand() * 0.8) * HL.w]);
+}
+function hlAligned(split) {
+  HL.bands = [{ y: 0, h: HL.h, dx: 0, split: split * HL.dpr, only: -1 }];
+  HL.flash = [];
+}
+function hlDraw() {
+  const { ctx, w, h, tint } = HL;
+  if (!w || tint.length < 3) return;
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, w, h);
+  ctx.globalCompositeOperation = 'lighter';
+  for (const b of HL.bands) {
+    for (let c = 0; c < 3; c++) {
+      if (b.only >= 0 && b.only !== c) continue;
+      const dx = Math.round(b.dx + (c - 1) * b.split * (b.only >= 0 ? 3 : 1));
+      ctx.drawImage(tint[c], 0, b.y, w, b.h, dx, b.y, w, b.h);
+    }
+  }
+  for (const f of HL.flash) { ctx.fillStyle = f[1]; ctx.fillRect(f[2], f[0], f[3], Math.max(1, HL.dpr)); }
+  ctx.globalCompositeOperation = 'source-over';
+}
+function hlTick(now) {
+  if (!HL.w) return;
+  HL.lost = !S.stable && (HL.hover || HL.focus || HL.touchUntil > now || HL.force > now);
+  if (S.stable) {
+    if (HL.mode !== 'stable') { HL.mode = 'stable'; hlAligned(0); hlDraw(); }
+    return;
+  }
+  if (HL.lost || TR.on) {
+    if (now >= HL.nextSlice || HL.mode !== 'lost') {
+      hlBands(TR.on ? 1 : 0.9, HL.py);
+      hlDraw();
+      HL.nextSlice = now + 38 + rand() * 50;
+      HL.mode = 'lost';
+    }
+    return;
+  }
+  if (now >= HL.burstAt && now < HL.burstEnd) {
+    if (now >= HL.nextSlice || HL.mode !== 'burst') {
+      hlBands(0.3 + rand() * 0.55, null);
+      hlDraw();
+      HL.nextSlice = now + 45 + rand() * 75;
+      HL.mode = 'burst';
+    }
+    return;
+  }
+  if (now >= HL.burstEnd) {
+    HL.burstAt = now + 2200 + rand() * 3800;
+    HL.burstEnd = HL.burstAt + 260 + rand() * 540;
+  }
+  if (HL.mode !== 'idle') { HL.mode = 'idle'; hlAligned(1.5); hlDraw(); }
+}
+HL.el.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') HL.hover = true; });
+HL.el.addEventListener('pointermove', (e) => { const r = HL.cv.getBoundingClientRect(); HL.py = (e.clientY - r.top) * HL.dpr; });
+HL.el.addEventListener('pointerleave', () => { HL.hover = false; HL.py = null; });
+HL.el.addEventListener('pointerdown', (e) => {
+  if (e.pointerType === 'touch') { const r = HL.cv.getBoundingClientRect(); HL.py = (e.clientY - r.top) * HL.dpr; HL.touchUntil = performance.now() + 1100; }
+});
+HL.el.addEventListener('focus', () => { HL.focus = HL.el.matches(':focus-visible'); });
+HL.el.addEventListener('blur', () => { HL.focus = false; });
+
+/* ---------------------------------------------------------------------
+   Full-screen tears
+   --------------------------------------------------------------------- */
+const TR = { cv: $('#tearCv'), els: [], ctx: null, noise: null, on: false, end: 0, next: 0, nextDraw: 0, after: 0, dpr: 1 };
+TR.ctx = TR.cv.getContext('2d');
+TR.noise = (() => {
+  const c = document.createElement('canvas');
+  c.width = 256; c.height = 24;
+  const x = c.getContext('2d'), id = x.createImageData(256, 24), d = new Uint32Array(id.data.buffer);
+  const cols = [RED32, GRN32, BLU32, WHT32];
+  for (let i = 0; i < d.length; i++) { const r = rand(); d[i] = r < 0.55 ? 0xff000000 : r < 0.85 ? WHT32 : cols[(rand() * 3) | 0]; }
+  x.putImageData(id, 0, 0);
+  return c;
+})();
+const tearT = $('#tearT'), tearR = $('#tearR'), tearD = $('#tearD'), tearO = $('#tearO');
+function tearResize() {
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  TR.dpr = dpr;
+  TR.cv.width = Math.round(innerWidth * dpr);
+  TR.cv.height = Math.round(innerHeight * dpr);
+}
+function tearDraw() {
+  const { ctx } = TR, W = TR.cv.width, H = TR.cv.height;
+  ctx.clearRect(0, 0, W, H);
+  const n = 3 + ((rand() * 7) | 0);
+  for (let i = 0; i < n; i++) {
+    const y = rand() * H, bh = Math.max(2, Math.pow(rand(), 2) * H * 0.12), k = rand();
+    ctx.globalAlpha = 1;
+    if (k < 0.3) { ctx.fillStyle = 'rgba(0,0,0,.92)'; ctx.fillRect(0, y, W, bh); }
+    else if (k < 0.58) { ctx.globalAlpha = 0.5; ctx.fillStyle = [RED, GRN, BLU][(rand() * 3) | 0]; const x0 = rand() * W * 0.6; ctx.fillRect(x0, y, W * (0.2 + rand() * 0.8), bh); }
+    else if (k < 0.86) { ctx.imageSmoothingEnabled = false; ctx.drawImage(TR.noise, 0, 0, 256, 24, -rand() * W * 0.2, y, W * 1.3, bh); }
+    else { ctx.fillStyle = '#fff'; ctx.fillRect(0, y, W, TR.dpr); }
+  }
+  ctx.globalAlpha = 1;
+}
+function tearStart(now, ms) {
+  tearT.setAttribute('seed', String((rand() * 1000) | 0));
+  tearT.setAttribute('baseFrequency', `0.00001 ${(0.008 + rand() * 0.04).toFixed(4)}`);
+  const vals = [];
+  for (let i = 0; i < 12; i++) vals.push(rand() < 0.6 ? '0.5' : (0.5 + (rand() * 2 - 1) * 0.5).toFixed(2));
+  tearR.setAttribute('tableValues', vals.join(' '));
+  tearD.setAttribute('scale', String(40 + ((rand() * 150) | 0)));
+  tearO.setAttribute('dx', String(((rand() * 2 - 1) * 16) | 0));
+  /* only the blocks on screen: a filter over the whole (very tall) page rasterises badly */
+  TR.els = [$('#hex'), hdr, ...$$('main > section'), $('.ftr')].filter((el) => { const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; });
+  TR.els.forEach((el) => el.classList.add('tearing'));
+  TR.cv.classList.add('on');
+  TR.on = true;
+  TR.end = now + (ms || 150 + rand() * 170);
+  TR.nextDraw = 0;
+  HX.jump = 3 + ((rand() * 6) | 0);
+}
+function tearStop() {
+  TR.els.forEach((el) => el.classList.remove('tearing'));
+  TR.els = [];
+  TR.cv.classList.remove('on');
+  TR.ctx.clearRect(0, 0, TR.cv.width, TR.cv.height);
+  TR.on = false;
+}
+function tearTick(now) {
+  if (S.stable || S.viewer >= 0) { if (TR.on) tearStop(); return; }
+  if (!TR.on) {
+    if (TR.after && now >= TR.after) { TR.after = 0; tearStart(now); }
+    else if (now >= TR.next) {
+      tearStart(now);
+      TR.next = now + 9000 + rand() * 13000;
+      TR.after = rand() < 0.3 ? now + 330 + rand() * 200 : 0;
+    }
+    return;
+  }
+  if (now >= TR.end) { tearStop(); return; }
+  if (now >= TR.nextDraw) { tearDraw(); TR.nextDraw = now + 34; }
+}
+
+/* ---------------------------------------------------------------------
+   Hex dump sidebar (a real message stream with corrupted bytes)
+   --------------------------------------------------------------------- */
+const HEX2 = Array.from({ length: 256 }, (_, i) => i.toString(16).padStart(2, '0').toUpperCase());
+const STREAM = 'SIGNAL/NOISE :: k.oshiro (fictional) :: 08 works :: DAWN BUFFER 2019 :: VERTICAL HOLD 2016 :: CHROMA BLEED 2017 :: DEAD CHANNEL 2014 :: MACROBLOCK ELEGY 2021 :: BIT ROT SEASON 2022 :: Q-TABLE GHOST 2024 :: NULL ISLAND 2026 :: a broken image cannot lie :: 壊れた画像は、嘘をつかない。 :: the record survives in the shape of the loss :: EOF? no. :: ';
+const HX = {
+  win: $('#hexWin'), feed: $('#hexFeed'), addrEl: $('#hexAddr'), rateEl: $('#hexRate'), errEl: $('#hexErr'),
+  bytes: Uint8Array.from([0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x00, 0x01, ...new TextEncoder().encode(STREAM)]),
+  lh: 14, n: 6, off: 0, addr: 0, pos: 0, jump: 0, bad: 0, total: 0, stat: 0,
+};
+function hexLine(el) {
+  el = el || document.createElement('span');
+  const n = HX.n, p = S.stable ? 0.012 : TR.on ? 0.25 : HL.lost ? 0.14 : 0.055;
+  let hex = '', asc = '';
+  for (let k = 0; k < n; k++) {
+    let b = HX.bytes[HX.pos++ % HX.bytes.length], cls = '';
+    if (rand() < p) { b = (rand() * 256) | 0; cls = ['cr', 'cg', 'cb'][(rand() * 3) | 0]; HX.bad++; }
+    HX.total++;
+    const ch = b >= 33 && b < 127 ? esc(String.fromCharCode(b)) : '.';
+    hex += (k ? ' ' : '') + (cls ? `<i class="${cls}">${HEX2[b]}</i>` : HEX2[b]);
+    asc += cls ? `<i class="${cls}">${ch}</i>` : ch;
+  }
+  el.className = !S.stable && rand() < 0.03 ? 'hx inv' : 'hx';
+  el.innerHTML = `<i class="ad">${(HX.addr & 0xffff).toString(16).padStart(4, '0').toUpperCase()}</i> ${hex} <i class="as">${asc}</i>`;
+  HX.addr += n;
+  return el;
+}
+function hexLayout() {
+  const probe = document.createElement('span');
+  probe.className = 'hx';
+  probe.style.cssText = 'position:absolute;visibility:hidden';
+  probe.textContent = '0000000000';
+  HX.win.appendChild(probe);
+  const cw = probe.getBoundingClientRect().width / 10 || 6;
+  HX.lh = probe.getBoundingClientRect().height || 14;
+  probe.remove();
+  const inner = HX.win.clientWidth - parseFloat(getComputedStyle(HX.win).paddingLeft) - parseFloat(getComputedStyle(HX.win).paddingRight);
+  const cols = Math.floor(inner / cw);
+  HX.n = clamp(Math.floor((cols - 6) / 4), 2, 16);
+  const need = Math.ceil(HX.win.clientHeight / HX.lh) + 2;
+  HX.feed.textContent = '';
+  for (let i = 0; i < need; i++) HX.feed.appendChild(hexLine());
+  HX.off = 0;
+}
+function hexTick(dt, now) {
+  const speed = S.stable ? 5 : TR.on ? 160 : HL.lost ? 70 : 24;
+  HX.off += speed * dt;
+  if (HX.jump) { HX.off += HX.jump * HX.lh; HX.jump = 0; }
+  let guard = 0;
+  while (HX.off >= HX.lh && guard++ < 60) {
+    HX.off -= HX.lh;
+    const first = HX.feed.firstElementChild;
+    if (!first) break;
+    HX.feed.appendChild(hexLine(first));
+  }
+  HX.feed.style.transform = `translate3d(0,${-Math.round(HX.off)}px,0)`;
+  if (now > HX.stat) {
+    HX.stat = now + 500;
+    HX.addrEl.textContent = '0x' + (HX.addr & 0xffffff).toString(16).padStart(6, '0').toUpperCase();
+    HX.rateEl.textContent = `RD ${((speed / HX.lh) * HX.n / 1024 * 100).toFixed(1)} KB/s`;
+    HX.errEl.textContent = `ERR ${HX.total ? ((HX.bad / HX.total) * 100).toFixed(1) : '0.0'}%`;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Works grid
+   --------------------------------------------------------------------- */
+const list = $('#worksList');
+const CARDS = WORKS.map((w, i) => {
+  const li = document.createElement('li');
+  li.className = 'work';
+  li.innerHTML = `<div class="work-frame"><canvas aria-hidden="true"></canvas><span class="work-tag" aria-hidden="true"><i></i><span class="wt">LIVE · 12 FPS</span></span></div>
+    <div class="work-meta"><span class="work-no">${String(i + 1).padStart(2, '0')}</span><h3 class="work-title"><button type="button" class="work-open" aria-haspopup="dialog">${esc(w.title)}</button></h3><span class="work-year">${w.year}</span><span class="work-sub"></span></div>`;
+  list.appendChild(li);
+  const card = { i, li, btn: $('.work-open', li), sub: $('.work-sub', li), tag: $('.wt', li), vis: false, hot: false, R: makeRenderer($('canvas', li), w, 192, 144, 101 + i * 37) };
+  li.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') setHot(card, true); });
+  li.addEventListener('pointerleave', () => { if (document.activeElement !== card.btn) setHot(card, false); });
+  card.btn.addEventListener('focus', () => setHot(card, true));
+  card.btn.addEventListener('blur', () => setHot(card, false));
+  card.btn.addEventListener('click', () => openViewer(i, card.btn));
+  return card;
+});
+function setHot(card, on) {
+  card.hot = on;
+  card.li.classList.toggle('hot', on);
+  S.hot = on ? card.i : CARDS.some((c) => c.hot) ? S.hot : -1;
+  tagText(card);
+}
+function tagText(card) {
+  card.tag.textContent = S.stable ? 'STABLE · 10 FPS' : card.hot ? 'LIVE · 30 FPS · HEAVY' : 'LIVE · 12 FPS';
+}
+function cardsTick(now) {
+  if (S.viewer >= 0) return;
+  for (const c of CARDS) {
+    if (!c.vis || now < c.R.next) continue;
+    const R = c.R;
+    const dt = Math.min(0.2, R.last ? (now - R.last) / 1000 : 0.08);
+    R.last = now;
+    const target = S.stable ? 0.02 : TR.on ? 0.7 : c.hot ? 0.82 : 0.14;
+    R.amt += (target - R.amt) * (1 - Math.exp(-dt * 6));
+    renderWork(R, dt, S.stable);
+    R.next = now + 1000 / (S.stable ? 10 : c.hot ? 30 : 12);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Viewer
+   --------------------------------------------------------------------- */
+const V = {
+  dlg: $('#viewer'), cv: $('#vCv'), slider: $('#vCorr'), out: $('#vOut'), R: null, i: -1, from: null, acq: 0,
+};
+function viewerText() {
+  if (V.i < 0) return;
+  const w = WORKS[V.i], l = L(), x = w[S.lang], v = l.v;
+  $('#vNo').textContent = String(V.i + 1).padStart(2, '0');
+  $('#vTitle').textContent = w.title;
+  $('#vSub').textContent = S.lang === 'ja' ? `${w.ja.sub} — ${w.year}年` : String(w.year);
+  $('#vDesc').textContent = x.desc;
+  $('#vSpec').innerHTML = [[v.spec[0], x.med], [v.spec[1], v.res], [v.spec[2], String(w.year)]]
+    .map((r) => `<div><dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd></div>`).join('');
+  V.cv.setAttribute('aria-label', v.img(w, x.desc));
+  $('#vCorrL').textContent = v.corr;
+  $('#vClean').textContent = `0 — ${v.clean}`;
+  $('#vLost').textContent = `${v.lost} — 100`;
+  $('#vPrevL').textContent = v.prev;
+  $('#vNextL').textContent = v.next;
+  $('#vPrev').setAttribute('aria-label', v.prevAria);
+  $('#vNext').setAttribute('aria-label', v.nextAria);
+  $('#vClose').setAttribute('aria-label', v.close);
+  $('#vKeys').textContent = v.keys;
+}
+function viewerLoad(i) {
+  V.i = (i + WORKS.length) % WORKS.length;
+  V.R = makeRenderer(V.cv, WORKS[V.i], 384, 288, 1001 + V.i * 53);
+  V.R.amt = 1;
+  V.acq = performance.now();
+  viewerText();
+}
+function openViewer(i, from) {
+  V.from = from;
+  viewerLoad(i);
+  S.viewer = V.i;
+  if (!V.dlg.open) {
+    try { V.dlg.showModal(); } catch (e) { V.dlg.setAttribute('open', ''); }
+  }
+  root.classList.add('modal');
+  sliderFill();
+  $('#vClose').focus();
+}
+function closeViewer() {
+  if (V.dlg.open) { try { V.dlg.close(); } catch (e) { V.dlg.removeAttribute('open'); onViewerClosed(); } }
+}
+function onViewerClosed() {
+  if (V.dlg.open) return; /* reopened before the async close event arrived */
+  root.classList.remove('modal');
+  const back = CARDS[V.i] ? CARDS[V.i].btn : V.from;
+  S.viewer = -1;
+  V.R = null;
+  if (back) back.focus({ preventScroll: false });
+}
+function viewerStep(d) {
+  viewerLoad(V.i + d);
+  S.viewer = V.i;
+}
+function sliderFill() {
+  V.slider.style.setProperty('--p', V.slider.value + '%');
+  V.out.textContent = String(V.slider.value).padStart(3, '0');
+}
+V.dlg.addEventListener('close', onViewerClosed);
+V.slider.addEventListener('input', sliderFill);
+$('#vPrev').addEventListener('click', () => viewerStep(-1));
+$('#vNext').addEventListener('click', () => viewerStep(1));
+$('#vClose').addEventListener('click', closeViewer);
+V.dlg.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    if (e.target === V.slider) return;
+    e.preventDefault();
+    viewerStep(e.key === 'ArrowRight' ? 1 : -1);
+  } else if (e.key === 'Tab') {
+    const f = $$('button, [href], input, [tabindex]:not([tabindex="-1"])', V.dlg).filter((el) => !el.disabled && el.getClientRects().length);
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+function viewerTick(now) {
+  if (S.viewer < 0 || !V.R || now < V.R.next) return;
+  const R = V.R;
+  const dt = Math.min(0.2, R.last ? (now - R.last) / 1000 : 0.033);
+  R.last = now;
+  const want = V.slider.value / 100;
+  const acq = S.stable ? 0 : clamp(1 - (now - V.acq) / 750, 0, 1);
+  R.amt = want + (1 - want) * acq * acq;
+  renderWork(R, dt, S.stable);
+  R.next = now + 1000 / 30;
+  $('#vHudR').textContent = `C ${String(Math.round(R.amt * 100)).padStart(3, '0')} · FRM ${String(S.frame % 1e6).padStart(6, '0')}`;
+}
+
+/* ---------------------------------------------------------------------
+   Self-decoding biography
+   --------------------------------------------------------------------- */
+const GL_N = '#&*<=>@^_~0123456789ABCDEFXZ$%+';
+const GL_W = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン信号雑音欠損壱弐参零映像記録圧縮';
+const KEEP = /[\s、。「」（）・—]/;
+const WIDE = /[ᄀ-ᅟ⺀-꓏가-힣豈-﫿︰-﹏＀-｠￠-￦]/;
+const glyph = (c) => (KEEP.test(c) ? c : WIDE.test(c) ? GL_W[(rand() * GL_W.length) | 0] : GL_N[(rand() * GL_N.length) | 0]);
+const DC = { el: $('#decode'), plain: $('#aboutPlain'), text: '', chars: [], state: 'idle', start: 0, dur: 1, corrupt: new Map(), nextC: 0, last: 0, seen: false };
+function dcSet(text) {
+  DC.text = text;
+  DC.chars = Array.from(text);
+  DC.plain.textContent = text;
+  DC.corrupt.clear();
+  if (DC.state === 'done' || S.stable) { DC.state = 'done'; DC.el.textContent = text; }
+  else if (DC.state === 'run') dcStart(true);
+  else DC.el.innerHTML = `<i class="h">${esc(text)}</i>`;
+}
+function dcStart(fast) {
+  if (S.stable) { DC.state = 'done'; DC.el.textContent = DC.text; return; }
+  DC.state = 'run';
+  DC.start = performance.now();
+  DC.dur = (DC.chars.length / (S.lang === 'ja' ? 34 : 80)) * 1000 * (fast ? 0.35 : 1);
+  DC.corrupt.clear();
+}
+function dcTick(now) {
+  if (DC.state !== 'run' && !DC.corrupt.size) return;
+  if (now - DC.last < 42) return;
+  DC.last = now;
+  const n = DC.chars.length;
+  const p = DC.state === 'run' ? clamp((now - DC.start) / DC.dur, 0, 1) : 1;
+  const r = Math.floor(p * n), win = S.lang === 'ja' ? 6 : 12;
+  if (DC.state === 'run' && now > DC.nextC && r > 4) {
+    const i = (rand() * r) | 0;
+    if (!KEEP.test(DC.chars[i])) DC.corrupt.set(i, now + 140 + rand() * 380);
+    DC.nextC = now + 60 + rand() * 170;
+  }
+  for (const [i, until] of DC.corrupt) if (now > until || (p >= 1 && rand() < 0.35)) DC.corrupt.delete(i);
+  if (p >= 1) DC.state = 'done';
+  if (DC.state === 'done' && !DC.corrupt.size) { DC.el.textContent = DC.text; return; }
+  let html = '', seg = '';
+  for (let i = 0; i < r; i++) {
+    const c = DC.chars[i];
+    if (DC.corrupt.has(i)) { html += esc(seg) + `<i class="c">${esc(glyph(c))}</i>`; seg = ''; }
+    else seg += c;
+  }
+  html += esc(seg);
+  if (r < n) {
+    const e = Math.min(n, r + win);
+    html += `<i class="u">${esc(glyph(DC.chars[r]))}</i>`;
+    let sc = '';
+    for (let i = r + 1; i < e; i++) sc += glyph(DC.chars[i]);
+    if (sc) html += `<i class="s">${esc(sc)}</i>`;
+    if (e < n) html += `<i class="h">${esc(DC.chars.slice(e).join(''))}</i>`;
+  }
+  DC.el.innerHTML = html;
+}
+
+/* ---------------------------------------------------------------------
+   Stats strip (digits scramble into place)
+   --------------------------------------------------------------------- */
+const ST = { grid: $('#statGrid'), run: 0, done: false };
+function statsRender(scramble) {
+  const l = L();
+  ST.grid.innerHTML = l.stats.map((s, i) => {
+    const v = scramble ? s[1].replace(/\d/g, () => (rand() * 10) | 0) : s[1];
+    return `<div class="stat${i === 3 ? ' hot' : ''}"><dt>${esc(s[0])}</dt><dd>${esc(v)}${s[2] ? `<small>${s[2]}</small>` : ''}</dd></div>`;
+  }).join('');
+}
+function statsTick(now) {
+  if (!ST.run) return;
+  if (now > ST.run) { ST.run = 0; statsRender(false); return; }
+  if (S.frame % 3 === 0) statsRender(true);
+}
+
+/* ---------------------------------------------------------------------
+   Language
+   --------------------------------------------------------------------- */
+function applyLang() {
+  const l = L();
+  root.lang = S.lang;
+  document.title = l.title;
+  $('meta[name="description"]').setAttribute('content', l.desc);
+  $$('[data-t]').forEach((el) => { const v = l[el.dataset.t]; if (typeof v === 'string') el.textContent = v; });
+  $('#brand').setAttribute('aria-label', l.brandAria);
+  $('#nav').setAttribute('aria-label', l.navAria);
+  $$('#nav a span').forEach((el, i) => { el.textContent = l.nav[i]; });
+  const lb = $('#langBtn');
+  lb.setAttribute('aria-label', l.langAria);
+  $$('span', lb).forEach((sp) => sp.classList.toggle('on', sp.textContent.toLowerCase() === S.lang));
+  $('#mfText').textContent = l.manifesto;
+  $('#stats').setAttribute('aria-label', l.statsAria);
+  statsRender(false);
+  CARDS.forEach((c) => {
+    const w = WORKS[c.i];
+    c.sub.textContent = S.lang === 'ja' ? `${w.ja.sub} — ${w.ja.med}` : w.en.med;
+    c.btn.setAttribute('aria-label', l.openAria(w));
+  });
+  $('#facts').innerHTML = l.facts.map((f) => `<div><dt>${esc(f[0])}</dt><dd>${esc(f[1])}</dd></div>`).join('');
+  const li = S.lang === 'ja' ? 1 : 0;
+  $('#exList').innerHTML = SHOWS.map((x) => `<li class="ex"><span class="ex-year">${x[0]}</span><span class="ex-title">${esc(x[1])}${x[5] ? `<span class="ex-now">${esc(l.now)}</span>` : ''}</span><span class="ex-venue">${esc(x[2][li])}<span>${esc(x[3][li])}</span></span><span class="ex-type">${esc(l.types[x[4]])}</span></li>`).join('');
+  dcSet(l.about);
+  viewerText();
+  if (HL.w) hlLayout();
+}
+function setLang(lang) {
+  S.lang = lang;
+  store.set('sn.lang', lang);
+  applyLang();
+}
+$('#langBtn').addEventListener('click', () => setLang(S.lang === 'ja' ? 'en' : 'ja'));
+
+/* ---------------------------------------------------------------------
+   Stabilize
+   --------------------------------------------------------------------- */
+const stabBtn = $('#stab');
+function setStable(on, persist) {
+  S.stable = on;
+  root.classList.toggle('stable', on);
+  stabBtn.setAttribute('aria-checked', on ? 'true' : 'false');
+  if (persist) store.set('sn.stable', on ? '1' : '0');
+  if (on) {
+    if (TR.on) tearStop();
+    if (DC.state === 'run') { DC.state = 'done'; DC.corrupt.clear(); DC.el.textContent = DC.text; }
+    if (ST.run) { ST.run = 0; statsRender(false); }
+  }
+  HL.mode = '';
+  CARDS.forEach(tagText);
+}
+stabBtn.addEventListener('click', () => setStable(!S.stable, true));
+if (reduceMQ.addEventListener) {
+  reduceMQ.addEventListener('change', (e) => { if (store.get('sn.stable', null) == null) setStable(e.matches, false); });
+}
+
+/* ---------------------------------------------------------------------
+   Copy address
+   --------------------------------------------------------------------- */
+const copyStatus = $('#copyStatus');
+$('#copyBtn').addEventListener('click', async () => {
+  const text = $('#addr').textContent.trim(), l = L();
+  let ok = false, fallback = false;
+  try {
+    if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); ok = true; }
+  } catch (e) { ok = false; }
+  if (!ok) {
+    const ta = $('#copyField');
+    ta.value = text;
+    ta.select();
+    try { ok = document.execCommand('copy'); fallback = ok; } catch (e) { ok = false; }
+    $('#copyBtn').focus();
+  }
+  copyStatus.classList.toggle('err', !ok);
+  copyStatus.textContent = ok ? (fallback ? l.copiedFallback : l.copied) + text : l.copyFail;
+});
+
+/* ---------------------------------------------------------------------
+   Telemetry
+   --------------------------------------------------------------------- */
+const TL = { sig: $('#sig'), frm: $('#frm'), meter: $$('#meter i'), tc: $('#tc'), v: 97, next: 0 };
+function teleTick(now) {
+  if (S.frame % 2 === 0) TL.frm.textContent = String(S.frame % 1e6).padStart(6, '0');
+  if (now < TL.next) return;
+  TL.next = now + 110;
+  const target = S.stable ? 100 : TR.on ? 6 + rand() * 24 : HL.lost ? 38 + rand() * 22 : S.hot >= 0 || S.viewer >= 0 ? 72 + rand() * 12 : 95.5 + rand() * 4.2;
+  TL.v += (target - TL.v) * (S.stable ? 1 : 0.55);
+  TL.sig.textContent = TL.v.toFixed(1) + '%';
+  const lit = Math.round(TL.v / 10), low = TL.v < 50;
+  TL.meter.forEach((m, i) => { m.className = i < lit ? (low ? 'lo' : 'on') : ''; });
+  const e = (now - S.t0) / 1000, f = Math.floor((e % 1) * 25), p2 = (n) => String(n).padStart(2, '0');
+  TL.tc.textContent = `TC ${p2(Math.floor(e / 3600))}:${p2(Math.floor(e / 60) % 60)}:${p2(Math.floor(e) % 60)}:${p2(f)}`;
+}
+
+/* ---------------------------------------------------------------------
+   Observers
+   --------------------------------------------------------------------- */
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((es) => {
+    for (const e of es) { const c = CARDS.find((k) => k.li === e.target); if (c) c.vis = e.isIntersecting; }
+  }, { rootMargin: '80px 0px' });
+  CARDS.forEach((c) => io.observe(c.li));
+  new IntersectionObserver((es, o) => {
+    if (es.some((e) => e.isIntersecting)) { if (DC.state === 'idle') dcStart(false); o.disconnect(); }
+  }, { threshold: 0.3 }).observe($('#decode'));
+  new IntersectionObserver((es, o) => {
+    if (es.some((e) => e.isIntersecting)) { if (!S.stable) ST.run = performance.now() + 700; o.disconnect(); }
+  }, { threshold: 0.5 }).observe($('#stats'));
+  const links = $$('#nav a');
+  const navIO = new IntersectionObserver((es) => {
+    for (const e of es) {
+      if (!e.isIntersecting) continue;
+      links.forEach((a) => {
+        const on = a.getAttribute('href') === '#' + e.target.id;
+        a.classList.toggle('on', on);
+        if (on) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+      });
+    }
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  ['works', 'about', 'shows', 'contact'].forEach((id) => navIO.observe($('#' + id)));
+} else {
+  CARDS.forEach((c) => { c.vis = true; });
+  dcStart(false);
+}
+
+/* ---------------------------------------------------------------------
+   Layout & loop
+   --------------------------------------------------------------------- */
+function layout() {
+  root.style.setProperty('--hdrH', hdr.offsetHeight + 'px');
+  hlLayout();
+  hexLayout();
+  tearResize();
+}
+let rsz = 0;
+addEventListener('resize', () => { clearTimeout(rsz); rsz = setTimeout(layout, 120); });
+if ('ResizeObserver' in window) {
+  let lastW = 0;
+  new ResizeObserver((es) => {
+    const w = Math.round(es[0].contentRect.width);
+    if (w !== lastW) { lastW = w; clearTimeout(rsz); rsz = setTimeout(layout, 60); }
+  }).observe(HL.wrap);
+}
+
+let raf = 0, last = 0;
+function loop(now) {
+  raf = requestAnimationFrame(loop);
+  const dt = Math.min(0.1, last ? (now - last) / 1000 : 0.016);
+  last = now;
+  S.frame++;
+  if (S.viewer < 0) {
+    hlTick(now);
+    hexTick(dt, now);
+    tearTick(now);
+    cardsTick(now);
+    dcTick(now);
+    statsTick(now);
+  } else {
+    viewerTick(now);
+  }
+  teleTick(now);
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { cancelAnimationFrame(raf); raf = 0; if (TR.on) tearStop(); }
+  else if (!raf) { last = 0; raf = requestAnimationFrame(loop); }
+});
+
+/* ---------------------------------------------------------------------
+   Boot
+   --------------------------------------------------------------------- */
+setStable(S.stable, false);
+applyLang();
+layout();
+CARDS.forEach((c) => renderWork(c.R, 0.05, S.stable));
+{
+  const now = performance.now();
+  HL.burstAt = now + 900;
+  HL.burstEnd = HL.burstAt + 520;
+  TR.next = now + 5200 + rand() * 3000;
+}
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => hlLayout());
+if (!document.hidden) raf = requestAnimationFrame(loop);
+
+/* Hooks for the gallery's cover shots */
+window.SN = {
+  burst() { const n = performance.now(); HL.burstAt = n; HL.burstEnd = n + 900; HL.mode = ''; },
+  lose(ms = 1500) { HL.force = performance.now() + ms; },
+  hot(i) { CARDS.forEach((c) => setHot(c, c.i === i)); },
+  open(i, corr) { if (corr != null) { V.slider.value = String(corr); } openViewer(i, CARDS[i].btn); },
+  close: closeViewer,
+  tear(ms) { tearStart(performance.now(), ms); TR.next = performance.now() + 9000; },
+  stable(on) { setStable(!!on, false); },
+  lang: setLang,
+  go(id) { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - hdr.offsetHeight + 1, behavior: 'instant' }); },
+};
+})();
+</script>
+</body>
+</html>
