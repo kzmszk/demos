@@ -1,0 +1,2205 @@
+<!DOCTYPE html>
+<html lang="ja" data-phos="green">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>HELIOS/OS 2.3 — Heliograph HX-14 端末（架空）</title>
+<meta name="description" content="1987年の架空の OS「HELIOS/OS」を、蛍光管の CRT ごと再現した端末シミュレーション。起動画面、動くシェル、文字の雨、宇宙天気、スネークゲーム。日本語と英語に対応。">
+<meta name="theme-color" content="#1f2023">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:,">
+<style>
+:root{
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", "Noto Sans Mono", "BIZ UDGothic", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans CJK JP", "Noto Sans Mono CJK JP", "Yu Gothic", "MS Gothic", monospace;
+  --sans: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans", "Noto Sans CJK JP", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+  --fg: #33ff66; --bg: #031a07; --rgb: 51,255,102; --bgrgb: 3,26,7; --hot: #d2ffdc;
+  --fs: clamp(12.5px, min(1.5vw, 2.3vh), 23px);
+  --lh: 1.32;
+  --sl: calc(var(--fs) * 1.8);
+  --bz: clamp(10px, 2.4vmin, 30px);
+  --padx: clamp(12px, 2.9vmin, 40px);
+  --pady: clamp(10px, 2.3vmin, 30px);
+  --glow: 0 0 1px rgba(var(--rgb), .9), 0 0 5px rgba(var(--rgb), .42), 0 0 15px rgba(var(--rgb), .2);
+  --glow-hot: 0 0 1px #fff, 0 0 4px rgba(var(--rgb), .95), 0 0 12px rgba(var(--rgb), .6), 0 0 30px rgba(var(--rgb), .3);
+  color-scheme: dark;
+}
+:root[data-phos="amber"]{ --fg: #ffb000; --bg: #1a0f00; --rgb: 255,176,0; --bgrgb: 26,15,0; --hot: #ffe7b3; }
+:root[data-phos="ice"]{ --fg: #9fe7ff; --bg: #03111a; --rgb: 159,231,255; --bgrgb: 3,17,26; --hot: #f0fcff; }
+
+*, *::before, *::after{ box-sizing: border-box; }
+html, body{ margin: 0; height: 100%; overflow: hidden; background: #1b1c1f; }
+body{ font-family: var(--sans); -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+.sr{ position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ---------- the monitor: bezel, mask, tube ---------- */
+.monitor{
+  position: fixed; left: 0; top: 0; width: 100%; height: var(--vvh, 100vh);
+  display: grid; grid-template-rows: minmax(0, 1fr) auto;
+  padding: calc(var(--bz) + env(safe-area-inset-top)) calc(var(--bz) + env(safe-area-inset-right)) 0 calc(var(--bz) + env(safe-area-inset-left));
+  background:
+    radial-gradient(90% 55% at 50% 0%, rgba(255,255,255,.06), transparent 70%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, #2c2d31 0%, #232427 42%, #1b1c1f 100%);
+}
+.mask{
+  position: relative; min-height: 0; padding: clamp(3px, .7vmin, 9px);
+  border-radius: clamp(14px, 3vmin, 38px);
+  background: linear-gradient(180deg, #0c0c0e, #141518);
+  box-shadow: inset 0 3px 9px rgba(0,0,0,.95), inset 0 -1px 1px rgba(255,255,255,.07), 0 -1px 0 rgba(0,0,0,.55), 0 1px 0 rgba(255,255,255,.08);
+}
+.tube{
+  position: relative; height: 100%; overflow: hidden; isolation: isolate; cursor: text; touch-action: manipulation;
+  border-radius: clamp(12px, 2.7vmin, 34px) / clamp(15px, 3.5vmin, 44px);
+  background: radial-gradient(ellipse 78% 72% at 50% 46%, rgba(var(--rgb), .085), rgba(var(--rgb), .025) 58%, transparent 86%), var(--bg);
+  transition: background-color .4s;
+}
+.tube.game{ touch-action: none; cursor: default; }
+.flick, .raster{ position: absolute; inset: 0; }
+.flick{ animation: flicker 6.3s steps(1, end) infinite; }
+.raster{ transform-origin: 50% 50%; }
+.raster.off{ transform: scale(0, 0); }
+
+/* ---------- terminal text ---------- */
+.term{
+  position: absolute; left: 0; right: 0; top: 0; bottom: var(--sl);
+  padding: var(--pady) var(--padx);
+  font: 400 var(--fs)/var(--lh) var(--mono); color: var(--fg); text-shadow: var(--glow);
+  white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-all; tab-size: 8;
+  font-variant-ligatures: none; font-kerning: none; font-synthesis: none;
+}
+.screen{ overflow-y: auto; overflow-x: hidden; scrollbar-width: none; overscroll-behavior: contain; transition: opacity .6s; }
+.screen::-webkit-scrollbar{ display: none; }
+.screen.hush{ opacity: 0; }
+.o{ min-height: calc(var(--fs) * var(--lh)); }
+.h{ color: var(--hot); text-shadow: var(--glow-hot); }
+.d{ color: rgba(var(--rgb), .56); text-shadow: 0 0 4px rgba(var(--rgb), .25); }
+.i{ background: var(--fg); color: var(--bg); text-shadow: none; box-shadow: 0 0 12px rgba(var(--rgb), .45); }
+.w{ display: inline-block; width: 2ch; text-align: center; }
+.blink{ animation: blink2 .9s steps(1, end) infinite; }
+.post{ position: relative; }
+.post-badge{ position: absolute; right: 0; top: 0; margin: 0; font: inherit; text-align: center; animation: fadein .5s ease-out both; }
+.inp[hidden]{ display: none; }
+.caret{ background: var(--fg); color: var(--bg); text-shadow: none; box-shadow: 0 0 10px rgba(var(--rgb), .65); animation: cblink 1.06s steps(1, end) infinite; }
+.caret.solid{ animation: none; }
+.blurred .caret{ animation: none; background: transparent; color: var(--fg); text-shadow: var(--glow); box-shadow: inset 0 0 0 1px var(--fg), 0 0 6px rgba(var(--rgb), .35); }
+.ghost{ overflow: hidden; pointer-events: none; opacity: 0; }
+.ghost.on{ animation: ghost 1.5s cubic-bezier(.2,.6,.3,1) forwards; }
+.rain{ position: absolute; left: 0; top: 0; width: 100%; height: calc(100% - var(--sl)); opacity: 0; transition: opacity .8s; pointer-events: none; }
+.rain.on{ opacity: 1; }
+.snake{ margin: 0; font: inherit; white-space: pre; }
+.snake .pel{ animation: blink2 .5s steps(1, end) infinite; }
+
+/* ---------- status line (inverse video) ---------- */
+.status{
+  position: absolute; left: 0; right: 0; bottom: 0; height: var(--sl);
+  display: flex; align-items: center; padding: 0 calc(var(--padx) - .6ch);
+  background: rgba(var(--rgb), .9); color: var(--bg);
+  font: 700 calc(var(--fs) * .76)/1 var(--mono); letter-spacing: .02em; white-space: nowrap; overflow: hidden;
+  box-shadow: 0 0 18px rgba(var(--rgb), .45), 0 0 2px rgba(var(--rgb), .9);
+}
+.status > *{ flex: none; padding: 0 .6ch; }
+.status .sp{ flex: 1; }
+.status .sep{ padding: 0; width: 1px; height: 46%; background: rgba(var(--bgrgb), .35); }
+.sbtn{ appearance: none; border: 0; margin: 0; height: 100%; background: transparent; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; }
+.sbtn:hover{ background: rgba(var(--bgrgb), .16); }
+.sbtn:focus-visible{ outline: 2px solid var(--bg); outline-offset: -4px; }
+
+/* ---------- glass: scanlines, grille, grain, roll, vignette, reflection ---------- */
+.fx{ position: absolute; inset: 0; pointer-events: none; border-radius: inherit; }
+.scan{ background: repeating-linear-gradient(180deg, transparent 0 2px, rgba(0,0,0,.32) 2px 3px); }
+.grille{ background: repeating-linear-gradient(90deg, rgba(255,50,50,.06) 0 1px, rgba(50,255,80,.06) 1px 2px, rgba(70,90,255,.06) 2px 3px); mix-blend-mode: screen; }
+.grain{ width: 100%; height: 100%; opacity: .055; mix-blend-mode: screen; }
+.roll{ inset: 0 0 auto 0; height: 24%; border-radius: 0; background: linear-gradient(180deg, transparent, rgba(var(--rgb), .035) 40%, rgba(var(--rgb), .065) 50%, rgba(var(--rgb), .035) 60%, transparent); animation: roll 9s linear infinite; }
+.vig{
+  background: radial-gradient(ellipse 74% 70% at 50% 50%, transparent 58%, rgba(0,0,0,.32) 84%, rgba(0,0,0,.78) 100%);
+  box-shadow: inset 0 0 clamp(24px, 6vmin, 80px) rgba(0,0,0,.8), inset 0 0 clamp(4px, 1vmin, 12px) rgba(0,0,0,.95), inset 0 clamp(6px, 1.4vmin, 16px) clamp(10px, 2.4vmin, 28px) -6px rgba(0,0,0,.6);
+}
+.glass{
+  background:
+    radial-gradient(ellipse 46% 30% at 24% 10%, rgba(255,255,255,.075), transparent 72%),
+    radial-gradient(ellipse 30% 18% at 82% 92%, rgba(255,255,255,.025), transparent 70%),
+    linear-gradient(166deg, rgba(255,255,255,.04) 0%, transparent 34%, transparent 72%, rgba(255,255,255,.018) 100%);
+}
+.beam{ position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; opacity: 0; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(var(--rgb), .9) 12%, #fff 50%, rgba(var(--rgb), .9) 88%, transparent);
+  box-shadow: 0 0 12px 2px rgba(var(--rgb), .85), 0 0 44px 8px rgba(var(--rgb), .35); }
+.spot{ position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 50%; opacity: 0; pointer-events: none; background: #fff;
+  box-shadow: 0 0 10px 4px rgba(var(--rgb), .95), 0 0 34px 12px rgba(var(--rgb), .4); }
+.kbd{ position: absolute; left: 0; bottom: 0; width: 1px; height: 1px; padding: 0; border: 0; opacity: 0; font-size: 16px; color: transparent; background: transparent; caret-color: transparent; }
+
+/* power, degauss, glitch */
+.raster.pon{ animation: rasterOn .95s cubic-bezier(.2,.7,.2,1) both; }
+.beam.pon{ animation: beamOn .95s ease-out both; }
+.raster.poff{ animation: rasterOff .75s cubic-bezier(.6,0,.8,.4) forwards; }
+.spot.poff{ animation: spotOff 1.4s ease-out forwards; }
+.raster.degauss{ animation: degauss 1s cubic-bezier(.2,.7,.3,1); }
+.raster.glitch{ animation: glitch .2s steps(3, end); }
+.raster.vbell{ animation: vbell .18s ease-out; }
+
+@keyframes flicker{ 0%{opacity:1} 7%{opacity:.968} 7.6%{opacity:1} 31%{opacity:.986} 32%{opacity:1} 55%{opacity:.958} 55.5%{opacity:.992} 56.2%{opacity:1} 78%{opacity:.975} 79%{opacity:1} 93%{opacity:.985} 93.4%{opacity:1} }
+@keyframes roll{ from{ transform: translateY(-100%); } to{ transform: translateY(520%); } }
+@keyframes rasterOn{ 0%{ transform: scale(0, .004); filter: brightness(4); } 34%{ transform: scale(1, .004); filter: brightness(4); } 68%{ transform: scale(1, 1.025); filter: brightness(1.6); } 100%{ transform: none; filter: none; } }
+@keyframes beamOn{ 0%{ opacity: 1; transform: scaleX(0); } 34%{ opacity: 1; transform: scaleX(1); } 62%{ opacity: 0; transform: scaleX(1) scaleY(24); } 100%{ opacity: 0; } }
+@keyframes rasterOff{ 0%{ transform: none; filter: none; } 48%{ transform: scale(1, .004); filter: brightness(5); } 85%{ transform: scale(.003, .004); filter: brightness(9); } 100%{ transform: scale(0, 0); filter: brightness(9); } }
+@keyframes spotOff{ 0%, 48%{ opacity: 0; transform: scale(1); } 58%{ opacity: 1; transform: scale(1.4); } 100%{ opacity: 0; transform: scale(.3); } }
+@keyframes degauss{
+  0%{ transform: none; filter: none; }
+  9%{ transform: skewX(7deg) scale(1.035, .975); filter: hue-rotate(110deg) saturate(2.2) brightness(1.3); }
+  22%{ transform: skewX(-5deg) scale(.98, 1.025); filter: hue-rotate(-80deg) saturate(1.8); }
+  38%{ transform: skewX(3deg) scale(1.012, .992); filter: hue-rotate(45deg); }
+  56%{ transform: skewX(-1.5deg) scale(.996, 1.006); filter: hue-rotate(-22deg); }
+  76%{ transform: skewX(.6deg); filter: hue-rotate(8deg); }
+  100%{ transform: none; filter: none; }
+}
+@keyframes glitch{ 0%{ transform: translate(0, -1.6%) skewX(-4deg); filter: brightness(1.4); } 33%{ transform: translate(1.1%, .9%); } 66%{ transform: translate(-.6%, 0) skewX(1.5deg); } 100%{ transform: none; filter: none; } }
+@keyframes vbell{ 0%{ filter: brightness(2) contrast(1.2); } 100%{ filter: none; } }
+@keyframes ghost{ 0%{ opacity: .72; filter: blur(0); } 100%{ opacity: 0; filter: blur(4px); } }
+@keyframes cblink{ 50%{ background: transparent; color: var(--fg); box-shadow: none; text-shadow: var(--glow); } }
+@keyframes blink2{ 50%{ opacity: .15; } }
+@keyframes fadein{ from{ opacity: 0; } to{ opacity: 1; } }
+@keyframes ledact{ 50%{ opacity: .35; } }
+
+/* ---------- chin: badge, keys, power ---------- */
+.chin{
+  display: flex; align-items: center; gap: clamp(12px, 2.2vw, 30px); min-width: 0;
+  padding: clamp(9px, 1.6vmin, 18px) calc(var(--bz) + env(safe-area-inset-right)) calc(clamp(9px, 1.6vmin, 18px) + env(safe-area-inset-bottom)) calc(var(--bz) + env(safe-area-inset-left));
+}
+.badge{
+  flex: none; display: flex; align-items: center; gap: 10px; padding: 7px 12px 7px 10px; border-radius: 3px;
+  background: linear-gradient(180deg, #3c3e43, #2d2f33); color: #131416; text-shadow: 0 1px 0 rgba(255,255,255,.15);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.13), inset 0 -1px 0 rgba(0,0,0,.45), 0 1px 2px rgba(0,0,0,.6);
+}
+.badge svg{ width: 18px; height: 18px; flex: none; filter: drop-shadow(0 1px 0 rgba(255,255,255,.14)); }
+.badge b{ font: 800 10px/1 var(--sans); letter-spacing: .36em; margin-right: -.36em; }
+.badge span{ font: 700 9px/1 var(--mono); letter-spacing: .14em; padding-left: 10px; border-left: 1px solid rgba(0,0,0,.4); box-shadow: -1px 0 0 rgba(255,255,255,.07); }
+.keys{ flex: 1; min-width: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; padding: 3px 2px 7px; }
+.keys::-webkit-scrollbar{ display: none; }
+.row{ display: flex; align-items: flex-end; gap: clamp(12px, 1.7vw, 24px); width: max-content; margin: 0 auto; }
+.grp{ display: flex; flex-direction: column; gap: 7px; }
+.grp[hidden]{ display: none; }
+.grp > span{ font: 700 8px/1 var(--sans); letter-spacing: .28em; color: #64666b; text-shadow: 0 1px 0 rgba(0,0,0,.6); padding-left: 2px; }
+.grp > div{ display: flex; gap: 6px; }
+.key{
+  appearance: none; border: 0; margin: 0; position: relative; flex: none; height: 30px; min-width: 44px; padding: 0 12px; border-radius: 5px; cursor: pointer;
+  font: 700 10px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: #c3c5c9;
+  background: linear-gradient(180deg, #37393e, #2b2d31 58%, #26282b);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.09), inset 0 -2px 0 rgba(0,0,0,.32), 0 2px 0 #111214, 0 3px 7px rgba(0,0,0,.45);
+  transition: transform .07s, box-shadow .07s, color .2s;
+}
+.key:hover{ color: #eceef1; }
+.key:active, .key.down{ transform: translateY(2px); box-shadow: inset 0 1px 0 rgba(255,255,255,.06), inset 0 -1px 0 rgba(0,0,0,.3), 0 0 0 #111214, 0 1px 2px rgba(0,0,0,.5); }
+.key:focus-visible, .pwr:focus-visible{ outline: 2px solid var(--fg); outline-offset: 3px; }
+.key.wide{ min-width: 64px; }
+.key.arw{ font-size: 15px; letter-spacing: 0; }
+.pip{ display: inline-block; width: 6px; height: 6px; margin-right: 7px; border-radius: 50%; vertical-align: 1px; background: #111214; box-shadow: inset 0 1px 1px rgba(0,0,0,.9), 0 1px 0 rgba(255,255,255,.06); transition: background .2s, box-shadow .2s; }
+.key[aria-pressed="true"] .pip{ background: var(--c, var(--fg)); box-shadow: 0 0 5px var(--c, var(--fg)), 0 0 11px var(--c, var(--fg)); }
+.power{ flex: none; display: flex; align-items: center; gap: 12px; }
+.power > span{ font: 700 8px/1 var(--sans); letter-spacing: .28em; color: #64666b; }
+.led{ width: 7px; height: 7px; border-radius: 50%; background: #1c281e; box-shadow: inset 0 1px 1px rgba(0,0,0,.85); transition: background .3s, box-shadow .3s; }
+.led.on{ background: #86ffa6; box-shadow: 0 0 4px #5dff88, 0 0 12px rgba(93,255,136,.55); }
+.led.act{ animation: ledact .16s steps(1, end) infinite; }
+.pwr{ width: 30px; height: 30px; min-width: 0; padding: 0; border-radius: 50%; display: grid; place-items: center; }
+.pwr svg{ width: 13px; height: 13px; }
+
+.keys.ovf{ -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); }
+.keys.ovf.end{ -webkit-mask-image: linear-gradient(90deg, transparent, #000 36px); mask-image: linear-gradient(90deg, transparent, #000 36px); }
+@media (max-width: 1340px){
+  .badge span, .power > span{ display: none; }
+  .key{ padding: 0 9px; min-width: 40px; }
+  .grp > div{ gap: 5px; }
+  .row{ gap: 14px; }
+}
+@media (max-width: 1080px){
+  .badge b{ display: none; }
+  .badge{ padding: 7px; }
+}
+@media (max-width: 600px), (max-height: 520px){
+  .badge{ display: none; }
+  .grp > span{ display: none; }
+  .key{ height: 36px; }
+  .pwr{ width: 36px; height: 36px; }
+  .s-os, .s-host, .s-baud{ display: none; }
+}
+@media (max-width: 420px){
+  .s-tty{ display: none; }
+  .key{ min-width: 40px; padding: 0 8px; }
+  .key.wide{ min-width: 0; }
+  .grp > div{ gap: 4px; }
+  .power{ gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce){
+  .flick, .roll{ animation: none; }
+  .roll, .beam, .spot{ display: none; }
+  .raster.pon, .raster.degauss, .raster.glitch, .raster.vbell{ animation: none; }
+  .caret{ animation: none; }
+  .ghost.on{ animation-duration: .4s; }
+}
+</style>
+</head>
+<body>
+<main class="monitor" id="monitor">
+  <h1 class="sr" id="title">HELIOS/OS 2.3 — Heliograph HX-14</h1>
+  <div class="mask">
+    <section class="tube" id="tube" aria-labelledby="title">
+      <div class="flick"><div class="raster off" id="raster">
+        <div class="term screen" id="screen" role="log" aria-live="off"><div id="log"></div><div class="inp o" id="inp" hidden><span id="ps"></span><span id="ib"></span><span class="caret" id="car"> </span><span id="ia"></span></div></div>
+        <div class="term ghost" id="ghost" aria-hidden="true"></div>
+        <canvas class="rain" id="rain" aria-hidden="true"></canvas>
+        <div class="status" id="status" role="toolbar" aria-label="Status line">
+          <span class="s-os">HELIOS/OS 2.3</span><span class="sep s-os"></span>
+          <span class="s-tty">tty1</span><span class="sep s-tty"></span>
+          <span class="s-host">operator@relay-7</span>
+          <span class="sp"></span>
+          <button type="button" class="sbtn" id="sPhos">[P1:GRN]</button>
+          <button type="button" class="sbtn" id="sSnd" aria-pressed="false">[SND:OFF]</button>
+          <button type="button" class="sbtn" id="sLang">[JA]</button>
+          <span class="sep s-baud"></span><span class="s-baud" id="sBaud">19200bd</span>
+          <span class="sep"></span><span class="s-clk" id="sClk">--:--:--</span>
+        </div>
+      </div></div>
+      <div class="fx scan"></div>
+      <div class="fx grille"></div>
+      <canvas class="fx grain" id="grain" width="160" height="100"></canvas>
+      <div class="fx roll"></div>
+      <div class="fx vig"></div>
+      <div class="fx glass"></div>
+      <div class="beam" id="beam"></div>
+      <div class="spot" id="spot"></div>
+      <input class="kbd" id="kbd" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send" aria-label="Terminal input">
+    </section>
+  </div>
+  <footer class="chin">
+    <div class="badge" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/><path d="M12 1.8v3M12 19.2v3M1.8 12h3M19.2 12h3M4.8 4.8l2.1 2.1M17.1 17.1l2.1 2.1M4.8 19.2l2.1-2.1M17.1 6.9l2.1-2.1"/></svg>
+      <b>HELIOGRAPH</b><span>HX-14</span>
+    </div>
+    <nav class="keys" id="keys" aria-label="Terminal keys">
+      <div class="row">
+        <div class="grp" id="gCmd"><span>COMMAND</span><div>
+          <button type="button" class="key" data-cmd="help">Help</button>
+          <button type="button" class="key" data-cmd="ls">Ls</button>
+          <button type="button" class="key" data-cmd="cat poem.txt">Poem</button>
+          <button type="button" class="key" data-cmd="cat mission.log">Log</button>
+          <button type="button" class="key" data-cmd="weather">Weather</button>
+          <button type="button" class="key" data-cmd="snake">Snake</button>
+          <button type="button" class="key" data-cmd="matrix">Matrix</button>
+          <button type="button" class="key" data-cmd="clear">Clear</button>
+        </div></div>
+        <div class="grp" id="gPad" hidden><span>SNAKE</span><div>
+          <button type="button" class="key arw" data-dir="left" aria-label="Left">←</button>
+          <button type="button" class="key arw" data-dir="up" aria-label="Up">↑</button>
+          <button type="button" class="key arw" data-dir="down" aria-label="Down">↓</button>
+          <button type="button" class="key arw" data-dir="right" aria-label="Right">→</button>
+          <button type="button" class="key wide" data-dir="pause">Pause</button>
+          <button type="button" class="key wide" data-dir="quit">Quit</button>
+        </div></div>
+        <div class="grp"><span>PHOSPHOR</span><div>
+          <button type="button" class="key" data-phos="green" style="--c:#33ff66" aria-pressed="true"><i class="pip"></i>P1</button>
+          <button type="button" class="key" data-phos="amber" style="--c:#ffb000" aria-pressed="false"><i class="pip"></i>P3</button>
+          <button type="button" class="key" data-phos="ice" style="--c:#9fe7ff" aria-pressed="false"><i class="pip"></i>Ice</button>
+        </div></div>
+        <div class="grp"><span>AUDIO</span><div>
+          <button type="button" class="key" id="kSnd" aria-pressed="false" style="--c:#ffcf6b"><i class="pip"></i>Sound</button>
+        </div></div>
+        <div class="grp"><span>LANG</span><div>
+          <button type="button" class="key" id="kLang">JA</button>
+        </div></div>
+      </div>
+    </nav>
+    <div class="power">
+      <span>POWER</span><i class="led" id="led"></i>
+      <button type="button" class="key pwr" id="pwr" aria-label="Power cycle">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 1.8v6"/><path d="M4.3 4.1a5.4 5.4 0 1 0 7.4 0"/></svg>
+      </button>
+    </div>
+  </footer>
+  <p class="sr" id="sr" aria-live="polite"></p>
+</main>
+<script>
+(() => {
+'use strict';
+/* =====================================================================
+   HELIOS/OS 2.3 "Aphelion" — a fictional 1987 operating system for the
+   fictional Heliograph HX-14 terminal. Everything here is made up.
+   ===================================================================== */
+
+/* ---------- basics ---------- */
+const $ = (id) => document.getElementById(id);
+const root = document.documentElement;
+const mq = matchMedia('(prefers-reduced-motion: reduce)');
+let reduced = mq.matches;
+const store = {
+  get(k, d) {
+    try { const v = localStorage.getItem('helios.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; }
+  },
+  set(k, v) {
+    try { localStorage.setItem('helios.' + k, JSON.stringify(v)); } catch (e) { /* storage unavailable */ }
+  },
+};
+const flags = new Set(location.hash.slice(1).toLowerCase().split(/[,&+]/).filter(Boolean));
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const rnd = (a, b) => a + Math.random() * (b - a);
+const mulberry = (seed) => () => {
+  seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+  let x = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+  x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+  return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+};
+
+const HOME = '/home/operator', USER = 'operator', HOST = 'relay-7';
+const PHOS = {
+  green: { key: 'P1', tag: 'GRN', en: 'P1 green', ja: 'P1 グリーン' },
+  amber: { key: 'P3', tag: 'AMB', en: 'P3 amber', ja: 'P3 アンバー' },
+  ice: { key: 'ICE', tag: 'BLU', en: 'ice blue', ja: 'アイスブルー' },
+};
+const BAUDS = [300, 1200, 2400, 9600, 19200, 38400];
+
+const S = {
+  lang: flags.has('en') ? 'en' : flags.has('ja') ? 'ja' : store.get('lang', 'ja'),
+  phos: Object.keys(PHOS).find((p) => flags.has(p)) || store.get('phos', 'green'),
+  baud: store.get('baud', 19200),
+  sound: false,
+  mode: 'off', /* off | boot | shell | matrix | snake */
+  cwd: HOME,
+  hist: store.get('hist', []),
+  hi: 0,
+  draft: '',
+  sig: store.get('sig', false),
+  answered: false,
+  t0: Date.now(),
+};
+if (S.lang !== 'en') S.lang = 'ja';
+if (!PHOS[S.phos]) S.phos = 'green';
+if (!(S.baud === 'max' || BAUDS.includes(S.baud))) S.baud = 19200;
+if (!Array.isArray(S.hist)) S.hist = [];
+S.hi = S.hist.length;
+
+/* ---------- words (English / 日本語) ---------- */
+const L = {
+  en: {
+    title: 'HELIOS/OS 2.3 — Heliograph HX-14 terminal (fictional)',
+    input: 'Terminal input. Type a command and press Enter.',
+    screen: 'Terminal screen',
+    status: 'Status line',
+    keys: 'Terminal keys',
+    power: 'Power cycle (reboot)',
+    phosBtn: 'Switch phosphor',
+    sndBtn: 'Toggle typing sounds',
+    langBtn: 'Language: switch to Japanese',
+    notfound: (c) => `hsh: ${c}: command not found`,
+    nofile: (c, p) => `${c}: ${p}: No such file or directory`,
+    isdir: (c, p) => `${c}: ${p}: Is a directory`,
+    notdir: (c, p) => `${c}: ${p}: Not a directory`,
+    binary: (p) => `cat: ${p}: binary file (HX-68020 executable)`,
+    busy: (p) => `cat: ${p}: device busy (that is you)`,
+    usage: (u) => `usage: ${u}`,
+    theme: (n) => `phosphor → ${n}. degaussing…`,
+    themeNow: (n) => `phosphor: ${n}   (theme green | amber | ice)`,
+    sndOn: 'sound: on. Keys click, Enter thocks, errors beep.',
+    sndOff: 'sound: off',
+    sndNo: 'sound: Web Audio is not available on this terminal',
+    baudNow: (b) => `line speed: ${b}   (baud 300 | 1200 | 2400 | 9600 | 19200 | 38400 | max)`,
+    baudSet: (b) => `line speed set to ${b}`,
+    baudBad: 'baud: choose 300, 1200, 2400, 9600, 19200, 38400 or max',
+    langSet: 'language: English',
+    hist0: 'history: nothing yet',
+    sudo1: '[sudo] password for operator: ',
+    sudo2: 'operator is not in the sudoers file.\nThere is nobody up here to report this to.',
+    logout: 'logout',
+    ans0: 'answer: no open channel. (Have you read signal.txt?)',
+    ans1: 'answer: already sent. Relay 6 answers in its own time.',
+    ansOpen: 'UPLINK-7 · opening channel to RELAY 6',
+    ansLock: 'carrier locked · 1420.405 MHz',
+    ansMsg: '> RELAY 7 TO RELAY 6. WE SEE YOURS TOO. STILL HERE.',
+    ansSent: 'sent. round trip ≈ 71 s.',
+    ansReply: '── incoming · UPLINK-7 · RELAY 6 ──\nTHANK YOU, RELAY 7. GOOD NIGHT. KEEP THE LIGHT ON.',
+    bytes: 'bytes',
+    total: 'total',
+    snakeTitle: 'SNAKE',
+    score: 'score',
+    best: 'best',
+    snakeKeys: '←↑↓→/WASD steer · P pause · Q quit',
+    snakeTouch: 'swipe or use the keys below · Pause · Quit',
+    paused: ' PAUSED · P to resume ',
+    over: ' GAME OVER · R retry · Q quit ',
+    snakeEnd: (s, b) => `snake: score ${s}  best ${b}`,
+    snakeSmall: 'snake: the screen is too small for a field',
+    matrixTip: '',
+    tabHint: 'Tab complete · ↑↓ history · Ctrl+C cancel · Ctrl+L clear',
+    tryIt: 'Start with: cat readme.txt',
+  },
+  ja: {
+    title: 'HELIOS/OS 2.3 — Heliograph HX-14 端末（架空）',
+    input: '端末への入力。コマンドを打って Enter を押します。',
+    screen: '端末の画面',
+    status: 'ステータスライン',
+    keys: '端末のキー',
+    power: '電源を入れ直す（再起動）',
+    phosBtn: '蛍光体を切り替える',
+    sndBtn: '打鍵音のオン／オフ',
+    langBtn: '言語：英語に切り替える',
+    notfound: (c) => `hsh: ${c}: コマンドが見つかりません`,
+    nofile: (c, p) => `${c}: ${p}: そのようなファイルやディレクトリはありません`,
+    isdir: (c, p) => `${c}: ${p}: ディレクトリです`,
+    notdir: (c, p) => `${c}: ${p}: ディレクトリではありません`,
+    binary: (p) => `cat: ${p}: バイナリファイルです（HX-68020 実行形式）`,
+    busy: (p) => `cat: ${p}: 使用中のデバイスです（あなたのことです）`,
+    usage: (u) => `使い方: ${u}`,
+    theme: (n) => `蛍光体を ${n} に切り替えます。消磁中…`,
+    themeNow: (n) => `蛍光体: ${n}   （theme green | amber | ice）`,
+    sndOn: 'サウンド: オン。打鍵音、Enter の音、エラー音が鳴ります。',
+    sndOff: 'サウンド: オフ',
+    sndNo: 'サウンド: この端末では Web Audio を使えません',
+    baudNow: (b) => `回線速度: ${b}   （baud 300 | 1200 | 2400 | 9600 | 19200 | 38400 | max）`,
+    baudSet: (b) => `回線速度を ${b} にしました`,
+    baudBad: 'baud: 300、1200、2400、9600、19200、38400、max から選んでください',
+    langSet: '表示言語: 日本語',
+    hist0: 'history: まだ履歴はありません',
+    sudo1: '[sudo] operator のパスワード: ',
+    sudo2: 'operator は sudoers に登録されていません。\nここには報告する相手もいません。',
+    logout: 'ログアウトしました',
+    ans0: 'answer: 応答できる通信がありません。（signal.txt は読みましたか？）',
+    ans1: 'answer: 送信済みです。第6中継局は自分の時間で応えます。',
+    ansOpen: 'UPLINK-7 · 第6中継局への回線を開いています',
+    ansLock: '搬送波を捕捉 · 1420.405 MHz',
+    ansMsg: '> RELAY 7 TO RELAY 6. WE SEE YOURS TOO. STILL HERE.\n  （第7中継局より第6へ。こちらにも見えている。まだここにいる。）',
+    ansSent: '送信しました。往復およそ71秒。',
+    ansReply: '── 受信 · UPLINK-7 · 第6中継局 ──\nTHANK YOU, RELAY 7. GOOD NIGHT. KEEP THE LIGHT ON.\n（ありがとう、第7中継局。おやすみ。灯りを絶やさずに。）',
+    bytes: 'バイト',
+    total: '合計',
+    snakeTitle: 'SNAKE',
+    score: '得点',
+    best: '最高',
+    snakeKeys: '←↑↓→/WASD で操作 · P 一時停止 · Q 終了',
+    snakeTouch: 'スワイプか下のキーで操作 · Pause · Quit',
+    paused: ' 一時停止中 · P で再開 ',
+    over: ' GAME OVER · R 再挑戦 · Q 終了 ',
+    snakeEnd: (s, b) => `snake: 得点 ${s}  最高 ${b}`,
+    snakeSmall: 'snake: 画面が小さすぎてフィールドを置けません',
+    matrixTip: '',
+    tabHint: 'Tab 補完 · ↑↓ 履歴 · Ctrl+C 取り消し · Ctrl+L 消去',
+    tryIt: 'まずは: cat readme.txt',
+  },
+};
+const t = (k, ...a) => {
+  const v = L[S.lang][k] ?? L.en[k];
+  return typeof v === 'function' ? v(...a) : v;
+};
+const pick = (o) => (o && typeof o === 'object' && 'en' in o ? o[S.lang] ?? o.en : o);
+
+/* ---------- the station's files (fictional) ---------- */
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const p2 = (n) => String(n).padStart(2, '0');
+const stamp = (ago, h, m) => {
+  const d = new Date(); d.setDate(d.getDate() - ago);
+  return `${MON[d.getMonth()]} ${String(d.getDate()).padStart(2)} ${p2(h)}:${p2(m)}`;
+};
+const OLD = 'Mar  3  1987';
+const F = (body, o = {}) => ({ t: 'f', body, mode: '-rw-r--r--', owner: USER, date: stamp(0, 6, 2), ...o });
+const D = (c, o = {}) => ({ t: 'd', c, mode: 'drwxr-xr-x', owner: 'root', date: OLD, ...o });
+const BIN = (size = 24576) => F(null, { bin: true, size, mode: '-rwxr-xr-x', owner: 'root', date: OLD });
+
+const SIGMAP = [
+  '..#...............',
+  '#.#.#.............',
+  '.###..............',
+  '#####...#.......#.',
+  '.###...###=====###',
+  '#.#.#...#.......#.',
+  '..#...............',
+];
+const sigArt = (labels) => {
+  const rows = SIGMAP.map((r) => '  ' + [...r].map((c) => (c === '#' ? '██' : c === '=' ? '──' : ' ·')).join(''));
+  let lab = '';
+  for (const [col, s] of labels) lab = padR(lab, 2 + col * 2) + s;
+  return rows.join('\n') + '\n' + lab;
+};
+const capture = (() => {
+  const r = mulberry(314), out = [];
+  for (let i = 0; i < 8; i++) {
+    const b = Array.from({ length: 8 }, () => (r() * 256) | 0);
+    if (i === 3) b.splice(0, 4, 0x52, 0x37, 0x36, 0x21);
+    const hex = b.map((x) => x.toString(16).padStart(2, '0')).join(' ');
+    const asc = b.map((x) => (x > 32 && x < 127 ? String.fromCharCode(x) : '.')).join('');
+    out.push(`${(i * 8).toString(16).padStart(4, '0')}  ${hex}  |${asc}|`);
+  }
+  return out.join('\n') + '\n…  (3,412 more lines)';
+})();
+
+const TXT = {
+  readme: {
+    en: `RELAY-7 · OPERATOR HANDBOOK (abridged)
+
+You are the night shift. Out here, everyone is.
+
+  · The relay forwards inbound traffic toward the inner system.
+  · Keep the log. Keep the heaters on. Keep the screen lit.
+  · The last operator left things on tty3. Be kind to them.
+
+Start here:  cat mission.log
+Then:        cat signal.txt
+Everything:  help
+
+HELIOS/OS, Heliograph and Relay-7 are fictional.`,
+    ja: `RELAY-7 オペレーター手引き（抄）
+
+あなたは夜勤です。ここでは、全員がそうです。
+
+  ・中継局は、外から届く通信を内側の星系へ送り届けます。
+  ・日誌をつけること。暖房を切らないこと。画面を灯しておくこと。
+  ・前任のオペレーターが tty3 に残したものがあります。大切に。
+
+最初に:  cat mission.log
+次に:    cat signal.txt
+すべて:  help
+
+HELIOS/OS、Heliograph、Relay-7 は架空のものです。`,
+  },
+  log: {
+    en: `HELIOS MISSION LOG · RELAY STATION 7 · OPERATOR K.
+{rule}
+DAY 401  Aphelion in 11 days. Sunlight at 38% of nominal.
+         Panels trimmed. Coffee rationed. Morale: adequate.
+DAY 404  Relay traffic nominal. 2,113 packets forwarded
+         inward, 0 lost. Nobody says thank you. That's fine.
+DAY 407  Heater B cycling again. Wore the second sweater.
+DAY 409  Found a poem in the tty3 scrollback. Not mine.
+         Left it where it was. See poem.txt.
+DAY 411  03:14. Uplink caught a narrow carrier at
+         1420.405 MHz, the hydrogen line. It repeats
+         every 71 s. Not ours. Not noise. Decoder running.
+DAY 412  Aphelion. Farthest from the sun we will ever be.
+         Decoder finished overnight. See signal.txt.`,
+    ja: `HELIOS 運用日誌 · 第7中継局 · オペレーター K.
+{rule}
+401日目  遠日点まで11日。日照は定格の38%。
+         パネルを調整。コーヒーは配給制に。士気は、まあまあ。
+404日目  中継は正常。内向きに2,113パケットを転送、損失0。
+         誰も礼は言わない。それでいい。
+407日目  B系統の暖房がまた入ったり切れたり。セーターを重ね着。
+409日目  tty3 のスクロールバックに詩を見つけた。私のではない。
+         そのままにしておく。poem.txt を参照。
+411日目  03:14、アップリンクが 1420.405 MHz（水素線）で
+         狭い搬送波を捉えた。71秒ごとに繰り返す。
+         こちらのものではない。雑音でもない。解読中。
+412日目  遠日点。太陽からいちばん遠い日。
+         解読は夜のうちに終わった。signal.txt を参照。`,
+  },
+  poem: {
+    en: `{d|— recovered from tty3 scrollback · author unknown —}
+
+  {h|night shift, tty3}
+
+  the sun is a rumour out here,
+  a coin someone dropped in the dark.
+  i keep the screen lit anyway:
+  green letters, warm as a kitchen.
+
+  every packet i pass along
+  is somebody's hello, going home.
+  none of them are mine.
+  all of them are.`,
+    ja: `{d|— tty3 のスクロールバックより · 作者不明 —}
+
+  {h|夜勤、tty3}
+
+  ここでは、太陽はうわさにすぎない。
+  暗がりに誰かが落とした、一枚の硬貨。
+  それでも画面は灯しておく。
+  台所みたいに温かい、緑の文字。
+
+  わたしが通す信号はどれも
+  誰かの「ただいま」で、家へ帰っていく。
+  ひとつも、わたしのものではない。
+  そのすべてが、わたしのものだ。`,
+  },
+  signal: {
+    en: () => `SIGPROC DECODE · capture 0314 · confidence 0.97
+carrier 1420.405 MHz (hydrogen line) · period 71 s
+{rule}
+frame 18 × 7, one bit per cell:
+
+${sigArt([[1, 'SUN'], [8, 'R6'], [16, 'R7']])}
+
+plain text:
+  {h|RELAY 6 TO RELAY 7. WE STILL SEE YOUR LIGHT.}
+  {h|IF ANYONE IS LISTENING, ANSWER.}
+{rule}
+note: Relay 6 has been silent since 1981.`,
+    ja: () => `SIGPROC 解読結果 · 受信記録 0314 · 信頼度 0.97
+搬送波 1420.405 MHz（水素線）· 周期71秒
+{rule}
+フレーム 18 × 7、1セル1ビット:
+
+${sigArt([[1, '太陽'], [8, 'R6'], [16, 'R7']])}
+
+平文:
+  {h|RELAY 6 TO RELAY 7. WE STILL SEE YOUR LIGHT.}
+  {h|IF ANYONE IS LISTENING, ANSWER.}
+  （第6中継局より第7へ。あなたの灯りはまだ見えている。
+    聞いている者がいるなら、応答せよ。）
+{rule}
+注: 第6中継局は1981年から沈黙している。`,
+  },
+  plan: {
+    en: `Plan:
+  1. Finish the shift.
+  2. Fix heater B, or learn to love sweaters.
+  3. Find out who writes poems on tty3.
+  4. If anyone calls, pick up.`,
+    ja: `予定:
+  1. 勤務を終える。
+  2. B系統の暖房を直す。無理ならセーターを好きになる。
+  3. tty3 に詩を書いているのが誰なのか確かめる。
+  4. 誰かに呼ばれたら、応える。`,
+  },
+  hshrc: {
+    en: `# hsh startup · relay-7
+export PS1='\\u@\\h:\\w\\$ '
+export TERM=hx14
+alias ll='ls -l'
+# be gentle with the relays`,
+    ja: `# hsh 起動設定 · relay-7
+export PS1='\\u@\\h:\\w\\$ '
+export TERM=hx14
+alias ll='ls -l'
+# 中継局にはやさしく`,
+  },
+  relayd: `03:10:02 relayd: fwd 118 pkts inward, 0 lost
+03:14:22 relayd: UNKNOWN CARRIER 1420.405 MHz, handed to sigproc
+03:15:33 relayd: carrier repeats, period 71 s
+04:40:17 thermd: heater B cycling (again)
+06:02:10 relayd: fwd 2,113 pkts inward, 0 lost`,
+  hosts: `127.0.0.1    localhost
+10.7.0.1     relay-7
+10.6.0.1     relay-6        # unreachable since 1981
+10.0.0.1     inner-control`,
+};
+
+/* message of the day: a wide and a narrow setting, so no line breaks mid-phrase on a phone */
+const MOTD = {
+  en: [`Welcome back, operator. Day 412, aphelion.
+A capture from 03:14 is waiting in {h|signal.txt}.
+Type {h|help} for commands, or press a key below.`,
+  `Welcome back, operator. Day 412, aphelion.
+A capture from 03:14 is in {h|signal.txt}.
+Type {h|help} for commands, or tap a key.`],
+  ja: [`おかえりなさい、オペレーター。412日目、遠日点です。
+03:14 の受信記録が {h|signal.txt} で待っています。
+{h|help} でコマンド一覧。下のキーからも操作できます。`,
+  `おかえりなさい、オペレーター。
+今日は412日目、遠日点です。
+03:14 の受信記録が {h|signal.txt} にあります。
+{h|help} でコマンド一覧を表示します。`],
+};
+const motd = (cols) => MOTD[S.lang][cols >= 60 ? 0 : 1];
+
+const CMDNAMES = ['help', 'ls', 'cd', 'pwd', 'cat', 'clear', 'date', 'whoami', 'theme', 'matrix', 'weather', 'snake', 'history', 'echo', 'uname', 'uptime', 'fortune', 'sound', 'baud', 'lang', 'reboot'];
+const bins = {};
+for (const c of CMDNAMES) bins[c] = BIN(8192 + ((c.length * 7919) % 30000));
+Object.assign(bins, { hsh: BIN(61440), answer: BIN(4096), sudo: BIN(12288) });
+
+const FS = D({
+  bin: D(bins),
+  dev: D({
+    null: F('', { mode: 'crw-rw-rw-', owner: 'root', date: OLD, dev: 'null' }),
+    tty1: F('', { mode: 'crw--w----', date: stamp(0, 3, 58), dev: 'tty1' }),
+    tty3: F('', { mode: 'crw--w----', date: stamp(3, 2, 40), dev: 'tty3' }),
+  }),
+  etc: D({
+    hosts: F(TXT.hosts, { owner: 'root', date: OLD }),
+    issue: F('HELIOS/OS 2.3 "Aphelion" \\n \\l', { owner: 'root', date: OLD }),
+    motd: F(() => motd(M.cols), { owner: 'root', date: stamp(1, 23, 50) }),
+  }),
+  home: D({
+    operator: D({
+      'readme.txt': F(TXT.readme, { date: OLD, owner: 'root' }),
+      'mission.log': F(TXT.log, { date: stamp(0, 6, 2) }),
+      'poem.txt': F(TXT.poem, { date: stamp(3, 2, 40) }),
+      'signal.txt': F(TXT.signal, { date: stamp(0, 5, 47), sig: true }),
+      '.plan': F(TXT.plan, { date: stamp(1, 22, 15) }),
+      '.hshrc': F(TXT.hshrc, { date: OLD }),
+    }, { owner: USER, date: stamp(0, 6, 2) }),
+  }),
+  usr: D({ games: D({ snake: BIN(20480), fortune: BIN(9216) }) }),
+  var: D({
+    log: D({ 'relayd.log': F(TXT.relayd, { owner: 'root', date: stamp(0, 6, 2) }) }),
+    spool: D({ 'capture.sig': F(capture, { owner: 'root', date: stamp(1, 3, 14) }) }),
+  }),
+});
+
+const FORTUNES = {
+  en: [
+    'The farther from the sun, the more each photon counts.',
+    'Every relay is a promise to pass it on.',
+    'Log it anyway. Someone reads the logs eventually.',
+    'Green text is warmer than it looks.',
+    'At aphelion, the only way left is back.',
+    'Noise is a signal you have not met yet.',
+    'Keep one heater, one poem and one spare fuse.',
+    'Out here, the night shift is the whole shift.',
+  ],
+  ja: [
+    '太陽から遠いほど、光子ひとつの重みが増す。',
+    '中継とは、次へ渡すという約束だ。',
+    'それでも日誌はつけておけ。いつか誰かが読む。',
+    '緑の文字は、見た目より温かい。',
+    '遠日点まで来たら、あとは戻るだけだ。',
+    '雑音とは、まだ出会っていない信号のことだ。',
+    '暖房をひとつ、詩をひとつ、予備のヒューズをひとつ。',
+    'ここでは、夜勤がすなわち勤務のすべてだ。',
+  ],
+};
+
+const HELP = [
+  ['help', '', 'this list', 'このコマンド一覧'],
+  ['ls', '[-a] [-l] [dir]', 'list files', 'ファイルの一覧'],
+  ['cd', '<dir>', 'change directory', 'ディレクトリを移動'],
+  ['pwd', '', 'print working directory', '現在のディレクトリ'],
+  ['cat', '<file>', 'print a file', 'ファイルを表示'],
+  ['clear', '', 'clear the screen', '画面を消去'],
+  ['date', '', 'date and time', '日付と時刻'],
+  ['whoami', '', 'who you are', 'ログイン中のユーザー'],
+  ['theme', '<green|amber|ice>', 'switch phosphor', '蛍光体を切り替え'],
+  ['matrix', '', 'glyph rain (any key stops)', '文字の雨（キーで止まる）'],
+  ['weather', '', 'space weather, sector 7', '第7セクターの宇宙天気'],
+  ['snake', '', 'play snake', 'スネークで遊ぶ'],
+  ['history', '', 'command history', 'コマンド履歴'],
+  ['echo', '<text>', 'print text', '文字列を表示'],
+  ['uname', '[-a]', 'system name', 'システム名'],
+  ['uptime', '', 'time since power-on', '稼働時間'],
+  ['fortune', '', 'a line from the archive', '保管庫からひとこと'],
+  ['sound', '<on|off>', 'typing sounds', '打鍵音'],
+  ['baud', '<rate|max>', 'line speed', '回線速度'],
+  ['lang', '<ja|en>', 'language / 表示言語', '表示言語 / language'],
+  ['reboot', '', 'restart the terminal', '端末を再起動'],
+];
+
+/* paths */
+const normPath = (p) => {
+  if (!p) return S.cwd;
+  if (p === '~' || p.startsWith('~/')) p = HOME + p.slice(1);
+  const out = [];
+  for (const s of (p.startsWith('/') ? p : S.cwd + '/' + p).split('/')) {
+    if (!s || s === '.') continue;
+    if (s === '..') out.pop();
+    else out.push(s);
+  }
+  return '/' + out.join('/');
+};
+const lookup = (abs) => {
+  let n = FS;
+  if (abs === '/') return n;
+  for (const s of abs.slice(1).split('/')) {
+    if (!n || n.t !== 'd' || !Object.prototype.hasOwnProperty.call(n.c, s)) return null;
+    n = n.c[s];
+  }
+  return n;
+};
+const tilde = (abs) => (abs === HOME ? '~' : abs.startsWith(HOME + '/') ? '~' + abs.slice(HOME.length) : abs);
+const bodyOf = (n) => {
+  const b = pick(n.body);
+  return (typeof b === 'function' ? b() : b || '').replace(/\{rule\}/g, () => '{d|' + '─'.repeat(clamp(M.cols - 1, 16, 58)) + '}');
+};
+const enc = new TextEncoder();
+const sizeOf = (n) => (n.t === 'd' ? 512 : n.bin ? n.size : enc.encode(bodyOf(n).replace(/\{\w\|([^}]*)\}/g, '$1')).length);
+
+/* ---------- screen, columns and the line printer ---------- */
+const screen = $('screen'), logEl = $('log'), inp = $('inp'), psEl = $('ps'), ib = $('ib'), car = $('car'), ia = $('ia');
+const kbd = $('kbd'), raster = $('raster'), tube = $('tube'), ghost = $('ghost'), led = $('led'), srEl = $('sr');
+
+/* East Asian wide characters take two cells; each one sits in a 2ch box so the grid holds */
+const isWide = (c) =>
+  (c >= 0x1100 && c <= 0x115f) || (c >= 0x2e80 && c <= 0x303e) || (c >= 0x3040 && c <= 0x33ff) ||
+  (c >= 0x3400 && c <= 0x4dbf) || (c >= 0x4e00 && c <= 0x9fff) || (c >= 0xa000 && c <= 0xa4cf) ||
+  (c >= 0xac00 && c <= 0xd7a3) || (c >= 0xf900 && c <= 0xfaff) || (c >= 0xfe30 && c <= 0xfe4f) ||
+  (c >= 0xff00 && c <= 0xff60) || (c >= 0xffe0 && c <= 0xffe6) || (c >= 0x1f300 && c <= 0x1faff) || (c >= 0x20000 && c <= 0x3fffd);
+const wlen = (s) => { let n = 0; for (const ch of s) n += isWide(ch.codePointAt(0)) ? 2 : 1; return n; };
+const padR = (s, n) => s + ' '.repeat(Math.max(0, n - wlen(s)));
+const padL = (s, n) => ' '.repeat(Math.max(0, n - wlen(s))) + s;
+
+const appendText = (el, s) => {
+  const last = el.lastChild;
+  if (last && last.nodeType === 3) last.appendData(s);
+  else el.appendChild(document.createTextNode(s));
+};
+const appendChars = (el, str) => {
+  let run = '';
+  for (const ch of str) {
+    if (isWide(ch.codePointAt(0))) {
+      if (run) { appendText(el, run); run = ''; }
+      const w = document.createElement('span');
+      w.className = 'w'; w.textContent = ch;
+      el.appendChild(w);
+    } else run += ch;
+  }
+  if (run) appendText(el, run);
+};
+const setRich = (el, s) => { el.replaceChildren(); appendChars(el, s); };
+
+/* markup: {h|hot} {d|dim} {i|inverse}; a segment is [text, class] */
+const fmt = (str, cls = '') => {
+  const segs = [], re = /\{([hdi])\|([^}]*)\}/g;
+  let last = 0, m;
+  while ((m = re.exec(str))) {
+    if (m.index > last) segs.push([str.slice(last, m.index), cls]);
+    segs.push([m[2], m[1]]);
+    last = re.lastIndex;
+  }
+  if (last < str.length) segs.push([str.slice(last), cls]);
+  return segs;
+};
+const toSegs = (x) => (typeof x === 'string' ? fmt(x) : x.flatMap((y) => (typeof y === 'string' ? fmt(y) : [y])));
+const writeSegs = (el, segs) => {
+  for (const [tx, c] of segs) {
+    const sp = document.createElement('span');
+    if (c) sp.className = c;
+    appendChars(sp, tx);
+    el.appendChild(sp);
+  }
+};
+const plain = (s) => s.replace(/\{[hdi]\|([^}]*)\}/g, '$1');
+
+/* measuring the character grid */
+const M = { cols: 80, rows: 24, cw: 9, lh: 20, fs: 15 };
+const probe = document.createElement('span');
+probe.className = 'term';
+probe.setAttribute('aria-hidden', 'true');
+probe.style.cssText = 'position:fixed;left:-9999px;top:0;right:auto;bottom:auto;padding:0;visibility:hidden;white-space:pre';
+probe.textContent = '0'.repeat(100);
+document.body.appendChild(probe);
+const measure = () => {
+  const r = probe.getBoundingClientRect(), cs = getComputedStyle(screen);
+  M.cw = r.width / 100 || 9;
+  M.lh = r.height || 20;
+  M.fs = parseFloat(cs.fontSize) || 15;
+  const w = screen.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  const h = screen.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+  if (w > 0) M.cols = Math.max(20, Math.floor(w / M.cw + 0.02));
+  if (h > 0) M.rows = Math.max(6, Math.floor(h / M.lh + 0.02));
+};
+
+/* the queue: text streams at the line speed; waits, calls and small animations keep their place */
+const Q = [];
+let budget = 0, dirty = false, lastBlock = null, wasBusy = false, srMark = null;
+const cps = () => (reduced || S.baud === 'max' ? Infinity : S.baud / 10);
+const out = (x, cls) => Q.push({ k: 'text', segs: toSegs(x), cls });
+const more = (x) => Q.push({ k: 'text', segs: toSegs(x), cont: true });
+const into = (el, x) => Q.push({ k: 'text', segs: toSegs(x), into: el });
+const pause = (ms) => Q.push({ k: 'wait', ms });
+const then = (fn) => Q.push({ k: 'call', fn });
+const put = (make) => Q.push({ k: 'put', make });
+const anim = (step, end) => Q.push({ k: 'anim', step, end });
+
+const newBlock = (cls) => {
+  const b = document.createElement('div');
+  b.className = 'o' + (cls ? ' ' + cls : '');
+  logEl.appendChild(b);
+  lastBlock = b;
+  if (logEl.childElementCount > 520) for (let i = 0; i < 60; i++) logEl.firstElementChild.remove();
+  return b;
+};
+const begin = (it) => {
+  const b = it.into || (it.cont && lastBlock) || newBlock(it.cls);
+  it.parts = it.segs.map(([tx, c]) => {
+    const sp = document.createElement('span');
+    if (c) sp.className = c;
+    b.appendChild(sp);
+    return { el: sp, chars: Array.from(tx) };
+  });
+  it.si = 0; it.ci = 0;
+};
+const pump = (dt, fast) => {
+  let time = dt;
+  if (!fast) budget = Math.min(budget + (cps() * dt) / 1000, 1e9);
+  while (Q.length) {
+    const it = Q[0];
+    if (it.k === 'text') {
+      if (!it.parts) begin(it);
+      while (it.si < it.parts.length) {
+        const p = it.parts[it.si];
+        const n = fast ? p.chars.length - it.ci : Math.min(p.chars.length - it.ci, Math.floor(budget));
+        if (n > 0) {
+          appendChars(p.el, p.chars.slice(it.ci, it.ci + n).join(''));
+          it.ci += n; dirty = true;
+          if (!fast) budget -= n;
+          if (S.sound && !fast && S.baud !== 'max' && S.baud <= 2400) tick();
+        }
+        if (it.ci < p.chars.length) return;
+        it.si++; it.ci = 0;
+      }
+      Q.shift();
+    } else if (it.k === 'wait') {
+      if (!fast && !reduced) {
+        it.left = (it.left ?? it.ms) - time;
+        time = 0; budget = 0;
+        if (it.left > 0) return;
+      }
+      Q.shift();
+    } else if (it.k === 'call') {
+      Q.shift(); it.fn(fast);
+    } else if (it.k === 'put') {
+      Q.shift();
+      const el = it.make();
+      if (el) { logEl.appendChild(el); lastBlock = el; dirty = true; }
+    } else if (it.k === 'anim') {
+      if (!fast && !reduced) {
+        const done = it.step(time);
+        time = 0; budget = 0; dirty = true;
+        if (!done) return;
+      }
+      Q.shift(); it.end(); dirty = true;
+    }
+  }
+};
+const flush = () => { pump(0, true); settle(); };
+const settle = () => {
+  if (dirty) { screen.scrollTop = screen.scrollHeight; dirty = false; }
+  const busy = Q.length > 0;
+  if (busy !== wasBusy) {
+    wasBusy = busy;
+    led.classList.toggle('act', busy && !reduced);
+    if (!busy) { budget = 0; idle(); }
+  }
+  showInput();
+};
+const idle = () => {
+  if (S.mode !== 'shell') return;
+  if (srMark !== undefined) {
+    let n = srMark ? srMark.nextElementSibling : logEl.firstElementChild, s = '';
+    while (n && s.length < 700) { s += n.textContent + '\n'; n = n.nextElementSibling; }
+    srEl.textContent = s.trim();
+    srMark = undefined;
+  }
+  if (pendingReply) deliverReply();
+};
+
+/* the input line: an invisible <input> mirrored into the glowing text */
+const promptSegs = () => [[`${USER}@${HOST}`, 'h'], [':', ''], [tilde(S.cwd), 'd'], ['$ ', '']];
+const renderPrompt = () => { psEl.replaceChildren(); writeSegs(psEl, promptSegs()); };
+const renderInput = () => {
+  const v = kbd.value, p = kbd.selectionStart ?? v.length;
+  const rest = Array.from(v.slice(p));
+  setRich(ib, v.slice(0, p));
+  setRich(car, rest[0] ?? ' ');
+  setRich(ia, rest.slice(1).join(''));
+};
+const showInput = () => {
+  const on = S.mode === 'shell' && !Q.length;
+  if (inp.hidden === on) {
+    inp.hidden = !on;
+    if (on) { renderPrompt(); renderInput(); screen.scrollTop = screen.scrollHeight; }
+  }
+};
+let solidT = 0;
+const solid = () => {
+  car.classList.add('solid');
+  clearTimeout(solidT);
+  solidT = setTimeout(() => car.classList.remove('solid'), 600);
+};
+const echoLine = (v) => {
+  const b = newBlock();
+  writeSegs(b, [...promptSegs(), [v, '']]);
+  dirty = true;
+  return b;
+};
+
+/* clearing leaves a phosphor afterimage that blurs away */
+let banners = [];
+const clearScreen = (fx = true) => {
+  if (fx && logEl.childElementCount) {
+    const c = logEl.cloneNode(true);
+    c.removeAttribute('id');
+    c.style.transform = `translateY(${-screen.scrollTop}px)`;
+    ghost.replaceChildren(c);
+    ghost.classList.remove('on');
+    void ghost.offsetWidth;
+    ghost.classList.add('on');
+  }
+  logEl.replaceChildren();
+  lastBlock = null; banners = []; dirty = true;
+  if (srMark) srMark = null;
+};
+
+/* ---------- the sun emblem (procedural, block-shaded) and the logo ---------- */
+const sunArt = (w, h, R, rays, g0, L1, L2, rw) => {
+  const cx = (w - 1) / 2, cy = (h - 1) / 2, rows = [];
+  for (let y = 0; y < h; y++) {
+    let row = '';
+    for (let x = 0; x < w; x++) {
+      const dx = x - cx, dy = (y - cy) * 2.1, r = Math.hypot(dx, dy);
+      const k = (Math.atan2(dy, dx) / (2 * Math.PI)) * rays, n = Math.round(k);
+      const off = Math.abs(k - n) * ((2 * Math.PI) / rays) * r, len = n % 2 === 0 ? L1 : L2;
+      let c = ' ';
+      if (r < R * 0.72) c = '█';
+      else if (r < R * 0.9) c = '▓';
+      else if (r < R + 0.4) c = '▒';
+      else if (r > R + g0 && r < R + len && off < rw) c = r < R + g0 + len * 0.45 ? '▒' : '░';
+      row += c;
+    }
+    rows.push(row);
+  }
+  while (rows.length && !rows[0].trim()) rows.shift();
+  while (rows.length && !rows[rows.length - 1].trim()) rows.pop();
+  return rows;
+};
+const SUN_BIG = sunArt(29, 11, 6.1, 16, 1.2, 6.4, 3.6, 0.62);
+const SUN_SMALL = sunArt(17, 7, 3.9, 8, 1.1, 4.6, 3.2, 0.62);
+/* a row of text split into runs by character class */
+const runs = (row, cls) => {
+  const segs = [];
+  for (const ch of row) {
+    const c = cls(ch), last = segs[segs.length - 1];
+    if (last && last[1] === c) last[0] += ch;
+    else segs.push([ch, c]);
+  }
+  return segs;
+};
+const sunCls = (ch) => (ch === '█' ? 'h' : ch === '░' ? 'd' : '');
+const logoCls = (ch) => (ch === '█' ? 'h' : ch === ' ' ? '' : 'd');
+const LOGO_BIG = (() => {
+  const G = [
+    ['██╗  ██╗', '██║  ██║', '███████║', '██╔══██║', '██║  ██║', '╚═╝  ╚═╝'],
+    ['███████╗', '██╔════╝', '█████╗  ', '██╔══╝  ', '███████╗', '╚══════╝'],
+    ['██╗     ', '██║     ', '██║     ', '██║     ', '███████╗', '╚══════╝'],
+    ['██╗', '██║', '██║', '██║', '██║', '╚═╝'],
+    [' ██████╗ ', '██╔═══██╗', '██║   ██║', '██║   ██║', '╚██████╔╝', ' ╚═════╝ '],
+    ['███████╗', '██╔════╝', '███████╗', '╚════██║', '███████║', '╚══════╝'],
+  ];
+  return G[0].map((_, i) => G.map((g) => g[i]).join(''));
+})();
+const LOGO_SMALL = ['╦ ╦╔═╗╦  ╦╔═╗╔═╗', '╠═╣║╣ ║  ║║ ║╚═╗', '╩ ╩╚═╝╩═╝╩╚═╝╚═╝'];
+
+/* ---------- the welcome banner: logo, sun beside a system card, message of the day ---------- */
+const UP0 = 412 * 86400 + 7 * 3600 + 22 * 60;
+const upSecs = () => UP0 + Math.floor((Date.now() - S.t0) / 1000);
+const upText = () => {
+  const s = upSecs(), d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60);
+  return S.lang === 'ja' ? `${d}日 ${h}時間${p2(m)}分` : `${d}d ${p2(h)}h ${p2(m)}m`;
+};
+const cardRows = () => {
+  const K = S.lang === 'ja'
+    ? ['OS', '機種', 'カーネル', '稼働時間', 'シェル', '端末', 'CPU', 'メモリ', '回線']
+    : ['OS', 'Host', 'Kernel', 'Uptime', 'Shell', 'Term', 'CPU', 'Memory', 'Link'];
+  const V = [
+    'HELIOS/OS 2.3 "Aphelion"', 'Heliograph HX-14', 'helix 2.3.11-rt hx68k', upText(), 'hsh 1.4',
+    `${M.cols}×${M.rows} · ${PHOS[S.phos][S.lang]}`, 'HX-68020 @ 16.67 MHz', '1.3M / 4.0M', 'UPLINK-7 · 2400 bd',
+  ];
+  const kw = Math.max(...K.map(wlen)) + 2;
+  return [
+    [[`${USER}@${HOST}`, 'h']],
+    [['─'.repeat(USER.length + HOST.length + 1), 'd']],
+    ...K.map((k, i) => [[padR(k, kw), 'h'], [V[i], '']]),
+    [['███', 'h'], [' ', ''], ['▓▓▓', ''], [' ', ''], ['▒▒▒', ''], [' ', ''], ['░░░', 'd']],
+  ];
+};
+const rowWidth = (r) => r.reduce((a, [tx]) => a + wlen(tx), 0);
+const bannerSegs = (cols) => {
+  const segs = [], nl = () => segs.push(['\n', '']);
+  const logo = cols >= 44 ? LOGO_BIG : LOGO_SMALL;
+  for (const r of logo) { segs.push(...runs(r, logoCls)); nl(); }
+  nl();
+  const card = cardRows(), cw = Math.max(...card.map(rowWidth));
+  const sun = cols >= SUN_BIG[0].length + 4 + cw ? SUN_BIG : cols >= SUN_SMALL[0].length + 3 + cw ? SUN_SMALL : null;
+  let rows;
+  if (sun) {
+    const sw = sun[0].length, gap = sun === SUN_BIG ? 4 : 3, n = Math.max(sun.length, card.length);
+    const so = Math.floor((n - sun.length) / 2), co = Math.floor((n - card.length) / 2);
+    rows = [];
+    for (let i = 0; i < n; i++) {
+      const s = sun[i - so], c = card[i - co] || [];
+      rows.push([...(s ? runs(s, sunCls) : [[' '.repeat(sw), '']]), [' '.repeat(gap), ''], ...c]);
+    }
+  } else {
+    rows = [...(cols >= SUN_SMALL[0].length ? SUN_SMALL.map((r) => runs(r, sunCls)).concat([[]]) : []), ...card];
+  }
+  for (const r of rows) { segs.push(...r); nl(); }
+  nl();
+  segs.push(...fmt(motd(cols)));
+  return segs;
+};
+const banner = () => {
+  const el = document.createElement('div');
+  el.className = 'o banner';
+  const cols = M.cols;
+  put(() => { banners.push(el); return el; });
+  into(el, bannerSegs(cols));
+  then(() => { el.dataset.cols = cols; if (cols !== M.cols) rebanner(); });
+};
+const rebanner = () => {
+  for (const el of banners) {
+    if (!el.isConnected || !el.dataset.cols || +el.dataset.cols === M.cols) continue;
+    el.replaceChildren();
+    writeSegs(el, bannerSegs(M.cols));
+    el.dataset.cols = M.cols;
+  }
+};
+
+/* ---------- power, POST, login ---------- */
+const beam = $('beam'), spot = $('spot');
+const powerOn = () => {
+  raster.classList.remove('off', 'poff');
+  led.classList.add('on');
+  if (reduced) return;
+  raster.classList.remove('pon'); beam.classList.remove('pon');
+  void raster.offsetWidth;
+  raster.classList.add('pon'); beam.classList.add('pon');
+  setTimeout(() => { raster.classList.remove('pon'); beam.classList.remove('pon'); }, 1000);
+  hum();
+};
+const powerOff = (cb) => {
+  led.classList.remove('on', 'act');
+  if (reduced) { raster.classList.add('off'); setTimeout(cb, 200); return; }
+  raster.classList.add('poff'); spot.classList.add('poff');
+  setTimeout(() => {
+    raster.classList.remove('poff'); raster.classList.add('off'); spot.classList.remove('poff');
+    cb();
+  }, 1500);
+};
+const typeOut = (s) => {
+  for (const ch of s) {
+    pause(rnd(60, 150));
+    Q.push({ k: 'text', segs: [[ch, '']], cont: true });
+    then((fast) => { if (!fast) click(); });
+  }
+};
+const lastLogin = () => {
+  const d = new Date(); d.setDate(d.getDate() - 1);
+  const wd = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()];
+  return `${wd} ${MON[d.getMonth()]} ${String(d.getDate()).padStart(2)} 03:14:22 on tty3`;
+};
+const login = () => {
+  pause(420);
+  out([['HELIOS/OS 2.3 "Aphelion" ', 'h'], [`(${HOST}) (tty1)`, 'd']]);
+  out('');
+  out(`${HOST} login: `);
+  typeOut(USER);
+  pause(260);
+  out('Password: ');
+  pause(640);
+  then((fast) => { if (!fast) thock(); });
+  out([['Last login: ' + lastLogin(), 'd']]);
+  pause(900);
+  then((fast) => clearScreen(!fast));
+  banner();
+  out('');
+  then(() => { S.mode = 'shell'; S.cwd = HOME; srMark = undefined; focusKbd(); });
+};
+const boot = () => {
+  S.mode = 'boot';
+  Q.length = 0;
+  clearScreen(false);
+  ghost.classList.remove('on');
+  inp.hidden = true;
+  measure();
+  powerOn();
+  pause(700);
+
+  const post = document.createElement('div');
+  post.className = 'o post';
+  if (M.cols >= 64) {
+    const pre = document.createElement('pre');
+    pre.className = 'post-badge';
+    pre.setAttribute('aria-hidden', 'true');
+    writeSegs(pre, [...SUN_SMALL.flatMap((r) => [...runs(r, sunCls), ['\n', '']]), [' HELIOGRAPH ', 'i']]);
+    post.appendChild(pre);
+  }
+  put(() => post);
+  into(post, [['Heliograph Systems', 'h'], [' HX-14 Monitor ROM v4.07\n', ''],
+    ['(C) 1984-1987 Heliograph Systems Corp.\n', ''],
+    ['fictional hardware · simulated with care\n\n', 'd'],
+    ['HX-68020 CPU at 16.67 MHz · HX-68881 FPU\n', '']]);
+  out('Memory test : ');
+  const mem = document.createElement('span');
+  let kb = 0;
+  then(() => lastBlock.appendChild(mem));
+  anim((dt) => {
+    kb = Math.min(4096, kb + dt * 3.4);
+    mem.textContent = padL(String(Math.floor(kb / 64) * 64), 5) + 'K';
+    return kb >= 4096;
+  }, () => {
+    mem.textContent = ' 4096K';
+    const ok = document.createElement('span');
+    ok.className = 'h'; ok.textContent = '  OK';
+    mem.after(ok);
+  });
+  out('');
+  out('Detecting devices …');
+  const dw = Math.min(M.cols, 54);
+  for (const [a, b] of [
+    ['SCSI 0', 'HX-DSK 140 MB fixed disk'], ['SCSI 3', 'QIC-60 cartridge tape'], ['COM 1', 'UPLINK-7 relay modem'],
+    ['COM 2', 'SIGPROC DSP card'], ['KBD', 'Heliograph 101-key'], ['AUD', 'piezo beeper'],
+  ]) {
+    const head = '  ' + padR(a, 8) + b + ' ';
+    out(head);
+    pause(rnd(90, 280));
+    more([['.'.repeat(Math.max(2, dw - wlen(head) - 3)) + ' ', 'd'], ['OK', 'h']]);
+  }
+  out('');
+  out('Loading helix kernel 2.3.11-rt');
+  const bar = document.createElement('span'), bw = clamp(M.cols - 10, 10, 40);
+  const drawBar = (p) => {
+    const n = Math.round(p * bw);
+    bar.replaceChildren();
+    writeSegs(bar, [['[', 'd'], ['█'.repeat(n), 'h'], ['░'.repeat(bw - n), 'd'], [']', 'd'], [padL(Math.round(p * 100) + '%', 5), '']]);
+  };
+  let prog = 0;
+  out('');
+  then(() => { lastBlock.appendChild(bar); drawBar(0); });
+  anim((dt) => {
+    prog = Math.min(1, prog + (dt / 1400) * (0.3 + Math.random() * 1.4));
+    drawBar(prog);
+    return prog >= 1;
+  }, () => drawBar(1));
+  out('');
+  out('Starting services');
+  for (const [s, n, d] of [
+    ['OK', 'clockd', 'station clock'], ['OK', 'relayd', 'packet relay, inbound'], ['OK', 'thermd', 'heaters A/B (B cycling)'],
+    ['OK', 'telemd', 'telemetry'], ['WARN', 'sigproc', '1 unread capture (0314)'], ['OK', 'getty', 'tty1 tty3'],
+  ]) {
+    pause(rnd(70, 200));
+    out([['  [', 'd'], [s === 'OK' ? ' OK ' : 'WARN', s === 'OK' ? 'h' : 'i'], ['] ', 'd'], [padR(n, 9), ''], [d, 'd']]);
+  }
+  pause(900);
+  then((fast) => clearScreen(!fast));
+  login();
+};
+
+/* ---------- the shell (hsh 1.4) ---------- */
+Object.assign(L.en, { tty3: 'cat: /dev/tty3: its scrollback was saved to ~/poem.txt' });
+Object.assign(L.ja, { tty3: 'cat: /dev/tty3: スクロールバックは ~/poem.txt に保存されています' });
+const tokenize = (s) => {
+  const a = [], re = /"([^"]*)"|'([^']*)'|(\S+)/g;
+  let m;
+  while ((m = re.exec(s))) a.push(m[1] ?? m[2] ?? m[3]);
+  return a;
+};
+const err = (s) => { out(s); then((fast) => { if (!fast) bell(); }); };
+const nameSeg = (k, e) => (e.t === 'd' ? [[k + '/', 'h']] : e.bin ? [[k + '*', '']] : e.dev ? [[k, 'd']] : [[k, '']]);
+const grid = (items) => {
+  if (!items.length) return;
+  const w = Math.max(...items.map(rowWidth)) + 2;
+  const nc = Math.max(1, Math.floor((M.cols + 2) / w)), nr = Math.ceil(items.length / nc);
+  for (let r = 0; r < nr; r++) {
+    const row = [];
+    for (let c = 0; c < nc; c++) {
+      const it = items[c * nr + r];
+      if (!it) continue;
+      row.push(...it);
+      if (items[(c + 1) * nr + r]) row.push([' '.repeat(w - rowWidth(it)), '']);
+    }
+    out(row);
+  }
+};
+const hms = (d) => `${p2(d.getHours())}:${p2(d.getMinutes())}:${p2(d.getSeconds())}`;
+const tzName = (d) => {
+  try {
+    return new Intl.DateTimeFormat(S.lang === 'ja' ? 'ja-JP' : 'en-US', { timeZoneName: 'short' }).formatToParts(d).find((x) => x.type === 'timeZoneName').value;
+  } catch (e) { return ''; }
+};
+let pendingReply = false;
+const deliverReply = () => {
+  pendingReply = false;
+  srMark = logEl.lastElementChild;
+  out('');
+  out([[t('ansReply'), 'h']]);
+  out('');
+  then((fast) => { if (!fast) chime(); });
+};
+
+const CMD = {
+  help() {
+    out([[S.lang === 'ja' ? 'HELIOS/OS 2.3 — 組み込みコマンド' : 'HELIOS/OS 2.3 — built-in commands', 'h']]);
+    out('');
+    const narrow = M.cols < 58;
+    for (const [c, a, en, ja] of HELP) {
+      const d = S.lang === 'ja' ? ja : en;
+      if (narrow) out([['  ' + c, 'h'], [a ? ' ' + a : '', 'd'], ['\n      ' + d, '']]);
+      else out([['  ' + c, 'h'], [padR(a ? ' ' + a : '', 28 - c.length), 'd'], [d, '']]);
+    }
+    out('');
+    out([[t('tabHint'), 'd']]);
+    out([[t('tryIt'), 'd']]);
+  },
+  ls(args, raw, name) {
+    let all = false, long = name === 'll';
+    const targets = [];
+    for (const a of args) {
+      if (a.length > 1 && a[0] === '-') { if (a.includes('a')) all = true; if (a.includes('l')) long = true; }
+      else targets.push(a);
+    }
+    if (!targets.length) targets.push('.');
+    targets.forEach((tg, ti) => {
+      const abs = normPath(tg), n = lookup(abs);
+      if (!n) return err(t('nofile', 'ls', tg));
+      if (targets.length > 1) out([[tg + ':', 'h']]);
+      let entries;
+      if (n.t === 'd') {
+        entries = Object.keys(n.c)
+          .filter((k) => all || k[0] !== '.')
+          .sort((a, b) => a.replace(/^\./, '').localeCompare(b.replace(/^\./, '')))
+          .map((k) => [k, n.c[k]]);
+        if (all) entries.unshift(['.', n], ['..', lookup(normPath(abs + '/..'))]);
+      } else entries = [[tg, n]];
+      if (long) {
+        if (n.t === 'd') out(`${t('total')} ${entries.length * 4}`);
+        const sw = Math.max(...entries.map(([, e]) => String(sizeOf(e)).length));
+        for (const [k, e] of entries) {
+          const grp = e.owner === 'root' ? 'root' : 'crew';
+          out([[`${e.mode}  1 ${padR(e.owner, 9)}${padR(grp, 5)}${padL(String(sizeOf(e)), sw)} ${e.date}  `, 'd'], ...nameSeg(k, e)]);
+        }
+      } else grid(entries.map(([k, e]) => nameSeg(k, e)));
+      if (ti < targets.length - 1) out('');
+    });
+  },
+  cd(args) {
+    const tg = args[0] || '~', abs = normPath(tg), n = lookup(abs);
+    if (!n) return err(t('nofile', 'cd', tg));
+    if (n.t !== 'd') return err(t('notdir', 'cd', tg));
+    S.cwd = abs;
+  },
+  pwd() { out(S.cwd); },
+  cat(args) {
+    if (!args.length) return err(t('usage', 'cat <file>'));
+    for (const a of args) {
+      const n = lookup(normPath(a));
+      if (!n) err(t('nofile', 'cat', a));
+      else if (n.t === 'd') err(t('isdir', 'cat', a));
+      else if (n.bin) err(t('binary', a));
+      else if (n.dev === 'tty1') out(t('busy', a));
+      else if (n.dev === 'tty3') out(t('tty3'));
+      else {
+        const b = bodyOf(n);
+        if (b) out(b);
+        if (n.sig && !S.sig) { S.sig = true; store.set('sig', true); }
+      }
+    }
+  },
+  clear() { clearScreen(); },
+  date() {
+    const d = new Date(), tz = tzName(d);
+    if (S.lang === 'ja') out(`${d.getFullYear()}年 ${d.getMonth() + 1}月${d.getDate()}日 ${'日月火水木金土'[d.getDay()]}曜日 ${hms(d)} ${tz}`);
+    else out(`${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()]} ${MON[d.getMonth()]} ${String(d.getDate()).padStart(2)} ${hms(d)} ${tz} ${d.getFullYear()}`);
+  },
+  whoami() { out(USER); },
+  theme(args) {
+    const a = (args[0] || '').toLowerCase();
+    if (!a) return out(t('themeNow', PHOS[S.phos][S.lang]));
+    const key = { green: 'green', p1: 'green', amber: 'amber', p3: 'amber', ice: 'ice', blue: 'ice' }[a];
+    if (!key) return err(t('usage', 'theme <green|amber|ice>'));
+    out(t('theme', PHOS[key][S.lang]));
+    then(() => setPhos(key));
+  },
+  matrix() { then(() => startMatrix()); },
+  weather() { weather(); },
+  snake() { then(() => startSnake()); },
+  history() {
+    if (!S.hist.length) return out(t('hist0'));
+    const w = String(S.hist.length).length + 2;
+    out(S.hist.map((h, i) => [[padL(String(i + 1), w) + '  ', 'd'], [h + (i < S.hist.length - 1 ? '\n' : ''), '']]).flat());
+  },
+  echo(args) {
+    const env = { USER, HOME, PWD: S.cwd, SHELL: '/bin/hsh', TERM: 'hx14', HOSTNAME: HOST, LANG: S.lang === 'ja' ? 'ja_JP.UTF-8' : 'en_US.UTF-8' };
+    out([[args.join(' ').replace(/\$(\w+)/g, (m, v) => env[v] ?? ''), '']]);
+  },
+  uname(args) {
+    out(args.some((a) => a.includes('a')) ? 'HELIOS relay-7 2.3.11-rt #1 Aphelion Tue Mar 3 04:12:55 1987 hx68k' : 'HELIOS');
+  },
+  uptime() {
+    const s = upSecs(), days = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60);
+    const la = [0.07, 0.03, 0.01].map((x) => (x + Math.random() * 0.04).toFixed(2)).join(', ');
+    out(S.lang === 'ja'
+      ? ` ${hms(new Date())}  稼働 ${days}日 ${h}:${p2(m)}、ユーザー 1人、負荷平均 ${la}`
+      : ` ${hms(new Date())}  up ${days} days, ${h}:${p2(m)},  1 user,  load average: ${la}`);
+  },
+  fortune() {
+    const f = FORTUNES[S.lang];
+    out([['  ' + f[(Math.random() * f.length) | 0], 'h']]);
+  },
+  sound(args) {
+    const a = (args[0] || '').toLowerCase();
+    const on = a === 'on' ? true : a === 'off' ? false : !S.sound;
+    setSound(on);
+    out(S.sound ? t('sndOn') : on ? t('sndNo') : t('sndOff'));
+  },
+  baud(args) {
+    const a = (args[0] || '').toLowerCase();
+    if (!a) return out(t('baudNow', S.baud === 'max' ? 'max' : S.baud + ' baud'));
+    const v = a === 'max' ? 'max' : parseInt(a, 10);
+    if (v !== 'max' && !BAUDS.includes(v)) return err(t('baudBad'));
+    setBaud(v);
+    out(t('baudSet', v === 'max' ? 'max' : v + ' baud'));
+  },
+  lang(args) {
+    const a = (args[0] || '').toLowerCase();
+    setLang(a === 'ja' || a === 'en' ? a : S.lang === 'ja' ? 'en' : 'ja');
+    out(t('langSet'));
+  },
+  reboot() {
+    out([['Broadcast message from root@relay-7 (tty1):', 'd']]);
+    out('The system is going down for reboot NOW.');
+    pause(600);
+    then(() => { S.mode = 'off'; powerOff(boot); });
+  },
+  /* not in help */
+  ll(args, raw) { CMD.ls(args, raw, 'll'); },
+  sudo() {
+    out(t('sudo1'));
+    pause(1100);
+    then((fast) => { if (!fast) bell(); });
+    out(t('sudo2'));
+  },
+  exit() { CMD.logout(); },
+  logout() {
+    out(t('logout'));
+    pause(700);
+    then((fast) => { S.mode = 'boot'; clearScreen(!fast); });
+    login();
+  },
+  answer() {
+    if (!S.sig) return err(t('ans0'));
+    if (S.answered) return out(t('ans1'));
+    S.answered = true;
+    out(t('ansOpen'));
+    const bar = document.createElement('span'), bw = clamp(M.cols - 10, 10, 32);
+    let p = 0;
+    const draw = () => {
+      const n = Math.round(p * bw);
+      bar.replaceChildren();
+      writeSegs(bar, [['▕', 'd'], ['█'.repeat(n), 'h'], ['░'.repeat(bw - n), 'd'], ['▏', 'd']]);
+    };
+    out('');
+    then(() => { lastBlock.appendChild(bar); draw(); });
+    anim((dt) => { p = Math.min(1, p + dt / 2200); draw(); return p >= 1; }, () => { p = 1; draw(); });
+    out([[t('ansLock'), 'd']]);
+    pause(500);
+    out([[t('ansMsg'), 'h']]);
+    pause(400);
+    out([[t('ansSent'), 'd']]);
+    then(() => setTimeout(() => {
+      pendingReply = true;
+      if (S.mode === 'shell' && !Q.length) deliverReply();
+    }, reduced ? 5000 : 21000));
+  },
+};
+
+const pushHist = (line) => {
+  if (S.hist[S.hist.length - 1] !== line) S.hist.push(line);
+  if (S.hist.length > 200) S.hist.splice(0, S.hist.length - 200);
+  store.set('hist', S.hist);
+  S.hi = S.hist.length; S.draft = '';
+};
+const run = (line) => {
+  pushHist(line);
+  const [c0, ...args] = tokenize(line), cmd = c0.toLowerCase();
+  const f = Object.prototype.hasOwnProperty.call(CMD, cmd) ? CMD[cmd] : null;
+  if (!f) return err(t('notfound', c0));
+  f(args, line, cmd);
+};
+const submit = () => {
+  const v = kbd.value;
+  kbd.value = '';
+  echoLine(v);
+  srMark = logEl.lastElementChild;
+  thock();
+  S.hi = S.hist.length; S.draft = '';
+  if (v.trim()) run(v.trim());
+  renderInput();
+  settle();
+};
+const histMove = (d) => {
+  if (!S.hist.length) return;
+  if (S.hi === S.hist.length) S.draft = kbd.value;
+  S.hi = clamp(S.hi + d, 0, S.hist.length);
+  kbd.value = S.hi === S.hist.length ? S.draft : S.hist[S.hi];
+  const n = kbd.value.length;
+  kbd.setSelectionRange(n, n);
+  renderInput();
+};
+
+/* tab completion: commands, directory-aware paths, arguments */
+const ARGS = { theme: ['green', 'amber', 'ice'], sound: ['on', 'off'], baud: ['300', '1200', '2400', '9600', '19200', '38400', 'max'], lang: ['ja', 'en'], uname: ['-a'] };
+const common = (a) => a.reduce((p, s) => { let i = 0; while (i < p.length && p[i] === s[i]) i++; return p.slice(0, i); });
+const complete = () => {
+  const v = kbd.value, p = kbd.selectionStart ?? v.length;
+  const left = v.slice(0, p), word = left.match(/\S*$/)[0], before = left.slice(0, left.length - word.length);
+  const first = !before.trim(), cmd = first ? '' : before.trim().split(/\s+/)[0].toLowerCase();
+  let cands = [];
+  if (first) cands = CMDNAMES.filter((c) => c.startsWith(word)).map((c) => [c, c + ' ']);
+  else if (ARGS[cmd]) cands = ARGS[cmd].filter((a) => a.startsWith(word)).map((a) => [a, a + ' ']);
+  else {
+    const cut = word.lastIndexOf('/') + 1, dir = word.slice(0, cut), base = word.slice(cut);
+    const dn = lookup(normPath(dir || '.'));
+    if (dn && dn.t === 'd') {
+      cands = Object.keys(dn.c).sort()
+        .filter((k) => k.startsWith(base) && (base[0] === '.' || k[0] !== '.') && (cmd !== 'cd' || dn.c[k].t === 'd'))
+        .map((k) => { const d = dn.c[k].t === 'd'; return [k + (d ? '/' : ''), dir + k + (d ? '/' : ' ')]; });
+    }
+  }
+  if (!cands.length) return bell();
+  let ins = cands[0][1];
+  if (cands.length > 1) {
+    ins = common(cands.map((c) => c[1]));
+    if (ins.length <= word.length) {
+      echoLine(v);
+      grid(cands.map(([d]) => [[d, d.endsWith('/') ? 'h' : '']]));
+      settle();
+      return;
+    }
+  }
+  kbd.value = before + ins + v.slice(p);
+  const np = (before + ins).length;
+  kbd.setSelectionRange(np, np);
+  renderInput();
+};
+
+const MODS = ['Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Fn', 'OS'];
+const onKey = (e) => {
+  if (e.isComposing || e.keyCode === 229) return;
+  const k = e.key;
+  if (S.mode === 'off') return;
+  if (S.mode === 'boot') { if (!MODS.includes(k)) { e.preventDefault(); flush(); } return; }
+  if (S.mode === 'matrix') { if (!MODS.includes(k)) { e.preventDefault(); stopMatrix(); } return; }
+  if (S.mode === 'snake') { snakeKey(e); return; }
+  if (Q.length) {
+    if (k === 'Enter' || k === 'Escape' || (e.ctrlKey && k.toLowerCase() === 'c')) { e.preventDefault(); flush(); }
+    return;
+  }
+  if (e.ctrlKey && !e.altKey && !e.metaKey) {
+    const kk = k.toLowerCase();
+    if (kk === 'c') {
+      e.preventDefault();
+      const b = echoLine(kbd.value);
+      writeSegs(b, [['^C', 'd']]);
+      kbd.value = ''; S.hi = S.hist.length; renderInput(); settle();
+      return;
+    }
+    if (kk === 'l') { e.preventDefault(); clearScreen(); renderInput(); settle(); return; }
+    if (kk === 'u') { e.preventDefault(); kbd.value = kbd.value.slice(kbd.selectionStart); kbd.setSelectionRange(0, 0); renderInput(); return; }
+    if (kk === 'a') { e.preventDefault(); kbd.setSelectionRange(0, 0); renderInput(); return; }
+    if (kk === 'e') { e.preventDefault(); const n = kbd.value.length; kbd.setSelectionRange(n, n); renderInput(); return; }
+  }
+  if (k === 'Enter') { e.preventDefault(); submit(); return; }
+  if (k === 'Tab') { e.preventDefault(); complete(); return; }
+  if (k === 'ArrowUp') { e.preventDefault(); histMove(-1); return; }
+  if (k === 'ArrowDown') { e.preventDefault(); histMove(1); return; }
+  if (k.length === 1 || k === 'Backspace' || k === 'Delete') { click(); solid(); }
+  setTimeout(renderInput, 0);
+};
+
+/* ---------- matrix: glyph rain on canvas ---------- */
+const rain = $('rain'), rctx = rain.getContext('2d');
+const GLYPHS = (() => {
+  const a = [];
+  for (let c = 0xff66; c <= 0xff9d; c++) a.push([String.fromCharCode(c), true]); /* half-width katakana, mirrored */
+  for (let c = 0x391; c <= 0x3a9; c++) if (c !== 0x3a2) a.push([String.fromCharCode(c), false]);
+  for (let d = 0; d < 10; d++) a.push([String(d), false]);
+  return a;
+})();
+const rg = () => GLYPHS[(Math.random() * GLYPHS.length) | 0];
+let MX = null;
+const glyph = (g, x, y) => {
+  if (g[1]) { rctx.save(); rctx.translate(x + MX.cw, y); rctx.scale(-1, 1); rctx.fillText(g[0], 0, 0); rctx.restore(); }
+  else rctx.fillText(g[0], x, y);
+};
+const startMatrix = () => {
+  if (S.mode !== 'shell') return;
+  S.mode = 'matrix';
+  showInput();
+  const dpr = Math.min(2, devicePixelRatio || 1), w = rain.clientWidth, h = rain.clientHeight;
+  rain.width = Math.max(1, Math.round(w * dpr)); rain.height = Math.max(1, Math.round(h * dpr));
+  const cs = getComputedStyle(root), fs = Math.round(M.fs * 1.05);
+  MX = {
+    w, h, fs, cw: fs * 0.9, lh: fs * 1.12,
+    rgb: cs.getPropertyValue('--rgb').trim(), bgrgb: cs.getPropertyValue('--bgrgb').trim(), hot: cs.getPropertyValue('--hot').trim(),
+    ending: false, raf: 0, last: performance.now(), timer: 0,
+  };
+  MX.cols = Math.ceil(w / MX.cw); MX.rows = Math.ceil(h / MX.lh);
+  MX.drops = Array.from({ length: MX.cols }, () => ({ y: -Math.random() * MX.rows * 0.55, v: rnd(8, 22), cell: -99, g: null }));
+  rctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  rctx.fillStyle = `rgb(${MX.bgrgb})`;
+  rctx.fillRect(0, 0, w, h);
+  rctx.font = `${fs}px ${getComputedStyle(screen).fontFamily}`;
+  rctx.textBaseline = 'top';
+  screen.classList.add('hush');
+  rain.classList.add('on');
+  if (reduced) {
+    rctx.fillStyle = `rgba(${MX.rgb},.5)`;
+    for (let i = 0; i < MX.cols; i++) for (let j = 0; j < MX.rows; j++) if (Math.random() < 0.28) glyph(rg(), i * MX.cw, j * MX.lh);
+    MX.timer = setTimeout(stopMatrix, 3200);
+  } else {
+    MX.raf = requestAnimationFrame(rainFrame);
+    MX.timer = setTimeout(stopMatrix, 7600);
+  }
+};
+const rainFrame = (now) => {
+  const m = MX;
+  if (!m) return;
+  const dt = Math.min(64, now - m.last);
+  m.last = now;
+  /* translucent wash, identical at any frame rate */
+  rctx.shadowBlur = 0;
+  rctx.fillStyle = `rgba(${m.bgrgb},${(1 - Math.pow(0.915, dt / 16.67)).toFixed(4)})`;
+  rctx.fillRect(0, 0, m.w, m.h);
+  for (let i = 0; i < m.cols; i++) {
+    const d = m.drops[i], x = i * m.cw;
+    d.y += (d.v * dt) / 1000;
+    const cell = Math.floor(d.y);
+    if (cell !== d.cell) {
+      if (d.g && d.cell >= 0) {
+        rctx.fillStyle = `rgb(${m.bgrgb})`;
+        rctx.fillRect(x, d.cell * m.lh, m.cw, m.lh);
+        rctx.fillStyle = `rgb(${m.rgb})`;
+        glyph(d.g, x, d.cell * m.lh);
+      }
+      d.g = null;
+      if (cell >= 0 && cell < m.rows) {
+        d.g = rg();
+        rctx.fillStyle = m.hot;
+        rctx.shadowColor = `rgb(${m.rgb})`;
+        rctx.shadowBlur = 18;
+        glyph(d.g, x, cell * m.lh);
+        rctx.shadowBlur = 0;
+      }
+      d.cell = cell;
+    }
+    if (d.y > m.rows + 8 && !m.ending) { d.y = -rnd(0, 14); d.v = rnd(7, 21); d.cell = -99; d.g = null; }
+  }
+  /* shimmer: a few trail glyphs change their minds */
+  for (let k = 0; k < 4; k++) {
+    const i = (Math.random() * m.cols) | 0, d = m.drops[i];
+    if (d.cell < 3) continue;
+    const j = d.cell - 1 - ((Math.random() * Math.min(d.cell, 18)) | 0), x = i * m.cw;
+    rctx.fillStyle = `rgba(${m.bgrgb},.7)`;
+    rctx.fillRect(x, j * m.lh, m.cw, m.lh);
+    rctx.fillStyle = `rgba(${m.rgb},${(0.35 + Math.random() * 0.45).toFixed(2)})`;
+    glyph(rg(), x, j * m.lh);
+  }
+  m.raf = requestAnimationFrame(rainFrame);
+};
+const stopMatrix = () => {
+  const m = MX;
+  if (!m || m.ending) return;
+  m.ending = true;
+  clearTimeout(m.timer);
+  rain.classList.remove('on');
+  screen.classList.remove('hush');
+  setTimeout(() => {
+    cancelAnimationFrame(m.raf);
+    if (MX === m) MX = null;
+    rctx.setTransform(1, 0, 0, 1, 0, 0);
+    rctx.clearRect(0, 0, rain.width, rain.height);
+    S.mode = 'shell';
+    settle();
+    focusKbd();
+  }, 850);
+};
+
+/* ---------- weather: space weather for sector 7 (fictional forecast) ---------- */
+const WX = [
+  { en: 'Quiet sun', ja: '静穏', s: { en: 'Quiet', ja: '静穏' }, mini: ' -(o)- ', wind: [300, 420], flux: [0.1, 0.9],
+    icon: ['    \\  |  /  ', '     .---.   ', '  --(     )--', "     '---'   ", '    /  |  \\  '] },
+  { en: 'Fast solar wind', ja: '高速太陽風', s: { en: 'Fast wind', ja: '高速風' }, mini: ' ~~~>> ', wind: [560, 780], flux: [0.3, 3],
+    icon: ['  ~~~~~~>    ', '     ~~~~~~> ', ' ~~~~~~~>    ', '    ~~~~~~~> ', '  ~~~~~>     '] },
+  { en: 'Solar flare', ja: '太陽フレア', s: { en: 'Flare', ja: 'フレア' }, mini: ' \\(O)/ ', wind: [450, 690], flux: [12, 140],
+    icon: ['   \\ \\|/ /   ', '  -- .-. --* ', ' ---(   )--- ', "  -- '-' --* ", '   / /|\\ \\   '] },
+  { en: 'Meteor shower', ja: '流星群', s: { en: 'Meteors', ja: '流星群' }, mini: " `. `. ", wind: [320, 480], flux: [0.1, 2],
+    icon: [' *.          ', "   `.    *.  ", "     `.    `.", "  *.   `.    ", "    `.       "] },
+  { en: 'Ion storm', ja: 'イオン嵐', s: { en: 'Ion storm', ja: 'イオン嵐' }, mini: ' /\\/\\/ ', wind: [620, 860], flux: [3, 40],
+    icon: ['    .--.     ', ' .-(    ).   ', '(___.__)__)  ', '   _/  _/    ', '   /   /     '] },
+];
+const forecast = (k) => {
+  const d = new Date(); d.setDate(d.getDate() + k);
+  const r = mulberry(d.getFullYear() * 1000 + d.getMonth() * 40 + d.getDate());
+  r(); r();
+  const c = WX[(r() * WX.length) | 0];
+  const wind = Math.round(c.wind[0] + r() * (c.wind[1] - c.wind[0]));
+  const flux = c.flux[0] + r() * (c.flux[1] - c.flux[0]);
+  return { d, c, wind, flux, link: Math.round(clamp(99 - flux * 0.35 - (wind - 300) / 40 - r() * 3, 42, 99)) };
+};
+const weather = () => {
+  const ja = S.lang === 'ja', f = forecast(0);
+  const dayLabel = (d) => (ja ? `${d.getMonth() + 1}月${d.getDate()}日(${'日月火水木金土'[d.getDay()]})` : `${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()]} ${MON[d.getMonth()]} ${d.getDate()}`);
+  out([[ja ? '宇宙天気 · 第7セクター · ' : 'SPACE WEATHER · SECTOR 7 · ', 'h'], [dayLabel(f.d), 'h']]);
+  out([[ja ? '架空の中継局のための、架空の予報です' : 'a fictional forecast for a fictional relay', 'd']]);
+  out('');
+  const K = ja ? ['太陽風', '陽子フラックス', '回線品質', '船外活動'] : ['Solar wind', 'Proton flux', 'Link quality', 'EVA'];
+  const kw = Math.max(...K.map(wlen)) + 2;
+  const eva = f.flux >= 10 ? (ja ? '中止（S1 放射線）' : 'hold (S1 radiation)') : f.wind > 600 ? (ja ? '短時間のみ' : 'brief only') : (ja ? '可' : 'go');
+  const info = [
+    [[ja ? f.c.ja : f.c.en, 'h']],
+    [[padR(K[0], kw), 'd'], [`${f.wind} km/s`, '']],
+    [[padR(K[1], kw), 'd'], [`${f.flux < 10 ? f.flux.toFixed(1) : Math.round(f.flux)} pfu (≥10 MeV)`, '']],
+    [[padR(K[2], kw), 'd'], [`${f.link} %`, '']],
+    [[padR(K[3], kw), 'd'], [eva, f.flux >= 10 ? 'i' : '']],
+  ];
+  const side = M.cols >= 13 + 3 + Math.max(...info.map(rowWidth));
+  const rows = [];
+  if (side) f.c.icon.forEach((ic, i) => rows.push([[ic, 'h'], ['   ', ''], ...info[i]]));
+  else { f.c.icon.forEach((ic) => rows.push([[ic, 'h']])); rows.push([]); rows.push(...info); }
+  out(rows.flatMap((r, i) => (i ? [['\n', ''], ...r] : r)));
+  out('');
+  const days = [1, 2, 3].map(forecast), cw = 13;
+  const line = (l, m, r) => l + days.map(() => '─'.repeat(cw)).join(m) + r;
+  const cells = (fn) => days.flatMap((x, i) => [['│', 'd'], [' ' + padR(fn(x)[0], cw - 1), fn(x)[1]]]).concat([['│', 'd']]);
+  if (M.cols >= 3 * (cw + 1) + 1) {
+    out([[line('┌', '┬', '┐'), 'd']]);
+    out(cells((x) => [ja ? `${x.d.getDate()}日(${'日月火水木金土'[x.d.getDay()]})` : `${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][x.d.getDay()]} ${x.d.getDate()}`, 'h']));
+    out(cells((x) => [x.c.mini.trim(), '']));
+    out(cells((x) => [x.c.s[S.lang], '']));
+    out(cells((x) => [`${x.wind} km/s`, 'd']));
+    out([[line('└', '┴', '┘'), 'd']]);
+  } else {
+    for (const x of days) out([[padR(ja ? `${x.d.getDate()}日` : `${MON[x.d.getMonth()]} ${x.d.getDate()}`, 8), 'h'], [padR(x.c.mini.trim(), 8), ''], [x.c.s[S.lang], '']]);
+  }
+};
+
+/* ---------- snake, drawn as text inside the terminal ---------- */
+let G = null;
+const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+const OPP = { up: 'down', down: 'up', left: 'right', right: 'left' };
+const coarse = matchMedia('(pointer: coarse)');
+const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
+const wideHTML = (s) => Array.from(s).map((ch) => (isWide(ch.codePointAt(0)) ? `<span class="w">${ch}</span>` : esc(ch))).join('');
+const html = () => {
+  const parts = [];
+  let cur = null, buf = '';
+  const flushRun = () => { if (buf) parts.push(cur ? `<span class="${cur}">${wideHTML(buf)}</span>` : wideHTML(buf)); buf = ''; };
+  return {
+    add(tx, c = '') { if (c !== cur) { flushRun(); cur = c; } buf += tx; return this; },
+    done() { flushRun(); return parts.join(''); },
+  };
+};
+const newGame = () => {
+  const cx = G.w >> 1, cy = G.h >> 1;
+  Object.assign(G, { snake: [{ x: cx, y: cy }, { x: cx - 1, y: cy }, { x: cx - 2, y: cy }], dir: 'right', q: [], score: 0, over: false, paused: false, acc: 0 });
+  placeFood();
+  drawSnake();
+};
+const placeFood = () => {
+  const free = [];
+  for (let y = 0; y < G.h; y++) for (let x = 0; x < G.w; x++) if (!G.snake.some((s) => s.x === x && s.y === y)) free.push({ x, y });
+  G.food = free[(Math.random() * free.length) | 0] || null;
+};
+const startSnake = () => {
+  if (S.mode !== 'shell') return;
+  measure();
+  if (M.cols < 22 || M.rows < 10) return out(t('snakeSmall'));
+  S.mode = 'snake';
+  const el = document.createElement('pre');
+  el.className = 'o snake';
+  logEl.appendChild(el);
+  lastBlock = el;
+  G = { el, w: clamp(Math.floor((M.cols - 2) / 2), 8, 24), h: clamp(M.rows - 5, 6, 15), best: store.get('snakeBest', 0) | 0, last: performance.now(), raf: 0 };
+  newGame();
+  $('gCmd').hidden = true; $('gPad').hidden = false;
+  tube.classList.add('game');
+  if (coarse.matches) kbd.blur();
+  showInput();
+  screen.scrollTop = screen.scrollHeight;
+  G.raf = requestAnimationFrame(snakeFrame);
+};
+const snakeFrame = (now) => {
+  if (!G) return;
+  const dt = Math.min(100, now - G.last);
+  G.last = now;
+  if (!G.over && !G.paused) {
+    G.acc += dt;
+    const speed = Math.max(62, 150 - G.score * 5);
+    while (G.acc >= speed && !G.over) { G.acc -= speed; stepSnake(); }
+  }
+  G.raf = requestAnimationFrame(snakeFrame);
+};
+const turn = (d) => {
+  if (!G || G.over || G.paused) return;
+  const last = G.q.length ? G.q[G.q.length - 1] : G.dir;
+  if (d !== last && d !== OPP[last] && G.q.length < 3) G.q.push(d);
+};
+const stepSnake = () => {
+  if (G.q.length) G.dir = G.q.shift();
+  const [dx, dy] = DIRS[G.dir], hd = G.snake[0], nx = hd.x + dx, ny = hd.y + dy;
+  const eat = G.food && nx === G.food.x && ny === G.food.y;
+  const body = eat ? G.snake : G.snake.slice(0, -1);
+  if (nx < 0 || ny < 0 || nx >= G.w || ny >= G.h || body.some((s) => s.x === nx && s.y === ny)) {
+    G.over = true;
+    if (G.score > G.best) { G.best = G.score; store.set('snakeBest', G.best); }
+    bell();
+    drawSnake();
+    return;
+  }
+  G.snake.unshift({ x: nx, y: ny });
+  if (eat) { G.score++; placeFood(); blip(); } else G.snake.pop();
+  drawSnake();
+};
+const drawSnake = () => {
+  const { w, h } = G, n = G.snake.length, cells = Array.from({ length: h }, () => Array(w).fill(-1));
+  G.snake.forEach((s, i) => { cells[s.y][s.x] = i; });
+  const b = html(), best = Math.max(G.best, G.score);
+  b.add(t('snakeTitle'), 'h').add('  ').add(`${t('score')} ${p2(G.score)}`).add('  ').add(`${t('best')} ${p2(best)}`, 'd').add('\n');
+  b.add('┌' + '──'.repeat(w) + '┐', 'd').add('\n');
+  const msg = G.over ? t('over') : G.paused ? t('paused') : '';
+  for (let y = 0; y < h; y++) {
+    b.add('│', 'd');
+    if (msg && y === h >> 1) {
+      const m = wlen(msg) > w * 2 ? msg.trim() : msg, lw = Math.max(0, (w * 2 - wlen(m)) >> 1);
+      b.add(' '.repeat(lw)).add(m, 'i').add(' '.repeat(Math.max(0, w * 2 - lw - wlen(m))));
+    } else {
+      for (let x = 0; x < w; x++) {
+        const i = cells[y][x];
+        if (i === 0) b.add('██', 'h');
+        else if (i > 0) { const ch = '█▓▒░'[Math.min(3, Math.floor((i / Math.max(1, n - 1)) * 3.999))]; b.add(ch + ch, ''); }
+        else if (G.food && G.food.x === x && G.food.y === y) b.add('<>', 'h pel');
+        else b.add(' ·', 'd');
+      }
+    }
+    b.add('│', 'd').add('\n');
+  }
+  b.add('└' + '──'.repeat(w) + '┘', 'd').add('\n');
+  b.add(coarse.matches ? t('snakeTouch') : t('snakeKeys'), 'd');
+  G.el.innerHTML = b.done();
+};
+const pauseSnake = (v) => {
+  if (!G || G.over) return;
+  G.paused = v ?? !G.paused;
+  G.last = performance.now();
+  drawSnake();
+};
+const endSnake = () => {
+  if (!G) return;
+  cancelAnimationFrame(G.raf);
+  if (G.score > G.best) { G.best = G.score; store.set('snakeBest', G.best); }
+  const { score, best } = G;
+  G = null;
+  $('gCmd').hidden = false; $('gPad').hidden = true;
+  tube.classList.remove('game');
+  S.mode = 'shell';
+  srMark = lastBlock;
+  out(t('snakeEnd', score, best));
+  settle();
+};
+const snakeAct = (a) => {
+  if (!G) return;
+  if (DIRS[a]) turn(a);
+  else if (a === 'pause') { if (G.over) newGame(); else pauseSnake(); }
+  else if (a === 'quit') endSnake();
+  else if (a === 'retry' && G.over) newGame();
+};
+const snakeKey = (e) => {
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  const map = { arrowup: 'up', w: 'up', arrowdown: 'down', s: 'down', arrowleft: 'left', a: 'left', arrowright: 'right', d: 'right', p: 'pause', ' ': 'pause', q: 'quit', escape: 'quit', r: 'retry', enter: 'retry' };
+  if (!MODS.includes(e.key)) e.preventDefault();
+  if (map[k]) snakeAct(map[k]);
+};
+
+/* ---------- sound: synthesized, created only after a gesture, off by default ---------- */
+let AC = null, master = null, noiseBuf = null;
+const audio = () => {
+  if (!AC) {
+    const C = window.AudioContext || window.webkitAudioContext;
+    if (!C) return null;
+    try { AC = new C(); } catch (e) { return null; }
+    master = AC.createGain();
+    master.gain.value = 0.55;
+    master.connect(AC.destination);
+    noiseBuf = AC.createBuffer(1, AC.sampleRate >> 1, AC.sampleRate);
+    const d = noiseBuf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  }
+  if (AC.state === 'suspended') AC.resume().catch(() => {});
+  return AC;
+};
+const snd = () => (S.sound && AC ? AC : null);
+const noise = (t0, dur, freq, q, gain, type = 'bandpass') => {
+  const src = AC.createBufferSource(), f = AC.createBiquadFilter(), g = AC.createGain();
+  src.buffer = noiseBuf;
+  f.type = type; f.frequency.value = freq; f.Q.value = q;
+  g.gain.setValueAtTime(gain, t0);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  src.connect(f).connect(g).connect(master);
+  src.start(t0, Math.random() * 0.4);
+  src.stop(t0 + dur + 0.02);
+};
+const tone = (t0, dur, f0, f1, gain, type = 'sine') => {
+  const o = AC.createOscillator(), g = AC.createGain();
+  o.type = type;
+  o.frequency.setValueAtTime(f0, t0);
+  if (f1 !== f0) o.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(gain, t0 + 0.004);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  o.connect(g).connect(master);
+  o.start(t0);
+  o.stop(t0 + dur + 0.02);
+};
+const click = () => { const a = snd(); if (!a) return; const t0 = a.currentTime; noise(t0, 0.02, rnd(2600, 4200), 1.3, 0.24); tone(t0, 0.012, rnd(1800, 2200), 900, 0.035, 'square'); };
+const tick = () => { const a = snd(); if (a) noise(a.currentTime, 0.008, 5200, 2, 0.05); };
+const thock = () => { const a = snd(); if (!a) return; const t0 = a.currentTime; tone(t0, 0.1, 150, 52, 0.5); noise(t0, 0.04, 900, 0.8, 0.28, 'lowpass'); };
+const beep = () => { const a = snd(); if (a) tone(a.currentTime, 0.15, 880, 880, 0.07, 'square'); };
+const blip = () => { const a = snd(); if (a) tone(a.currentTime, 0.07, 660, 990, 0.07, 'square'); };
+const chime = () => { const a = snd(); if (!a) return; const t0 = a.currentTime; tone(t0, 0.3, 1320, 1320, 0.05); tone(t0 + 0.13, 0.45, 1760, 1760, 0.045); };
+const thunk = () => { const a = snd(); if (!a) return; const t0 = a.currentTime; tone(t0, 0.7, 60, 58, 0.34); tone(t0, 0.55, 340, 48, 0.22, 'triangle'); noise(t0, 0.3, 180, 0.7, 0.32, 'lowpass'); };
+const hum = () => { const a = snd(); if (!a) return; const t0 = a.currentTime; tone(t0, 0.5, 95, 45, 0.3); noise(t0, 0.18, 400, 0.6, 0.18, 'lowpass'); };
+const bell = () => {
+  if (snd()) return beep();
+  if (reduced) return;
+  raster.classList.remove('vbell');
+  void raster.offsetWidth;
+  raster.classList.add('vbell');
+};
+
+/* ---------- settings ---------- */
+const setSound = (on) => {
+  if (on && !audio()) on = false;
+  S.sound = on;
+  $('sSnd').textContent = on ? '[SND:ON]' : '[SND:OFF]';
+  $('sSnd').setAttribute('aria-pressed', String(on));
+  $('kSnd').setAttribute('aria-pressed', String(on));
+  if (on) click();
+};
+const setPhos = (key, fx = true) => {
+  S.phos = key;
+  root.dataset.phos = key;
+  store.set('phos', key);
+  document.querySelectorAll('.key[data-phos]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.phos === key)));
+  $('sPhos').textContent = `[${PHOS[key].key}:${PHOS[key].tag}]`;
+  if (!fx) return;
+  thunk();
+  if (reduced) return;
+  raster.classList.remove('degauss');
+  void raster.offsetWidth;
+  raster.classList.add('degauss');
+};
+const setBaud = (v) => {
+  S.baud = v;
+  store.set('baud', v);
+  $('sBaud').textContent = v === 'max' ? 'MAX' : v + 'bd';
+};
+const setLang = (l) => {
+  S.lang = l;
+  store.set('lang', l);
+  root.lang = l;
+  document.title = t('title');
+  kbd.setAttribute('aria-label', t('input'));
+  screen.setAttribute('aria-label', t('screen'));
+  $('status').setAttribute('aria-label', t('status'));
+  $('keys').setAttribute('aria-label', t('keys'));
+  $('pwr').setAttribute('aria-label', t('power'));
+  $('sPhos').setAttribute('aria-label', t('phosBtn'));
+  $('sSnd').setAttribute('aria-label', t('sndBtn'));
+  $('kSnd').setAttribute('aria-label', t('sndBtn'));
+  for (const id of ['sLang', 'kLang']) $(id).setAttribute('aria-label', t('langBtn'));
+  $('sLang').textContent = `[${l.toUpperCase()}]`;
+  $('kLang').textContent = l.toUpperCase();
+};
+
+/* ---------- the glass: grain, sync glitches, clock ---------- */
+const grainC = $('grain'), gctx = grainC.getContext('2d');
+let gFrames = [], gi = 0;
+const makeGrain = () => {
+  const w = clamp(Math.round(tube.clientWidth / 2), 64, 720), h = clamp(Math.round(tube.clientHeight / 2), 40, 450);
+  if (w === grainC.width && h === grainC.height && gFrames.length) return;
+  grainC.width = w; grainC.height = h;
+  gFrames = [];
+  for (let f = 0; f < 4; f++) {
+    const img = gctx.createImageData(w, h), d = img.data;
+    for (let i = 0; i < d.length; i += 4) { const v = (Math.random() * 255) | 0; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; }
+    gFrames.push(img);
+  }
+  drawGrain();
+};
+const drawGrain = () => {
+  if (!gFrames.length) return;
+  gi = (gi + 1) % gFrames.length;
+  gctx.putImageData(gFrames[gi], 0, 0);
+};
+const glitchLater = () => setTimeout(() => {
+  const busy = ['pon', 'poff', 'degauss', 'off'].some((c) => raster.classList.contains(c));
+  if (!reduced && !document.hidden && !busy && (S.mode === 'shell' || S.mode === 'boot')) {
+    raster.classList.remove('glitch');
+    void raster.offsetWidth;
+    raster.classList.add('glitch');
+  }
+  glitchLater();
+}, rnd(12000, 34000));
+raster.addEventListener('animationend', (e) => {
+  if (e.target === raster) raster.classList.remove('glitch', 'vbell', 'degauss');
+});
+const tickClock = () => { $('sClk').textContent = hms(new Date()); };
+
+/* ---------- main loop ---------- */
+let lastT = performance.now(), gT = 0;
+const loop = (now) => {
+  const dt = Math.min(100, now - lastT);
+  lastT = now;
+  if (Q.length) pump(dt, false);
+  settle();
+  if (!reduced && now - gT > 55) { gT = now; drawGrain(); }
+  requestAnimationFrame(loop);
+};
+
+/* ---------- input wiring ---------- */
+const focusKbd = () => { if (!coarse.matches && S.mode === 'shell') kbd.focus({ preventScroll: true }); };
+let typing = false;
+const autotype = (cmd) => {
+  if (S.mode === 'boot') flush();
+  if (S.mode === 'matrix') { stopMatrix(); return; }
+  if (S.mode !== 'shell' || typing) return;
+  if (Q.length) flush();
+  typing = true;
+  kbd.value = '';
+  renderInput();
+  const chars = Array.from(cmd);
+  let i = 0;
+  const step = () => {
+    if (S.mode !== 'shell') { typing = false; return; }
+    if (i < chars.length) {
+      kbd.value += chars[i++];
+      const n = kbd.value.length;
+      kbd.setSelectionRange(n, n);
+      click(); solid(); renderInput();
+      setTimeout(step, reduced ? 0 : rnd(26, 68));
+    } else {
+      typing = false;
+      submit();
+    }
+  };
+  step();
+};
+const keysEl = $('keys');
+const keysOverflow = () => {
+  const over = keysEl.scrollWidth > keysEl.clientWidth + 2;
+  keysEl.classList.toggle('ovf', over);
+  keysEl.classList.toggle('end', over && keysEl.scrollLeft + keysEl.clientWidth >= keysEl.scrollWidth - 4);
+};
+keysEl.addEventListener('scroll', keysOverflow, { passive: true });
+const shellIdle = () => S.mode === 'shell' && !Q.length && !typing;
+const hardStop = () => {
+  if (G) { cancelAnimationFrame(G.raf); G = null; $('gCmd').hidden = false; $('gPad').hidden = true; tube.classList.remove('game'); }
+  if (MX) { cancelAnimationFrame(MX.raf); clearTimeout(MX.timer); MX = null; rain.classList.remove('on'); screen.classList.remove('hush'); }
+};
+
+kbd.addEventListener('keydown', onKey);
+kbd.addEventListener('input', () => {
+  if (S.mode === 'shell') { renderInput(); solid(); } else if (S.mode !== 'boot') kbd.value = '';
+});
+kbd.addEventListener('focus', () => screen.classList.remove('blurred'));
+kbd.addEventListener('blur', () => screen.classList.add('blurred'));
+document.addEventListener('selectionchange', () => { if (document.activeElement === kbd && S.mode === 'shell') renderInput(); });
+document.addEventListener('keydown', (e) => {
+  if (e.target === kbd) return;
+  const onBody = e.target === document.body || e.target === root;
+  if (S.mode === 'boot' || S.mode === 'matrix' || S.mode === 'snake') {
+    if (!onBody && ['Enter', ' ', 'Tab'].includes(e.key)) return;
+    onKey(e);
+    return;
+  }
+  if (S.mode === 'shell' && onBody && !e.metaKey && !e.altKey && !MODS.includes(e.key)) {
+    kbd.focus({ preventScroll: true });
+    if (e.key.length !== 1 || e.ctrlKey) onKey(e);
+  }
+});
+
+let pd = null;
+tube.addEventListener('pointerdown', (e) => {
+  if (e.target.closest('button')) return;
+  pd = { x: e.clientX, y: e.clientY };
+  if (S.mode === 'snake') e.preventDefault();
+});
+tube.addEventListener('pointercancel', () => { pd = null; });
+tube.addEventListener('pointerup', (e) => {
+  if (!pd || e.target.closest('button')) { pd = null; return; }
+  const dx = e.clientX - pd.x, dy = e.clientY - pd.y;
+  pd = null;
+  if (S.mode === 'boot') { flush(); return; }
+  if (S.mode === 'matrix') { stopMatrix(); return; }
+  if (S.mode === 'snake') {
+    if (Math.max(Math.abs(dx), Math.abs(dy)) > 22) turn(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : dy > 0 ? 'down' : 'up');
+    else if (G && G.over) newGame();
+    else if (G && G.paused) pauseSnake(false);
+    return;
+  }
+  if (S.mode !== 'shell' || Math.hypot(dx, dy) > 10) return;
+  const sel = getSelection();
+  if (sel && !sel.isCollapsed && screen.contains(sel.anchorNode)) return;
+  kbd.focus({ preventScroll: true });
+});
+
+document.querySelectorAll('.key[data-cmd]').forEach((b) => b.addEventListener('click', () => autotype(b.dataset.cmd)));
+document.querySelectorAll('.key[data-dir]').forEach((b) => b.addEventListener('click', () => snakeAct(b.dataset.dir)));
+document.querySelectorAll('.key[data-phos]').forEach((b) => b.addEventListener('click', () => {
+  const p = b.dataset.phos;
+  if (shellIdle()) autotype('theme ' + p);
+  else if (p !== S.phos) setPhos(p);
+}));
+$('kSnd').addEventListener('click', () => {
+  if (!S.sound) audio();
+  if (shellIdle()) autotype('sound ' + (S.sound ? 'off' : 'on'));
+  else setSound(!S.sound);
+});
+$('sSnd').addEventListener('click', () => setSound(!S.sound));
+$('kLang').addEventListener('click', () => {
+  const next = S.lang === 'ja' ? 'en' : 'ja';
+  if (shellIdle()) autotype('lang ' + next);
+  else setLang(next);
+});
+$('sLang').addEventListener('click', () => setLang(S.lang === 'ja' ? 'en' : 'ja'));
+$('sPhos').addEventListener('click', () => {
+  const ks = Object.keys(PHOS);
+  setPhos(ks[(ks.indexOf(S.phos) + 1) % ks.length]);
+});
+$('pwr').addEventListener('click', () => {
+  if (S.mode === 'off') return;
+  hardStop();
+  S.mode = 'off';
+  Q.length = 0;
+  settle();
+  powerOff(boot);
+});
+
+document.addEventListener('visibilitychange', () => { if (document.hidden && G && !G.over) pauseSnake(true); });
+mq.addEventListener('change', (e) => { reduced = e.matches; });
+let rzT = 0;
+const onResize = () => {
+  const vv = window.visualViewport;
+  root.style.setProperty('--vvh', Math.round(vv ? vv.height : innerHeight) + 'px');
+  $('monitor').style.top = (vv ? Math.max(0, vv.offsetTop) : 0) + 'px';
+  clearTimeout(rzT);
+  rzT = setTimeout(() => {
+    measure();
+    rebanner();
+    makeGrain();
+    keysOverflow();
+    screen.scrollTop = screen.scrollHeight;
+    if (MX) stopMatrix();
+  }, 120);
+};
+addEventListener('resize', onResize);
+if (window.visualViewport) { visualViewport.addEventListener('resize', onResize); visualViewport.addEventListener('scroll', onResize); }
+
+/* ---------- power on ---------- */
+setLang(S.lang);
+setPhos(S.phos, false);
+setBaud(S.baud);
+setSound(false);
+screen.classList.add('blurred');
+onResize();
+measure();
+makeGrain();
+keysOverflow();
+tickClock();
+setInterval(tickClock, 1000);
+requestAnimationFrame(loop);
+glitchLater();
+window.HELIOS = {
+  skip: flush,
+  type: autotype,
+  run(c) { flush(); if (S.mode !== 'shell') return; kbd.value = c; submit(); flush(); },
+  state: S,
+};
+boot();
+if (!coarse.matches) kbd.focus({ preventScroll: true });
+})();
+</script>
+</body>
+</html>

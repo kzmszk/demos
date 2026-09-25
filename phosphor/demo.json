@@ -1,0 +1,79 @@
+{
+  "no": "019",
+  "title": "HELIOS/OS",
+  "subtitle": {
+    "ja": "蛍光管の端末 OS — 第7中継局、1987年製",
+    "en": "A phosphor terminal OS from 1987, aboard relay station 7"
+  },
+  "summary": {
+    "ja": "架空の1987年製 OS を、湾曲して光るブラウン管ごと再現した端末。起動画面、動くシェル、文字の雨、宇宙天気、スネーク。日本語と英語に対応。",
+    "en": "A fictional 1987 operating system on a curved, glowing CRT: a POST screen, a working shell, glyph rain, space weather and snake. Japanese and English."
+  },
+  "date": "2026-09-25",
+  "tags": [
+    "terminal",
+    "crt",
+    "canvas",
+    "audio"
+  ],
+  "serve": ".",
+  "entry": "index.html",
+  "links": [
+    {
+      "label": "日本語",
+      "href": "index.html#ja"
+    },
+    {
+      "label": "English",
+      "href": "index.html#en"
+    }
+  ],
+  "shots": [
+    {
+      "path": "index.html",
+      "wait": 600,
+      "eval": "HELIOS.skip()",
+      "after": 1700
+    },
+    {
+      "path": "index.html",
+      "wait": 2700
+    },
+    {
+      "path": "index.html#amber",
+      "wait": 600,
+      "eval": "HELIOS.skip(); HELIOS.run('clear'); HELIOS.run('cat mission.log')",
+      "after": 1800
+    },
+    {
+      "path": "index.html",
+      "wait": 600,
+      "eval": "HELIOS.skip(); HELIOS.run('clear'); HELIOS.run('cat signal.txt')",
+      "after": 1800
+    },
+    {
+      "path": "index.html",
+      "wait": 600,
+      "eval": "HELIOS.skip(); HELIOS.run('matrix')",
+      "after": 2800
+    },
+    {
+      "path": "index.html#ice,en",
+      "wait": 600,
+      "eval": "HELIOS.skip(); HELIOS.run('clear'); HELIOS.run('weather')",
+      "after": 1800
+    },
+    {
+      "path": "index.html#amber",
+      "wait": 600,
+      "eval": "HELIOS.skip(); HELIOS.run('clear'); HELIOS.run('snake')",
+      "after": 1000
+    },
+    {
+      "path": "index.html#ice",
+      "wait": 600,
+      "eval": "HELIOS.skip(); HELIOS.run('clear'); HELIOS.run('cat poem.txt')",
+      "after": 1800
+    }
+  ]
+}
