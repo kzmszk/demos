@@ -235,6 +235,8 @@ svg.draw.it{ width: calc(var(--w) * var(--u)); }
 .draw .ln.lt{ stroke-opacity: .42; stroke-width: 1.3; }
 .draw .ln.th{ stroke-width: 1.5; }
 .draw .ln.red{ stroke: var(--red); }
+.draw .ln.stub{ stroke-opacity: .6; stroke-width: 1.8; }
+.draw .solid.glint{ fill: #fbf8f1; }
 .draw .ln.hi{ stroke: var(--yellow); stroke-width: 12; stroke-linecap: butt; mix-blend-mode: multiply; stroke-opacity: .95; }
 .draw .wash{ fill: var(--yellow); mix-blend-mode: multiply; opacity: 0; stroke: none; }
 .draw .t{ font-family: var(--hand); fill: var(--ink); opacity: 0; font-weight: 400; }
@@ -698,42 +700,56 @@ svg.draw.it{ width: calc(var(--w) * var(--u)); }
         <p class="bio it" style="--x:86;--y:318;--w:450;--o:3">線を描くのが好きなイラストレーターです。絵本、お店のメニュー、町の地図、ときどき看板。だいたい2Bの鉛筆一本と、コーヒーと、<span class="ul">すこしの寄り道<svg class="draw" viewBox="0 0 100 10" preserveAspectRatio="none" data-delay="1.9" aria-hidden="true"><path class="ln red" d="M 1 6 C 20 3 38 8 58 5 C 74 3 88 7 99 3"/></svg></span>でできています。</p>
 
         <figure class="portrait it doodle" style="--x:630;--y:58;--w:310;--o:2;--mw:300;--ml:20">
-          <svg class="draw" viewBox="0 0 300 360" data-delay=".3" role="img" aria-label="ジュノの自画像。おかっぱ頭に丸めがね、耳の上に鉛筆、ボーダーのシャツ。">
+          <svg class="draw" viewBox="0 0 300 360" data-delay=".3" role="img" aria-label="ジュノの自画像。ニット帽に黒い丸サングラス、無精ひげにコート。帽子に鉛筆をはさみ、足もとに鉢植え。">
             <path class="wash" d="M 72 150 C 60 76 146 34 212 58 C 262 80 266 186 214 222 C 160 258 82 234 72 150 Z"/>
             <path class="wash" d="M 180.5 83 L 223 138.8 L 231 132.6 L 188.4 76.8 Z"/>
-            <path class="ln" d="M 96 196 C 84 150 86 98 118 72 C 140 56 176 56 198 72 C 226 94 224 150 212 196"/>
-            <path class="ln" d="M 96 196 C 100 204 110 206 117 199"/>
-            <path class="ln" d="M 212 196 C 208 204 198 206 190 199"/>
-            <path class="ln" d="M 106 118 C 132 125 176 125 204 116"/>
-            <path class="ln th" d="M 136 70 C 128 84 124 98 124 114"/>
-            <path class="ln th" d="M 168 68 C 176 82 180 98 180 114"/>
-            <path class="ln lt" d="M 152 64 C 150 80 150 96 152 112"/>
-            <path class="ln" d="M 110 118 C 106 146 108 172 117 197"/>
-            <path class="ln" d="M 198 118 C 202 146 200 172 190 197"/>
-            <path class="ln lt" d="M 124 80 C 116 94 110 112 104 134"/>
-            <path class="ln lt" d="M 190 84 C 198 98 204 116 206 136"/>
-            <path class="ln" d="M 116 186 C 124 204 138 214 152 214 C 168 214 182 204 190 186"/>
-            <path class="ln" d="M 116 152 C 116 131 148 131 148 152 C 148 173 116 173 116 152"/>
-            <path class="ln" d="M 158 152 C 158 131 190 131 190 152 C 190 173 158 173 158 152"/>
-            <path class="ln th" d="M 148 150 C 151 145 155 145 158 150"/>
-            <path class="ln th" d="M 125 156 C 129 150 135 150 139 156"/>
-            <path class="ln th" d="M 167 156 C 171 150 177 150 181 156"/>
-            <path class="ln th" d="M 154 166 C 151 174 150 178 156 180"/>
-            <path class="ln" d="M 141 191 C 148 198 160 198 167 189"/>
-            <path class="ln red th" d="M 118 184 L 124 177 M 123 187 L 129 180 M 128 189 L 134 182"/>
-            <path class="ln red th" d="M 172 184 L 178 177 M 177 187 L 183 180 M 182 189 L 188 182"/>
-            <path class="ln" d="M 141 212 L 139 237"/>
-            <path class="ln" d="M 165 212 L 167 237"/>
-            <path class="ln" d="M 139 237 C 146 248 160 248 167 237"/>
-            <path class="ln" d="M 139 237 C 102 250 78 286 72 342"/>
-            <path class="ln" d="M 167 237 C 204 250 228 286 234 342"/>
-            <path class="ln th" d="M 88 288 C 124 296 186 296 220 288"/>
-            <path class="ln th" d="M 80 313 C 120 321 190 321 228 313"/>
-            <path class="ln th" d="M 75 338 C 120 346 190 346 232 338"/>
+            <defs><clipPath id="capClip"><path d="M 104 124 L 106 112 C 102 76 124 52 152 50 C 182 50 202 74 198 112 L 200 124 Z"/></clipPath></defs>
+            <path d="M 104 124 L 106 112 C 102 76 124 52 152 50 C 182 50 202 74 198 112 L 200 124 C 170 118 134 118 104 124 Z" fill="#fbf8f1"/>
+            <g clip-path="url(#capClip)"><path class="ln lt" d="M 52 114 L 116 50 M 61 114 L 125 50 M 70 114 L 134 50 M 79 114 L 143 50 M 88 114 L 152 50 M 97 114 L 161 50 M 106 114 L 170 50 M 115 114 L 179 50 M 124 114 L 188 50 M 133 114 L 197 50 M 142 114 L 206 50 M 151 114 L 215 50 M 160 114 L 224 50 M 169 114 L 233 50 M 178 114 L 242 50 M 187 114 L 251 50 M 196 114 L 260 50 M 205 114 L 269 50"/></g>
+            <path class="ln" d="M 106 112 C 102 76 124 52 152 50 C 182 50 202 74 198 112"/>
+            <path class="ln" d="M 104 110 C 132 104 172 104 200 110"/>
+            <path class="ln" d="M 104 110 C 103 116 104 122 106 128 C 134 122 170 122 198 128 C 200 122 201 116 200 110"/>
+            <path class="ln lt" d="M 114 109 L 115 126.5 M 126 107 L 126.5 125 M 138 106 L 138 124 M 150 105.5 L 150 123.5 M 162 106 L 162 124 M 174 107 L 173.5 125 M 186 108.5 L 186 126.5"/>
+            <path class="ln lt" d="M 128 64 C 140 78 146 92 148 104"/>
+            <path class="ln lt" d="M 116 90 C 132 84 170 84 188 90"/>
+            <path class="ln" d="M 114 128 C 110 162 116 196 132 214 C 142 225 160 225 170 214 C 186 196 192 162 188 128"/>
+            <path class="ln th" d="M 113 144 C 103 140 101 164 113 168"/>
+            <path class="ln th" d="M 189 144 C 199 140 201 164 189 168"/>
+            <circle class="solid" cx="137" cy="151" r="12.5"/>
+            <circle class="solid" cx="167" cy="151" r="12.5"/>
+            <ellipse class="solid glint" cx="132" cy="145.5" rx="3.4" ry="1.9" transform="rotate(-32 132 145.5)"/>
+            <ellipse class="solid glint" cx="162" cy="145.5" rx="3.4" ry="1.9" transform="rotate(-32 162 145.5)"/>
+            <path class="ln" d="M 124.5 151 C 124.5 134 149.5 134 149.5 151 C 149.5 168 124.5 168 124.5 151"/>
+            <path class="ln" d="M 154.5 151 C 154.5 134 179.5 134 179.5 151 C 179.5 168 154.5 168 154.5 151"/>
+            <path class="ln th" d="M 149.5 149 C 151.5 145.5 152.5 145.5 154.5 149"/>
+            <path class="ln th" d="M 124.5 149 L 114 146 M 179.5 149 L 189 146"/>
+            <path class="ln th" d="M 127 136 C 132 133 140 133 146 136"/>
+            <path class="ln th" d="M 158 136 C 164 133 172 133 177 136"/>
+            <path class="ln" d="M 153 158 C 151 168 147 178 150 184 C 153 188 159 187 161 183"/>
+            <path class="ln lt" d="M 141 176 C 137 184 137 190 139 194 M 163 176 C 167 184 167 190 165 194"/>
+            <path class="ln th" d="M 138 194 C 146 189 158 189 166 194"/>
+            <path class="ln th" d="M 145 201 C 149 204 155 204 159 200"/>
+            <path class="ln stub" d="M 126 196 l 1.5 1 M 131 203 l 1.5 1 M 137 209 l 1.5 1 M 144 213 l 1.5 1 M 151 215 l 1.5 1 M 158 213 l 1.5 1 M 165 209 l 1.5 1 M 171 203 l 1.5 1 M 176 196 l 1.5 1 M 134 199 l 1.5 1 M 140 206 l 1.5 1 M 148 209 l 1.5 1 M 156 209 l 1.5 1 M 163 205 l 1.5 1 M 169 199 l 1.5 1 M 136 191 l 1.5 1 M 168 191 l 1.5 1 M 142 216 l 1.5 1 M 160 216 l 1.5 1 M 151 220 l 1.5 1 M 130 190 l 1.5 1 M 174 190 l 1.5 1"/>
+            <path class="ln red th" d="M 119 181 L 124 175 M 123 184 L 128 178"/>
+            <path class="ln red th" d="M 177 181 L 182 175 M 181 184 L 186 178"/>
+            <path class="ln" d="M 140 222 L 138 242"/>
+            <path class="ln" d="M 162 222 L 164 242"/>
+            <path class="ln th" d="M 138 242 C 145 250 157 250 164 242"/>
+            <path class="ln" d="M 138 242 C 104 252 80 288 74 342"/>
+            <path class="ln" d="M 164 242 C 198 252 222 288 228 342"/>
+            <path class="ln" d="M 136 246 L 117 266 L 130 290 L 146 342"/>
+            <path class="ln" d="M 166 246 L 185 266 L 172 290 L 156 342"/>
+            <path class="ln th" d="M 173 318 C 173 314 179 314 179 318 C 179 322 173 322 173 318"/>
             <path class="ln" d="M 180 83.1 L 222.8 138.5 L 237.8 149.7 L 230.8 132.4 L 188 76.9 L 180 83.1"/>
             <path class="ln th" d="M 222.8 138.5 L 230.8 132.4"/>
             <path class="ln lt" d="M 184 80 L 226.8 135.4"/>
             <path class="ln th" d="M 233.2 146.3 L 237.8 149.7 L 236 144.4"/>
+            <path class="ln" d="M 238 314 L 278 314 M 241 314 L 245 346 L 271 346 L 275 314"/>
+            <path class="ln th" d="M 240 321 L 276 321"/>
+            <path class="ln" d="M 258 312 C 244 296 236 280 234 262 C 246 272 256 290 258 312"/>
+            <path class="ln" d="M 258 312 C 256 290 258 270 266 252 C 271 272 266 294 258 312"/>
+            <path class="ln" d="M 258 312 C 270 298 282 288 294 282 C 287 296 272 306 258 312"/>
+            <path class="ln lt" d="M 256 306 C 250 292 244 280 238 268 M 259 304 C 260 288 262 272 265 260 M 262 309 C 272 302 282 294 290 286"/>
             <path class="ln th" d="M 252 50 L 252 70 M 242 60 L 262 60"/>
             <path class="ln lt" d="M 46 84 L 52 90 M 52 84 L 46 90"/>
           </svg>
@@ -747,7 +763,7 @@ svg.draw.it{ width: calc(var(--w) * var(--u)); }
         <svg class="draw arrow" style="left:calc(890 * var(--u));top:calc(208 * var(--u));width:calc(36 * var(--u))" viewBox="0 0 36 44" aria-hidden="true">
           <path class="ln" d="M 26 40 C 28 26 20 14 6 6"/><path class="ln" d="M 18 5 L 5 5 L 9 17"/>
         </svg>
-        <p class="note it sm" style="--x:560;--y:170;--r:-3;--o:2;--ml:0">まるめがね</p>
+        <p class="note it sm" style="--x:540;--y:170;--r:-3;--o:2;--ml:0">黒まるサングラス</p>
         <svg class="draw arrow" style="left:calc(608 * var(--u));top:calc(194 * var(--u));width:calc(92 * var(--u))" viewBox="0 0 92 40" aria-hidden="true">
           <path class="ln" d="M 4 12 C 30 32 60 34 86 22"/><path class="ln" d="M 74 14 L 87 21 L 76 31"/>
         </svg>
