@@ -1,0 +1,27 @@
+// node tools/audio.mjs out.wav — render a test of the piano to WAV
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+import { execFileSync } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const here = path.dirname(fileURLToPath(import.meta.url));
+const tmp = path.join(here, '.audio'); fs.mkdirSync(tmp, { recursive: true });
+execFileSync(path.join(here, '../node_modules/.bin/esbuild'), [path.join(here, 'audio-entry.js'), '--bundle', '--format=iife', '--log-level=warning', '--outfile=' + path.join(tmp, 'b.js')]);
+fs.writeFileSync(path.join(tmp, 'i.html'), '<!doctype html><meta charset=utf-8><body><script src="b.js"></script>');
+const [out, notesArg = '36,48,60,64,67,72,76,79,84,88', velArg = '0.5'] = process.argv.slice(2);
+const browser = await chromium.launch();
+const page = await browser.newPage();
+page.on('pageerror', (e) => console.log('pageerror', e.message));
+await page.goto('file://' + path.join(tmp, 'i.html'));
+await page.waitForFunction(() => window.__ready);
+const res = await page.evaluate(([n, v]) => window.renderScale(n.split(',').map(Number), +v), [notesArg, velArg]);
+console.log('ms', res.ms.toFixed(0), 'peak', res.pk.toFixed(3));
+const d = res.data, sr = 48000;
+const buf = Buffer.alloc(44 + d.length * 2);
+buf.write('RIFF', 0); buf.writeUInt32LE(36 + d.length * 2, 4); buf.write('WAVE', 8); buf.write('fmt ', 12);
+buf.writeUInt32LE(16, 16); buf.writeUInt16LE(1, 20); buf.writeUInt16LE(1, 22); buf.writeUInt32LE(sr, 24); buf.writeUInt32LE(sr * 2, 28); buf.writeUInt16LE(2, 32); buf.writeUInt16LE(16, 34);
+buf.write('data', 36); buf.writeUInt32LE(d.length * 2, 40);
+const g = 0.9 / Math.max(1e-6, res.pk);
+for (let i = 0; i < d.length; i++) buf.writeInt16LE(Math.max(-32767, Math.min(32767, Math.round(d[i] * g * 32767))), 44 + i * 2);
+fs.writeFileSync(out, buf);
+await browser.close();

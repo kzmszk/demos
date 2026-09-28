@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Claude のスケッチブック</title>
+<meta name="description" content="机の上、あたたかいランプの下に閉じたスケッチブック。ひらくと、10ページがひと筆ずつ描かれていく。手書きの字も、線も、音楽も、すべてコードで作った。">
+<style>
+  html, body { margin: 0; height: 100%; background: #070504; overflow: hidden; }
+  body { touch-action: none; -webkit-user-select: none; user-select: none; }
+  #c { display: block; width: 100vw; height: 100vh; outline: none; }
+  #vig { position: fixed; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 46% 44%, rgba(0,0,0,0) 48%, rgba(0,0,0,0.34) 78%, rgba(0,0,0,0.62) 100%); }
+  html.video #c { position: fixed; left: 0; top: 0; }
+</style>
+</head>
+<body>
+<canvas id="c" tabindex="0" aria-label="スケッチブック"></canvas>
+<div id="vig"></div>
+<script>/*BUNDLE*/</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+import p01 from './p01.js';
+import p02 from './p02.js';
+import p03 from './p03.js';
+import p04 from './p04.js';
+import p05 from './p05.js';
+import p06 from './p06.js';
+import p07 from './p07.js';
+import p08 from './p08.js';
+import p09 from './p09.js';
+export const PAGE_BUILDERS = { p01, p02, p03, p04, p05, p06, p07, p08, p09 };

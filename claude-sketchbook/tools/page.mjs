@@ -1,0 +1,22 @@
+// node tools/page.mjs p01 out.png [frac] [scale]
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+import { execFileSync } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const here = path.dirname(fileURLToPath(import.meta.url));
+const tmp = path.join(here, '.page');
+fs.mkdirSync(tmp, { recursive: true });
+execFileSync(path.join(here, '../node_modules/.bin/esbuild'), [path.join(here, 'page-entry.js'), '--bundle', '--format=iife', '--log-level=warning', '--outfile=' + path.join(tmp, 'b.js')], { stdio: 'inherit' });
+fs.writeFileSync(path.join(tmp, 'i.html'), '<!doctype html><meta charset=utf-8><body><script src="b.js"></script>');
+const [id, out, frac = '1', scale = '1'] = process.argv.slice(2);
+const browser = await chromium.launch();
+const page = await browser.newPage();
+page.on('pageerror', (e) => console.log('pageerror', e.message));
+page.on('console', (m) => console.log('console', m.text()));
+await page.goto('file://' + path.join(tmp, 'i.html'));
+await page.waitForFunction(() => window.__ready);
+const res = await page.evaluate(([id, f, s]) => window.renderPage(id, f, s), [id, +frac, +scale]);
+console.log(JSON.stringify(res.stats));
+fs.writeFileSync(out, Buffer.from(res.url.split(',')[1], 'base64'));
+await browser.close();
