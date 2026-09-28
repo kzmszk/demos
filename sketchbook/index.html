@@ -452,6 +452,50 @@ svg.draw.it{ width: calc(var(--w) * var(--u)); }
 .env.open ~ .env-hint{ opacity: 0; }
 .fin{ font-size: calc(24 * var(--u)); color: var(--ink-2); }
 
+/* ---------------- try it: ask for a drawing ---------------- */
+.req-when{ font-size: calc(15 * var(--u)); line-height: 1.7; color: var(--ink-2); word-break: auto-phrase; }
+.req{
+  background: #fffdf7;
+  background-image: repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 calc(35 * var(--u)), rgba(96,138,200,.2) calc(35 * var(--u)) calc(36 * var(--u)));
+  background-position: 0 calc(18 * var(--u));
+  padding: calc(24 * var(--u)) calc(28 * var(--u)) calc(18 * var(--u));
+  box-shadow: 0 calc(10 * var(--u)) calc(16 * var(--u)) calc(-10 * var(--u)) rgba(40,30,20,.45), 0 1px 1px rgba(0,0,0,.1);
+}
+.req h3{ font: 500 calc(12 * var(--u))/1 var(--print); letter-spacing: .24em; color: var(--ink-2); text-transform: uppercase; margin: 0 0 calc(6 * var(--u)); }
+.req label{ display: block; margin-top: calc(10 * var(--u)); font-size: calc(14 * var(--u)); color: var(--ink-2); }
+.req input{
+  display: block; width: 100%; margin: calc(2 * var(--u)) 0 0; padding: calc(5 * var(--u)) calc(2 * var(--u));
+  font: calc(21 * var(--u))/1.4 var(--hand); color: var(--ink);
+  border: 0; border-bottom: calc(1.5 * var(--u)) solid var(--ink-3); border-radius: 0; background: transparent;
+}
+.req input::placeholder{ color: var(--ink-3); }
+.req input:focus-visible{ outline: none; border-bottom-color: var(--red); }
+.req .row{ display: flex; align-items: center; flex-wrap: wrap; gap: calc(6 * var(--u)) calc(14 * var(--u)); margin-top: calc(14 * var(--u)); }
+.req .fine{ font-size: calc(12.5 * var(--u)); color: var(--ink-2); }
+.req button, .try-actions button{
+  font: 500 calc(19 * var(--u))/1 var(--hand); color: var(--ink); cursor: pointer;
+  border: 0; border-radius: calc(3 * var(--u)); padding: calc(9 * var(--u)) calc(16 * var(--u));
+  background: linear-gradient(rgba(0,0,0,0) 40%, var(--yellow) 40% 90%, rgba(0,0,0,0) 90%);
+  transition: background-size .2s;
+}
+.req button:hover, .try-actions button:hover{ background: linear-gradient(rgba(0,0,0,0) 20%, var(--yellow) 20% 94%, rgba(0,0,0,0) 94%); }
+.req button:disabled{ opacity: .45; cursor: default; }
+.req-status{ min-height: calc(40 * var(--u)); margin-top: calc(8 * var(--u)); font-size: calc(15.5 * var(--u)); line-height: 1.6; word-break: auto-phrase; }
+.req-status[data-kind="err"]{ color: var(--red); }
+.try-pol .ph .art{ position: absolute; inset: 7%; }
+.try-pol .ph .art svg{ display: block; width: 100%; height: 100%; overflow: visible; }
+.try-pol.busy .ph .art{ animation: waiting 1.8s ease-in-out infinite; transform-origin: 50% 80%; }
+@keyframes waiting{ 0%, 100%{ transform: rotate(-2deg); } 50%{ transform: rotate(2deg) translateY(calc(-4 * var(--u))); } }
+.gen .gl{ stroke-dasharray: 1 1.2; stroke-dashoffset: 1.1; }
+.gen.on .gl{ stroke-dashoffset: 0; transition: stroke-dashoffset var(--d, .6s) cubic-bezier(.45,.08,.4,1) var(--w, 0s); }
+.gen .gf{ opacity: 0; }
+.gen.on .gf{ opacity: 1; transition: opacity .8s ease var(--w, 0s); }
+.try-actions{ display: flex; flex-wrap: wrap; gap: calc(4 * var(--u)) calc(12 * var(--u)); margin-top: calc(14 * var(--u)); }
+.try-actions[hidden], .memo[hidden]{ display: none; }
+.memo{ font-size: calc(14.5 * var(--u)); line-height: 1.7; padding-top: calc(26 * var(--u)); }
+.memo h3{ font-weight: 500; font-size: calc(16 * var(--u)); margin-bottom: calc(4 * var(--u)); }
+.memo p{ word-break: auto-phrase; }
+
 /* ---------------- chrome around the book ---------------- */
 .bar{
   position: absolute; left: 50%; bottom: max(14px, 2.2vh); transform: translateX(-50%);
@@ -527,7 +571,9 @@ svg.draw.it{ width: calc(var(--w) * var(--u)); }
   .draw .wash{ opacity: .96 !important; transition: none !important; }
   .draw .t, .draw .solid, [data-hand] .ch{ opacity: 1 !important; transition: none !important; }
   .hl::before{ transform: scaleX(1) rotate(-1.2deg) !important; transition: none !important; }
-  .doodle.wig{ animation: none; }
+  .doodle.wig, .try-pol.busy .ph .art{ animation: none; }
+  .gen .gl{ stroke-dashoffset: 0 !important; transition: none !important; }
+  .gen .gf{ opacity: 1 !important; transition: none !important; }
   .band, .tab, .hint, .letter, .env-flap, .env-flap .fl, .copy{ transition-duration: .01s !important; transition-delay: 0s !important; }
 }
 </style>
@@ -630,10 +676,11 @@ svg.draw.it{ width: calc(var(--w) * var(--u)); }
     <div class="edges" aria-hidden="true"></div>
 
     <nav class="tabs" aria-label="見出し">
-      <button type="button" class="tab" data-go="1" style="--ty:74;--tc:var(--yellow)">はじめに</button>
-      <button type="button" class="tab red" data-go="2" style="--ty:204;--tc:var(--red)">作品</button>
-      <button type="button" class="tab" data-go="4" style="--ty:334;--tc:#cfe0f1">描きかた</button>
-      <button type="button" class="tab" data-go="5" style="--ty:464;--tc:#d9b98e">お便り</button>
+      <button type="button" class="tab" data-go="1" style="--ty:58;--tc:var(--yellow)">はじめに</button>
+      <button type="button" class="tab red" data-go="2" style="--ty:176;--tc:var(--red)">作品</button>
+      <button type="button" class="tab" data-go="4" style="--ty:294;--tc:#cfe0f1">描きかた</button>
+      <button type="button" class="tab" data-go="5" style="--ty:412;--tc:#cfe4c6">おためし</button>
+      <button type="button" class="tab" data-go="6" style="--ty:530;--tc:#d9b98e">お便り</button>
     </nav>
 
     <!-- ===================== cover ===================== -->
@@ -1084,10 +1131,58 @@ svg.draw.it{ width: calc(var(--w) * var(--u)); }
       <svg class="coil-m" aria-hidden="true"></svg>
     </section>
 
-    <!-- ===================== 5. contact ===================== -->
-    <section class="sheet paper" id="p5" data-name="お便り、まってます" aria-labelledby="t5">
+    <!-- ===================== 5. try it ===================== -->
+    <section class="sheet paper" id="p5" data-name="おためし" aria-labelledby="t5">
       <div class="face">
-        <h2 id="t5" class="ph-h it wob" style="--x:82;--y:46"><span data-hand data-hd=".1">お便り、まってます</span><small>contact</small></h2>
+        <h2 id="t5" class="ph-h it wob" style="--x:82;--y:46;--o:1"><span data-hand data-hd=".1">描いてもらう</span><small>try it</small></h2>
+
+        <p class="lead it" style="--x:86;--y:130;--w:440;--o:2">ことばで題材を書くと、このスケッチブックの描きかたを覚えた AI（Claude）が、一枚描きます。</p>
+        <p class="req-when it" style="--x:86;--y:250;--w:440;--o:3">できあがるまで3〜8分ほど。受付は毎日8時〜24時です。</p>
+
+        <form class="req it" id="req" style="--x:86;--y:294;--w:404;--r:-1;--o:4;--mw:380" autocomplete="off" novalidate>
+          <h3>request · リクエスト用紙</h3>
+          <label for="reqSubject">描いてほしいもの</label>
+          <input id="reqSubject" name="subject" type="text" maxlength="60" required placeholder="例：縁側で日なたぼっこする柴犬" enterkeyhint="send">
+          <label for="reqPass">合言葉</label>
+          <input id="reqPass" name="passphrase" type="password" maxlength="60" required autocomplete="off" autocapitalize="off" spellcheck="false">
+          <div class="row"><button type="submit" id="reqGo">描いてもらう</button><span class="fine">合言葉を知っている人だけが使えます</span></div>
+          <p class="req-status" id="reqStatus" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="work it" style="--x:590;--y:64;--w:292;--r:2;--o:5;--mw:280">
+          <figure class="pol try-pol" id="tryPol">
+            <span class="tape grid" style="--tr:-3deg"></span>
+            <div class="ph"><div class="art" id="tryArt">
+              <svg class="draw" viewBox="0 0 200 200" role="img" aria-label="まだ白紙のポラロイド。鉛筆で小さな「？」が描いてある。">
+                <path class="ln th" d="M 84 80 C 83 60 116 56 118 77 C 120 93 101 95 100 111 L 100 120"/>
+                <path class="ln th" d="M 99.4 138 l 1.2 1"/>
+                <path class="ln lt" d="M 152 40 l 0 12 M 146 46 l 12 0"/>
+                <path class="ln lt" d="M 44 158 C 70 148 118 166 158 152"/>
+              </svg>
+            </div></div>
+            <figcaption id="tryCap">まだ白紙</figcaption>
+          </figure>
+          <div class="try-actions" id="tryActions" hidden>
+            <button type="button" id="trySave">SVG で保存</button>
+            <button type="button" id="tryAgain">別の絵にする</button>
+          </div>
+        </div>
+
+        <aside class="sticky white memo it" id="tryMemo" style="--x:596;--y:458;--w:320;--r:-2;--o:6;--mw:320" hidden>
+          <h3>描き手のメモ</h3>
+          <p id="tryMemoText"></p>
+        </aside>
+
+        <p class="colophon it" style="--x:88;--y:640;--w:440;--o:7">描いた絵は、この画面にだけ出ます。ほかの人には見えません。気に入ったら SVG で保存してください。</p>
+        <span class="folio" aria-hidden="true">— 5 —</span>
+      </div>
+      <svg class="coil-m" aria-hidden="true"></svg>
+    </section>
+
+    <!-- ===================== 6. contact ===================== -->
+    <section class="sheet paper" id="p6" data-name="お便り、まってます" aria-labelledby="t6">
+      <div class="face">
+        <h2 id="t6" class="ph-h it wob" style="--x:82;--y:46"><span data-hand data-hd=".1">お便り、まってます</span><small>contact</small></h2>
 
         <p class="lead it" style="--x:86;--y:150;--w:336">お仕事のご相談、ちょっとした質問、好きな文房具の話。<span class="dt">封筒にふれると、手紙が出てきます。</span></p>
 
@@ -1130,7 +1225,7 @@ svg.draw.it{ width: calc(var(--w) * var(--u)); }
 
         <p class="colophon it" style="--x:88;--y:590;--w:380;--o:10">このスケッチブックも、ジュノも、ここに出てくるお店や町も、すべて架空のものです。残りのページは、まだ白紙。</p>
         <p class="fin it wob" style="--x:736;--y:648;--r:-4;--o:11" data-hand data-hd="1.2">おしまい。</p>
-        <span class="folio" aria-hidden="true">— 5 —</span>
+        <span class="folio" aria-hidden="true">— 6 —</span>
       </div>
       <svg class="coil-m" aria-hidden="true"></svg>
     </section>
@@ -1615,7 +1710,7 @@ svg.draw.it{ width: calc(var(--w) * var(--u)); }
 
   book.addEventListener('pointerdown', (e) => {
     if (!canPeel() || e.button !== 0) return;
-    if (e.target.closest('.tab, .env, a, input, textarea, select, .copy')) return;
+    if (e.target.closest('.tab, .env, a, input, textarea, select, .copy, .req, .try-actions')) return;
     const p = toLocal(e);
     const onCorner = !!e.target.closest('#corner');
     if (!onCorner && (p.x < W * 0.8 || p.x > W + 6)) return;
@@ -1916,6 +2011,207 @@ svg.draw.it{ width: calc(var(--w) * var(--u)); }
     },
     open(v = true) { envPinned = v; setEnv(v); },
   };
+})();
+</script>
+<script>
+/* ---------- try it: a visitor with the passphrase asks /api/sketch for a drawing, then it pencils itself in ---------- */
+(() => {
+  'use strict';
+  const form = document.getElementById('req');
+  if (!form) return;
+  const $ = (id) => document.getElementById(id);
+  const subjectEl = $('reqSubject'), passEl = $('reqPass'), goBtn = $('reqGo'), statusEl = $('reqStatus');
+  const pol = $('tryPol'), art = $('tryArt'), cap = $('tryCap'), memo = $('tryMemo'), memoText = $('tryMemoText');
+  const actions = $('tryActions'), saveBtn = $('trySave'), againBtn = $('tryAgain');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const SVGNS = 'http://www.w3.org/2000/svg', KEY = 'juno-try-v1';
+  const blank = art.innerHTML;
+  const store = {
+    get() { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } },
+    set(v) { try { v ? localStorage.setItem(KEY, JSON.stringify(v)) : localStorage.removeItem(KEY); } catch (e) { /* storage blocked */ } },
+  };
+  const ERR = {
+    passphrase: '合言葉がちがうようです。',
+    subject: '題材は60文字まで。記号の < > { } ` \\ は使えません。',
+    slow_down: '少し間をおいてから、もう一度どうぞ。',
+    daily_limit: '今日の受付は終わりました。また明日どうぞ。',
+    jobs_unavailable: 'いまは受付につながりません。しばらくしてから、もう一度どうぞ。',
+    offline: 'ここでは受付を使えません。公開しているページから試してください。',
+  };
+  let job = null, timer = 0, busy = false, savedSvg = '';
+
+  const say = (text, kind = '') => { statusEl.textContent = text; statusEl.dataset.kind = kind; };
+  const setBusy = (on) => { busy = on; goBtn.disabled = on; pol.classList.toggle('busy', on && !reduced.matches); };
+  const since = (t) => {
+    const s = Math.max(0, Math.round((Date.now() - t) / 1000));
+    return s < 60 ? `${s}秒` : `${Math.floor(s / 60)}分${String(s % 60).padStart(2, '0')}秒`;
+  };
+  const beforeHours = () => +new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hourCycle: 'h23', timeZone: 'Asia/Tokyo' }).format(new Date()) < 8;
+
+  /* the drawing comes from a model: rebuild it from an allow-list before it touches the page */
+  const ELEMENTS = new Set(['svg', 'g', 'defs', 'filter', 'feTurbulence', 'feDisplacementMap', 'clipPath', 'use', 'path', 'circle', 'ellipse', 'rect', 'line', 'polyline', 'polygon', 'text', 'tspan']);
+  const ATTRS = new Set(['viewBox', 'id', 'x', 'y', 'width', 'height', 'dx', 'dy', 'transform', 'opacity', 'type', 'baseFrequency', 'numOctaves', 'seed', 'result', 'in', 'in2', 'scale', 'xChannelSelector', 'yChannelSelector', 'stitchTiles', 'filterUnits', 'primitiveUnits', 'clipPathUnits', 'filter', 'clip-path', 'href', 'fill', 'fill-opacity', 'fill-rule', 'clip-rule', 'stroke', 'stroke-width', 'stroke-opacity', 'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-miterlimit', 'vector-effect', 'pathLength', 'd', 'cx', 'cy', 'r', 'rx', 'ry', 'x1', 'y1', 'x2', 'y2', 'points', 'style', 'font-size', 'font-family', 'font-weight', 'text-anchor', 'letter-spacing', 'dominant-baseline']);
+  const SAFE = /^[\w\s.,#%()+\-/]*$/;
+  function sanitize(text, prefix) {
+    const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+    const root = doc.documentElement;
+    if (!root || root.localName !== 'svg' || doc.getElementsByTagName('parsererror').length) return null;
+    const ids = new Map();
+    root.querySelectorAll('[id]').forEach((n) => { if (/^[A-Za-z][\w.-]{0,40}$/.test(n.id)) ids.set(n.id, prefix + n.id); });
+    const target = (id) => (ids.has(id) ? ids.get(id) : null);
+    const copy = (node) => {
+      if (node.nodeType !== 1 || !ELEMENTS.has(node.localName)) return null;
+      const out = document.createElementNS(SVGNS, node.localName);
+      for (const a of Array.from(node.attributes)) {
+        const name = a.localName, v = a.value.trim();
+        if (!ATTRS.has(name) || v.length > 20000) continue;
+        let keep = null;
+        if (name === 'style') keep = /^mix-blend-mode\s*:\s*multiply\s*;?$/.test(v) ? 'mix-blend-mode:multiply' : null;
+        else if (name === 'href') { const m = /^#(.+)$/.exec(v); keep = m && target(m[1]) ? '#' + target(m[1]) : null; }
+        else if (name === 'filter' || name === 'clip-path') { const m = /^url\(#(.+)\)$/.exec(v); keep = m && target(m[1]) ? `url(#${target(m[1])})` : null; }
+        else if (name === 'fill' || name === 'stroke') keep = /^(#[0-9a-f]{3}|#[0-9a-f]{6}|none|currentColor)$/i.test(v) ? v : null;
+        else if (name === 'id') keep = target(v);
+        else keep = SAFE.test(v) && !/url\(/i.test(v) ? v : null;
+        if (keep !== null) out.setAttribute(name, keep);
+      }
+      for (const c of Array.from(node.childNodes)) {
+        if (c.nodeType === 3) { if ((node.localName === 'text' || node.localName === 'tspan') && c.textContent.trim()) out.append(c.textContent.trim().slice(0, 200)); continue; }
+        const k = copy(c);
+        if (k) out.append(k);
+      }
+      return out;
+    };
+    const svg = copy(root);
+    if (!svg || !svg.getAttribute('viewBox')) return null;
+    ['width', 'height', 'x', 'y'].forEach((a) => svg.removeAttribute(a));
+    return svg;
+  }
+
+  /* same self-drawing as the other pages: pathLength=1 strokes, staggered along the drawing; fills fade in */
+  function pencilIn(svg) {
+    svg.classList.add('gen');
+    const strokes = [], fills = [];
+    svg.querySelectorAll('path, circle, ellipse, rect, line, polyline, polygon').forEach((el) => {
+      if (el.closest('clipPath, defs')) return;
+      const stroke = el.closest('[stroke]')?.getAttribute('stroke');
+      if (stroke && stroke !== 'none') strokes.push(el);
+      else fills.push(el);
+    });
+    const lens = strokes.map((el) => { try { return Math.max(4, el.getTotalLength()); } catch (e) { return 40; } });
+    const total = lens.reduce((a, b) => a + b, 0) || 1;
+    const T = Math.min(9, Math.max(3.5, total / 1400));
+    let cum = 0;
+    strokes.forEach((el, i) => {
+      el.setAttribute('pathLength', '1');
+      el.classList.add('gl');
+      el.style.setProperty('--w', (T * cum / total).toFixed(3) + 's');
+      el.style.setProperty('--d', Math.max(0.12, (T * lens[i] / total) * 1.4).toFixed(3) + 's');
+      cum += lens[i];
+    });
+    fills.forEach((el) => { el.classList.add('gf'); el.style.setProperty('--w', (T * 0.12).toFixed(2) + 's'); });
+    requestAnimationFrame(() => requestAnimationFrame(() => svg.classList.add('on')));
+  }
+
+  /* the design memo is for the model; show the human part (features, exaggeration, scene), not the coordinates */
+  const shortMemo = (t) => {
+    let s = t.replace(/^設計\s*[:：]\s*/, '');
+    const cut = s.search(/トリミング|目印|座標/);
+    if (cut > 0) s = s.slice(0, cut);
+    s = s.replace(/[\s／/、,]+$/, '');
+    return s.length > 100 ? s.slice(0, 98) + '…' : s;
+  };
+
+  function show(text, note) {
+    setBusy(false);
+    const svg = sanitize(text, 'try' + Date.now().toString(36) + '-');
+    if (!svg) { say('絵をうまく受け取れませんでした。もう一度どうぞ。', 'err'); return; }
+    savedSvg = new XMLSerializer().serializeToString(svg.cloneNode(true));
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', `${job.subject}の絵`);
+    art.replaceChildren(svg);
+    pencilIn(svg);
+    cap.textContent = job.subject;
+    memoText.textContent = note ? shortMemo(note) : '';
+    memo.hidden = !note;
+    actions.hidden = false;
+    againBtn.hidden = (job.variant || 0) >= 2;
+    say('描けました。');
+  }
+
+  async function poll(first) {
+    clearTimeout(timer);
+    if (!job || (document.hidden && !first)) return;   // background tabs stop polling until visible again
+    if (Date.now() - job.at > 45 * 60 * 1000) { setBusy(false); say('時間がかかっています。しばらくしてから、このページを開き直してください。', 'err'); return; }
+    let r, data = {};
+    try {
+      r = await fetch('/api/sketch/' + encodeURIComponent(job.id), { cache: 'no-store' });
+      data = await r.json().catch(() => ({}));
+    } catch (e) { timer = setTimeout(poll, 15000); return; }
+    if (r.status === 404) { setBusy(false); job = null; store.set(null); say('受付が見つかりませんでした。もう一度どうぞ。', 'err'); return; }
+    if (!r.ok) { timer = setTimeout(poll, 15000); return; }
+    if (data.status === 'done' && data.svg) { show(data.svg, data.memo); return; }
+    if (data.status === 'failed') { setBusy(false); say('うまく描けませんでした。題材を変えて、もう一度どうぞ。', 'err'); return; }
+    const waiting = data.status !== 'drawing';
+    say((waiting ? '順番を待っています' : 'いま描いています') + `（受付から${since(job.at)}）` + (waiting && beforeHours() ? '。受付時間の前なので、朝8時から順に描きます。' : '。'));
+    timer = setTimeout(poll, 8000);
+  }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && busy) poll(); });
+
+  async function send(subject, variant) {
+    if (!subject) { say('描いてほしいものを書いてください。', 'err'); subjectEl.focus(); return; }
+    if (!passEl.value) { say('合言葉を入れてください。', 'err'); passEl.focus(); return; }
+    setBusy(true);
+    say('受け付けています…');
+    let r, data = {};
+    try {
+      r = await fetch('/api/sketch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ subject, passphrase: passEl.value, variant }) });
+      data = await r.json().catch(() => ({}));
+    } catch (e) { setBusy(false); say(ERR.offline, 'err'); return; }
+    if (!r.ok) {
+      setBusy(false);
+      say(ERR[data.error] || ([404, 405, 501].includes(r.status) ? ERR.offline : ERR.jobs_unavailable), 'err');
+      if (data.error === 'passphrase') passEl.select();
+      return;
+    }
+    job = { id: data.id, subject, variant, at: Date.now() };
+    store.set(job);
+    art.innerHTML = blank;
+    cap.textContent = subject;
+    memo.hidden = true;
+    actions.hidden = true;
+    poll(true);
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!busy) send(subjectEl.value.replace(/\s+/g, ' ').trim(), 0);
+  });
+  againBtn.addEventListener('click', () => {
+    if (!job || busy) return;
+    if (!passEl.value) { say('合言葉をもう一度入れてください。', 'err'); passEl.focus(); return; }
+    send(job.subject, Math.min(2, (job.variant || 0) + 1));
+  });
+  saveBtn.addEventListener('click', () => {
+    if (!savedSvg || !job) return;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([savedSvg + '\n'], { type: 'image/svg+xml' }));
+    a.download = 'juno-' + job.subject.replace(/[\\/:*?"<>|\s]+/g, '_').slice(0, 40) + '.svg';
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+
+  /* pick up where the visitor left off (a drawing stays retrievable for a day) */
+  const saved = store.get();
+  if (saved && saved.id && Date.now() - saved.at < 24 * 3600 * 1000) {
+    job = saved;
+    subjectEl.value = saved.subject;
+    cap.textContent = saved.subject;
+    setBusy(true);
+    say('前回の受付を確かめています…');
+    poll(true);
+  }
 })();
 </script>
 </body>
