@@ -14,7 +14,7 @@
   "serve": "dist",
   "entry": "index.html",
   "shots": [
-    { "path": "index.html", "wait": 2200 },
+    { "path": "index.html", "wait": 3000, "eval": "SKETCH.live.t = 0; SKETCH.live.cam = null", "after": 1200 },
     { "path": "index.html#p1", "wait": 6000 },
     { "path": "index.html#p3", "wait": 6000 },
     { "path": "index.html#p3", "wait": 5000, "eval": "SKETCH.live.leaf[1].p = 0.46; SKETCH.live.leaf[1].corner = 0.45", "after": 1500 },

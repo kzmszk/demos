@@ -96,7 +96,8 @@ export function buildLamp(scene, bulbPos, aimAt) {
   const shadeIn = new THREE.Mesh(shadeGeo, inner);
   const rim = new THREE.Mesh(new THREE.TorusGeometry(8.0, 0.18, 8, 64), brass);
   rim.rotation.x = Math.PI / 2; rim.position.y = -2;
-  const bulb = new THREE.Mesh(new THREE.SphereGeometry(2.4, 24, 16), new THREE.MeshBasicMaterial({ color: 0xffe1b0 }));
+  // the brightest thing in the room: an HDR colour, so tone mapping takes it to a warm white instead of grey
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(2.4, 24, 16), new THREE.MeshBasicMaterial({ color: new THREE.Color(0xffe1b0).multiplyScalar(4) }));
   bulb.position.y = -0.2;
   // a soft glow around the bulb (additive sprite drawn from a radial gradient)
   const gc = document.createElement('canvas'); gc.width = gc.height = 128;
