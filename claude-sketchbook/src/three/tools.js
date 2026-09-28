@@ -70,6 +70,8 @@ function roundBrush() {
   return g;
 }
 
+const noDepth = new THREE.MeshDepthMaterial({ colorWrite: false, depthWrite: false });
+
 export class Tools {
   constructor(scene) {
     this.pencil = hexPencil();
@@ -77,7 +79,9 @@ export class Tools {
     this.brush = roundBrush();
     this.group = new THREE.Group();
     for (const t of [this.pencil, this.pen, this.brush]) {
-      t.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+      // their shadows are drawn analytically by what they fall on (toolshadow.js), not by the shadow map. With
+      // VSM three.js also renders receivers into the map, so give them a depth material that writes nothing
+      t.traverse((o) => { if (o.isMesh) { o.castShadow = false; o.receiveShadow = true; o.customDepthMaterial = noDepth; } });
       t.visible = false;
       this.group.add(t);
     }

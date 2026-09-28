@@ -18,11 +18,11 @@ export function renderNote(m, vel, damp, seed, opts = {}) {
   const B = 0.00009 * Math.exp(0.056 * (m - 21));
   const v = Math.min(1, Math.max(0.05, vel));
   // how long the note rings on its own (fundamental, -60 dB)
-  const T60 = Math.min(24, Math.max(1.6, 17 * Math.pow(2, -(m - 36) / 13.5)));
+  const T60 = Math.min(28, Math.max(2.5, 24 * Math.pow(2, -(m - 40) / 15)));
   const hasDamper = m < 89;
   const tDamp = hasDamper ? Math.max(0.02, damp) : 1e9;
   const tauDamp = 0.045 + 0.28 * Math.pow(Math.max(0, (72 - m) / 51), 1.5);
-  const len = Math.min(T60 * 1.05, tDamp + tauDamp * 7 + 0.05, opts.maxLen || 14);
+  const len = Math.min(T60 * 1.05, tDamp + tauDamp * 7 + 0.05, opts.maxLen || 16);
   const N = Math.ceil(len * SR);
   const out = new Float32Array(N);
   const strings = m < 30 ? 1 : m < 41 ? 2 : 3;

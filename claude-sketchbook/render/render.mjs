@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '..');
 const arg = (k, d) => { const i = process.argv.indexOf('--' + k); return i > 0 ? process.argv[i + 1] : d; };
-const FPS = +arg('fps', 60), SIZE = +arg('size', 1080), JOBS = +arg('jobs', 2), CRF = arg('crf', '18');
+const FPS = +arg('fps', 60), SIZE = +arg('size', 1080), JOBS = +arg('jobs', 2), CRF = arg('crf', '18'), LOG = +arg('log', 300);
 const OUT = path.resolve(root, arg('out', 'video/claude-sketchbook.mp4'));
 const WORK = path.resolve(root, arg('work', 'video/.work'));
 const FFMPEG = process.env.FFMPEG || 'ffmpeg';
@@ -62,15 +62,18 @@ await Promise.all(chunks.map(async (c) => {
   const { browser, page } = await open(SIZE);
   const cdp = await page.context().newCDPSession(page);
   await page.evaluate((t) => window.SKETCH.seek(t), c.a / FPS);
+  const t0 = Date.now();
   const ff = spawn(FFMPEG, ['-loglevel', 'error', '-y', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'png', '-i', '-',
-    '-c:v', 'libx264', '-preset', 'slow', '-crf', CRF, '-pix_fmt', 'yuv420p', '-g', String(FPS * 2), '-bf', '2', '-tune', 'film',
+    '-vf', 'scale=out_color_matrix=bt709:out_range=tv,format=yuv420p',
+    '-c:v', 'libx264', '-preset', 'slow', '-crf', CRF, '-g', String(FPS * 2), '-bf', '2', '-tune', 'film',
     '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', c.file], { stdio: ['pipe', 'inherit', 'inherit'] });
   for (let k = c.a; k < c.b; k++) {
     await page.evaluate((t) => window.SKETCH.frame(t), k / FPS);
-    const shot = await cdp.send('Page.captureScreenshot', { format: 'png' });
+    const shot = await cdp.send('Page.captureScreenshot', { format: 'png', optimizeForSpeed: true }); // still lossless, just faster zlib
     if (!ff.stdin.write(Buffer.from(shot.data, 'base64'))) await new Promise((r) => ff.stdin.once('drain', r));
-    if ((k - c.a) % 300 === 0) {
-      const done = k - c.a + 1, el = (Date.now() - started) / 1000;
+    const done = k - c.a + 1;
+    if (done % LOG === 0 || k === c.b - 1) {
+      const el = (Date.now() - t0) / 1000;
       console.log(`chunk ${c.j}: frame ${k} (${done}/${c.b - c.a})  ${(el / done).toFixed(2)} s/frame  eta ${(((c.b - c.a - done) * el) / done / 60).toFixed(1)} min`);
     }
   }

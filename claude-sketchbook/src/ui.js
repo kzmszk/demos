@@ -68,7 +68,12 @@ export function makeUI(live) {
       let x = (ov.width - w) / 2, y = ov.height * 0.86 - h / 2;
       if (current === 'turn') { x = ov.width * 0.78 - w / 2; y = ov.height * 0.9 - h / 2; }
       g.globalAlpha = alpha * (0.86 + 0.14 * Math.sin(t * 1.6));
+      // a soft dark halo keeps the pale ink legible where it crosses the lamp's reflection on the desk
+      g.shadowColor = 'rgba(12, 8, 4, 0.7)';
+      g.shadowBlur = 7 * dpr;
       g.drawImage(img, x, y, w, h);
+      g.shadowBlur = 0;
+      g.shadowColor = 'transparent';
       g.globalAlpha = 1;
     },
   };

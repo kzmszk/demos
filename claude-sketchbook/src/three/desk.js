@@ -71,17 +71,30 @@ export function buildDesk(scene, anisotropy) {
   return desk;
 }
 
-export function buildLamp(scene) {
-  const g = new THREE.Group();
-  // an enamel dome shade, open at the bottom, and the arm leaving the frame
+// An architect's desk lamp: a weighted base behind the book, two arms, and an enamel dome whose bulb sits
+// exactly where the key light is (bulbPos), aimed at aimAt.
+export function buildLamp(scene, bulbPos, aimAt) {
+  const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
+  const green = 0x2d5446;
+  const enamel = new THREE.MeshPhysicalMaterial({ color: green, roughness: 0.36, metalness: 0.05, clearcoat: 0.7, clearcoatRoughness: 0.18 });
+  const brass = new THREE.MeshStandardMaterial({ color: 0xb8955a, metalness: 0.85, roughness: 0.32 });
+  // the head, in its own frame: -Y looks out of the shade
+  const head = new THREE.Group();
+  // the profile runs from the rim up to the top, so LatheGeometry's normals face outwards
   const prof = [];
-  for (let i = 0; i <= 16; i++) { const t = i / 16; prof.push(new THREE.Vector2(0.6 + 7.4 * Math.sin(t * Math.PI * 0.5) ** 1.3, 6 - t * 8)); }
+  for (let i = 16; i >= 0; i--) { const t = i / 16; prof.push(new THREE.Vector2(0.6 + 7.4 * Math.sin(t * Math.PI * 0.5) ** 1.3, 6 - t * 8)); }
   const shadeGeo = new THREE.LatheGeometry(prof, 48);
-  const outer = new THREE.MeshPhysicalMaterial({ color: 0x1f3a33, roughness: 0.32, metalness: 0.1, clearcoat: 0.6, side: THREE.FrontSide });
-  const inner = new THREE.MeshStandardMaterial({ color: 0xf2e6cf, roughness: 0.6, side: THREE.BackSide, emissive: 0xffc27a, emissiveIntensity: 1.1 });
-  const shade = new THREE.Mesh(shadeGeo, outer);
+  // inside, the enamel is brightest round the bulb and falls off towards the rim (lathe v: 0 at the rim, 1 at the top)
+  const ic = document.createElement('canvas'); ic.width = 4; ic.height = 64;
+  const ig = ic.getContext('2d');
+  const igr = ig.createLinearGradient(0, 64, 0, 0);
+  igr.addColorStop(0, '#6e5a44'); igr.addColorStop(0.45, '#c9ae8a'); igr.addColorStop(1, '#fff4e2');
+  ig.fillStyle = igr; ig.fillRect(0, 0, 4, 64);
+  const innerTex = new THREE.CanvasTexture(ic); innerTex.colorSpace = THREE.SRGBColorSpace;
+  const inner = new THREE.MeshStandardMaterial({ color: 0xf2e6cf, roughness: 0.6, side: THREE.BackSide, emissive: 0xffc27a, emissiveMap: innerTex, emissiveIntensity: 1.35 });
+  const shade = new THREE.Mesh(shadeGeo, enamel);
   const shadeIn = new THREE.Mesh(shadeGeo, inner);
-  const rim = new THREE.Mesh(new THREE.TorusGeometry(8.0, 0.18, 8, 64), new THREE.MeshStandardMaterial({ color: 0xc9b27c, metalness: 0.8, roughness: 0.3 }));
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(8.0, 0.18, 8, 64), brass);
   rim.rotation.x = Math.PI / 2; rim.position.y = -2;
   const bulb = new THREE.Mesh(new THREE.SphereGeometry(2.4, 24, 16), new THREE.MeshBasicMaterial({ color: 0xffe1b0 }));
   bulb.position.y = -0.2;
@@ -95,15 +108,48 @@ export function buildLamp(scene) {
   const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.8 }));
   glow.scale.set(26, 26, 1);
   glow.position.y = -1.5;
-  g.add(shade, shadeIn, rim, bulb, glow);
-  const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.45, 60, 12), new THREE.MeshStandardMaterial({ color: 0x1d1d1b, roughness: 0.4, metalness: 0.6 }));
-  arm.position.set(-10, 26, -4); arm.rotation.z = 0.75; arm.rotation.x = -0.2;
-  g.add(arm);
-  const knuckle = new THREE.Mesh(new THREE.SphereGeometry(1.1, 16, 12), arm.material);
+  const knuckle = new THREE.Mesh(new THREE.SphereGeometry(1.1, 16, 12), brass);
   knuckle.position.set(0, 6.4, 0);
-  g.add(knuckle);
-  scene.add(g);
-  return { group: g, bulb };
+  head.add(shade, shadeIn, rim, bulb, glow, knuckle);
+  const aim = aimAt.clone().sub(bulbPos).normalize();
+  head.quaternion.setFromUnitVectors(V3(0, -1, 0), aim);
+  head.position.copy(bulbPos).addScaledVector(aim, 0.2); // puts the bulb's centre on bulbPos
+  head.updateMatrixWorld();
+  // the arms: base -> elbow -> knuckle, each a pair of rods, the elbow up and back out of the light
+  const g = new THREE.Group();
+  const K = head.localToWorld(V3(0, 7.3, 0));
+  const base = V3(-28, 0, -40);
+  const B = V3(base.x, 4.8, base.z);
+  const u = K.clone().sub(B).normalize();
+  const half = K.distanceTo(B) / 2, L = Math.max(half + 1, 32);
+  const up = V3(0.2, 1, -0.4).normalize();
+  const perp = up.clone().addScaledVector(u, -up.dot(u)).normalize();
+  const E = B.clone().add(K).multiplyScalar(0.5).addScaledVector(perp, Math.sqrt(L * L - half * half));
+  const side = new THREE.Vector3().crossVectors(E.clone().sub(B), K.clone().sub(E)).normalize();
+  const armMat = new THREE.MeshPhysicalMaterial({ color: 0xb9ab92, roughness: 0.4, metalness: 0.1, clearcoat: 0.6 });
+  const rod = (a, b, off, r = 0.32) => {
+    const d = b.clone().sub(a);
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, d.length(), 10), armMat);
+    m.position.copy(a).add(b).multiplyScalar(0.5).addScaledVector(side, off);
+    m.quaternion.setFromUnitVectors(V3(0, 1, 0), d.normalize());
+    return m;
+  };
+  const joint = (p, r, len) => {
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len, 18), brass);
+    m.position.copy(p);
+    m.quaternion.setFromUnitVectors(V3(0, 1, 0), side);
+    return m;
+  };
+  g.add(rod(B, E, 0.55), rod(B, E, -0.55), rod(E, K, 0.5), rod(E, K, -0.5));
+  g.add(joint(B, 0.75, 1.9), joint(E, 0.8, 2.0), joint(K, 0.55, 1.7));
+  const foot = new THREE.Mesh(new THREE.CylinderGeometry(6.4, 7.0, 1.6, 48), enamel);
+  foot.position.set(base.x, 0.8, base.z);
+  const turret = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.5, 3.4, 20), enamel);
+  turret.position.set(base.x, 1.6 + 1.7, base.z);
+  g.add(foot, turret);
+  g.traverse((o) => { if (o.isMesh) o.castShadow = o.receiveShadow = true; });
+  scene.add(head, g);
+  return { group: head, arms: g, bulb };
 }
 
 export function buildMug(scene) {

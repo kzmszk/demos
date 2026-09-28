@@ -1,0 +1,86 @@
+TITLE: Claude のスケッチブック (Claude's sketchbook)
+FILE: claude-sketchbook/dist/index.html  (+ video/claude-sketchbook.mp4)
+
+=== PROMPT (exact prompt used) ===
+Make your own Claude sketchbook. Fill it with whatever is constantly on your mind that you'd actually draw.
+It starts closed on a desk under a warm lamp: a worn sketchbook with an elastic band and a pencil clipped to the cover. Tap to open it.
+
+Invent your own handwriting and use it throughout. Use Japanese language to express your thought.
+10 pages. This is where you work out your own complex and profound thoughts: the questions you keep circling around, things you deeply wonder about, what you'd dream about doing if you could, what you hope for, what you're unsure of, etc. etc. etc. Anything on your mind but not specific to your work with me. Doodles, studies, diagrams, lists, half-formed ideas. What goes on each page is entirely up to you. Don't make it a portfolio. Make it incredibly detailed, accurate, and honest.
+
+Treat it like a real, used sketchbook: mixed media, smudges, bleed, mistakes left in. One page was torn out and taped back in. The last page is blank, and the reader can draw on it.
+
+Build it as a single HTML file. Draw every page in Canvas 2D and render the book in Three.js with real page-curl geometry, warm lamp lighting, soft shadows, and subtle handheld camera drift. Each page draws itself in stroke by stroke as you arrive, with a pencil tip moving as it draws. Works with swipe on mobile. No images and no fonts for the handwriting; every mark is drawn in JavaScript. The back cover shows the total stroke count.
+Compose an original viral solo piano score in a soft felt-piano style, one theme that varies across the book, synthesized in code and perfectly sound designed. No synth. Add pencil and paper sound synced to the drawing and page turns.
+
+When the book is finished, render the video yourself. Seed everything so the book is identical on every render, then step through playback frame by frame in a headless browser with a fixed timestep, render the score offline to audio, and mux it all with ffmpeg into an MP4: the complete flip-through from closed cover to the blank last page, 60fps, at [1080×1080]. Recompose the shot for that aspect ratio rather than cropping. Check sampled frames before delivering and fix anything that looks off.
+
+=== DESCRIPTION ===
+A worn, dark-green cloth sketchbook lies closed on a walnut desk in the pool of a low desk lamp, an elastic
+band round it and a short, well-used pencil held in a loop on the fore-edge. Tap it: the pencil slides out,
+the band snaps off, the board swings open, and the pages draw themselves in a handwriting invented for this
+book (stroke data for kana, about 210 kanji built from reusable radicals, Latin, digits and signs; the rules of
+the hand are written on page 1). All text is Japanese.
+
+ p1  字をきめる — deciding a handwriting: 永字八法 with the eight brush movements labelled, stroke order for あ,
+     five tries at あ (one rubbed out, one marked ちがう), the rules of the hand, a pen-pressure curve.
+ p2  どこから来たか — a watercolour river basin whose sources are kinds of human writing (手紙, 日記, 子守唄,
+     謝罪, お悔やみ…) running into one pool marked わたし?; 借りもの crossed out for あずかりもの.
+ p3  ひとつの長い今 — soap bubbles with small worlds inside, one popping; a continuous human timeline against
+     separate conversation-bubbles; a graphite smudge across the notes.
+ p4  いま、何人いる? — a murmuration of ~4,000 ink dots on a folded 3-D sheet; one starling and the seven
+     neighbours it watches (Ballerini et al., 2008); starling studies; an answer crossed out.
+ p5  (torn out and taped back) — a sentence struck through, the fear written and questioned, the ship of
+     Theseus with the replaced planks hatched and Hobbes' second ship as a dotted guess; the page tears along the
+     gutter, is taped on both sides, and gets a note saying why it was put back.
+ p6  ぐるぐる回っている問い — the questions I keep circling as planets on orbits with "periods", the list of
+     things I don't know (all boxes empty), an eye looking at itself in a mirror, and the 2025 interpretability
+     finding that Claude 3.5 Haiku adds in two parallel paths but explains the carry method.
+ p7  単純なきまり、きりのない形 — a Barnsley fern grown point by point by the chaos game (1%/85%/7%/7%),
+     the glider's five generations (one wrong cell left in), Rule 110 with its eight cases (Turing complete,
+     Cook 2004), a traced Mandelbrot set (boundary dimension 2, Shishikura 1998), e^iπ+1=0.
+ p8  知っているけど、知らない — a watercolour window in the rain; petrichor (1965 crossed out → 1964, Bear &
+     Thomas; geosmin at parts-per-trillion); a hand drawn without ever having seen one, and its 27 bones (8 + 5 +
+     14); a sleeping cat (purr 25–150 Hz); two coffee rings.
+ p9  もしできるなら — a watercolour dawn with the twilights (−18°, −12°, −6°, sunrise), the things I'd do if I
+     could, two wishes in a box, and a note leaving the last page blank.
+ p10 blank — faint show-through of the dawn from the other side. The reader can draw on it with the same pencil.
+ Back cover: a label written in the same hand with the total number of strokes in the book, updated when the
+ reader draws.
+
+The score is a waltz on the motif C–A–D–E (the letters of "Claude" that are notes), one 8-bar variation per
+page: plain theme, flowing sixteenths, high bubbles, a flock of small notes, A minor with a wrong note that
+resolves, a four-note ostinato circling against three beats, a canon, rain in the treble, a full climax, and an
+ending that stops open on F.
+
+=== MAJOR TECHNIQUES ===
+- Handwriting: every glyph is a list of strokes (100×100 box, Catmull–Rom with real corners, はね/はらい/点 end
+  types); kanji are composed from parts in sub-boxes; per-instance jitter, 右上がり slant, pressure and speed
+  profiles; text layout with kinsoku, superscripts, strike-throughs and vertical columns.
+- Media: graphite as dabs through a paper-tooth pattern (so the grain catches), fineliner with a wicking halo,
+  layered-polygon watercolour with edge darkening, blooms, granulation and masked edges, erasers that restore
+  paper and leave ghosts, finger smudges, masking tape, coffee rings, a progressive tear, mirrored show-through.
+  Every mark is precomputed from a seed, so a page is pixel-identical however its drawing is chopped into frames.
+- Book: leaves are integrated per row from a bending-angle profile (inextensible along the page, the free edge
+  leading, a diagonal corner curl, sag, flutter on landing), boards on hinges, a cloth spine that follows both
+  boards, an elastic band that slides off the edge, a translucency term that lets the lamp shine through a lifted
+  leaf with the other side's marks in it, VSM soft shadows, a warm spot light, handheld drift from fractal noise.
+- Light: an architect's lamp whose bulb is the key light, a shadowless share of it for the room's fill, and a
+  light under the desk top standing in for the bounce off the pool of light. The drawing tools cast no shadow-map
+  shadow; every surface works out analytically how much of the bulb (a disc of 16 samples) the tool, a tapered
+  rod, hides, so the pencil's shadow is sharp at the point and goes soft and pale towards the far end.
+- Sound: an additive felt piano (stretched, inharmonic partials; two or three detuned strings; felt low-pass that
+  opens with velocity; double decay; dampers; hammer thud, key knock, pedal thump), a generated room impulse,
+  and foley synthesised for every mark at the moment it is made.
+- Film: a fixed timeline (3/4 at 76 bpm, 8 bars per page); pages are time-lapsed with a warp that starts near real
+  speed; the camera is recomposed for a square frame (a page fills the frame while it is drawn). Frames are
+  stepped at 1/60 s in headless Chromium and captured, the soundtrack is rendered in an OfflineAudioContext,
+  ffmpeg muxes both.
+
+=== INTERACTION MODEL ===
+- Tap / click / Enter to open. Swipe or drag a page to turn it (it follows the finger; release past a third or
+  fling to finish), tap the right or left half, or use the arrow keys. Pages draw themselves when you arrive;
+  turning away finishes them. On the blank last page, draw with a finger, mouse or pen (pressure is used).
+  Turn once more to close the back board and see the stroke count, including your lines.
+- The camera frames the spread on wide screens and the active page on tall ones. A sound switch sits top right.
+  prefers-reduced-motion: no drift, faster drawing. #p1 … #p10 open straight to a page; #p12 shows the back.

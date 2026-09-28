@@ -8,7 +8,7 @@ const [out, t, ...shots] = process.argv.slice(2);
 const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=gl-egl', '--ignore-gpu-blocklist'] });
 const page = await browser.newPage({ viewport: { width: 1080, height: 1080 } });
 page.on('pageerror', (e) => console.log('pageerror', e.message));
-await page.goto('file://' + path.join(here, '../dist/index.html') + '?video&size=1080');
+await page.goto('file://' + path.join(here, '../dist/index.html') + '?video&size=1080' + (process.env.Q ? '&' + process.env.Q : ''));
 await page.waitForFunction(() => window.__ready, null, { timeout: 120000 });
 const cdp = await page.context().newCDPSession(page);
 let k = 0;

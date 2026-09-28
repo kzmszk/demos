@@ -1,11 +1,11 @@
 import { renderNote, SR } from '../src/audio/piano.js';
-window.renderScale = function (notes, vel = 0.5) {
+window.renderScale = function (notes, vel = 0.5, hold = 0.5, step0 = 0.55) {
   const t0 = performance.now();
-  const step = 0.55 * SR;
-  const tail = 3 * SR;
+  const step = step0 * SR;
+  const tail = 4 * SR;
   const out = new Float32Array(Math.floor(notes.length * step + tail));
   notes.forEach((m, i) => {
-    const b = renderNote(m, vel, 0.5, 1000 + i);
+    const b = renderNote(m, vel, hold, 1000 + i);
     const o = Math.floor(i * step);
     for (let k = 0; k < b.length && o + k < out.length; k++) out[o + k] += b[k];
   });

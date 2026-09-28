@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { buildDesk, buildLamp, buildMug, buildEraser } from './three/desk.js';
 import { Leaf, Cover, Spine, Band, penLoop, PW, PH, CW, CH, CT, T, HY, INSET, NL, LT } from './three/book.js';
 import { Tools } from './three/tools.js';
+import { withToolShadow, updateToolShadow } from './three/toolshadow.js';
 import { buildBookData } from './bookdata.js';
 import { buildTimeline, pageTau, leafTurn, smooth, clamp01 } from './timeline.js';
 import { fbm1 } from './rng.js';
@@ -12,9 +13,9 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const DEG = Math.PI / 180;
 
 export const SHOTS = {
-  lamp: { t: [-2, 9, -8], dist: 72, elev: 13, azim: 8, roll: -1.2, fov: 32 },
+  lamp: { t: [-6, 15, -12], dist: 104, elev: 12, azim: -12, roll: -0.6, fov: 32 },
   // portrait screens: swing round so the shade stands straight above the book
-  lampTall: { t: [-3.5, 11, -8.5], dist: 84, elev: 12, azim: 50, roll: 0, fov: 34 },
+  lampTall: { t: [-5, 15, -10], dist: 96, elev: 12, azim: 50, roll: 0, fov: 34 },
   closed: { t: [7.8, 0.4, 0.4], dist: 62, elev: 50, azim: -5, roll: -1.0, fov: 30 },
   closedNear: { t: [7.8, 0.4, 0.6], dist: 56, elev: 52, azim: -4, roll: -0.8, fov: 30 },
   wide: { t: [0.0, 0.2, 0.8], dist: 60, elev: 60, azim: -2, roll: -0.4, fov: 30 },
@@ -52,6 +53,14 @@ export class App {
     this.data = buildBookData();
     this.buildBook();
     this.tools = new Tools(this.scene);
+    // everything the tools can throw a shadow on works it out analytically (see toolshadow.js)
+    const seen = new Set();
+    this.scene.traverse((o) => {
+      if (!o.isMesh || this.tools.group.getObjectById(o.id)) return;
+      for (const m of Array.isArray(o.material) ? o.material : [o.material]) {
+        if (m.isMeshStandardMaterial && !seen.has(m)) { seen.add(m); withToolShadow(m); }
+      }
+    });
     this.drift = [fbm1(101, 3), fbm1(202, 3), fbm1(303, 3), fbm1(404, 3), fbm1(505, 3), fbm1(606, 3)];
     this.tmpV = V(0, 0, 0);
     this.resize(opts.width || canvas.clientWidth || 1080, opts.height || canvas.clientHeight || 1080);
@@ -60,12 +69,8 @@ export class App {
   buildLights() {
     const s = this.scene;
     const lampPos = V(-19, 29, -21);
-    this.lamp = buildLamp(s);
-    this.lamp.group.position.copy(lampPos).add(V(0, 2.2, 0));
-    // point the shade's opening at the book
-    const aim = V(4, 0, 3).sub(lampPos).normalize();
-    this.lamp.group.quaternion.setFromUnitVectors(V(0, -1, 0), aim);
-    const spot = new THREE.SpotLight(0xffd2a4, 6200, 0, 0.62, 0.72, 2);
+    this.lamp = buildLamp(s, lampPos, V(4, 0, 3));
+    const spot = new THREE.SpotLight(0xffd2a4, 5400, 0, 0.62, 0.72, 2);
     spot.position.copy(lampPos);
     spot.target.position.set(4, 0, 3);
     spot.castShadow = true;
@@ -78,14 +83,25 @@ export class App {
     spot.shadow.blurSamples = 16;
     s.add(spot, spot.target);
     this.spot = spot;
+    // the glowing shade and the room hand some of it back: a soft share of the lamp that casts no shadow,
+    // so whatever the pencil's shadow falls across stays readable
+    const fill = new THREE.SpotLight(0xffd2a4, 800, 0, 0.95, 1, 2);
+    fill.position.copy(lampPos);
+    fill.target = spot.target;
+    s.add(fill);
     const hemi = new THREE.HemisphereLight(0x5d6882, 0x24180e, 0.45);
     s.add(hemi);
     const bounce = new THREE.PointLight(0xffb27a, 90, 0, 2);
     bounce.position.set(30, 14, 30);
     s.add(bounce);
+    // the pool of light on the desk lights the room back from below: a point just under the desk top reaches
+    // the lamp's stand, the mug and the book's edges, but never the (upward-facing) desk or pages themselves
+    const pool = new THREE.PointLight(0xffb27a, 500, 0, 2);
+    pool.position.set(2, -0.6, 0);
+    s.add(pool);
     this.desk = buildDesk(s, this.aniso);
     this.mug = buildMug(s);
-    this.mug.position.set(27, 0, -9);
+    this.mug.position.set(23, 0, -14);
     this.mug.rotation.y = 0.9;
     this.eraser = buildEraser(s);
     this.eraser.position.set(-24, 0, 12);
@@ -182,7 +198,11 @@ export class App {
     if (c.fov !== shot.fov) { c.fov = shot.fov; c.updateProjectionMatrix(); }
   }
 
-  updateLampView() { this.lampView.value.copy(this.spot.position).applyMatrix4(this.camera.matrixWorldInverse); }
+  // per-frame shader inputs that live in view space; call after the camera and the tool are placed
+  updateLampView() {
+    this.lampView.value.copy(this.spot.position).applyMatrix4(this.camera.matrixWorldInverse);
+    updateToolShadow(this.tools, this.camera);
+  }
 
   syncTextures() {
     const pages = this.data.pages;
