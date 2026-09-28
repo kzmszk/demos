@@ -3,3 +3,4 @@ site/
 .wrangler/
 .dev.vars
 kinetic/dist/
+.illust-lab/
