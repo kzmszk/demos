@@ -20,8 +20,9 @@ claude-sketchbook/
     audio/         フェルトピアノ、楽譜、残響、効果音、映像用のオフライン書き出し、操作モード用の再生
   build.mjs        src → dist/index.html（esbuild でまとめて1ファイルに）
   render/render.mjs  映像の書き出し（ヘッドレス Chromium でコマ送り → ffmpeg）
+  render/web.mjs     原本から配信用の軽い版を作る（2 パスで容量に合わせる）
   tools/           確認用（字の一覧、ページ単体、カメラ、音）
-  video/           書き出した MP4（約 70MB あるのでリポジトリには入れていない）
+  video/           配信用の MP4（claude-sketchbook-web.mp4、約 20MB）。原本（約 70MB）は入れていない
 ```
 
 ## コマンド
@@ -29,7 +30,8 @@ claude-sketchbook/
 ```bash
 npm install                 # esbuild と three
 node build.mjs              # dist/index.html を作る（--dev で圧縮なし）
-node render/render.mjs      # video/claude-sketchbook.mp4（1080×1080、60fps）
+node render/render.mjs      # 原本 video/claude-sketchbook.mp4（1080×1080、60fps、約 70MB、約 70 分）
+node render/web.mjs         # 配信用 video/claude-sketchbook-web.mp4（原本から 2 パスで 20MiB 以内に）
 node render/render.mjs --jobs 2 --from 20 --to 30   # 一部だけ
 ```
 

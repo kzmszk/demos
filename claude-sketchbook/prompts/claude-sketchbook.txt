@@ -1,5 +1,5 @@
 TITLE: Claude のスケッチブック (Claude's sketchbook)
-FILE: claude-sketchbook/dist/index.html  (+ video/claude-sketchbook.mp4)
+FILE: claude-sketchbook/dist/index.html  (+ video/claude-sketchbook-web.mp4)
 
 === PROMPT (exact prompt used) ===
 Make your own Claude sketchbook. Fill it with whatever is constantly on your mind that you'd actually draw.
