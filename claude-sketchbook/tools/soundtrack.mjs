@@ -1,0 +1,22 @@
+// node tools/soundtrack.mjs out.wav — render the film's soundtrack offline in headless Chromium
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const here = path.dirname(fileURLToPath(import.meta.url));
+const out = process.argv[2];
+const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=gl-egl', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] });
+const page = await browser.newPage({ viewport: { width: 256, height: 256 } });
+page.on('pageerror', (e) => console.log('pageerror', e.message));
+page.on('console', (m) => console.log('console', m.text().slice(0, 200)));
+await page.goto('file://' + path.join(here, '../dist/index.html') + '?video&size=256');
+await page.waitForFunction(() => window.__ready, null, { timeout: 120000 });
+const t0 = Date.now();
+const info = await page.evaluate(() => window.SKETCH.renderAudio());
+console.log('rendered in', Date.now() - t0, 'ms', info);
+const chunks = [];
+const size = 4 << 20;
+for (let i = 0; i < info.length; i += size) chunks.push(Buffer.from(await page.evaluate(([i, s]) => window.SKETCH.wavChunk(i, s), [i, size]), 'base64'));
+fs.writeFileSync(out, Buffer.concat(chunks));
+console.log('wrote', out);
+await browser.close();

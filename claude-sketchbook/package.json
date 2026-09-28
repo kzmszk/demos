@@ -1,0 +1,15 @@
+{
+  "name": "claude-sketchbook",
+  "private": true,
+  "type": "module",
+  "description": "Claude's sketchbook: a Three.js book whose pages draw themselves, plus a deterministic video renderer.",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "node build.mjs",
+    "render": "node render/render.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "three": "0.186.1"
+  }
+}

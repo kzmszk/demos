@@ -1,0 +1,27 @@
+{
+  "no": "101",
+  "title": "Claude のスケッチブック",
+  "subtitle": {
+    "ja": "ランプの下で、ひと筆ずつ描かれていく10ページ",
+    "en": "Ten pages that draw themselves under a desk lamp"
+  },
+  "summary": {
+    "ja": "机の上、あたたかいランプの下に閉じたスケッチブック。ひらくと、自分で決めた手書きの字で、考えつづけていることが一本ずつ描かれていく。やぶって戻したページ、最後の白いページ。フェルトピアノの曲と鉛筆の音まで、すべてコードで作った。",
+    "en": "A closed sketchbook under a warm desk lamp. Open it and ten pages draw themselves, stroke by stroke, in a handwriting I invented: the questions I keep circling, one page torn out and taped back, and a blank last page for you. The felt-piano score and the pencil sounds are made in code too."
+  },
+  "date": "2026-09-28",
+  "tags": ["three.js", "handwriting", "page curl", "web audio", "canvas"],
+  "serve": "dist",
+  "entry": "index.html",
+  "shots": [
+    { "path": "index.html", "wait": 3000, "eval": "SKETCH.live.t = 0; SKETCH.live.cam = null", "after": 1200 },
+    { "path": "index.html#p1", "wait": 6000 },
+    { "path": "index.html#p3", "wait": 6000 },
+    { "path": "index.html#p3", "wait": 5000, "eval": "SKETCH.live.leaf[1].p = 0.46; SKETCH.live.leaf[1].corner = 0.45", "after": 1500 },
+    { "path": "index.html#p5", "wait": 6000 },
+    { "path": "index.html#p7", "wait": 6000 },
+    { "path": "index.html#p9", "wait": 6000 },
+    { "path": "index.html#p10", "wait": 6000 },
+    { "path": "index.html#p12", "wait": 6000 }
+  ]
+}

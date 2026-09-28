@@ -1,0 +1,7 @@
+node_modules/
+tools/.sheet/
+tools/.page/
+tools/.audio/
+video/.work/
+video/*.mp4
+!video/claude-sketchbook-web.mp4
