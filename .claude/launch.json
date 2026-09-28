@@ -18,6 +18,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["wrangler", "dev", "--port", "8787", "--ip", "127.0.0.1"],
       "port": 8787
+    },
+    {
+      "name": "jobs-dev",
+      "runtimeExecutable": "/home/kazu/work/hermes-llm-jobs/node_modules/.bin/wrangler",
+      "runtimeArgs": ["dev", "-c", "/home/kazu/work/hermes-llm-jobs/wrangler.jsonc", "--port", "8790", "--ip", "127.0.0.1", "--persist-to", "/home/kazu/work/hermes-llm-jobs/.wrangler/state"],
+      "port": 8790
     }
   ]
 }
