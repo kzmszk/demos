@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>auto_movie</title>
+<style>
+:root{--paper:#fbf7ee;--ink:#3d3d3d;--marker:#fff176;--red:#d64545;--soft:rgba(61,61,61,.62);--rule:rgba(61,61,61,.22);--ok:#3d7a4a}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--paper)}
+body{font-family:"Hiragino Sans","Noto Sans CJK JP","Yu Gothic",system-ui,sans-serif;color:var(--ink);background:
+ radial-gradient(ellipse at 50% 0,rgba(255,255,255,.7),rgba(255,255,255,0) 60%),var(--paper);min-height:100vh;line-height:1.6;font-feature-settings:"palt"}
+.wrap{max-width:1240px;margin:0 auto;padding:36px 28px 80px}
+.tag{font-size:12px;letter-spacing:.32em;color:var(--soft);font-weight:700}
+h1{font-size:clamp(32px,5vw,56px);font-weight:900;letter-spacing:-.04em;line-height:1.15;margin:10px 0 8px}
+h1 span{background:linear-gradient(transparent 62%,var(--marker) 62%);padding:0 .08em}
+.lede{color:var(--soft);max-width:44em;font-size:15px}
+.grid{display:grid;grid-template-columns:minmax(340px,440px) 1fr;gap:28px;margin-top:30px;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{border:2px solid var(--ink);border-radius:6px 14px 8px 16px;padding:22px 22px 24px;background:rgba(255,255,255,.35);position:relative}
+label.f{display:block;font-size:12px;letter-spacing:.2em;font-weight:900;margin:18px 0 6px;color:var(--ink)}
+label.f:first-child{margin-top:0}
+textarea,input[type=text]{width:100%;border:0;border-bottom:2px solid var(--ink);background:transparent;font:inherit;color:inherit;padding:8px 2px;outline:none;resize:vertical}
+textarea:focus,input[type=text]:focus{background:linear-gradient(transparent 70%,rgba(255,241,118,.55) 70%)}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button,.opt{font:inherit;font-size:14px;font-weight:700;border:2px solid var(--ink);background:transparent;color:var(--ink);padding:6px 14px;border-radius:4px 10px 5px 11px;cursor:pointer}
+.seg button.on,.opt.on{background:var(--marker);box-shadow:2px 2px 0 var(--ink)}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;display:block;padding:9px 12px;width:100%}
+.opt small{display:block;font-weight:500;color:var(--soft);font-size:12px;line-height:1.5;margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font-size:12px;border:1.5px solid var(--ink);border-radius:20px;padding:2px 10px;display:flex;gap:6px;align-items:center;background:#fff8}
+.chip b{cursor:pointer;color:var(--red)}
+.row{display:flex;gap:8px;align-items:center}
+.badge{font-size:11px;padding:1px 8px;border-radius:10px;border:1.5px solid currentColor;font-weight:700;margin-left:6px;vertical-align:middle}
+.badge.ok{color:var(--ok)}.badge.no{color:var(--red)}
+.go{margin-top:22px;width:100%;font:inherit;font-size:20px;font-weight:900;letter-spacing:.1em;border:2px solid var(--ink);background:var(--ink);color:var(--paper);padding:12px;border-radius:4px 12px 5px 14px;cursor:pointer}
+.go:disabled{opacity:.45;cursor:default}
+.go:hover:not(:disabled){background:var(--red);border-color:var(--red)}
+.stages{display:flex;flex-wrap:wrap;gap:6px 4px;margin-bottom:16px}
+.st{font-size:12px;font-weight:700;padding:3px 10px;border-radius:14px;border:1.5px solid var(--rule);color:var(--soft)}
+.st.done{border-color:var(--ink);color:var(--ink);background:var(--marker)}
+.st.now{border-color:var(--red);color:var(--red);animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.45}}
+pre.log{background:#3d3d3d;color:#eee;font:12px/1.55 ui-monospace,Menlo,Consolas,monospace;padding:12px 14px;border-radius:6px;height:230px;overflow:auto;white-space:pre-wrap;word-break:break-all}
+video{width:100%;border:2px solid var(--ink);border-radius:4px;background:#000;margin-top:14px;display:block}
+.qa{margin-top:14px;font-size:13px}
+.qa table{width:100%;border-collapse:collapse}
+.qa td{padding:5px 6px;border-bottom:1px solid var(--rule);vertical-align:top}
+.qa td:first-child{width:28px;text-align:center}
+.pill{display:inline-block;font-weight:900;padding:1px 10px;border-radius:12px;border:2px solid;font-size:12px}
+.pill.PASS{color:var(--ok)}.pill.WARN{color:#b7791f}.pill.FAIL{color:var(--red)}
+.hist{margin-top:26px}
+.hist h2{font-size:12px;letter-spacing:.24em;margin-bottom:8px}
+.hist a{display:flex;gap:10px;justify-content:space-between;padding:7px 4px;border-bottom:1px solid var(--rule);cursor:pointer;font-size:14px;text-decoration:none;color:inherit}
+.hist a:hover{background:rgba(255,241,118,.4)}
+.hist a i{font-style:normal;color:var(--soft);font-size:12px;white-space:nowrap}
+.empty{color:var(--soft);font-size:14px;padding:40px 0;text-align:center}
+.meta{font-size:13px;color:var(--soft);margin:6px 0 2px}
+.meta b{color:var(--ink)}
+a.dl{color:var(--ink);font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="tag">AUTO_MOVIE ✕ HYPERFRAMES</div>
+  <h1>テーマから、<span>解説動画</span>をつくる</h1>
+  <p class="lede">テーマ・長さ・参考資料を入れると、動画のスタイルを決めて、台本・イラスト・グラフ・声・ピアノのBGMまで自動でつくります。</p>
+
+  <div class="grid">
+    <form class="card" id="form" autocomplete="off">
+      <label class="f" for="theme">テーマ</label>
+      <textarea id="theme" rows="3" placeholder="例：今日のライフハック：勉強したことを忘れにくくする「復習のタイミング」"></textarea>
+
+      <label class="f">長さ</label>
+      <div class="seg" id="len">
+        <button type="button" data-s="60">1分</button><button type="button" data-s="120">2分</button><button type="button" data-s="180" class="on">3分</button><button type="button" data-s="300">5分</button>
+      </div>
+
+      <label class="f">動画のスタイル</label>
+      <div class="opts" id="styles"></div>
+
+      <label class="f">参考資料（任意）</label>
+      <textarea id="srctext" rows="3" placeholder="ここに資料の文章を貼り付け／または下から追加"></textarea>
+      <div class="row" style="margin-top:8px"><input type="text" id="srcurl" placeholder="URL を追加（https://…）"><button type="button" class="opt" id="addurl" style="width:auto;white-space:nowrap">追加</button></div>
+      <div class="row" style="margin-top:8px"><input type="file" id="srcfile" accept=".md,.txt,.markdown" multiple style="font-size:12px"></div>
+      <div class="chips" id="chips"></div>
+
+      <label class="f">声（TTS）</label>
+      <div class="opts" id="tts">
+        <button type="button" class="opt on" data-v="voicevox">VOICEVOX（ずんだもん等・無料）<span class="badge" id="vvbadge">…</span><small>ローカルの Docker で動作。回数制限なし</small></button>
+        <button type="button" class="opt" data-v="gemini">Gemini TTS（有料・完成版の差し替え用）<span class="badge" id="gmbadge">…</span><small>環境変数 GEMINI_API_KEY が必要</small></button>
+        <button type="button" class="opt" data-v="mock">テスト音声（サービス不要）<small>配線の確認用。声は本物ではありません</small></button>
+      </div>
+
+      <label class="f">画質</label>
+      <div class="seg" id="quality"><button type="button" data-v="draft">下書き（速い）</button><button type="button" data-v="looks" class="on">標準</button><button type="button" data-v="delivery">高画質</button></div>
+
+      <button class="go" id="go" type="submit">つくる</button>
+    </form>
+
+    <div>
+      <div class="card" id="panel">
+        <div class="empty" id="empty">左のフォームに入力して「つくる」を押すと、ここに進行状況と完成動画が出ます。</div>
+        <div id="run" hidden>
+          <div class="stages" id="stages"></div>
+          <div class="meta" id="meta"></div>
+          <pre class="log" id="log"></pre>
+          <div id="result" hidden>
+            <video id="vid" controls preload="metadata"></video>
+            <div class="meta" style="margin-top:10px"><a class="dl" id="dl" download>動画をダウンロード</a> ・ <a class="dl" id="sheet" target="_blank">コンタクトシート</a> ・ <a class="dl" id="rep" target="_blank">QAレポート</a></div>
+            <div class="qa" id="qa"></div>
+          </div>
+        </div>
+      </div>
+      <div class="hist"><h2>これまでの作品</h2><div id="hist"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const STAGES = [['sources','資料'],['plan','企画'],['script','台本'],['illustrate','挿絵'],['voice','声'],['audio','BGM・音'],['compose','画面合成'],['check','検査'],['render','書き出し'],['qa','QA']];
+const $ = (s) => document.querySelector(s);
+const state = { len: 180, style: 'auto', tts: 'voicevox', quality: 'looks', sources: [] };
+let es = null, currentId = null, poll = null;
+
+function seg(sel, key, num) { $(sel).addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; [...$(sel).children].forEach((c) => c.classList.remove('on')); b.classList.add('on'); state[key] = num ? +b.dataset.s : b.dataset.v; }); }
+seg('#len', 'len', true); seg('#quality', 'quality'); seg('#tts', 'tts');
+
+async function init() {
+  const cfg = await (await fetch('/api/config')).json();
+  const box = $('#styles');
+  const all = [{ id: 'auto', name: '自動で決める', summary: 'テーマと資料の性質から、いちばん伝わるスタイルを選びます。' }, ...cfg.styles];
+  box.innerHTML = all.map((s) => `<button type="button" class="opt ${s.id === 'auto' ? 'on' : ''}" data-v="${s.id}">${s.name}<small>${s.summary}</small></button>`).join('');
+  box.addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; [...box.children].forEach((c) => c.classList.remove('on')); b.classList.add('on'); state.style = b.dataset.v; });
+  const vb = $('#vvbadge'); vb.textContent = cfg.tts.voicevox ? '起動中' : '停止中（自動で起動）'; vb.className = 'badge ' + (cfg.tts.voicevox ? 'ok' : 'no');
+  const gb = $('#gmbadge'); gb.textContent = cfg.tts.gemini ? 'キーあり' : 'キーなし'; gb.className = 'badge ' + (cfg.tts.gemini ? 'ok' : 'no');
+  refreshHist();
+}
+
+function renderChips() { $('#chips').innerHTML = state.sources.map((s, i) => `<span class="chip">${s.url ? '🔗' : '📄'} ${(s.name || s.url).slice(0, 34)}<b data-i="${i}">×</b></span>`).join(''); }
+$('#chips').addEventListener('click', (e) => { const i = e.target.dataset.i; if (i != null) { state.sources.splice(+i, 1); renderChips(); } });
+$('#addurl').addEventListener('click', () => { const u = $('#srcurl').value.trim(); if (/^https?:\/\//.test(u)) { state.sources.push({ url: u }); $('#srcurl').value = ''; renderChips(); } });
+$('#srcfile').addEventListener('change', async (e) => { for (const f of e.target.files) state.sources.push({ name: f.name, text: await f.text() }); e.target.value = ''; renderChips(); });
+
+$('#form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const theme = $('#theme').value.trim();
+  if (!theme) { $('#theme').focus(); return; }
+  const sources = [...state.sources];
+  if ($('#srctext').value.trim()) sources.unshift({ name: '貼り付け', text: $('#srctext').value });
+  $('#go').disabled = true;
+  const r = await fetch('/api/jobs', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ theme, lengthSec: state.len, style: state.style, tts: state.tts, quality: state.quality, sources }) });
+  const j = await r.json();
+  $('#go').disabled = false;
+  if (j.error) { alert(j.error); return; }
+  open(j.id);
+});
+
+function open(id) {
+  currentId = id;
+  $('#empty').hidden = true; $('#run').hidden = false; $('#result').hidden = true; $('#log').textContent = '';
+  $('#stages').innerHTML = STAGES.map(([k, n]) => `<span class="st" data-k="${k}">${n}</span>`).join('');
+  if (es) es.close(); clearInterval(poll);
+  es = new EventSource(`/api/jobs/${id}/events`);
+  es.onmessage = (m) => {
+    const ev = JSON.parse(m.data);
+    const log = $('#log'); if (ev.line) { log.textContent += ev.line + '\n'; log.scrollTop = log.scrollHeight; }
+    if (ev.stage) mark(ev.stage);
+    if (ev.end) { es.close(); refresh(id); }
+  };
+  poll = setInterval(() => refresh(id, true), 4000);
+  refresh(id);
+}
+
+function mark(stage) {
+  let seen = false;
+  for (const el of document.querySelectorAll('.st')) {
+    const k = el.dataset.k;
+    el.classList.remove('done', 'now');
+    if (stage === 'done') el.classList.add('done');
+    else if (k === stage) { el.classList.add('now'); seen = true; }
+    else if (!seen) el.classList.add('done');
+  }
+}
+
+async function refresh(id, soft) {
+  const j = await (await fetch(`/api/jobs/${id}`)).json();
+  if (id !== currentId) return;
+  $('#meta').innerHTML = `<b>${j.title || '（企画中）'}</b>${j.style ? ' ・ スタイル：<b>' + j.style + '</b>' : ''} ・ ${Math.round((j.input.lengthSec || 0) / 60 * 10) / 10}分 ・ 声：${j.input.provider || ''} ・ <b>${{ running: '実行中', done: '完了', failed: '失敗', stopped: '停止' }[j.state] || j.state}</b>`;
+  if (j.stage) mark(j.state === 'done' ? 'done' : j.stage);
+  if ((j.external || !es || es.readyState === 2) && j.log?.length) { const lg = $('#log'); const t = j.log.join('\n') + '\n'; if (lg.textContent !== t) { lg.textContent = t; lg.scrollTop = lg.scrollHeight; } }
+  if (j.hasVideo && j.state !== 'running') {
+    clearInterval(poll);
+    $('#result').hidden = false;
+    const v = $('#vid'); const src = `/runs/${id}/video.mp4`; if (!v.src.endsWith(src)) v.src = src;
+    $('#dl').href = src; $('#sheet').href = `/runs/${id}/qa/contact-sheet.png`; $('#rep').href = `/runs/${id}/qa/report.md`;
+    if (j.qa) {
+      const ic = { pass: '✅', warn: '⚠️', fail: '❌' };
+      $('#qa').innerHTML = `<div style="margin-bottom:6px">自動QA：<span class="pill ${j.qa.status}">${j.qa.status}</span></div><table>${j.qa.checks.map((c) => `<tr><td>${ic[c.status]}</td><td><b>${c.label}</b><br><span style="color:var(--soft)">${c.detail}</span></td></tr>`).join('')}</table>`;
+    }
+    refreshHist();
+  }
+}
+
+async function refreshHist() {
+  const list = await (await fetch('/api/jobs')).json();
+  $('#hist').innerHTML = list.length ? list.slice(0, 12).map((j) => `<a data-id="${j.id}"><span>${j.title || j.input.theme?.slice(0, 40) || j.id}</span><i>${{ running: '実行中', done: '完了', failed: '失敗', stopped: '—' }[j.state]} ${j.qa ? '・QA ' + j.qa.status : ''}</i></a>`).join('') : '<div class="empty" style="padding:14px 0">まだありません</div>';
+}
+$('#hist').addEventListener('click', (e) => { const a = e.target.closest('a'); if (a) open(a.dataset.id); });
+init();
+</script>
+</body>
+</html>

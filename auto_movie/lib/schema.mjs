@@ -39,7 +39,7 @@ export function speechIssues(text) {
  * @param {number} [o.tolerance]
  * @param {number} [o.maxIllustrations]
  */
-export function validateScript(ep, { speakers = ['host', 'guest'], charBudget, tolerance = 0.12, maxIllustrations = 5 } = {}) {
+export function validateScript(ep, { speakers = ['host', 'guest'], charBudget, tolerance = 0.12, charRange, maxIllustrations = 5 } = {}) {
   const p = [];
   if (!ep || typeof ep !== 'object') return ['JSONのオブジェクトではありません'];
   if (!isStr(ep.title, 2, 30)) p.push('title は2〜30文字の文字列にしてください');
@@ -86,6 +86,7 @@ export function validateScript(ep, { speakers = ['host', 'guest'], charBudget, t
         else if (elIds.has(e.id)) p.push(`${sc.id}: element id が重複 (${e.id})`);
         elIds.add(e?.id);
         if (!isStr(e?.what, 6, 200)) p.push(`${sc.id}/${e?.id}: what は6〜200文字（この要素の絵の説明）`);
+        if (/^(mio|nono|host|guest)$/i.test(e?.id || '') || /ミオ|ノノ/.test(`${e?.what || ''}${v.brief || ''}`)) p.push(`${sc.id}: 出演者（ミオ・ノノ）は画面の両脇に常にいるので、挿絵には描かないでください。別の人物・モノ・図で表してください (${e?.id})`);
         if (e?.idle != null && !IDLES.includes(e.idle)) p.push(`${sc.id}/${e.id}: idle は ${IDLES.join('|')} か null`);
       });
       if (!v.hero || !elIds.has(v.hero)) p.push(`${sc.id}: visual.hero は elements のどれかの id`);
@@ -99,6 +100,7 @@ export function validateScript(ep, { speakers = ['host', 'guest'], charBudget, t
       if (!isNum(v.yMax)) p.push(`${sc.id}: yMax が必要`);
     } else if (v.type === 'chart' && v.kind === 'review-curve') {
       if (!Array.isArray(v.reviews) || v.reviews.length < 1 || v.reviews.length > 4 || v.reviews.some((r) => !isNum(r))) p.push(`${sc.id}: reviews は復習する日（数値）の配列 1〜4個`);
+      else if (v.reviews.some((r, k) => r <= 0 || r >= (v.days || 40) || (k && r <= v.reviews[k - 1]))) p.push(`${sc.id}: reviews は昇順で、0より大きく days（既定40）より小さい日数にしてください`);
     } else if (v.type === 'steps') {
       if (!Array.isArray(v.items) || v.items.length < 2 || v.items.length > 4) p.push(`${sc.id}: steps.items は2〜4個`);
       (v.items || []).forEach((it, k) => {
@@ -143,13 +145,16 @@ export function validateScript(ep, { speakers = ['host', 'guest'], charBudget, t
       if (cue.op === 'steps.reveal' || cue.op === 'recap.check') { if (!Number.isInteger(cue.index) || cue.index < 0 || cue.index >= (v.items || []).length) p.push(`${cw}: index が範囲外`); else need.delete(`it:${cue.index}`); }
       if (cue.op === 'stamp' && !isStr(cue.text, 1, 8)) p.push(`${cw}: stamp.text は8字以内`);
     }
+    // the picture must start to say something quickly: the first real reveal lands within the first two lines
+    const firstReveal = (sc.cues || []).filter((c) => !['chart.axes', 'emph'].includes(c.op)).map((c) => (sc.lines || []).findIndex((l) => l.id === c.line)).filter((i) => i >= 0);
+    if (firstReveal.length && Math.min(...firstReveal) > 1) p.push(`${sc.id}: 最初の要素・点・項目が出るのが遅すぎます（${Math.min(...firstReveal) + 1}行目）。画面が長く空のままになるので、最初の2行のうちに最初の cue（chart.point / chart.bar / steps.reveal / draw など）を置いてください。説明の順番を入れ替えて構いません`);
     if (need.size) p.push(`${sc.id}: 次の項目に対応する cue がありません → ${[...need].join(', ')}（すべての要素・点・項目を、読み上げに合わせて順に出すこと）`);
   });
   (ep.outro?.lines || []).forEach((ln) => addLine(ln, 'outro'));
 
   if (illustrations > maxIllustrations) p.push(`illustration のシーンが多すぎます（${illustrations}個。${maxIllustrations}個以内）`);
   if (charBudget) {
-    const lo = Math.round(charBudget * (1 - tolerance)), hi = Math.round(charBudget * (1 + tolerance));
+    const lo = charRange ? charRange[0] : Math.round(charBudget * (1 - tolerance)), hi = charRange ? charRange[1] : Math.round(charBudget * (1 + tolerance));
     if (chars < lo) p.push(`セリフの総文字数が少なすぎます（現在${chars}字。${charBudget}字前後、最低${lo}字。あと約${charBudget - chars}字足してください）`);
     if (chars > hi) p.push(`セリフの総文字数が多すぎます（現在${chars}字。${charBudget}字前後、最大${hi}字。約${chars - charBudget}字減らしてください）`);
   }

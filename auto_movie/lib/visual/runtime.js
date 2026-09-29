@@ -140,28 +140,44 @@
     sc.cues.filter(function (c) { return c.op === 'callout'; }).forEach(function (c, i) { placeCallout(sc, c, i); });
   };
 
-  /** Callout: text near the target's bounding box + a hand-drawn arrow, both revealed at cue time. */
+  /** Callout: text near the target's bounding box + a hand-drawn arrow, revealed at cue time.
+   *  The label goes to whichever side of the target is emptiest (least overlap with the other elements, inside the stage). */
   function placeCallout(sc, c, i) {
-    var box = byId(sc.id + '-co' + i), tgt = byId(box.getAttribute('data-target')), side = box.getAttribute('data-side');
-    var stage = byId('st-' + sc.id), svg = byId(sc.id + '-ill').querySelector('svg');
+    var box = byId(sc.id + '-co' + i), tgt = byId(box.getAttribute('data-target')), side = box.getAttribute('data-side') || 'right';
+    var svg = byId(sc.id + '-ill').querySelector('svg');
     if (!tgt) return;
-    var bb = tgt.getBBox(), vb = svg.viewBox.baseVal, S = AM.stage;
-    var kx = S.w / vb.width, ky = S.h / vb.height, k = Math.min(kx, ky);
-    var offX = (S.w - vb.width * k) / 2, offY = (S.h - vb.height * k) / 2;
-    var cx = offX + (bb.x + bb.width / 2) * k, cy = offY + (bb.y + bb.height / 2) * k;
-    var bw = bb.width * k, bh = bb.height * k;
-    var tw = box.offsetWidth || 260, th = box.offsetHeight || 40;
-    var lx, ly, ax, ay, bx, by;
-    if (side === 'left') { lx = cx - bw / 2 - tw - 60; ly = cy - th / 2 - 30; ax = lx + tw + 6; ay = ly + th / 2; bx = cx - bw / 2 - 6; by = cy; }
-    else if (side === 'top') { lx = cx - tw / 2; ly = cy - bh / 2 - th - 60; ax = cx; ay = ly + th + 6; bx = cx; by = cy - bh / 2 - 6; }
-    else if (side === 'bottom') { lx = cx - tw / 2; ly = cy + bh / 2 + 50; ax = cx; ay = ly - 6; bx = cx; by = cy + bh / 2 + 6; }
-    else { lx = cx + bw / 2 + 60; ly = cy - th / 2 - 30; ax = lx - 6; ay = ly + th / 2; bx = cx + bw / 2 + 6; by = cy; }
-    lx = clamp(lx, 10, S.w - tw - 10); ly = clamp(ly, 8, S.h - th - 8);
+    var vb = svg.viewBox.baseVal, S = AM.stage;
+    var k = Math.min(S.w / vb.width, S.h / vb.height), offX = (S.w - vb.width * k) / 2, offY = (S.h - vb.height * k) / 2;
+    var toStage = function (g) { var b = g.getBBox(); return { x: offX + b.x * k, y: offY + b.y * k, w: b.width * k, h: b.height * k }; };
+    var T = toStage(tgt);
+    var others = sc.stage.elements.map(function (e) { return byId(e.dom); }).filter(function (g) { return g && g !== tgt; }).map(toStage);
+    var tw = box.offsetWidth || 260, th = box.offsetHeight || 40, cx = T.x + T.w / 2, cy = T.y + T.h / 2, gap = 56;
+    var overlap = function (a, b) { var w = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x), h = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y); return w > 0 && h > 0 ? w * h : 0; };
+    var make = function (sd) {
+      var lx, ly, ax, ay, bx, by;
+      if (sd === 'left') { lx = T.x - tw - gap; ly = cy - th / 2 - 24; ax = lx + tw + 6; ay = ly + th / 2; bx = T.x - 6; by = cy; }
+      else if (sd === 'top') { lx = cx - tw / 2; ly = T.y - th - gap; ax = cx; ay = ly + th + 6; bx = cx; by = T.y - 6; }
+      else if (sd === 'bottom') { lx = cx - tw / 2; ly = T.y + T.h + gap - 8; ax = cx; ay = ly - 6; bx = cx; by = T.y + T.h + 6; }
+      else { lx = T.x + T.w + gap; ly = cy - th / 2 - 24; ax = lx - 6; ay = ly + th / 2; bx = T.x + T.w + 6; by = cy; }
+      var rect = { x: lx, y: ly, w: tw, h: th };
+      var pen = 0;
+      if (lx < 8 || ly < 6 || lx + tw > S.w - 8 || ly + th > S.h - 6) pen += 1e6;              // outside the stage
+      others.forEach(function (o) { pen += overlap({ x: lx - 8, y: ly - 8, w: tw + 16, h: th + 16 }, o) * 2; });
+      pen += overlap(rect, T) * 3;
+      return { side: sd, lx: clamp(lx, 8, S.w - tw - 8), ly: clamp(ly, 6, S.h - th - 6), ax: ax, ay: ay, bx: bx, by: by, pen: pen };
+    };
+    var opp = { left: 'right', right: 'left', top: 'bottom', bottom: 'top' };
+    var order = [side, opp[side], 'top', 'bottom', 'left', 'right'].filter(function (v, idx, a) { return a.indexOf(v) === idx; });
+    var best = null;
+    order.forEach(function (sd, idx) { var m = make(sd); m.pen += idx * 40; if (!best || m.pen < best.pen) best = m; });
+    var lx = best.lx, ly = best.ly, bx = best.bx, by = best.by;
     box.style.left = lx + 'px'; box.style.top = ly + 'px';
     var arrows = byId(sc.id + '-arrows');
+    var horizontal = best.side === 'left' || best.side === 'right';
+    var startX = horizontal ? (best.side === 'right' ? lx - 4 : lx + tw + 4) : lx + tw / 2, startY = horizontal ? ly + th / 2 : (best.side === 'bottom' ? ly - 4 : ly + th + 4);
+    var mx = (startX + bx) / 2 + (horizontal ? 0 : 30), my = (startY + by) / 2 - 24;
     var path = document.createElementNS(NS, 'path');
-    var mx = (ax + bx) / 2 + (side === 'left' || side === 'right' ? 0 : 30), my = (ay + by) / 2 - 24;
-    path.setAttribute('d', 'M' + ax + ' ' + ay + ' Q' + mx + ' ' + my + ' ' + bx + ' ' + by);
+    path.setAttribute('d', 'M' + startX + ' ' + startY + ' Q' + mx + ' ' + my + ' ' + bx + ' ' + by);
     path.setAttribute('stroke', '#d64545'); path.setAttribute('stroke-width', '4'); path.setAttribute('fill', 'none'); path.setAttribute('stroke-linecap', 'round'); path.setAttribute('pathLength', '1');
     arrows.appendChild(path);
     var dx = bx - mx, dy = by - my, L = Math.hypot(dx, dy) || 1; dx /= L; dy /= L;
@@ -361,6 +377,11 @@
     var span = hl.querySelector('span');
     tl.fromTo(hl, { y: 26, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: EASE_OUT, immediateRender: true }, sc.start + 0.1);
     tl.fromTo(span, { '--mk': 0 }, { '--mk': 1, duration: 0.5, ease: 'power2.out', immediateRender: true }, sc.start + 0.45);
+    if (sc.type !== 'illustration') { // a barely-there drift keeps still diagrams alive (and video compression honest)
+      var stg = byId('st-' + sc.id);
+      gsap.set(stg, { transformOrigin: '50% 45%' });
+      tl.fromTo(stg, { scale: 1, y: 0 }, { scale: 1.016, y: -3, duration: sc.end - sc.start, ease: 'none', immediateRender: true }, sc.start);
+    }
     var kind = sc.stage.kind, type = sc.type;
     var fn = type === 'illustration' ? ANIM.illustration : type === 'chart' ? ANIM[kind] : ANIM[type];
     if (fn) fn(sc);

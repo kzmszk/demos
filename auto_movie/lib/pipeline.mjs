@@ -27,9 +27,9 @@ export function fitSpeed({ episode, voice, targetSec, cfg = {} }) {
   const kLow = need(c.outroTailMin), kHigh = need(c.outroTailMax);
   let k = 1, why = 'natural length fits (credits absorb the slack)';
   if (kLow > 1) { k = kLow; why = 'speeding up to fit'; } else if (kHigh < 1) { k = kHigh; why = 'slowing down to fill'; }
-  const ok = k >= 0.9 && k <= 1.14;
+  const ok = k >= 0.92 && k <= 1.09;
   return { k: round(k, 4), ok, why, natural: base.stats.natural, speechSec: speech, kRange: [round(kLow, 3), round(kHigh, 3)],
-    advice: ok ? null : k > 1.14 ? `台本が長すぎます（あと約${Math.round((speech - speech / 1.1) * 6.6)}文字ほど減らす）` : `台本が短すぎます（あと約${Math.round((speech / 0.92 - speech) * 6.6)}文字ほど足す）` };
+    advice: ok ? null : k > 1.09 ? `台本が長すぎます（あと約${Math.round((speech - speech / 1.1) * 6.6)}文字ほど減らす）` : `台本が短すぎます（あと約${Math.round((speech / 0.92 - speech) * 6.6)}文字ほど足す）` };
 }
 
 // ---- stages ----------------------------------------------------------------------------------------------
@@ -41,13 +41,15 @@ export async function stageVoice({ episode, series, runDir, provider }) {
   return voice;
 }
 
-export function stageTimeline({ episode, voice, targetSec, runDir, cfg }) {
+export function stageTimeline({ episode, voice, targetSec, runDir, cfg, speedRange = [0.92, 1.09] }) {
   const fit = fitSpeed({ episode, voice, targetSec, cfg });
-  log('fit', `speed ×${fit.k} (${fit.why}); natural ${fit.natural}s of ${targetSec}s`);
-  const { timeline, stats } = compileTimeline({ episode, voice, targetSec, speed: fit.k, cfg });
-  writeJSON(path.join(runDir, 'timeline.json'), { ...timeline, speed: fit.k });
-  writeJSON(path.join(runDir, 'fit.json'), { ...fit, stats });
-  return { timeline, speed: fit.k, fit, stats };
+  // when the script is not to be rewritten (a voice swap), accept whatever tempo change is needed within a wider range
+  const speed = Math.min(speedRange[1], Math.max(speedRange[0], fit.k));
+  log('fit', `speed ×${fit.k}${speed !== fit.k ? ` → limited to ×${speed}` : ''} (${fit.why}); natural ${fit.natural}s of ${targetSec}s`);
+  const { timeline, stats } = compileTimeline({ episode, voice, targetSec, speed, cfg });
+  writeJSON(path.join(runDir, 'timeline.json'), { ...timeline, speed });
+  writeJSON(path.join(runDir, 'fit.json'), { ...fit, usedSpeed: speed, stats });
+  return { timeline, speed, fit, stats };
 }
 
 export function stageMusic({ episode, timeline, series, runDir, seed }) {
@@ -114,7 +116,7 @@ export async function stageRender({ runDir, quality = 'looks', out, fps = 30, wo
 }
 
 /** Everything after the script exists: voice → timeline → music → mix → project. */
-export async function buildFromScript({ episode, series, runDir, targetSec = 180, provider = 'voicevox', episodeNo = 1, seed, cfg }) {
+export async function buildFromScript({ episode, series, runDir, targetSec = 180, provider = 'voicevox', episodeNo = 1, seed, cfg, style }) {
   ensureDir(runDir);
   writeJSON(path.join(runDir, 'script.json'), episode);
   const voice = await stageVoice({ episode, series, runDir, provider });
@@ -122,6 +124,6 @@ export async function buildFromScript({ episode, series, runDir, targetSec = 180
   if (!fit.ok) log('fit', `WARNING: ${fit.advice}`);
   const music = stageMusic({ episode, timeline, series, runDir, seed });
   const mix = await stageMix({ timeline, voice, bgm: music.audio, runDir, speed, series });
-  const project = await stageCompose({ episode, timeline, series, runDir, audioFile: mix.masterPath, episodeNo });
+  const project = await stageCompose({ episode, timeline, series, runDir, audioFile: mix.masterPath, episodeNo, style });
   return { voice, timeline, speed, fit, stats, music, mix, project };
 }

@@ -51,7 +51,7 @@ function activityCurve(lines, duration, ctrl = 200, pre = 0.12, post = 0.3, atta
   return out;
 }
 
-export async function mixdown({ timeline, voice, bgm, outDir, speed = 1, cast, targetLufs = -16, duckDb = 6, soloBoostDb = 3, bgmBelowVoiceDb = 21, sfxBelowVoiceDb = 17 }) {
+export async function mixdown({ timeline, voice, bgm, outDir, speed = 1, cast, targetLufs = -16, duckDb = 5, soloBoostDb = 4, bgmBelowVoiceDb = 10, sfxBelowVoiceDb = 14 }) {
   ensureDir(outDir);
   const dur = timeline.duration;
   const lines = [...timeline.scenes.flatMap((s) => s.lines), ...timeline.outro.lines];
@@ -99,10 +99,10 @@ export async function mixdown({ timeline, voice, bgm, outDir, speed = 1, cast, t
     if (!gen) continue;
     place(sbus, gen(e.seed, SR, e.dur), Math.round(e.t * SR), e.gain, r.range(-0.25, 0.25));
   }
-  const sRms = Math.max(1e-6, rms(sbus, 0, nAll));
-  // scale so that a typical effect sits sfxBelowVoiceDb under speech; effects are sparse, so normalise by peak-ish RMS of active parts
-  const sfxGain = (vRms * fromDb(-sfxBelowVoiceDb)) / Math.max(sRms * 6, 1e-6) * 0.9;
-  for (const ch of sbus) for (let i = 0; i < ch.length; i++) ch[i] *= Math.min(sfxGain, 8);
+  // effects are sparse, so scale by peak: the loudest effect sits sfxBelowVoiceDb under the voice's peak
+  const peakOf = (chs) => chs.reduce((m, c) => { let p = m; for (let i = 0; i < nAll && i < c.length; i++) { const a = Math.abs(c[i]); if (a > p) p = a; } return p; }, 0);
+  const sfxGain = (peakOf(vch) * fromDb(-sfxBelowVoiceDb)) / Math.max(peakOf(sbus), 1e-6);
+  for (const ch of sbus) for (let i = 0; i < ch.length; i++) ch[i] *= sfxGain;
   const sch = sbus.map((c) => c.slice(0, nAll));
 
   const stems = { voice: { rate: SR, channels: vch }, bgm: { rate: SR, channels: bch }, sfx: { rate: SR, channels: sch } };

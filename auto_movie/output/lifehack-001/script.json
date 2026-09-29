@@ -1,0 +1,791 @@
+{
+  "title": "忘れない復習のタイミング",
+  "subtitle": "1日後・1週間後・1か月後に「思い出す」",
+  "characters": [
+    {
+      "id": "student",
+      "name": "学生",
+      "desc": "肩までの黒髪のボブ、丸い眼鏡、紺色のパーカー、机にノートとスマホを置いている、きれいな顔立ちの女性"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "s1",
+      "role": "hook",
+      "mood": "curious",
+      "energy": 0.3,
+      "headline": "昨日覚えたのに、もう忘れた！？",
+      "visual": {
+        "type": "illustration",
+        "brief": "机に向かう学生が、開いたノートを前に頭をかかえている。頭の上に大きなはてなマークが浮かび、昨日覚えたことが思い出せない様子。",
+        "elements": [
+          {
+            "id": "desk",
+            "what": "ノートとスマホが置かれた木の机",
+            "idle": null
+          },
+          {
+            "id": "student",
+            "character": "student",
+            "what": "机に向かって頭をかかえ、困った顔をしている学生",
+            "idle": "sway"
+          },
+          {
+            "id": "question",
+            "what": "学生の頭上に浮かぶ大きなはてなマーク",
+            "idle": "float"
+          }
+        ],
+        "hero": "student"
+      },
+      "lines": [
+        {
+          "id": "s1l1",
+          "who": "host",
+          "text": "ノノ、昨日の勉強、覚えていますか？",
+          "emotion": "normal"
+        },
+        {
+          "id": "s1l2",
+          "who": "guest",
+          "emotion": "surprised",
+          "text": "えっ、昨日は完璧だったのに、もう半分も出てこないのだ！"
+        },
+        {
+          "id": "s1l3",
+          "who": "host",
+          "text": "ふふ、それは誰にでもある話ですよ。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s1l4",
+          "who": "guest",
+          "text": "ボクの頭、穴があいてるのだ？",
+          "emotion": "normal"
+        },
+        {
+          "id": "s1l5",
+          "who": "host",
+          "text": "大丈夫。復習のタイミングで変わりますわ。",
+          "emotion": "normal"
+        }
+      ],
+      "cues": [
+        {
+          "line": "s1l1",
+          "at": "start",
+          "op": "draw",
+          "target": "desk"
+        },
+        {
+          "line": "s1l1",
+          "after": "覚えていますか",
+          "op": "draw",
+          "target": "student"
+        },
+        {
+          "line": "s1l2",
+          "after": "もう半分",
+          "op": "pop",
+          "target": "question"
+        },
+        {
+          "line": "s1l4",
+          "after": "穴があいてる",
+          "op": "emph",
+          "target": "student"
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "role": "problem",
+      "mood": "focused",
+      "energy": 0.4,
+      "headline": "忘れるのは最初の1日が急",
+      "visual": {
+        "type": "chart",
+        "kind": "line",
+        "xLabel": "覚えてからの時間",
+        "yLabel": "覚えている割合",
+        "unit": "%",
+        "yMax": 100,
+        "points": [
+          {
+            "x": "20分後",
+            "y": 58
+          },
+          {
+            "x": "1時間後",
+            "y": 44
+          },
+          {
+            "x": "1日後",
+            "y": 34
+          },
+          {
+            "x": "6日後",
+            "y": 25
+          },
+          {
+            "x": "31日後",
+            "y": 21
+          }
+        ],
+        "note": "エビングハウス 1885年"
+      },
+      "lines": [
+        {
+          "id": "s2l1",
+          "who": "host",
+          "text": "エビングハウスが1885年に測った、忘れ方の記録です。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s2l2",
+          "who": "guest",
+          "text": "20分後で、もう58%なのだ？",
+          "emotion": "normal"
+        },
+        {
+          "id": "s2l3",
+          "who": "host",
+          "text": "意味のない文字の並びを覚えたんです。1時間後は44%。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s2l4",
+          "who": "guest",
+          "emotion": "surprised",
+          "text": "えっ、1日後には34%なのだ！"
+        },
+        {
+          "id": "s2l5",
+          "who": "host",
+          "text": "最初の1日で、約3分の2が消えるんですね。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s2l6",
+          "who": "guest",
+          "text": "6日後で25%、そこからはゆっくりなのだ。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s2l7",
+          "who": "host",
+          "text": "31日後でも21%。意味のある内容なら、もっと残りますよ。",
+          "emotion": "normal"
+        }
+      ],
+      "cues": [
+        {
+          "line": "s2l1",
+          "at": "start",
+          "op": "chart.axes"
+        },
+        {
+          "line": "s2l2",
+          "at": "start",
+          "op": "chart.point",
+          "index": 0
+        },
+        {
+          "line": "s2l3",
+          "after": "1時間後",
+          "op": "chart.point",
+          "index": 1
+        },
+        {
+          "line": "s2l4",
+          "after": "1日後",
+          "op": "chart.point",
+          "index": 2
+        },
+        {
+          "line": "s2l5",
+          "after": "約3分の2",
+          "op": "chart.callout",
+          "index": 2,
+          "text": "1日で3分の2が消える"
+        },
+        {
+          "line": "s2l6",
+          "at": "start",
+          "op": "chart.point",
+          "index": 3
+        },
+        {
+          "line": "s2l7",
+          "at": "start",
+          "op": "chart.point",
+          "index": 4
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "role": "evidence",
+      "mood": "curious",
+      "energy": 0.45,
+      "headline": "間隔をあけると落ち方が緩やかに",
+      "visual": {
+        "type": "chart",
+        "kind": "review-curve",
+        "xLabel": "日数",
+        "yLabel": "覚えている度合い",
+        "reviews": [
+          1,
+          7,
+          30
+        ],
+        "days": 40,
+        "reviewLabels": [
+          "1日後",
+          "1週間後",
+          "1か月後"
+        ],
+        "note": "イメージ図（実測値ではありません）"
+      },
+      "lines": [
+        {
+          "id": "s3l1",
+          "who": "host",
+          "text": "点線が、何もしなかった場合です。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s3l2",
+          "who": "guest",
+          "text": "じゃあ、1日後に復習すると？",
+          "emotion": "normal"
+        },
+        {
+          "id": "s3l3",
+          "who": "host",
+          "text": "カーブが持ち直しますね。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s3l4",
+          "who": "guest",
+          "emotion": "thinking",
+          "text": "1週間後、1か月後と、どんどん長持ちなのだ。"
+        },
+        {
+          "id": "s3l5",
+          "who": "host",
+          "text": "復習するたびに、次に忘れるまでの時間が伸びるんです。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s3l6",
+          "who": "guest",
+          "text": "まとめてやるより、分けるほうがいいのだ？",
+          "emotion": "normal"
+        },
+        {
+          "id": "s3l7",
+          "who": "host",
+          "text": "ええ。分散効果といって、多くの研究で確かめられていますよ。",
+          "emotion": "normal"
+        }
+      ],
+      "cues": [
+        {
+          "line": "s3l1",
+          "at": "start",
+          "op": "chart.axes"
+        },
+        {
+          "line": "s3l1",
+          "after": "何もしなかった",
+          "op": "chart.line"
+        },
+        {
+          "line": "s3l2",
+          "after": "1日後",
+          "op": "chart.review",
+          "index": 0
+        },
+        {
+          "line": "s3l4",
+          "at": "start",
+          "op": "chart.review",
+          "index": 1
+        },
+        {
+          "line": "s3l4",
+          "after": "1か月後",
+          "op": "chart.review",
+          "index": 2
+        },
+        {
+          "line": "s3l7",
+          "after": "分散効果",
+          "op": "stamp",
+          "text": "分散効果"
+        }
+      ]
+    },
+    {
+      "id": "s4",
+      "role": "method",
+      "mood": "uplift",
+      "energy": 0.55,
+      "headline": "復習は1日後・1週間後・1か月後",
+      "visual": {
+        "type": "steps",
+        "items": [
+          {
+            "label": "1日後",
+            "sub": "急に忘れる前に1回目",
+            "icon": "calendar"
+          },
+          {
+            "label": "1週間後",
+            "sub": "少し忘れかけたころに2回目",
+            "icon": "clock"
+          },
+          {
+            "label": "1か月後",
+            "sub": "長く残すための3回目",
+            "icon": "star"
+          }
+        ]
+      },
+      "lines": [
+        {
+          "id": "s4l1",
+          "who": "host",
+          "text": "おすすめの目安は、この3つです。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s4l2",
+          "who": "guest",
+          "text": "まずは1日後なのだ？",
+          "emotion": "normal"
+        },
+        {
+          "id": "s4l3",
+          "who": "host",
+          "text": "はい。記憶が急に落ちる前に、1回目です。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s4l4",
+          "who": "guest",
+          "text": "次が1週間後、最後が1か月後なのだ。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s4l5",
+          "who": "host",
+          "text": "そうです。ただ、厳密な定説ではなく、使いやすい目安ですよ。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s4l6",
+          "who": "guest",
+          "emotion": "happy",
+          "text": "ざっくりでいいなら、ボクにもできそうなのだ！"
+        }
+      ],
+      "cues": [
+        {
+          "line": "s4l2",
+          "at": "start",
+          "op": "steps.reveal",
+          "index": 0
+        },
+        {
+          "line": "s4l4",
+          "after": "1週間後",
+          "op": "steps.reveal",
+          "index": 1
+        },
+        {
+          "line": "s4l4",
+          "after": "1か月後",
+          "op": "steps.reveal",
+          "index": 2
+        }
+      ]
+    },
+    {
+      "id": "s5",
+      "role": "evidence",
+      "mood": "focused",
+      "energy": 0.5,
+      "headline": "読み返すより「思い出す」",
+      "visual": {
+        "type": "chart",
+        "kind": "bar",
+        "unit": "%",
+        "yMax": 100,
+        "yLabel": "1週間後の正答率",
+        "bars": [
+          {
+            "label": "読み直すだけ",
+            "value": 40
+          },
+          {
+            "label": "思い出す練習",
+            "value": 61,
+            "hero": true
+          }
+        ],
+        "note": "2006年の実験より"
+      },
+      "lines": [
+        {
+          "id": "s5l1",
+          "who": "host",
+          "text": "次は、復習のやり方です。1週間後のテストの結果ですよ。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s5l2",
+          "who": "guest",
+          "text": "読み直すだけだと、40%なのだ？",
+          "emotion": "normal"
+        },
+        {
+          "id": "s5l3",
+          "who": "host",
+          "text": "ええ。思い出す練習をしたほうは、61%でした。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s5l4",
+          "who": "guest",
+          "emotion": "surprised",
+          "text": "ほんとなのだ？ 全然ちがうのだ！"
+        },
+        {
+          "id": "s5l5",
+          "who": "host",
+          "text": "しかも、5分後のテストでは、読み直しのほうが上だったんです。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s5l6",
+          "who": "guest",
+          "emotion": "thinking",
+          "text": "えっ、あとで逆転したのだ？"
+        },
+        {
+          "id": "s5l7",
+          "who": "host",
+          "text": "読み直すと、分かった気になるんですね。",
+          "emotion": "normal"
+        }
+      ],
+      "cues": [
+        {
+          "line": "s5l1",
+          "at": "start",
+          "op": "chart.axes"
+        },
+        {
+          "line": "s5l2",
+          "at": "start",
+          "op": "chart.bar",
+          "index": 0
+        },
+        {
+          "line": "s5l3",
+          "after": "思い出す練習",
+          "op": "chart.bar",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": "s6",
+      "role": "example",
+      "mood": "warm",
+      "energy": 0.45,
+      "headline": "ノートを閉じて書き出す5分",
+      "visual": {
+        "type": "illustration",
+        "brief": "机の前の学生が、閉じたノートを脇に置き、白い紙に思い出した要点を書き出している。紙の横に赤ペンの丸つけで答え合わせをした跡がある。",
+        "elements": [
+          {
+            "id": "student",
+            "character": "student",
+            "what": "ペンを持って白い紙に書き込んでいる学生",
+            "idle": "sway"
+          },
+          {
+            "id": "notebook",
+            "what": "机の脇に置かれた、閉じたノート",
+            "idle": null
+          },
+          {
+            "id": "paper",
+            "what": "要点が箇条書きで書き出された白い紙",
+            "idle": null
+          },
+          {
+            "id": "check",
+            "what": "紙の上の赤ペンの丸つけ",
+            "idle": "pulse"
+          }
+        ],
+        "hero": "paper"
+      },
+      "lines": [
+        {
+          "id": "s6l1",
+          "who": "host",
+          "text": "やり方は簡単。まずノートを閉じます。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s6l2",
+          "who": "guest",
+          "text": "閉じちゃうのだ？",
+          "emotion": "normal"
+        },
+        {
+          "id": "s6l3",
+          "who": "host",
+          "text": "白い紙に、覚えている要点を書き出すんです。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s6l4",
+          "who": "guest",
+          "text": "そのあとで、答え合わせなのだ。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s6l5",
+          "who": "host",
+          "text": "ええ。1回5分ほどで十分ですよ。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s6l6",
+          "who": "guest",
+          "emotion": "sad",
+          "text": "思い出せなかったら、どうするのだ？"
+        },
+        {
+          "id": "s6l7",
+          "who": "host",
+          "emotion": "happy",
+          "text": "思い出そうとする努力にも、効果がありますわ。"
+        }
+      ],
+      "cues": [
+        {
+          "line": "s6l1",
+          "at": "start",
+          "op": "draw",
+          "target": "student"
+        },
+        {
+          "line": "s6l1",
+          "after": "ノートを閉じます",
+          "op": "draw",
+          "target": "notebook"
+        },
+        {
+          "line": "s6l3",
+          "after": "白い紙",
+          "op": "draw",
+          "target": "paper"
+        },
+        {
+          "line": "s6l4",
+          "after": "答え合わせ",
+          "op": "pop",
+          "target": "check"
+        },
+        {
+          "line": "s6l5",
+          "after": "1回5分",
+          "op": "callout",
+          "target": "paper",
+          "text": "1回5分で十分",
+          "side": "right"
+        },
+        {
+          "line": "s6l7",
+          "after": "努力",
+          "op": "emph",
+          "target": "student"
+        }
+      ]
+    },
+    {
+      "id": "s7",
+      "role": "howto",
+      "mood": "playful",
+      "energy": 0.6,
+      "headline": "勉強した日にカレンダーへ3つ",
+      "visual": {
+        "type": "steps",
+        "items": [
+          {
+            "label": "勉強した日",
+            "sub": "スマホのカレンダーを開く",
+            "icon": "phone"
+          },
+          {
+            "label": "予定を3つ",
+            "sub": "1日後・1週間後・1か月後",
+            "icon": "calendar"
+          },
+          {
+            "label": "通知が来たら",
+            "sub": "5分だけ思い出して書き出す",
+            "icon": "check"
+          }
+        ]
+      },
+      "lines": [
+        {
+          "id": "s7l1",
+          "who": "host",
+          "text": "最後のコツは、勉強したその日に予定を入れること。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s7l2",
+          "who": "guest",
+          "text": "スマホのカレンダーに、3つ入れるのだ？",
+          "emotion": "normal"
+        },
+        {
+          "id": "s7l3",
+          "who": "host",
+          "text": "はい。通知が来たら、5分だけ思い出す。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s7l4",
+          "who": "guest",
+          "emotion": "happy",
+          "text": "予定にしちゃえば、忘れようがないのだ！"
+        }
+      ],
+      "cues": [
+        {
+          "line": "s7l1",
+          "after": "その日",
+          "op": "steps.reveal",
+          "index": 0
+        },
+        {
+          "line": "s7l2",
+          "after": "3つ",
+          "op": "steps.reveal",
+          "index": 1
+        },
+        {
+          "line": "s7l3",
+          "after": "通知",
+          "op": "steps.reveal",
+          "index": 2
+        }
+      ]
+    },
+    {
+      "id": "s8",
+      "role": "recap",
+      "mood": "resolve",
+      "energy": 0.5,
+      "headline": "今日のまとめ",
+      "visual": {
+        "type": "recap",
+        "items": [
+          {
+            "text": "最初の1日で急に忘れる"
+          },
+          {
+            "text": "1日後・1週間後・1か月後に復習"
+          },
+          {
+            "text": "読み返さずに思い出す"
+          },
+          {
+            "text": "予定はその日にカレンダーへ"
+          }
+        ]
+      },
+      "lines": [
+        {
+          "id": "s8l1",
+          "who": "host",
+          "text": "今日のまとめです。最初の1日で、急に忘れる。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s8l2",
+          "who": "guest",
+          "text": "1日後、1週間後、1か月後に復習なのだ。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s8l3",
+          "who": "host",
+          "text": "読み返さずに、思い出す。",
+          "emotion": "normal"
+        },
+        {
+          "id": "s8l4",
+          "who": "guest",
+          "text": "予定はその日にカレンダーへ、なのだ！",
+          "emotion": "normal"
+        }
+      ],
+      "cues": [
+        {
+          "line": "s8l1",
+          "after": "最初の1日",
+          "op": "recap.check",
+          "index": 0
+        },
+        {
+          "line": "s8l2",
+          "at": "start",
+          "op": "recap.check",
+          "index": 1
+        },
+        {
+          "line": "s8l3",
+          "at": "start",
+          "op": "recap.check",
+          "index": 2
+        },
+        {
+          "line": "s8l4",
+          "at": "start",
+          "op": "recap.check",
+          "index": 3
+        }
+      ]
+    }
+  ],
+  "outro": {
+    "lines": [
+      {
+        "id": "o1",
+        "who": "host",
+        "emotion": "happy",
+        "text": "今日から試してみてくださいね。"
+      },
+      {
+        "id": "o2",
+        "who": "guest",
+        "text": "またなのだ！",
+        "emotion": "normal"
+      }
+    ]
+  },
+  "style": "podcast-duo"
+}

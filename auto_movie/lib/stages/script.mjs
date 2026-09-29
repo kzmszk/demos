@@ -6,7 +6,7 @@ import { validateScript, normalizeScript, countChars, visualKey } from '../schem
 import { castFor } from '../styles.mjs';
 
 const CPS = 6.65;              // spoken characters per second (VOICEVOX at the series' speed, pauses excluded)
-const LINE_AVG = 26;           // average characters per line
+const LINE_AVG = 21;           // average characters per line (LLM scripts use short lines → more pauses)
 const FIXED_SEC = 4.4 + 3.8;   // intro + credits hold
 
 /** How many spoken characters make the video exactly `lengthSec` long with `scenes` scenes. */
@@ -36,7 +36,7 @@ function castBlock(cast) {
 export async function makeScript({ plan, series, style, sourcesText, lengthSec, runDir, maxIllustrations = 4 }) {
   const cast = castFor(series, style);
   const budget = charBudget(lengthSec, plan.scenes.length);
-  const lo = Math.round(budget * 0.9), hi = Math.round(budget * 1.1);
+  const lo = Math.round(budget * 0.88), hi = Math.round(budget * 1.04); // long scripts need speeding up (unnatural); short ones only stretch the credits
   const prompt = readText(path.join(ROOT, 'prompts', 'script.md'))
     .replace('{{PLAN}}', JSON.stringify(plan, null, 1))
     .replace('{{SOURCES}}', sourcesText)
@@ -47,7 +47,7 @@ export async function makeScript({ plan, series, style, sourcesText, lengthSec, 
     .replace('{{TITLE}}', plan.title).replace('{{SUBTITLE}}', plan.subtitle)
     .replace('{{WHO}}', style.speakers.join(' / '));
   log('script', `target ${budget} chars (${lo}–${hi}) for ${lengthSec}s, ${plan.scenes.length} scenes`);
-  const validate = (o) => [...validateScript(o, { speakers: style.speakers, charBudget: budget, tolerance: 0.1, maxIllustrations }), ...crossCheck(o, plan)];
+  const validate = (o) => [...validateScript(o, { speakers: style.speakers, charBudget: budget, charRange: [lo, hi], maxIllustrations }), ...crossCheck(o, plan)];
   const r = await askJSON({ prompt, tag: 'script', dir: runDir, model: 'best', validate, repairs: 3 });
   const ep = normalizeScript(r.data);
   if (!ep.characters?.length) ep.characters = plan.characters || [];
@@ -60,12 +60,12 @@ export async function makeScript({ plan, series, style, sourcesText, lengthSec, 
 /** Ask the model to lengthen/shorten an existing script by about `deltaChars` while keeping its structure and cues. */
 export async function reviseLength({ episode, plan, series, style, direction, deltaChars, sourcesText, lengthSec, runDir, round = 1 }) {
   const budget = charBudget(lengthSec, episode.scenes.length);
-  const prompt = `次の動画台本（JSON）の長さを調整してください。セリフの総文字数は今 ${countChars(episode)} 字ですが、${budget} 字前後（${Math.round(budget * 0.95)}〜${Math.round(budget * 1.05)}字）にしたいのです。` +
+  const prompt = `次の動画台本（JSON）の長さを調整してください。セリフの総文字数は今 ${countChars(episode)} 字ですが、${budget} 字前後（${Math.round(budget * 0.92)}〜${Math.round(budget * 1.02)}字）にしたいのです。` +
     `${direction === 'shorter' ? `約${deltaChars}字減らして` : `約${deltaChars}字ぶん、内容を足して`}ください。\n` +
     `- シーン構成・visual・要素・cues の意味は変えない（セリフを変えたら、cue の after は新しい text に含まれる語句に直す）。\n` +
     `- ${direction === 'shorter' ? '重複した説明や言い回しを削る。数字や要点は残す' : '聞き役の質問、たとえ話、具体例を足す。新しい事実は参考資料にあるものだけ'}。\n` +
     `- 口調と文体（出演者の口調）はそのまま。行の id は変えず、足す場合は新しい id を付ける。\n\n■ 参考資料\n${sourcesText}\n\n■ 現在の台本\n${JSON.stringify(episode)}\n\nJSONだけを出力してください。`;
-  const validate = (o) => [...validateScript(o, { speakers: style.speakers, charBudget: budget, tolerance: 0.07, maxIllustrations: 4 }), ...crossCheck(o, plan)];
+  const validate = (o) => [...validateScript(o, { speakers: style.speakers, charBudget: budget, charRange: [Math.round(budget * 0.92), Math.round(budget * 1.02)], maxIllustrations: 4 }), ...crossCheck(o, plan)];
   const r = await askJSON({ prompt, tag: `revise-${round}`, dir: runDir, model: 'best', validate, repairs: 2 });
   const ep = normalizeScript(r.data);
   ep.characters = episode.characters; ep.style = episode.style;

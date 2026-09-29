@@ -16,14 +16,32 @@ const walkStrings = (o, out = []) => {
   return out;
 };
 
-/** Split an episode title into 1–2 display lines (break after 、 or at the middle). */
+/**
+ * Split an episode title into 1–2 display lines: short titles stay on one line; otherwise break after 、 or at the most
+ * balanced Japanese word boundary (never inside a word), preferring to break after a particle.
+ */
 export function splitTitle(title) {
   const t = title.trim();
   const m = t.match(/^(.+?[、,，。！？!?：:])(.+)$/);
   if (m && m[2].length >= 2) return [m[1], m[2]];
-  if (t.length <= 7) return [t];
-  const mid = Math.ceil(t.length / 2);
-  return [t.slice(0, mid), t.slice(mid)];
+  if (t.length <= 9) return [t];
+  const boundaries = new Set();
+  let acc = 0;
+  for (const w of new Intl.Segmenter('ja', { granularity: 'word' }).segment(t)) { acc += w.segment.length; boundaries.add(acc); }
+  const numSym = (c) => /[0-9０-９%％〜~\-.,:/+]/.test(c);
+  const startsWord = (c) => /[\u4e00-\u9fff\u30a0-\u30ffA-Za-z0-9]/.test(c);
+  let best = null;
+  for (const pos of boundaries) {
+    if (pos <= 1 || pos >= t.length - 1) continue;
+    if (/[、。！？」）]/.test(t[pos])) continue;
+    if (numSym(t[pos - 1]) && numSym(t[pos])) continue;
+    const afterParticle = /[はがをにでとのもへ]/.test(t[pos - 1]);
+    if (!startsWord(t[pos])) continue;                 // only break before a kanji / katakana / alphanumeric word start
+    const score = Math.abs(pos - (t.length - pos)) - (afterParticle ? 0.75 : 0);
+    if (!best || score < best.score) best = { pos, score };
+  }
+  const cut = best ? best.pos : Math.ceil(t.length / 2);
+  return [t.slice(0, cut), t.slice(cut)];
 }
 
 const t3 = (x) => (Math.round(x * 1000) / 1000).toString();
@@ -93,7 +111,7 @@ export async function buildProject({ episode, timeline, series, runDir, projectD
   const no = String(episodeNo).padStart(3, '0');
   const introHTML = `<section class="clip card" id="intro" data-start="0" data-duration="${t3(timeline.intro.end + 0.35)}" data-track-index="8">
     <div class="kicker" id="in-kick"><b>${esc(series.name)}</b>　No.${no}</div>
-    <div class="big" id="in-big" data-layout-allow-overlap style="font-size:${bigPx}px;top:${Math.round(H * 0.5 - bigPx * (t2 ? 1.05 : 0.6))}px"><span class="ln" id="in-l1"><i class="mk" style="opacity:${t2 ? 0 : 1}"></i>${esc(t1)}</span>${t2 ? `<br><span class="ln" id="in-l2"><i class="mk"></i>${esc(t2)}</span>` : ''}</div>
+    <div class="big" id="in-big" data-layout-allow-overlap style="font-size:${bigPx}px;top:${Math.round(H * 0.5 - bigPx * (t2 ? 1.05 : 0.6))}px"><span class="ln" id="in-l1" data-layout-allow-overlap><i class="mk" style="opacity:${t2 ? 0 : 1}"></i>${esc(t1)}</span>${t2 ? `<br><span class="ln" id="in-l2" data-layout-allow-overlap><i class="mk"></i>${esc(t2)}</span>` : ''}</div>
     <div class="bar" id="in-bar" style="top:${Math.round(H * 0.5 + bigPx * (t2 ? 1.25 : 0.55))}px"></div>
     <div class="sub" id="in-sub" style="top:${Math.round(H * 0.5 + bigPx * (t2 ? 1.25 : 0.55)) + 34}px">${esc(episode.subtitle || series.tagline || '')}</div>
   </section>\n`;

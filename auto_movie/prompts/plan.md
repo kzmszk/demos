@@ -36,9 +36,10 @@
   "hack": "取り上げる題材を1文で",
   "takeaway": "視聴者が持ち帰る一言",
   "facts": [ { "id": "f1", "text": "事実（数字を含めて）", "source": "資料のどこか／一般知識", "confidence": "high" } ],
-  "characters": [ { "id": "student", "name": "学生", "desc": "絵に描く人物の見た目（髪型・眼鏡・服など。きれいな女性は「きれいな顔立ち」と書く）" } ],
+  "characters": [ { "id": "student", "name": "学生", "desc": "挿絵に登場する人物の見た目（髪型・眼鏡・服など。きれいな女性は「きれいな顔立ち」と書く）" } ],
   "scenes": [
     { "id": "s1", "role": "hook", "headline": "見出し（22字以内）", "seconds": 22, "visual": "illustration", "mood": "curious", "energy": 0.3, "purpose": "このシーンで何を伝えるか", "facts": ["f1"] }
   ]
 }
+characters は「挿絵に何度も出てくる人物」だけ（出演者のミオ・ノノは画面の両脇に常にいるので、挿絵には描かない。含めない）。人物が要らなければ空配列。
 mood は warm | curious | focused | playful | uplift | resolve | calm のどれか（BGMの雰囲気）。energy は 0〜1（つかみ・落ち着いた説明は低め、盛り上がる所は高め）。role は hook | problem | method | howto | evidence | example | recap。

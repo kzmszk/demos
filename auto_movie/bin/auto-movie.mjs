@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // auto-movie CLI
+//   auto-movie make --seed examples/lifehack-001/seed.json --run <id>      (theme, length, sources and style from a seed file)
 //   auto-movie make --theme "…" [--length 3] [--sources a.md b.md] [--style auto|podcast-duo|monologue|entertainment]
-//                   [--tts voicevox|gemini|mock] [--quality draft|looks|delivery] [--run <id>] [--out output/x.mp4] [--force plan,script,…]
+//                   [--tts voicevox|gemini|mock] [--quality draft|looks|delivery] [--run <id>] [--out output/x.mp4] [--force plan,script,…] [--keep-script]
 //   auto-movie build <script.json> --run <id>       (script → video, skipping the LLM stages)
 //   auto-movie voicevox [start|status|stop]         manage the local VOICEVOX engine (Docker)
 //   auto-movie qa <runDir> [--target 180]           re-run the automated QA on a rendered run
@@ -26,13 +27,24 @@ const slug = (s) => s.toLowerCase().replace(/[^a-z0-9぀-ヿ一-鿿]+/g, '-').re
 async function main() {
   if (cmd === 'make') {
     const { make } = await import('../lib/make.mjs');
-    if (!flags.theme) throw new Error('--theme is required');
+    // a seed file bundles theme / length / sources / style; explicit flags override it
+    let seed = {};
+    if (flags.seed) {
+      const f = path.resolve(String(flags.seed));
+      seed = readJSON(f);
+      seed.sources = (seed.sources || []).map((s) => (/^https?:/.test(s) || !fs.existsSync(path.resolve(path.dirname(f), s)) ? s : path.resolve(path.dirname(f), s)));
+    }
+    if (!flags.theme && !seed.theme) throw new Error('--theme (or --seed with a theme) is required');
+    flags.theme = flags.theme || seed.theme;
+    flags.style = flags.style || seed.style; flags.series = flags.series || seed.series;
+    flags.sources = flags.sources ? flags.sources : seed.sources;
+    if (!flags.seconds && !flags.length && seed.lengthSec) flags.seconds = String(seed.lengthSec);
     const lengthSec = flags.seconds ? +flags.seconds : Math.round((flags.length ? +flags.length : 3) * 60);
     const runId = flags.run || `${slug(String(flags.theme))}-${new Date().toISOString().slice(0, 16).replace(/[-:T]/g, '')}`;
     const s = await make({
       theme: String(flags.theme), lengthSec, sources: arr(flags.sources), style: flags.style || 'auto', series: flags.series || 'lifehack',
       provider: flags.tts || 'voicevox', quality: flags.quality || 'looks', runDir: path.join(ROOT, 'runs', runId), force: String(flags.force || '').split(',').filter(Boolean),
-      out: flags.out, episodeNo: flags.no ? +flags.no : 1,
+      out: flags.out, episodeNo: flags.no ? +flags.no : 1, keepScript: Boolean(flags['keep-script']),
     });
     console.log(JSON.stringify(s, null, 2));
   } else if (cmd === 'build') {

@@ -31,7 +31,7 @@
 
 (1) 挿絵  { "type":"illustration", "brief":"何をどんな構図で描くか（日本語で10〜200字）", "elements":[ {"id":"student","character":"student","what":"要素の絵の説明","idle":"sway"} … 2〜5個 ], "hero":"黄色の蛍光ペンを当てる要素のid" }
     - elements は奥→手前の描く順。id は英小文字（ハイフン可）。idle は sway | float | pulse | null（動きを付ける要素だけ）。
-    - 人物は企画の characters の id を character に書く。物語の主役を hero にする。
+    - 人物は企画の characters の id を character に書く。物語の主役を hero にする。出演者（host / guest）は画面の両脇に常にいるので、挿絵の要素として描かない（別の人物や、モノ・図で表す）。
     - cues の op：draw（線で描いて出す。基本）| pop（ぽんと出す）| drop（上から落ちる）| slide | fade | emph（強調で揺らす） | callout（吹き出し風の赤い注記。text は14字以内、side は left|right|top|bottom）。target は element の id。
 (2) 折れ線グラフ  { "type":"chart", "kind":"line", "xLabel":"…", "yLabel":"…", "unit":"%", "yMax":100, "points":[ {"x":"20分後","y":58} … 3〜6点 ], "note":"出典（20字以内）" }
     - cues：chart.axes（最初に軸を描く）→ chart.point（index の点まで線を伸ばす。0番から順に）→ chart.callout（index, text：赤い注記）→ stamp（text：大きな赤い判子。8字以内。用語を印象づけたいときだけ）。
@@ -47,6 +47,7 @@
 cue の書き方：{ "line":"s1l2", "after":"半分", "op":"draw", "target":"bits" }
     - line はそのシーンの行の id。タイミングは "at":"start"（行の頭）| "at":"end"（行の終わり）| "after":"その行の text に含まれる語句"（その語句を読み始める瞬間）のどれか。after は text の一部をそのまま抜き出す（言い換えない）。
     - すべての要素・点・項目に、対応する cue をひとつずつ付ける。読み上げの流れに合わせて時間順に並べる。1つの行に cue を3つ以上詰め込まない。
+    - 画面を空のまま待たせない。各シーンの最初の2行のうちに、最初の要素・点・棒・カードを出す（chart.axes は数に入らない）。前置きの説明が長くなりそうなら、先にデータや絵を見せてから理由を語る順に組み替える。
     - 同じ行の同じ位置に別の cue を置かない（重ならないよう after をずらす）。
 
 ■ 出力形式（JSONだけを出力。説明文やコードブロック記号は付けない）

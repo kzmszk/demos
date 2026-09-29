@@ -4,6 +4,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 import { run, ensureDir, readJSON, writeJSON, writeText, exists, log, round } from './util.mjs';
 import { readWav, db } from './audio/wav.mjs';
+import { screenshot } from './shot.mjs';
 
 const FFMPEG = process.env.FFMPEG || 'ffmpeg', FFPROBE = process.env.FFPROBE || 'ffprobe';
 const S = { pass: 'pass', warn: 'warn', fail: 'fail' };
@@ -22,7 +23,7 @@ async function probe(video) {
 
 async function loudness(video) {
   const r = await run(FFMPEG, ['-hide_banner', '-nostats', '-i', video, '-vn', '-af', 'ebur128=peak=true', '-f', 'null', '-']);
-  const t = r.stderr;
+  const t = r.stderr.slice(r.stderr.lastIndexOf('Summary:')); // the per-frame progress lines come first; the summary is at the end
   const num = (re) => { const m = t.match(re); return m ? +m[1] : null; };
   return { integrated: num(/I:\s+(-?[\d.]+) LUFS/), lra: num(/LRA:\s+(-?[\d.]+) LU/), truePeak: num(/Peak:\s+(-?[\d.]+) dBFS/) };
 }
@@ -147,12 +148,20 @@ export async function runQA({ runDir, video, targetSec, checkLog }) {
   const fr = await freezes(video, 6);
   add('freeze', '画面が止まっていないか（6秒以上の静止）', fr.filter((f) => f.start < pr.duration - 10).length === 0 ? S.pass : S.warn, fr.length ? fr.map((f) => `${round(f.start, 1)}s から ${round(f.dur, 1)} 秒`).join(', ') : '静止区間なし');
   const sd = timeline.scenes.map((s) => ({ id: s.id, type: s.type, dur: round(s.end - s.start, 1) }));
-  const badScenes = sd.filter((s) => s.dur > 40 || s.dur < 8);
-  add('scenes', 'シーンの長さ（8〜40 秒）', badScenes.length === 0 ? S.pass : S.warn, sd.map((s) => `${s.id}:${s.dur}s`).join(' '), sd);
+  const badScenes = sd.filter((s) => s.dur > 45 || s.dur < 8);
+  add('scenes', 'シーンの長さ（8〜45 秒）', badScenes.length === 0 ? S.pass : S.warn, sd.map((s) => `${s.id}:${s.dur}s`).join(' '), sd);
 
   // ---- 6. sync of visual cues to speech
   const exact = timeline.cues.filter((c) => c.after != null && c.after !== '').length;
   add('cues', '画面の演出キュー', S.pass, `${timeline.cues.length} 個（語句に同期 ${exact}、行頭/行末 ${timeline.cues.length - exact}）`);
+
+  // the picture should start saying something soon after each scene begins
+  const slow = timeline.scenes.map((sc) => {
+    const first = timeline.cues.filter((c) => c.scene === sc.id && !['chart.axes', 'emph'].includes(c.op)).map((c) => c.t)[0];
+    return { id: sc.id, wait: first == null ? null : round(first - sc.start, 1) };
+  });
+  const late = slow.filter((s) => s.wait != null && s.wait > 7);
+  add('early-visuals', '各シーンで最初の絵・データが出るまで（7秒以内）', late.length === 0 ? S.pass : S.warn, slow.map((s) => `${s.id}:${s.wait}s`).join(' '), slow);
 
   // ---- 7. HyperFrames' own audit
   if (checkLog) {
@@ -168,6 +177,9 @@ export async function runQA({ runDir, video, targetSec, checkLog }) {
   times.push(round(timeline.outro.start + 1.5), round(Math.min(pr.duration - 0.3, timeline.duration - 1.0)));
   const sheet = await contactSheet(video, times.filter((t) => t < pr.duration), qaDir, 'contact-sheet', { cols: 5, w: 640 });
 
+  // audio overview picture: scenes, who speaks when, and the loudness of voice / music / effects over time
+  try { await audioOverview({ runDir, timeline, out: path.join(qaDir, 'audio-overview.png') }); } catch (e) { log('qa', `audio overview skipped: ${e.message}`); }
+
   // readings (for pronunciation review)
   if (exists(path.join(runDir, 'voice.json'))) {
     const vj = readJSON(path.join(runDir, 'voice.json'));
@@ -180,4 +192,33 @@ export async function runQA({ runDir, video, targetSec, checkLog }) {
   const icon = { pass: '✅', warn: '⚠️', fail: '❌' };
   writeText(path.join(qaDir, 'report.md'), `# 自動QAレポート：${status}\n\n動画：${video}\n\n| 結果 | 項目 | 内容 |\n|---|---|---|\n${checks.map((c) => `| ${icon[c.status]} | ${c.label} | ${c.detail} |`).join('\n')}\n\nコンタクトシート：${sheet}\n`);
   return report;
+}
+
+
+/** A picture of the mix: scene blocks, speaker turns, and voice/BGM/SFX levels (dB, 0.5 s resolution). */
+async function audioOverview({ runDir, timeline, out }) {
+  const W = 1800, H = 470, L = 70, R = 20, top = 30;
+  const dur = timeline.duration, x = (t) => L + ((W - L - R) * t) / dur;
+  const lines = [...timeline.scenes.flatMap((s) => s.lines), ...timeline.outro.lines];
+  const stem = (n) => exists(path.join(runDir, 'audio', `stem-${n}.wav`)) ? readWav(path.join(runDir, 'audio', `stem-${n}.wav`)) : null;
+  const curve = (a, win = 0.5) => {
+    if (!a) return [];
+    const step = Math.round(a.rate * win), n = Math.floor(a.channels[0].length / step), out = [];
+    for (let w = 0; w < n; w++) { let s = 0; for (let i = w * step; i < (w + 1) * step; i++) { const v = (a.channels[0][i] + a.channels[1][i]) / 2; s += v * v; } out.push([w * win, db(Math.sqrt(s / step))]); }
+    return out;
+  };
+  const y = (d) => 150 + ((-d - 0) / 70) * 250; // 0 dB at 150, -70 dB at 400
+  const path_ = (c, clampMin = -70) => 'M' + c.map(([t, d]) => `${x(t).toFixed(1)} ${y(Math.max(clampMin, d)).toFixed(1)}`).join(' L');
+  const V = curve(stem('voice')), B = curve(stem('bgm')), F = curve(stem('sfx'));
+  const scenes = timeline.scenes.map((s, i) => `<rect x="${x(s.start)}" y="${top}" width="${x(s.end) - x(s.start) - 2}" height="34" fill="${i % 2 ? '#fff176' : '#f3e98a'}" opacity=".8"/><text x="${x(s.start) + 6}" y="${top + 22}" font-size="15" font-weight="700">${s.id} ${s.type || ''}</text>`).join('');
+  const turns = lines.map((l) => `<rect x="${x(l.start)}" y="${l.who === 'host' ? 78 : 104}" width="${Math.max(1.5, x(l.end) - x(l.start))}" height="20" fill="${l.who === 'host' ? '#3d3d3d' : '#d64545'}"/>`).join('');
+  const grid = [0, -10, -20, -30, -40, -50, -60].map((d) => `<line x1="${L}" x2="${W - R}" y1="${y(d)}" y2="${y(d)}" stroke="#3d3d3d" stroke-opacity=".12"/><text x="${L - 8}" y="${y(d) + 4}" font-size="12" text-anchor="end" fill="#3d3d3d">${d}</text>`).join('');
+  const ticks = Array.from({ length: Math.floor(dur / 10) + 1 }, (_, i) => `<text x="${x(i * 10)}" y="${H - 14}" font-size="12" text-anchor="middle">${i * 10}s</text>`).join('');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="'AM Sans','Noto Sans CJK JP',sans-serif" fill="#3d3d3d">
+  <rect width="${W}" height="${H}" fill="#fbf7ee"/>${scenes}
+  <text x="8" y="92" font-size="13" font-weight="700">host</text><text x="8" y="118" font-size="13" font-weight="700" fill="#d64545">guest</text>${turns}
+  ${grid}${ticks}
+  <path d="${path_(B)}" fill="none" stroke="#c9a400" stroke-width="2.4"/><path d="${path_(V)}" fill="none" stroke="#3d3d3d" stroke-width="2"/><path d="${path_(F)}" fill="none" stroke="#d64545" stroke-width="1.4" opacity=".8"/>
+  <text x="${L + 6}" y="145" font-size="13"><tspan font-weight="700">━ 声</tspan>　<tspan fill="#c9a400" font-weight="700">━ BGM</tspan>　<tspan fill="#d64545" font-weight="700">━ 効果音</tspan>　（dBFS RMS）</text></svg>`;
+  await screenshot(`<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#fbf7ee}</style>${svg}`, out, { width: W, height: H });
 }

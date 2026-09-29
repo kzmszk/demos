@@ -6,6 +6,7 @@ import { readWav, writeWav } from '../audio/wav.mjs';
 import * as voicevox from './voicevox.mjs';
 import * as gemini from './gemini.mjs';
 import * as mock from './mock.mjs';
+import { mouthFromAudio } from '../visual/lipsync.mjs';
 
 export const PROVIDERS = { voicevox, gemini, mock };
 const CACHE = path.join(ROOT, '.cache', 'tts');
@@ -95,6 +96,7 @@ export async function synthesizeLines({ lines, cast, provider = 'voicevox', outD
       starts[0] = 0;
       meta = {
         rate: r.rate, duration: r.duration, segs: r.segs, kana: r.kana,
+        mouth: r.segs ? undefined : mouthFromAudio(r.samples, r.rate), // providers without timing: lip-sync from loudness
         clauses: clauses.map((c, i) => ({ text: c.text, start: c.start, t0: round(starts[i]), t1: round(i + 1 < clauses.length ? starts[i + 1] : r.duration) })),
       };
       writeJSON(metaPath, meta); made++;
