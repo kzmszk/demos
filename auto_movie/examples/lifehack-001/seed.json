@@ -1,0 +1,7 @@
+{
+  "series": "lifehack",
+  "theme": "今日のライフハック：勉強したことを忘れにくくする「復習のタイミング」（忘却曲線を味方にする）",
+  "lengthSec": 180,
+  "style": "podcast-duo",
+  "sources": ["sources/forgetting-curve.md"]
+}

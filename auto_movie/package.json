@@ -1,0 +1,20 @@
+{
+  "name": "auto-movie",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "テーマ・長さ・参考資料から、二人ポッドキャスト形式のイラスト解説動画を自動生成する（HyperFrames でレンダリング）",
+  "bin": { "auto-movie": "bin/auto-movie.mjs" },
+  "scripts": {
+    "make": "node bin/auto-movie.mjs make",
+    "app": "node bin/auto-movie.mjs app",
+    "voicevox": "node bin/auto-movie.mjs voicevox",
+    "test": "node --test test/"
+  },
+  "engines": { "node": ">=22" },
+  "dependencies": {
+    "gsap": "3.14.2",
+    "hyperframes": "0.8.91",
+    "subset-font": "^2.4.0"
+  }
+}

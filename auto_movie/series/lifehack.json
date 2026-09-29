@@ -1,0 +1,36 @@
+{
+  "id": "lifehack",
+  "name": "今日のライフハック",
+  "nameEn": "Today's Lifehack",
+  "tagline": "覚えておくと、ちょっと得する",
+  "defaultStyle": "podcast-duo",
+  "defaultTargetSec": 180,
+  "palette": { "paper": "#fbf7ee", "ink": "#3d3d3d", "marker": "#fff176", "red": "#d64545" },
+  "cast": {
+    "host": {
+      "id": "mio",
+      "name": "ミオ",
+      "role": "進行役",
+      "side": "left",
+      "voice": {
+        "voicevox": { "speaker": 2, "credit": "VOICEVOX:四国めたん", "params": { "speedScale": 1.06, "intonationScale": 1.15, "pauseLengthScale": 0.85 } },
+        "gemini": { "voice": "Kore", "style": "落ち着いていて親しみやすい、少し微笑みながら話す進行役" }
+      },
+      "speech": "丁寧だが堅すぎない口調（〜ですね、〜ですよ、〜ですわね を少し混ぜてよい）。落ち着いた大人の女性。聞き役をやさしく導き、ときどき少しからかう。一人称は「わたし」。",
+      "look": "20代半ばの、落ち着いたお姉さん。きれいな人。あごラインのボブで、片側の髪を耳にかけ、ヘアピンを1つ。前髪は斜めに流す。白いシャツにゆるいカーディガン（カーディガンは黒っぽい生地として細いハッチングで表す）。大きめのヘッドホン（耳あては黄色）。ゆったり微笑む、少しからかうような雰囲気。眉は細い弧で、まつげを1本はねる。"
+    },
+    "guest": {
+      "id": "nono",
+      "name": "ノノ",
+      "role": "聞き役",
+      "side": "right",
+      "voice": {
+        "voicevox": { "speaker": 3, "credit": "VOICEVOX:ずんだもん", "params": { "speedScale": 1.08, "intonationScale": 1.2, "pauseLengthScale": 0.85 } },
+        "gemini": { "voice": "Puck", "style": "好奇心いっぱいで元気な子どものように話す聞き役" }
+      },
+      "speech": "元気で素直な聞き役。一人称は「ボク」。語尾は「〜なのだ」「〜のだ」「〜のだ？」を基本にする（毎回ではなく、自然に）。驚くときは「えっ」「ほんとなのだ？」、納得するときは「なるほどなのだ」。難しい言葉が出たら素直に聞き返す。",
+      "look": "10歳前後の元気な子ども（男の子とも女の子ともつかない）。くりくりの短い髪にぴょんと立つアホ毛が1本。大きな丸い頬、頬に赤い斜線。ぶかぶかのパーカー（フードは首の後ろに垂れている、白地）。大きすぎるヘッドホン（耳あては黄色）。好奇心いっぱいで、少し抜けた表情。眉は太めで、感情豊かに動く。"
+    }
+  },
+  "credits": ["VOICEVOX:四国めたん", "VOICEVOX:ずんだもん"]
+}
