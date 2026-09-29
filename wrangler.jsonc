@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   // Static assets built into ./site by `npm run build`, plus one small API: /api/* goes to
   // gallery/worker.js first (the sketchbook's try page), everything else is served as assets.
-  // Secrets (wrangler secret put): SKETCH_PASSPHRASE, LLM_JOBS_API_KEY.
+  // Secrets (wrangler secret put): SKETCH_PASSPHRASE, LLM_JOBS_API_KEY, MOVIE_JOBS_API_KEY, and optionally MOVIE_PASSPHRASE (else SKETCH_PASSPHRASE is used).
   "name": "demos",
   "main": "gallery/worker.js",
   "compatibility_date": "2026-09-01",
@@ -11,12 +11,17 @@
     "binding": "ASSETS",
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": ["/api/*", "/media/*"]
   },
   "services": [{ "binding": "LLM_JOBS", "service": "hermes-llm-jobs" }],
+  // the finished videos of auto_movie (private bucket; only this Worker reads it, at /media/*)
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "demos-media" }],
   "ratelimits": [
     { "name": "SKETCH_SUBMIT", "namespace_id": "8701", "simple": { "limit": 3, "period": 60 } },
     { "name": "SKETCH_GUESS", "namespace_id": "8702", "simple": { "limit": 6, "period": 60 } },
-    { "name": "SKETCH_POLL", "namespace_id": "8703", "simple": { "limit": 40, "period": 60 } }
+    { "name": "SKETCH_POLL", "namespace_id": "8703", "simple": { "limit": 40, "period": 60 } },
+    { "name": "MOVIE_SUBMIT", "namespace_id": "8704", "simple": { "limit": 2, "period": 60 } },
+    { "name": "MOVIE_GUESS", "namespace_id": "8705", "simple": { "limit": 6, "period": 60 } },
+    { "name": "MOVIE_POLL", "namespace_id": "8706", "simple": { "limit": 40, "period": 60 } }
   ]
 }

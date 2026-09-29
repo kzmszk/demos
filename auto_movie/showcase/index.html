@@ -3,166 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>auto_movie — 今日のライフハック</title>
-<meta name="description" content="テーマと長さと資料を渡すと、絵も声も音楽もつくって一本の動画にする「auto_movie」。第1回「忘れない復習のタイミング」（3分）を、検証の数字といっしょに。">
+<title>auto_movie — テーマを書くと、動画ができる</title>
+<meta name="description" content="テーマを書くと、絵も声も音楽も自動でそろった2〜3分の解説動画を、この PC でつくります。二人の掛け合いで、鉛筆で描かれていく図解の動画。サンプルは「忘れない復習のタイミング」。">
 <meta name="theme-color" content="#fbf7ee">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23fbf7ee'/%3E%3Crect x='3' y='18' width='26' height='9' fill='%23fff176'/%3E%3Crect x='8' y='5' width='5' height='17' fill='%233d3d3d'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
-<style>
-:root{
-  --paper:#fbf7ee;
-  --ink:#3d3d3d;
-  --ink-2:rgba(61,61,61,.76);
-  --ink-3:rgba(61,61,61,.45);
-  --rule:rgba(61,61,61,.2);
-  --yellow:#fff176;
-  --red:#d64545;
-  --gut:clamp(16px,3.4vw,56px);
-  --side:clamp(0px,13vw,190px);
-  --sans:"Noto Sans JP","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans CJK JP",system-ui,sans-serif;
-  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
-}
-*,*::before,*::after{box-sizing:border-box}
-html{background:var(--paper);color:var(--ink);-webkit-text-size-adjust:100%;color-scheme:light}
-body{margin:0;font-family:var(--sans);font-weight:400;line-height:1.75;line-break:strict;word-break:auto-phrase;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
-p,li,dd{text-wrap:pretty}
-h1,h2,h3,p,ol,ul,figure,dl,dd{margin:0;padding:0}
-ol,ul{list-style:none}
-a{color:inherit}
-img{display:block;max-width:100%;height:auto}
-button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
-[hidden]{display:none!important}
-:focus-visible{outline:2px dashed var(--red);outline-offset:3px}
-html[lang="en"] [lang="ja"],html[lang="ja"] [lang="en"]{display:none!important}
-.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-::selection{background:var(--yellow)}
-.ph{display:inline-block;max-width:100%}
-
-/* ---------- top bar ---------- */
-.bar{display:flex;align-items:baseline;gap:.8em;padding:14px var(--gut);font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid var(--rule)}
-.bar a{text-decoration:none}
-.bar .strong{font-weight:900;letter-spacing:.2em}
-.bar .sep{color:var(--ink-3)}
-.bar .grow{flex:1}
-.lang button{padding:2px 8px;letter-spacing:.12em;color:var(--ink-2);border-bottom:2px solid transparent}
-.lang button[aria-pressed="true"]{color:var(--ink);font-weight:700;border-bottom-color:var(--ink)}
-
-/* ---------- hero ---------- */
-.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(200px,23vw);gap:var(--gut);align-items:end;padding:clamp(22px,4vw,64px) var(--gut) clamp(16px,2.4vw,34px)}
-.hero h1{font-weight:900;font-size:var(--fs,clamp(44px,10vw,190px));line-height:1.06;letter-spacing:-.045em;font-feature-settings:"palt";margin-left:-.04em}
-.hero .ln{display:block;width:max-content;white-space:nowrap}
-.hero .ln:last-child>span{background:linear-gradient(transparent 61%,var(--yellow) 61% 94%,transparent 94%);padding:0 .05em;margin-left:-.05em}
-.hero aside{padding-bottom:.9em}
-.kicker{display:flex;flex-wrap:wrap;align-items:baseline;gap:.2em 1em;font-size:13px;font-weight:700;letter-spacing:.14em}
-.kicker .no{font-family:var(--mono);font-weight:500;letter-spacing:.06em;color:var(--ink-2)}
-.hero .sub{text-wrap:balance;margin-top:1.1em;padding-top:.8em;border-top:2px solid var(--ink);font-size:clamp(15px,1.45vw,21px);font-weight:500;line-height:1.55}
-.hero .meta{margin-top:.9em;font-size:12px;letter-spacing:.06em;color:var(--ink-2);line-height:1.7}
-.rule{height:2px;background:var(--ink)}
-
-/* ---------- player ---------- */
-.band{border-bottom:1px solid var(--rule)}
-.stage{position:relative;width:min(100%,calc((100svh - 40px)*16/9));aspect-ratio:16/9;margin:0 auto;background:var(--paper);overflow:hidden}
-.stage>video,.stage>iframe,.stage>.poster{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--paper);object-fit:contain}
-.playbtn{position:absolute;left:50%;top:50%;translate:-50% -50%;width:clamp(64px,7vw,108px);aspect-ratio:1;border-radius:50%;background:var(--yellow);border:2px solid var(--ink);display:grid;place-items:center;transition:transform .18s ease}
-.playbtn::before{content:"";width:32%;height:36%;background:var(--ink);clip-path:polygon(0 0,100% 50%,0 100%);margin-left:9%}
-.playbtn:hover{transform:scale(1.06) rotate(-4deg)}
-.stage .len{position:absolute;right:clamp(10px,2vw,28px);bottom:clamp(8px,1.6vw,22px);font:500 clamp(11px,1vw,14px)/1 var(--mono);letter-spacing:.06em;padding:.5em .7em;background:var(--paper);border:1px solid var(--ink)}
-.note{margin:12px var(--gut) 0;font-size:12px;color:var(--ink-2);text-align:center}
-
-/* ---------- sections: label in the margin, content beside it ---------- */
-.sec{display:grid;grid-template-columns:var(--side) minmax(0,1fr);gap:0 var(--gut);margin:clamp(40px,6.5vw,104px) var(--gut) 0;padding-top:12px;border-top:1px solid var(--ink)}
-.sec>h2{font-size:12px;font-weight:700;letter-spacing:.16em;line-height:1.6;text-transform:uppercase}
-.sec>h2 .i{display:block;font-family:var(--mono);font-weight:500;letter-spacing:.06em;color:var(--ink-2)}
-.sec .body{min-width:0}
-.sec .lead{font-size:clamp(15px,1.3vw,18px);line-height:1.85;max-width:38em;color:var(--ink-2)}
-
-.tochead{display:flex;justify-content:space-between;gap:1em;align-items:baseline;font-size:12px;color:var(--ink-2)}
-.tochead a{letter-spacing:.06em}
-.prog{position:relative;height:3px;background:var(--rule);margin:12px 0 18px}
-.prog i{position:absolute;left:0;top:-1px;height:5px;width:0;background:var(--ink)}
-.prog b{position:absolute;top:-3px;width:1px;height:9px;background:var(--ink-3)}
-.toc{columns:2;column-gap:var(--gut)}
-.toc li{break-inside:avoid}
-.toc button,.toc .row{display:grid;grid-template-columns:3.4em 1fr;gap:.6em;align-items:baseline;width:100%;padding:.5em 0;border-bottom:1px solid var(--rule);text-align:left;font-size:clamp(14px,1.15vw,16px);line-height:1.5}
-.toc .t{font-family:var(--mono);font-size:.86em;color:var(--ink-2)}
-.toc .name span{background:linear-gradient(transparent 62%,transparent 62%)}
-.toc li.on .name span{background:linear-gradient(transparent 62%,var(--yellow) 62% 94%,transparent 94%);font-weight:700}
-.toc button{cursor:pointer}
-.toc button:hover .name span{background:linear-gradient(transparent 62%,rgba(255,241,118,.6) 62% 94%,transparent 94%)}
-
-/* ---------- checks ---------- */
-.figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
-.fig{padding:clamp(16px,2vw,30px) clamp(10px,2vw,32px) clamp(16px,2.2vw,34px) 0;border-top:1px solid var(--rule)}
-.fig:nth-child(-n+2){border-top:0;padding-top:0}
-.fig:nth-child(even){padding-left:clamp(10px,2vw,32px);padding-right:0;border-left:1px solid var(--rule)}
-.fig .n{font-size:clamp(30px,7.6vw,132px);font-weight:900;letter-spacing:-.05em;line-height:1.05;font-feature-settings:"palt","tnum";white-space:nowrap}
-.fig .n small{font-size:.28em;font-weight:700;letter-spacing:.02em;margin-left:.3em}
-.fig .l{margin-top:.8em;font-size:13.5px;line-height:1.75;color:var(--ink-2);max-width:26em}
-.verdict{margin-top:clamp(20px,2.4vw,34px);padding-top:10px;border-top:1px solid var(--rule);font-size:13px;color:var(--ink-2);display:flex;gap:1.4em;flex-wrap:wrap}
-.verdict b{color:var(--ink);letter-spacing:.06em}
-
-/* ---------- pipeline ---------- */
-.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 var(--gut)}
-.steps li{padding:12px 0 22px;border-top:1px solid var(--rule)}
-.steps .k{font-family:var(--mono);font-size:12px;color:var(--ink-2);letter-spacing:.06em}
-.steps h3{font-size:clamp(18px,1.7vw,24px);font-weight:900;letter-spacing:-.01em;line-height:1.35;margin:.15em 0 .35em}
-.steps h3 em{font-style:normal;font-family:var(--mono);font-size:.5em;font-weight:500;letter-spacing:.06em;color:var(--ink-2);margin-left:.7em}
-.steps p{font-size:13.5px;line-height:1.75;color:var(--ink-2)}
-
-/* ---------- plates ---------- */
-.plate+.plate{margin-top:clamp(28px,4vw,56px)}
-.plate a{display:block;border:1px solid var(--rule)}
-.plate a:hover{border-color:var(--ink)}
-.plate figcaption{margin-top:.8em;font-size:12.5px;line-height:1.7;color:var(--ink-2);max-width:46em}
-.plate figcaption b{color:var(--ink)}
-
-/* ---------- facts / files / credits ---------- */
-.facts li{position:relative;padding:.55em 0 .55em 1.6em;border-bottom:1px solid var(--rule);font-size:14px;line-height:1.75}
-.facts li::before{content:"";position:absolute;left:.1em;top:1.15em;width:.65em;height:.65em;background:var(--yellow);border:1px solid var(--ink)}
-.facts+p{margin-top:1em;font-size:12.5px;color:var(--ink-2)}
-.files a{display:grid;grid-template-columns:minmax(9em,15em) minmax(0,1fr) auto;gap:.4em 1.2em;align-items:baseline;padding:.75em 0;border-bottom:1px solid var(--rule);text-decoration:none;font-size:15px}
-.files a b{font-weight:700}
-.files a span{font-size:12.5px;color:var(--ink-2)}
-.files a i{font-style:normal;font-family:var(--mono);font-size:12px;letter-spacing:.06em}
-.files+.foot{margin-top:.9em;font-size:12.5px;color:var(--ink-2)}
-.files a:hover b{background:linear-gradient(transparent 62%,var(--yellow) 62% 94%,transparent 94%)}
-.credits dl{display:grid;grid-template-columns:minmax(6em,10em) 1fr;gap:.55em 1.2em;font-size:14px}
-.credits dt{font-size:12px;letter-spacing:.14em;color:var(--ink-2);padding-top:.15em}
-.credits dd{line-height:1.75}
-.credits dd+dd{margin:0}
-.credits a{text-underline-offset:.2em}
-.eps{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:var(--gut)}
-.eps a{text-decoration:none;display:block}
-.eps img{border:1px solid var(--rule)}
-.eps b{display:block;margin-top:.5em;font-size:14px}
-.eps small{font-family:var(--mono);color:var(--ink-2);font-size:11.5px}
-
-footer{margin:clamp(48px,7vw,110px) var(--gut) 0;padding:14px 0 calc(28px + env(safe-area-inset-bottom));border-top:2px solid var(--ink);display:flex;justify-content:space-between;gap:1em;flex-wrap:wrap;font-size:12px;letter-spacing:.06em;color:var(--ink-2)}
-footer a{text-underline-offset:.2em}
-noscript p{margin:2em var(--gut);text-align:center}
-
-/* ---------- narrow ---------- */
-@media (max-width:900px){
-  .hero{grid-template-columns:minmax(0,1fr);gap:18px}
-  .hero aside{padding-bottom:0}
-  .sec{grid-template-columns:1fr;gap:14px 0}
-  .sec>h2 .i{display:inline;margin-right:.9em}
-  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .files a{grid-template-columns:1fr auto}
-  .files a span{grid-column:1/-1;order:3}
-}
-@media (max-width:560px){
-  .toc{columns:1}
-  .steps{grid-template-columns:1fr}
-  .credits dl{grid-template-columns:1fr;gap:.1em}
-  .credits dd{margin-bottom:.8em}
-  .stage .len{display:none}
-}
-@media (prefers-reduced-motion:reduce){.playbtn{transition:none}.playbtn:hover{transform:none}}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="bar">
@@ -172,193 +21,72 @@ noscript p{margin:2em var(--gut);text-align:center}
 </header>
 
 <main id="app">
+  <section class="hero" data-max="170">
+    <div class="titles">
+      <h1 class="title" lang="ja" aria-label="テーマを書くと、動画ができる。"><span class="ln"><span>テーマを書くと、</span></span><span class="ln"><span>動画ができる。</span></span></h1>
+      <h1 class="title" lang="en" aria-label="Write a theme, get a film."><span class="ln"><span>Write a theme,</span></span><span class="ln"><span>get a film.</span></span></h1>
+    </div>
+    <aside>
+      <p class="kicker"><span>AUTO_MOVIE</span></p>
+      <p class="sub"><span lang="ja">絵も、声も、音楽も、自動で。二人の掛け合いで解説する2〜3分の動画を、この PC でつくります。</span><span lang="en">Pictures, voices and music, all automatic. A two-voice explainer film of two or three minutes, made on my own PC.</span></p>
+      <p class="meta"><span lang="ja">できあがるまで10〜15分ほど。<br>受付は毎日 8時〜24時（日本時間）。</span><span lang="en">Ten to fifteen minutes to make.<br>Requests are taken 08:00–24:00 JST.</span></p>
+    </aside>
+  </section>
+  <div class="rule"></div>
+
+  <section class="slip" aria-label="リクエスト">
+    <div class="slip-head"><span>Request · <span lang="ja">リクエスト用紙</span><span lang="en">request slip</span></span><span><span lang="ja">1日3本まで · 合言葉が必要</span><span lang="en">3 a day · passphrase required</span></span></div>
+    <div class="work" id="work" hidden>
+      <div class="clock" id="clock" aria-hidden="true">00:00</div>
+      <div>
+        <p><b id="workTitle"></b></p>
+        <div class="pencil" aria-hidden="true"><i></i></div>
+        <p><span lang="ja">台本 → 絵 → 声 → 音楽 → 書き出し の順に進みます。このページを閉じても大丈夫です。もう一度開くと、続きが見られます。</span><span lang="en">Script → drawings → voices → music → render. You can close this page; open it again and it picks up where it was.</span></p>
+      </div>
+    </div>
+    <form id="req" autocomplete="off" novalidate>
+      <div class="left">
+        <div class="f">
+          <label class="lab" for="theme"><span lang="ja">テーマ</span><span lang="en">THEME</span><small id="themeCount">0 / 60</small></label>
+          <input id="theme" name="theme" type="text" maxlength="60" required enterkeyhint="next" autocapitalize="off" spellcheck="false" placeholder="例：三日坊主をやめる工夫">
+          <div class="chips" id="chips" aria-label="例">
+            <button type="button">三日坊主をやめる小さな工夫</button><button type="button">朝すっきり起きるコツ</button><button type="button">集中力が切れない休憩のとり方</button><button type="button">初対面で話がはずむ聞き方</button>
+          </div>
+        </div>
+        <div class="f">
+          <span class="lab" id="lenLab"><span lang="ja">長さ</span><span lang="en">LENGTH</span></span>
+          <div class="seg" role="radiogroup" aria-labelledby="lenLab">
+            <label><input type="radio" name="minutes" value="2"><span class="opt"><b>2<span lang="ja">分</span><span lang="en"> min</span></b><small><span lang="ja">要点だけ</span><span lang="en">the gist</span></small></span></label>
+            <label><input type="radio" name="minutes" value="3" checked><span class="opt"><b>3<span lang="ja">分</span><span lang="en"> min</span></b><small><span lang="ja">ていねいに</span><span lang="en">in full</span></small></span></label>
+          </div>
+        </div>
+        <div class="f">
+          <label class="lab" for="notes"><span><span lang="ja">使ってほしい事実（任意）</span><span lang="en">FACTS TO USE (OPTIONAL)</span></span><small id="notesCount">0 / 1500</small></label>
+          <textarea id="notes" name="notes" maxlength="1500" rows="4" placeholder="数字や出典など、動画に入れたいことがあれば。書かなければ、一般に確かなことだけで組み立てます。"></textarea>
+        </div>
+      </div>
+      <div class="right">
+        <div class="f">
+          <label class="lab" for="pass"><span lang="ja">合言葉</span><span lang="en">PASSPHRASE</span></label>
+          <input id="pass" name="passphrase" type="password" maxlength="60" required autocomplete="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <button type="submit" class="go" id="go"><span lang="ja">つくる</span><span lang="en">Make it</span></button>
+        <p class="fine"><span lang="ja">合言葉を知っている人だけが使えます。同じ内容の依頼は、同じ動画になります。テーマに沿わない指示や、不適切な題材は、動画になりません。</span><span lang="en">Only people who know the passphrase can use this. The same request gives the same film. Instructions hidden in the theme, and unsuitable subjects, do not become films.</span></p>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </section>
+
+  <div id="made" hidden></div>
+  <div id="sample"></div>
   <noscript><p>このページは JavaScript を使います。<br>This page needs JavaScript.</p></noscript>
 </main>
 
 <footer>
-  <span><span lang="ja">動画は、公開設定の Google ドライブのフォルダに置いています。</span><span lang="en">The videos live in a public Google Drive folder.</span></span>
+  <span><span lang="ja">動画は Cloudflare R2 に置いています。つくるのは、私の PC です。</span><span lang="en">Films are stored in Cloudflare R2. They are made on my own PC.</span></span>
   <span><a href="../">← DEMOS</a></span>
 </footer>
 
-<script>
-(() => {
-  'use strict';
-  const $ = (s, r = document) => r.querySelector(s);
-  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-  /* Japanese has no spaces: keep each phrase (up to ・ 、 。) in one piece so a line never breaks inside "1か月後" or "はみ出し" */
-  const ph = (t) => (String(t ?? '').match(/[^・、，。！？!?]+[・、，。！？!?」）』]*|[・、，。！？!?]+/g) || []).map((x) => `<span class="ph">${esc(x)}</span>`).join('');
-  const two = (o) => `<span lang="ja">${ph(o.ja)}</span><span lang="en">${esc(o.en || o.ja)}</span>`;
-  const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
-  const mb = (b) => `${Math.round(b / 1e6)} MB`;
-  const download = (id) => `https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`;
-  const drive = (id) => `https://drive.google.com/file/d/${id}/view`;
-  const preview = (id) => `https://drive.google.com/file/d/${id}/preview`;
-  const STYLE = { 'podcast-duo': { ja: '二人ポッドキャスト', en: 'two-voice podcast' }, monologue: { ja: 'モノローグ', en: 'monologue' }, entertainment: { ja: 'エンタメ', en: 'entertainment' } };
-
-  /* ---------- language: #en ---------- */
-  const setLang = (l, push) => {
-    document.documentElement.lang = l;
-    document.querySelectorAll('.lang button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.l === l)));
-    if (push) history.replaceState(null, '', l === 'en' ? '#en' : location.pathname + location.search);
-    fitTitle();
-  };
-  document.querySelectorAll('.lang button').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.l, true)));
-  addEventListener('hashchange', () => setLang(/#en\b/.test(location.hash) ? 'en' : 'ja'));
-
-  /* ---------- big title: as large as the column allows ---------- */
-  function fitTitle() {
-    const h = [...document.querySelectorAll('.hero h1')].find((x) => getComputedStyle(x).display !== 'none');
-    if (!h) return;
-    h.style.setProperty('--fs', '100px');
-    const widest = Math.max(1, ...[...h.querySelectorAll('.ln')].map((l) => l.getBoundingClientRect().width));
-    const avail = h.parentElement.getBoundingClientRect().width;
-    h.style.setProperty('--fs', `${Math.max(26, Math.min(190, (100 * avail) / widest * 0.985))}px`);
-  }
-  addEventListener('resize', fitTitle);
-  document.fonts?.ready.then(fitTitle);
-
-  /* ---------- page ---------- */
-  fetch('videos.json').then((r) => r.json()).then(init).catch((e) => { $('#app').innerHTML = `<p style="margin:3em var(--gut)">videos.json: ${esc(e.message)}</p>`; });
-
-  function init(db) {
-    const want = new URLSearchParams(location.search).get('ep');
-    const ep = db.episodes.find((e) => e.id === want) || db.episodes[0];
-    if (!ep) return;
-    document.title = `${ep.series.name.ja} No.${ep.id} ${ep.title.ja} — auto_movie`;
-    $('#app').innerHTML = render(ep, db.episodes);
-    setLang(/#en\b/.test(location.hash) ? 'en' : 'ja');
-    player(ep);
-  }
-
-  const sec = (i, label, body, cls = '') => `<section class="sec ${cls}"><h2><span class="i">${i}</span>${two(label)}</h2><div class="body">${body}</div></section>`;
-
-  function render(ep, all) {
-    const q = ep.qa, F = ep.files;
-    const hero = `
-    <section class="hero">
-      <div>${['ja', 'en'].map((l) => `<h1 lang="${l}" aria-label="${esc(ep.title[l] || ep.title.ja)}">${(ep.titleLines[l] || ep.titleLines.ja).map((t) => `<span class="ln"><span>${esc(t)}</span></span>`).join('')}</h1>`).join('')}</div>
-      <aside>
-        <p class="kicker"><span>${two(ep.series.name)}</span><span class="no">No.${esc(ep.id)} · ${mmss(ep.seconds)}</span></p>
-        <p class="sub">${two(ep.subtitle)}</p>
-        <p class="meta">${ep.width}×${ep.height} · ${ep.fps}fps · ${two(STYLE[ep.style] || { ja: ep.style, en: ep.style })}<br>${two({ ja: '音声は日本語です', en: 'Narrated in Japanese' })}</p>
-      </aside>
-    </section>
-    <div class="rule"></div>
-    <div class="band"><div class="stage" id="stage"></div></div>
-    <p class="note" id="note" hidden>${two({ ja: 'Google ドライブのプレーヤーが開きました。もう一度、再生ボタンを押してください。', en: 'The Google Drive player is open — press its play button once more.' })}</p>`;
-
-    const inline = Boolean(F.video);
-    const row = (c) => `<span class="t">${mmss(c.t)}</span><span class="name"><span>${esc(c.title)}</span></span>`;
-    const toc = sec('01', { ja: 'チャプター', en: 'Chapters' }, `
-      <div class="tochead"><span>${two(inline ? { ja: 'クリックでその場面から再生', en: 'Click to play from a scene' } : { ja: '場面と、始まる時刻', en: 'Scenes and when they start' })}</span><a href="${drive(ep.drive.stream)}" target="_blank" rel="noopener">${two({ ja: 'Google ドライブで開く ↗', en: 'Open on Google Drive ↗' })}</a></div>
-      <div class="prog" aria-hidden="true"><i id="progbar"></i>${ep.chapters.slice(1).map((c) => `<b style="left:${((c.t / ep.seconds) * 100).toFixed(3)}%"></b>`).join('')}</div>
-      <ol class="toc" id="toc">${ep.chapters.map((c, i) => `<li data-i="${i}">${inline ? `<button type="button" data-t="${c.t}">${row(c)}</button>` : `<div class="row">${row(c)}</div>`}</li>`).join('')}</ol>`);
-
-    let checks = '';
-    if (q) {
-      const f = [];
-      f.push({ n: (q.measuredSec ?? ep.seconds).toFixed(3), u: { ja: '秒', en: 's' }, l: { ja: `指定の ${mmss(q.targetSec)} ちょうど。映像と音声も同じ長さ。`, en: `Exactly the ${mmss(q.targetSec)} that was asked for — picture and sound the same length.` } });
-      if (q.overlaps != null) f.push({ n: String(q.overlaps), u: { ja: '件', en: '' }, l: { ja: `声の重なり。${q.lines} 行のうち、いちばん近い二つでも ${q.minGapSec} 秒あく。`, en: `Overlapping voices. Of ${q.lines} lines, even the closest pair is ${q.minGapSec} s apart.` } });
-      if (q.textContrast) f.push({ n: `${q.textContrast.pass}/${q.textContrast.total}`, u: { ja: '', en: '' }, l: { ja: '画面の文字が WCAG AA のコントラストに合格。はみ出し・重なりも 0 件。', en: 'On-screen text passes WCAG AA contrast, with no overflow or overlaps.' } });
-      if (q.lufs != null) f.push({ n: q.lufs.toFixed(1), u: { ja: 'LUFS', en: 'LUFS' }, l: { ja: `音量をそろえ、声は BGM より ${q.voiceOverMusicDb ?? '—'} dB 大きい。`, en: `Loudness levelled; the voices sit ${q.voiceOverMusicDb ?? '—'} dB above the music.` } });
-      checks = sec('02', { ja: '検証', en: 'Checks' }, `
-        <div class="figs">${f.map((x) => `<div class="fig"><p class="n">${esc(x.n)}${x.u.ja || x.u.en ? `<small>${two(x.u)}</small>` : ''}</p><p class="l">${two(x.l)}</p></div>`).join('')}</div>
-        <p class="verdict"><b>${q.passed}/${q.checks} ${two({ ja: '項目 合格', en: 'checks passed' })}</b><span>${two({ ja: '書き出したあと、自動で検査しています（長さ・声の重なり・音量・字幕・静止画面・場面ごとの初めの絵）。', en: 'Checked automatically after rendering — length, overlaps, loudness, captions, frozen frames, time to first visual.' })}</span></p>`);
-    }
-
-    const steps = [
-      ['企画', 'Plan', 'スタイルを決め、事実を整理し、シーンに割る', 'Picks the style, sorts out the facts, splits the scenes'],
-      ['台本', 'Script', 'セリフと画面の演出を JSON で書き、検証して差し戻す', 'Lines and on-screen cues as JSON — validated, and sent back if flawed'],
-      ['絵', 'Draw', 'シーンごとに SVG の挿絵を描き、一本ずつ描き足す', 'One SVG illustration per scene, drawn in stroke by stroke'],
-      ['声', 'Voice', 'VOICEVOX で 1 行ずつ合成し、口の形まで取る', 'VOICEVOX speaks every line; mouth shapes follow the phonemes'],
-      ['尺合わせ', 'Fit', '実測の声の長さで話速を調整。合わなければ台本を書き直す', 'Tempo is tuned to the measured voices; the script is rewritten if it will not fit'],
-      ['音', 'Score', 'ピアノ中心の BGM をコードで作曲・演奏し、声の下で下げる', 'Piano-led music composed and played in code, ducked under the voices'],
-      ['画面', 'Compose', 'すべてを HyperFrames の 1 本のタイムラインに組む', 'Everything becomes one HyperFrames timeline'],
-      ['書き出し', 'Render', '1 フレームずつ描いて MP4 にする', 'Rendered frame by frame into an MP4'],
-      ['検査', 'Check', '尺・重なり・音量・字幕・静止を自動で調べる', 'Length, overlaps, loudness, captions and freezes are checked'],
-    ];
-    const how = sec('03', { ja: 'つくりかた', en: 'How it is made' }, `
-      <p class="lead">${two({ ja: 'テーマ、長さ、参考資料を渡すと、ここまでを自動で行います。一本のコマンドで、この動画ができました。', en: 'Give it a theme, a length and some reference material and it does all of this by itself. One command produced this video.' })}</p>
-      <ol class="steps" style="margin-top:clamp(20px,3vw,40px)">${steps.map((s, i) => `<li><span class="k">${String(i + 1).padStart(2, '0')}</span><h3>${two({ ja: s[0], en: s[1] })}${''}<em>${esc(s[1])}</em></h3><p>${two({ ja: s[2], en: s[3] })}</p></li>`).join('')}</ol>
-      ${ep.build && (ep.build.minutes || ep.build.llmUsd) ? `<p class="verdict"><b>${two({ ja: 'この回の実績', en: 'This episode' })}</b><span>${ep.build.minutes ? two({ ja: `テーマから書き出しまで約 ${ep.build.minutes} 分`, en: `about ${ep.build.minutes} minutes from theme to render` }) : ''}${ep.build.minutes && ep.build.llmUsd ? ' · ' : ''}${ep.build.llmUsd ? two({ ja: `LLM の費用は約 $${ep.build.llmUsd.toFixed(2)}`, en: `LLM cost about $${ep.build.llmUsd.toFixed(2)}` }) : ''}</span></p>` : ''}`);
-
-    const plates = (F.storyboard || F.audio) ? sec('04', { ja: '絵コンテと音', en: 'Storyboard & sound' }, `
-      ${F.storyboard ? `<figure class="plate"><a href="${esc(F.storyboard)}" target="_blank" rel="noopener"><img src="${esc(F.storyboard)}" alt="" width="1800" loading="lazy" decoding="async"></a><figcaption>${two({ ja: '絵コンテ。タイトルと、場面ごとの描き終わったときの絵。', en: 'Storyboard — the title card and each scene as it looks once its drawing is complete.' })}</figcaption></figure>` : ''}
-      ${F.audio ? `<figure class="plate"><a href="${esc(F.audio)}" target="_blank" rel="noopener"><img src="${esc(F.audio)}" alt="" width="1800" loading="lazy" decoding="async"></a><figcaption>${two({ ja: '音のようす。上の段は誰がいつ話したか（黒がミオ、赤がノノ）。重なりはなく、声・BGM・効果音の音量が場面ごとに動いていきます。', en: 'The sound — who speaks when (black: Mio, red: Nono) with no overlaps, and how voice, music and effects move scene by scene.' })}</figcaption></figure>` : ''}`) : '';
-
-    const facts = ep.facts?.length ? sec('05', { ja: '根拠', en: 'Facts' }, `
-      <ul class="facts">${ep.facts.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
-      <p>${two({ ja: '数字や固有名詞は、渡した参考資料にあるものだけを使うよう指示し、資料にない断定は避けています。', en: 'Numbers and names come only from the reference material that was supplied; claims beyond it are avoided.' })}</p>`) : '';
-
-    const rows = [
-      [{ ja: '動画（マスター）', en: 'Video — master' }, `${ep.width}×${ep.height} · H.264 · AAC`, mb(ep.drive.masterBytes), drive(ep.drive.master), '↗'],
-      [{ ja: '動画（軽量版）', en: 'Video — light copy' }, `${ep.width}×${ep.height} · ${two({ ja: '再生用と共有用', en: 'for streaming and sharing' })}`, mb(ep.drive.streamBytes), download(ep.drive.stream), '↓'],
-      F.captions && [{ ja: '字幕', en: 'Subtitles' }, 'SRT', '.srt', F.captions, '↓'],
-      F.score && [{ ja: '楽譜', en: 'Score' }, `${two({ ja: 'BGM の演奏データ', en: 'the music as played' })} · MIDI`, '.mid', F.score, '↓'],
-      F.script && [{ ja: '台本', en: 'Script' }, `${two({ ja: 'セリフと演出', en: 'lines and cues' })} · JSON`, '.json', F.script, '↓'],
-    ].filter(Boolean);
-    const files = sec('06', { ja: 'ファイル', en: 'Files' }, `<div class="files">${rows.map(([l, m, size, h, arrow]) => `<a href="${esc(h)}" ${/^https/.test(h) ? 'target="_blank" rel="noopener"' : 'download'}><b>${two(l)}</b><span>${m}</span><i>${esc(size)} ${arrow}</i></a>`).join('')}</div><p class="foot">${two({ ja: 'マスターは 100 MB を超えるため、Google ドライブのページで開きます。', en: 'The master is over 100 MB, so it opens on its Google Drive page.' })}</p>`);
-
-    const credits = sec('07', { ja: 'クレジット', en: 'Credits' }, `
-      <div class="credits"><dl>
-        <dt>${two({ ja: '声', en: 'VOICES' })}</dt><dd>VOICEVOX:四国めたん / VOICEVOX:ずんだもん　<a href="https://voicevox.hiroshiba.jp/" target="_blank" rel="noopener">voicevox.hiroshiba.jp</a></dd>
-        <dt>${two({ ja: '絵', en: 'ART' })}</dt><dd>${two({ ja: 'Claude Opus 5.5 が SVG で描いた挿絵と、この作品のために描き下ろしたキャスト（公式の立ち絵ではありません）', en: 'Illustrations drawn as SVG by Claude Opus 5.5, and cast portraits drawn for this piece (not the official character art)' })}</dd>
-        <dt>${two({ ja: '音楽', en: 'MUSIC' })}</dt><dd>${two({ ja: 'サンプルを使わず、コードで作曲・演奏したピアノ中心の BGM と効果音', en: 'Piano-led music and sound effects composed and played in code, with no samples' })}</dd>
-        <dt>${two({ ja: '映像', en: 'PICTURE' })}</dt><dd><a href="https://github.com/heygen-com/hyperframes" target="_blank" rel="noopener">HyperFrames</a> ${two({ ja: 'で HTML から書き出し。フォントは Noto Sans CJK JP（SIL OFL）', en: 'renders HTML to video. Font: Noto Sans CJK JP (SIL OFL)' })}</dd>
-      </dl></div>`);
-
-    const eps = all.length > 1 ? sec('08', { ja: 'ほかの回', en: 'More episodes' }, `<div class="eps">${all.filter((e) => e !== ep).map((e) => `<a href="?ep=${esc(e.id)}"><img src="${esc(e.files.poster)}" alt="" width="640" height="360" loading="lazy"><b>No.${esc(e.id)} ${two(e.title)}</b><small>${mmss(e.seconds)}</small></a>`).join('')}</div>`) : '';
-
-    return hero + toc + checks + how + plates + facts + files + eps + credits;
-  }
-
-  /* ---------- player ----------
-     Drive's download endpoint answers 403 to any cross-site request, so a <video> on this site cannot stream from it.
-     The page therefore uses Drive's own embedded player (click to load, so nothing is fetched from Google until asked),
-     unless the episode carries a copy hosted next to the page (files.video), which plays inline and can seek to chapters. */
-  function player(ep) {
-    const stage = $('#stage'), poster = ep.files.poster, src = ep.files.video;
-    let video = null;
-    stage.innerHTML = `<img class="poster" src="${esc(poster)}" alt="" width="1280" height="720" fetchpriority="high" decoding="async"><button class="playbtn" type="button"><span class="sr">${two({ ja: '再生', en: 'Play' })}</span></button><span class="len">${mmss(ep.seconds)}</span>`;
-
-    const embed = () => {
-      video = null;
-      stage.innerHTML = `<iframe src="${preview(ep.drive.stream)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="no-referrer" title="${esc(ep.title.ja)}"></iframe>`;
-      $('#note').hidden = false;
-    };
-    if (!src) { stage.querySelector('.playbtn').addEventListener('click', embed); window.AUTO_MOVIE = { ep, embed }; return; }
-
-    const items = [...document.querySelectorAll('#toc li')];
-    const tick = () => {
-      const t = video?.currentTime || 0;
-      $('#progbar').style.width = `${Math.min(100, (t / ep.seconds) * 100)}%`;
-      let cur = 0;
-      ep.chapters.forEach((c, i) => { if (t + 0.05 >= c.t) cur = i; });
-      items.forEach((li, i) => li.classList.toggle('on', video ? i === cur : false));
-    };
-    const start = (t = 0) => {
-      if (video) { video.currentTime = t; video.play().catch(() => {}); return; }
-      video = document.createElement('video');
-      video.controls = true; video.playsInline = true; video.preload = 'auto'; video.poster = poster;
-      video.setAttribute('aria-label', ep.title.ja);
-      video.addEventListener('loadedmetadata', () => { if (t) video.currentTime = t; }, { once: true });
-      video.addEventListener('timeupdate', tick);
-      video.addEventListener('seeked', tick);
-      video.addEventListener('error', embed);
-      video.src = src;
-      stage.replaceChildren(video);
-      video.play().catch(() => {});
-    };
-    stage.querySelector('.playbtn').addEventListener('click', () => start(0));
-    $('#toc').addEventListener('click', (e) => {
-      const b = e.target.closest('button[data-t]');
-      if (!b) return;
-      start(+b.dataset.t);
-      stage.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
-    });
-    window.AUTO_MOVIE = { ep, start, embed };
-  }
-})();
-</script>
+<script src="app.js" defer></script>
 </body>
 </html>
