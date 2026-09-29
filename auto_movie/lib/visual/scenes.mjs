@@ -70,6 +70,120 @@ function chartShell(id, svgInner, htmlInner, extraDefs = '') {
   return `<svg id="${id}-svg" viewBox="0 0 ${SW} ${SH}" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs>${WOBBLE_DEFS(`${id}-wob`, 3.4)}${extraDefs}</defs><g filter="url(#${id}-wob)">${svgInner}</g></svg>${htmlInner}`;
 }
 
+/**
+ * Where the red note for a chart point goes. The usual place is up and to the right of the point; if that touches a number, a label or the curve,
+ * a grid of other places around the point is searched for the one that touches nothing (nearest first). Returns the note's top-left corner and the
+ * two path strings of its arrow (shaft and head).
+ */
+function placeCallout(p, text, avoid, curve) {
+  const wide = /[\u2E80-\u9FFF\uFF00-\uFFEF\u3000-\u303F]/;                 // full-width letters take the whole em, digits and Latin about 0.62 of it
+  const tw = Math.round([...String(text)].reduce((w, ch) => w + 38 * (wide.test(ch) ? 0.99 : 0.62), 0)) + 12, th = 56;
+  const overlap = (a, b) => { const w = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x), h = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y); return w > 0 && h > 0 ? w * h : 0; };
+  // little squares along the curve, so a note does not lie across the line
+  const line = [];
+  for (let i = 0; i < curve.length - 1; i++) {
+    const [x0, y0] = curve[i], [x1, y1] = curve[i + 1], n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0) / 16));
+    for (let k = 0; k <= n; k++) { const x = x0 + ((x1 - x0) * k) / n, y = y0 + ((y1 - y0) * k) / n; if (Math.hypot(x - p.px, y - p.py) > 34) line.push({ x: x - 7, y: y - 7, w: 14, h: 14 }); }
+  }
+  const score = (lx, ly, prefer) => {
+    const rect = { x: lx - 8, y: ly - 4, w: tw + 16, h: th + 8 };
+    const outside = lx < 8 || ly < 8 || lx + tw > SW + 40 || ly + th > SH - 8;        // the stage is narrower than the frame: a note may run a little past its right edge
+    return (outside ? 1e7 : 0) + avoid.reduce((sum, r) => sum + overlap(rect, r), 0) + line.reduce((sum, r) => sum + (overlap(rect, r) ? 3000 : 0), 0)
+      + overlap(rect, { x: p.px - 16, y: p.py - 16, w: 32, h: 32 }) * 4 + prefer;
+  };
+  const usual = { lx: Math.min(SW - 330, p.px + 70), ly: Math.max(20, p.py - 130) };
+  let best = { ...usual, pen: score(usual.lx, usual.ly, 0), usual: true };
+  if (best.pen > 0) {
+    for (const dy of [-130, -96, -160, -64, -190, 60, 92, 124, -20, 16]) {
+      for (const dx of [70, 0, -Math.round(tw / 2), 130, -tw - 30, 40, -tw - 90, 200]) {
+        const lx = Math.round(Math.min(SW - tw - 12, Math.max(20, p.px + dx))), ly = Math.round(Math.min(SH - th - 12, Math.max(12, p.py + dy)));
+        const pen = score(lx, ly, Math.hypot(lx + tw / 2 - p.px, ly + th / 2 - p.py) * 0.05);
+        if (pen < best.pen) best = { lx, ly, pen };
+      }
+    }
+  }
+  const { lx, ly } = best;
+  const rect = { x: lx - 8, y: ly - 4, w: tw + 16, h: th + 8 };
+  if (best.usual) {   // the usual placement keeps its original arrow
+    return { lx, ly, rect,
+      arrow: `M${fmt(lx + 26)} ${fmt(ly + 56)} C${fmt(lx + 4)} ${fmt(ly + 100)} ${fmt(p.px + 60)} ${fmt(p.py - 28)} ${fmt(p.px + 16)} ${fmt(p.py - 14)}`,
+      head: `M${fmt(p.px + 34)} ${fmt(p.py - 36)} L${fmt(p.px + 14)} ${fmt(p.py - 12)} L${fmt(p.px + 42)} ${fmt(p.py - 8)}` };
+  }
+  // anywhere else: a short curve from the note's nearest edge to just before the dot
+  const clampX = Math.max(lx + 24, Math.min(lx + tw - 24, p.px));
+  let sx, sy;
+  if (ly + th < p.py - 24) { sx = clampX; sy = ly + th + 6; }             // the note is above the dot
+  else if (ly > p.py + 24) { sx = clampX; sy = ly - 6; }                  // below
+  else if (lx + tw < p.px) { sx = lx + tw + 6; sy = ly + th / 2; }        // to the left
+  else { sx = lx - 6; sy = ly + th / 2; }                                 // to the right
+  const dx = sx - p.px, dy = sy - p.py, len = Math.hypot(dx, dy) || 1;
+  const ex = p.px + (dx / len) * 20, ey = p.py + (dy / len) * 20;         // stop short of the dot
+  const bend = 24, cx = (sx + ex) / 2 + (-dy / len) * bend, cy = (sy + ey) / 2 + (dx / len) * bend;
+  const tx = ex - cx, ty = ey - cy, tl = Math.hypot(tx, ty) || 1, ux = tx / tl, uy = ty / tl;
+  const bx = ex - ux * 24, by = ey - uy * 24;
+  return { lx, ly, rect, arrow: `M${fmt(sx)} ${fmt(sy)} Q${fmt(cx)} ${fmt(cy)} ${fmt(ex)} ${fmt(ey)}`,
+    head: `M${fmt(bx - uy * 11)} ${fmt(by + ux * 11)} L${fmt(ex)} ${fmt(ey)} L${fmt(bx + uy * 11)} ${fmt(by - ux * 11)}` };
+}
+
+/** The stamp (see .stamp in theme.mjs) at a font size, centred on (cx, cy): its box grown by a margin and tilted like the stamp is, as four corners. */
+function stampCorners(text, fs, cx = 0, cy = 0, margin = 8) {
+  const w = [...String(text)].length * fs * 0.96 + 0.6 * fs + 18 + 2 * margin, h = fs * 1.5 + 0.14 * fs + 18 + 2 * margin;
+  const a = (-5 * Math.PI) / 180, c = Math.cos(a), s = Math.sin(a);
+  return [[-w / 2, -h / 2], [w / 2, -h / 2], [w / 2, h / 2], [-w / 2, h / 2]].map(([x, y]) => ({ x: cx + x * c - y * s, y: cy + x * s + y * c }));
+}
+
+/** The straight box that just holds a stamp (see stampCorners), for keeping it on the stage and for later stamps to keep off. */
+export function stampBox(text, fs) {
+  const q = stampCorners(text, fs), xs = q.map((p) => p.x), ys = q.map((p) => p.y);
+  return { w: Math.max(...xs) - Math.min(...xs), h: Math.max(...ys) - Math.min(...ys) };
+}
+
+/** Whether a stamp centred on (cx, cy) touches a straight box: a returned test, so a stamp's own numbers are worked out once for many boxes. */
+export function stampTouches(text, fs, cx, cy) {
+  const q = stampCorners(text, fs, cx, cy), xs = q.map((p) => p.x), ys = q.map((p) => p.y);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+  const axes = [[0, 1], [1, 2]].map(([i, j]) => {
+    const nx = q[j].y - q[i].y, ny = q[i].x - q[j].x, pr = q.map((p) => p.x * nx + p.y * ny);
+    return { nx, ny, lo: Math.min(...pr), hi: Math.max(...pr) };
+  });
+  return (r) => {
+    if (x1 <= r.x || x0 >= r.x + r.w || y1 <= r.y || y0 >= r.y + r.h) return false;
+    for (const { nx, ny, lo, hi } of axes) {           // separating axis test along the stamp's own two directions
+      const a = r.x * nx + r.y * ny, b = (r.x + r.w) * nx + r.y * ny, c = r.x * nx + (r.y + r.h) * ny, d = (r.x + r.w) * nx + (r.y + r.h) * ny;
+      if (hi <= Math.min(a, b, c, d) || lo >= Math.max(a, b, c, d)) return false;
+    }
+    return true;
+  };
+}
+
+/**
+ * The stamp is a big red hanko over the chart. Its usual place (upper right) is empty when the curve falls, but on a rising curve it lies right on the
+ * high points and their numbers. So: the largest size, from the usual 104 px down to 58 px, that has a spot touching no number, note or curve
+ * (the spot nearest the usual one); if there is none, the usual place at the smallest size. Returns the centre and the font size.
+ */
+function placeStamp(text, avoid, curve, usual) {
+  const line = [];
+  for (let i = 0; i < curve.length - 1; i++) {
+    const [x0, y0] = curve[i], [x1, y1] = curve[i + 1], n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0) / 16));
+    for (let k = 0; k <= n; k++) line.push({ x: x0 + ((x1 - x0) * k) / n - 7, y: y0 + ((y1 - y0) * k) / n - 7, w: 14, h: 14 });
+  }
+  const obstacles = [...avoid, ...line];
+  const free = (cx, cy, fs) => { const touches = stampTouches(text, fs, cx, cy); return !obstacles.some(touches); };
+  if (free(usual.x, usual.y, 104)) return { x: usual.x, y: usual.y, fs: 104 };
+  for (const fs of [104, 88, 76, 66, 58]) {
+    const b = stampBox(text, fs);
+    let best = null;
+    for (let cy = 84 + b.h / 2; cy <= SH - 20 - b.h / 2; cy += 16) {
+      for (let cx = 12 + b.w / 2; cx <= SW - 12 - b.w / 2; cx += 16) {
+        const d = Math.hypot(cx - usual.x, cy - usual.y);
+        if ((!best || d < best.d) && free(cx, cy, fs)) best = { cx, cy, d };
+      }
+    }
+    if (best) return { x: Math.round(best.cx), y: Math.round(best.cy), fs };
+  }
+  return { x: usual.x, y: usual.y, fs: 58 };
+}
+
 // ------------------------------------------------------------------------------------------------
 // Line chart (points on a categorical x axis, smooth curve, "forgotten" area in marker yellow)
 // ------------------------------------------------------------------------------------------------
@@ -102,14 +216,25 @@ function lineChart(scene) {
     if (p.start) return '';
     return `<div class="val" id="${id}-val${i - off}" style="position:absolute;font-size:40px;font-weight:900;left:${p.px - 14}px;width:150px;text-align:left;top:${p.py - 64}px;opacity:0">${p.y}${unit}</div>`;
   }).join('');
-  // callouts (red pencil note + arrow), positioned right/up of the point
+  // callouts (red pencil note + arrow): up and to the right of the point, unless that collides with a value label (a point near the top of the
+  // plot leaves no room above it), in which case the first free place among a few others is used
+  const labelRects = pts.filter((p) => !p.start).map((p) => ({ x: p.px - 14, y: p.py - 64, w: 26 * (String(p.y).length + unit.length) + 8, h: 52 }));
+  const fixedRects = [...pts.map((p) => ({ x: p.px - 90, y: PLOT.yBot + 16, w: 180, h: 40 })), { x: PLOT.x1 - 320, y: PLOT.yBot + 66, w: 340, h: 34 }, { x: PLOT.x0 - 6, y: 8, w: 420, h: 40 }];
   const cos = (scene.cues || []).filter((c) => c.op === 'chart.callout').map((c, k) => {
     const p = pts[(c.index ?? 0) + off];
-    const lx = Math.min(SW - 330, p.px + 70), ly = Math.max(20, p.py - 130 - k * 0);
-    return { html: `<div class="callout" id="${id}-co${k}" style="left:${lx}px;top:${ly}px;font-size:38px"><u>${esc(c.text)}</u></div>`,
-      arrow: `<path id="${id}-coa${k}" d="M${fmt(lx + 26)} ${fmt(ly + 56)} C${fmt(lx + 4)} ${fmt(ly + 100)} ${fmt(p.px + 60)} ${fmt(p.py - 28)} ${fmt(p.px + 16)} ${fmt(p.py - 14)}" stroke="${RED}" stroke-width="3.6" fill="none" pathLength="1"/><path id="${id}-coh${k}" d="M${fmt(p.px + 34)} ${fmt(p.py - 36)} L${fmt(p.px + 14)} ${fmt(p.py - 12)} L${fmt(p.px + 42)} ${fmt(p.py - 8)}" stroke="${RED}" stroke-width="3.6" fill="none" pathLength="1"/>` };
+    const place = placeCallout(p, c.text, [...labelRects, ...fixedRects], pts.map((q) => [q.px, q.py]));
+    const { lx, ly } = place;
+    return { rect: place.rect, html: `<div class="callout" id="${id}-co${k}" style="left:${lx}px;top:${ly}px;font-size:38px"><u>${esc(c.text)}</u></div>`,
+      arrow: `<path id="${id}-coa${k}" d="${place.arrow}" stroke="${RED}" stroke-width="3.6" fill="none" pathLength="1"/><path id="${id}-coh${k}" d="${place.head}" stroke="${RED}" stroke-width="3.6" fill="none" pathLength="1"/>` };
   });
-  const stamp = (scene.cues || []).filter((c) => c.op === 'stamp').map((c, k) => `<div class="stamp" id="${id}-stamp${k}" style="left:${Math.round(SW * 0.72)}px;top:${Math.round(SH * 0.2)}px;opacity:0;font-size:104px">${esc(c.text)}</div>`).join('');
+  const curveLine = pts.map((q) => [q.px, q.py]);
+  const placed = cos.map((c) => c.rect);                       // notes already placed are obstacles for the stamps
+  const stamp = (scene.cues || []).filter((c) => c.op === 'stamp').map((c, k) => {
+    const where = placeStamp(c.text, [...labelRects, ...fixedRects, ...placed, { x: PLOT.x0 - 110, y: PLOT.yTop - 20, w: 110, h: PLOT.yBot - PLOT.yTop + 40 }, { x: PLOT.x0, y: SH - 44, w: 420, h: 44 }], curveLine, { x: Math.round(SW * 0.72), y: Math.round(SH * 0.34) });
+    const b = stampBox(c.text, where.fs);
+    placed.push({ x: where.x - b.w / 2, y: where.y - b.h / 2, w: b.w, h: b.h });
+    return `<div class="stamp" id="${id}-stamp${k}" style="left:${where.x}px;top:${where.y}px;opacity:0;font-size:${where.fs}px">${esc(c.text)}</div>`;
+  }).join('');
   const labels = `<div class="axlab" style="position:absolute;left:${PLOT.x0 - 6}px;top:8px;font-size:28px;font-weight:700;color:rgba(61,61,61,.8);white-space:nowrap" id="${id}-ylab">${esc(v.yLabel || '')}</div>` +
     `<div class="axlab" style="position:absolute;left:${PLOT.x1 - 320}px;top:${PLOT.yBot + 66}px;width:340px;text-align:right;font-size:24px;font-weight:500;color:rgba(61,61,61,.8);white-space:nowrap" id="${id}-xlab">${esc(v.xLabel || '')} →</div>` +
     (v.note ? `<div style="position:absolute;left:${PLOT.x0}px;top:${SH - 38}px;font-size:22px;font-weight:500;color:rgba(61,61,61,.8)" id="${id}-note">${esc(v.note)}</div>` : '');
@@ -162,7 +287,7 @@ function reviewCurve(scene) {
   const svgInner = `${ax.svg}<path id="${id}-base" d="${baseD}" stroke="${INK}" stroke-opacity=".4" stroke-width="4" stroke-dasharray="3 12" fill="none" pathLength="1"/>${areas}${segPaths}${jumps}`;
   const rlabels = reviews.map((r, i) => `<div class="rv" id="${id}-rv${i}" style="position:absolute;left:${xOf(r) - 90}px;top:${PLOT.yBot + 14}px;width:180px;text-align:center;font-size:30px;font-weight:900;color:${RED};opacity:0">${esc(v.reviewLabels?.[i] || `${r}日後`)}</div>`).join('');
   const tickHTML = ax.labels;
-  const stamp = (scene.cues || []).filter((c) => c.op === 'stamp').map((c, k) => `<div class="stamp" id="${id}-stamp${k}" style="left:${Math.round(SW * 0.6)}px;top:${Math.round(SH * 0.48)}px;opacity:0;font-size:84px">${esc(c.text)}</div>`).join('');
+  const stamp = (scene.cues || []).filter((c) => c.op === 'stamp').map((c, k) => `<div class="stamp" id="${id}-stamp${k}" style="left:${Math.round(SW * 0.6)}px;top:${Math.round(SH * 0.6)}px;opacity:0;font-size:84px">${esc(c.text)}</div>`).join('');
   const legend = `<div style="position:absolute;left:${xOf(days * 0.7)}px;top:${yV(0.21) - 48}px;font-size:28px;font-weight:700;color:rgba(61,61,61,.8);white-space:nowrap;opacity:0" id="${id}-leg0">何もしないと…</div>` +
     `<div style="position:absolute;left:${PLOT.x0 - 6}px;top:8px;font-size:28px;font-weight:700;color:rgba(61,61,61,.8);white-space:nowrap" id="${id}-ylab">${esc(v.yLabel || '')}</div>` +
     `<div style="position:absolute;left:${PLOT.x1 - 330}px;top:${PLOT.yBot - 50}px;width:340px;text-align:right;font-size:24px;font-weight:500;color:rgba(61,61,61,.8)" id="${id}-xlab">${esc(v.xLabel || '')} →</div>` +

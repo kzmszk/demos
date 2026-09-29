@@ -213,7 +213,9 @@
     tl.fromTo(el, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: D || 0.35, ease: EASE_OUT, immediateRender: true }, T);
   }
   function stampIn(el, T, sc) {
-    gsap.set(el, { opacity: 0 });
+    // GSAP owns the transform from here on, so the centring (CSS translate(-50%,-50%)) is handed over too; otherwise the y tween below
+    // resets it and the stamp hangs from its top edge, half its height below the point it was placed at
+    gsap.set(el, { xPercent: -50, yPercent: -50, x: 0, y: 0, opacity: 0 });
     tl.fromTo(el, { opacity: 0, scale: 2.2, rotation: -14 }, { opacity: 1, scale: 1, rotation: -5, duration: 0.32, ease: 'power4.in', immediateRender: true }, T);
     tl.fromTo(el, { y: 0 }, { y: 6, duration: 0.06, yoyo: true, repeat: 1 }, T + 0.32);
     tl.to(el, { opacity: 0, duration: 0.4 }, Math.min(sc.end - 0.5, T + 4.5));
