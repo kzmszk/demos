@@ -110,6 +110,25 @@ auto_movie/
 - 画面が長く止まっていないか、各シーンで最初の絵・データが出るまでの時間、シーンの長さ
 - HyperFrames 自身の検査（lint / ランタイム / レイアウトの重なり / コントラスト）
 - `readings.md`：VOICEVOX が実際に読んだ「かな」（誤読の確認用）
+- 公開用の付属物（字幕 `.srt`、チャプターとクレジットの概要欄テキスト、共有用の軽量版）も `--out` の隣に書き出されます
+
+## 最初のエピソード：今日のライフハック No.001「忘れない復習のタイミング」
+
+シード（`examples/lifehack-001/seed.json`）は、テーマ「勉強したことを忘れにくくする復習のタイミング（忘却曲線を味方にする）」・3 分・二人ポッドキャスト・参考資料 1 本（`sources/forgetting-curve.md`：エビングハウス、分散学習、テスト効果の要点と、断定できない点の留保）です。
+
+```bash
+node bin/auto-movie.mjs make --seed examples/lifehack-001/seed.json --run lifehack-001-final --quality delivery --out output/lifehack-001.mp4
+```
+
+| 出力 | 内容 |
+|---|---|
+| `output/lifehack-001.mp4` | マスター（1920×1080 / 30fps / H.264 + AAC 48kHz / **180.000 秒** / 約 135 MB） |
+| `output/lifehack-001.web.mp4` | 共有用の軽量版（約 38 MB） |
+| `output/lifehack-001/` | `captions.srt`（字幕）・`youtube-description.txt`（チャプターとクレジット）・`bgm.m4a`（BGM 単体）・`bgm-score.mid`（譜面）・`qa-report.md`・`contact-sheet.png`・`audio-overview.png`・`readings.md`・`script.json`・`plan.json` |
+
+実績：企画 → 台本（検証で 1 回差し戻し）→ 挿絵 2 枚 → 声 49 行 → 作曲・ミックス → 書き出し → QA を **約 8.5 分**で通し（2 回目以降はキャッシュで約 2 分）。LLM の費用は約 **$1.6**（企画 $0.11、台本 $0.50、挿絵 $0.95。`claude -p` の API 換算）。
+
+QA は全 19 項目が PASS：長さ 180.000 秒（差 0）、声の重なり 0（最小の間隔 0.34 秒）、スケジュール外の声 0 秒、ラウドネス -16.0 LUFS・ピーク -1.4 dBFS、発話中の声と BGM の差 17.5 dB、字幕が発話を 100% 覆う、6 秒以上の静止なし、HyperFrames の検査（レイアウト 0 件・コントラスト 59/59 合格）。完成した MP4 は Chromium で実際に再生し（3 倍速で通し）、デコードされた音声の音量が、台本の「声の区間」と「間」でちょうど分かれること（中央値 -20.9 dB と -36.6 dB）も確かめています。
 
 ## クレジットとライセンス
 

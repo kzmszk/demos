@@ -2,7 +2,7 @@
 // re-run on its own; TTS results are cached globally, so changing only the picture (or the music) is cheap.
 import path from 'node:path';
 import fs from 'node:fs';
-import { ROOT, run, ensureDir, readJSON, writeJSON, writeText, exists, log, round, clamp } from './util.mjs';
+import { ROOT, run, ensureDir, readJSON, writeJSON, writeText, exists, log, round, clamp, rng } from './util.mjs';
 import { synthesizeLines, resolveAnchors } from './tts/index.mjs';
 import { compileTimeline, DEFAULT_CFG } from './timeline.mjs';
 import { compose, scoreToMidi } from './audio/composer.mjs';
@@ -52,22 +52,26 @@ export function stageTimeline({ episode, voice, targetSec, runDir, cfg, speedRan
   return { timeline, speed, fit, stats };
 }
 
-export function stageMusic({ episode, timeline, series, runDir, seed }) {
+export function stageMusic({ episode, timeline, series, runDir, seed, style }) {
   const lineSpans = [...timeline.scenes.flatMap((s) => s.lines), ...timeline.outro.lines];
   const voiceLoad = (a, b) => {
     let cov = 0;
     for (const l of lineSpans) cov += Math.max(0, Math.min(b, l.end + 0.2) - Math.max(a, l.start - 0.1));
     return clamp(cov / (b - a), 0, 1);
   };
+  // the style sets the feel of the music: tempo range and how lively the arrangement is
+  const [bpmLo, bpmHi] = style?.music?.bpm || [78, 88];
+  const bias = style?.music?.energyBias || 0;
+  const bpmHint = bpmLo + (bpmHi - bpmLo) * rng(`bpm:${seed}`)();
   const sections = [
     { t0: 0, t1: timeline.intro.end, label: 'intro', mood: 'warm', energy: 0.2 },
     ...timeline.scenes.map((s) => {
       const e = episode.scenes.find((x) => x.id === s.id);
-      return { t0: s.start, t1: s.end, label: s.id, mood: e.mood || 'warm', energy: e.energy ?? 0.45 };
+      return { t0: s.start, t1: s.end, label: s.id, mood: e.mood || 'warm', energy: clamp((e.energy ?? 0.45) + bias, 0, 1) };
     }),
     { t0: timeline.outro.start, t1: timeline.duration, label: 'outro', mood: 'resolve', energy: 0.22 },
   ];
-  const score = compose({ duration: timeline.duration, sections, seed: seed ?? series.id, key: series.music?.key || 'F', voiceLoad, introSec: timeline.intro.end, outroSec: timeline.duration - timeline.outro.start, title: episode.title });
+  const score = compose({ duration: timeline.duration, sections, seed: seed ?? series.id, key: series.music?.key || 'F', bpm: bpmHint, voiceLoad, introSec: timeline.intro.end, outroSec: timeline.duration - timeline.outro.start, title: episode.title });
   const dir = ensureDir(path.join(runDir, 'audio'));
   writeJSON(path.join(dir, 'score.json'), { ...score, notes: undefined, noteCounts: Object.fromEntries(Object.entries(score.notes).map(([k, v]) => [k, v.length])) });
   fs.writeFileSync(path.join(dir, 'score.mid'), scoreToMidi(score));
@@ -122,7 +126,7 @@ export async function buildFromScript({ episode, series, runDir, targetSec = 180
   const voice = await stageVoice({ episode, series, runDir, provider });
   const { timeline, speed, fit, stats } = stageTimeline({ episode, voice, targetSec, runDir, cfg });
   if (!fit.ok) log('fit', `WARNING: ${fit.advice}`);
-  const music = stageMusic({ episode, timeline, series, runDir, seed });
+  const music = stageMusic({ episode, timeline, series, runDir, seed, style });
   const mix = await stageMix({ timeline, voice, bgm: music.audio, runDir, speed, series });
   const project = await stageCompose({ episode, timeline, series, runDir, audioFile: mix.masterPath, episodeNo, style });
   return { voice, timeline, speed, fit, stats, music, mix, project };

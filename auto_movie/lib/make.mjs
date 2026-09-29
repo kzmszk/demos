@@ -12,6 +12,30 @@ import { countChars } from './schema.mjs';
 import { linesOf, stageVoice, stageTimeline, stageMusic, stageMix, stageCompose, stageCheck, stageRender } from './pipeline.mjs';
 import { runQA } from './qa.mjs';
 
+
+const pad = (n, w = 2) => String(Math.floor(n)).padStart(w, '0');
+const srtTime = (t) => `${pad(t / 3600)}:${pad((t % 3600) / 60)}:${pad(t % 60)},${pad(Math.round((t % 1) * 1000), 3)}`;
+const mmss = (t) => `${Math.floor(t / 60)}:${pad(t % 60)}`;
+
+/** Subtitles (.srt), chapter list and a description with the credits – handy when the video is published. */
+function writePublishingExtras({ dir, timeline, episode, series, plan }) {
+  const names = { host: series.cast.host.name, guest: series.cast.guest?.name };
+  const lines = [...timeline.scenes.flatMap((sc) => sc.lines), ...timeline.outro.lines];
+  let n = 0, srt = '';
+  for (const ln of lines) {
+    ln.pages.forEach((pg, k) => {
+      const a = ln.start + pg.t0, b = k + 1 < ln.pages.length ? ln.start + ln.pages[k + 1].t0 : ln.end + 0.1;
+      srt += `${++n}\n${srtTime(a)} --> ${srtTime(Math.max(a + 0.4, b - 0.02))}\n${names[ln.who] || ''}：${pg.text}\n\n`;
+    });
+  }
+  fs.writeFileSync(path.join(dir, 'captions.srt'), srt);
+  const chapters = [['イントロ', 0], ...timeline.scenes.map((sc) => [episode.scenes.find((x) => x.id === sc.id).headline, sc.start]), ['エンディング', timeline.outro.start]];
+  const desc = `${series.name} No.${String(episode.episode || 1).padStart(3, '0')}　${episode.title}\n${episode.subtitle || ''}\n\n` +
+    chapters.map(([t, s]) => `${mmss(s)} ${t}`).join('\n') +
+    `\n\n【参考にした事実】\n${(plan?.facts || []).map((f) => `・${f.text}`).join('\n')}\n\n【クレジット】\n${series.credits.join('\n')}\nイラスト・BGM・映像：auto_movie（HyperFrames でレンダリング）\n`;
+  fs.writeFileSync(path.join(dir, 'youtube-description.txt'), desc);
+}
+
 export const STAGES = ['sources', 'plan', 'script', 'illustrate', 'voice', 'audio', 'compose', 'check', 'render', 'qa'];
 
 /**
@@ -75,7 +99,7 @@ export async function make(o) {
 
   // 6. audio: music composed for this timeline, mixed with the voice
   stage('audio');
-  const music = stageMusic({ episode, timeline, series: seriesForRun, runDir, seed: `${seriesId}:${episodeNo}:${plan.title}` });
+  const music = stageMusic({ episode, timeline, series: seriesForRun, runDir, seed: `${seriesId}:${episodeNo}:${plan.title}`, style });
   const mix = await stageMix({ timeline, voice, bgm: music.audio, runDir, speed, series: seriesForRun });
 
   // 7. picture
@@ -110,6 +134,9 @@ export async function make(o) {
     copy(path.join(runDir, 'script.json'), 'script.json');
     copy(path.join(runDir, 'plan.json'), 'plan.json');
     if (exists(path.join(runDir, 'audio', 'bgm.wav'))) await run('ffmpeg', ['-y', '-loglevel', 'error', '-i', path.join(runDir, 'audio', 'bgm.wav'), '-c:a', 'aac', '-b:a', '192k', path.join(extras, 'bgm.m4a')]);
+    writePublishingExtras({ dir: extras, timeline, episode, series: seriesForRun, plan });
+    // a light copy for sharing (about a quarter of the size of the master)
+    await run('ffmpeg', ['-y', '-loglevel', 'error', '-i', finalPath, '-c:v', 'libx264', '-preset', 'slow', '-crf', '22', '-tune', 'animation', '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-movflags', '+faststart', '-c:a', 'copy', finalPath.replace(/\.mp4$/, '.web.mp4')]);
     log('done', `video → ${finalPath} (+ extras in ${extras})`);
   }
   const summary = { runDir, video, finalPath, style: plan.style, title: episode.title, lengthSec, measuredSec: qa.measuredSec, qa: qa.status, chars: countChars(episode), speed, seconds: round((Date.now() - t0) / 1000, 0) };

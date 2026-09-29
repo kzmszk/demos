@@ -162,8 +162,8 @@ function reviewCurve(scene) {
   const svgInner = `${ax.svg}<path id="${id}-base" d="${baseD}" stroke="${INK}" stroke-opacity=".4" stroke-width="4" stroke-dasharray="3 12" fill="none" pathLength="1"/>${areas}${segPaths}${jumps}`;
   const rlabels = reviews.map((r, i) => `<div class="rv" id="${id}-rv${i}" style="position:absolute;left:${xOf(r) - 90}px;top:${PLOT.yBot + 14}px;width:180px;text-align:center;font-size:30px;font-weight:900;color:${RED};opacity:0">${esc(v.reviewLabels?.[i] || `${r}日後`)}</div>`).join('');
   const tickHTML = ax.labels;
-  const stamp = (scene.cues || []).filter((c) => c.op === 'stamp').map((c, k) => `<div class="stamp" id="${id}-stamp${k}" style="left:${Math.round(SW * 0.62)}px;top:${Math.round(SH * 0.3)}px;opacity:0;font-size:96px">${esc(c.text)}</div>`).join('');
-  const legend = `<div style="position:absolute;left:${xOf(days * 0.36)}px;top:${yV(0.3) - 8}px;font-size:28px;font-weight:700;color:rgba(61,61,61,.8);white-space:nowrap;opacity:0" id="${id}-leg0">何もしないと…</div>` +
+  const stamp = (scene.cues || []).filter((c) => c.op === 'stamp').map((c, k) => `<div class="stamp" id="${id}-stamp${k}" style="left:${Math.round(SW * 0.6)}px;top:${Math.round(SH * 0.48)}px;opacity:0;font-size:84px">${esc(c.text)}</div>`).join('');
+  const legend = `<div style="position:absolute;left:${xOf(days * 0.7)}px;top:${yV(0.21) - 48}px;font-size:28px;font-weight:700;color:rgba(61,61,61,.8);white-space:nowrap;opacity:0" id="${id}-leg0">何もしないと…</div>` +
     `<div style="position:absolute;left:${PLOT.x0 - 6}px;top:8px;font-size:28px;font-weight:700;color:rgba(61,61,61,.8);white-space:nowrap" id="${id}-ylab">${esc(v.yLabel || '')}</div>` +
     `<div style="position:absolute;left:${PLOT.x1 - 330}px;top:${PLOT.yBot - 50}px;width:340px;text-align:right;font-size:24px;font-weight:500;color:rgba(61,61,61,.8)" id="${id}-xlab">${esc(v.xLabel || '')} →</div>` +
     (v.note ? `<div style="position:absolute;left:${PLOT.x0}px;top:${SH - 38}px;font-size:24px;font-weight:700;color:${RED}" id="${id}-note">${esc(v.note)}</div>` : '');
@@ -222,7 +222,7 @@ function steps(scene) {
         <g filter="url(#${id}-w${i})"><path id="${id}-cf${i}" d="${pencilRect(6, 6, cw - 12, ch - 12, 70 + i, 3)}" stroke="${INK}" stroke-width="4" pathLength="1"/>
         <path d="M${cw / 2 - 74} 236 h148" stroke="none"/>
         <g transform="translate(${cw / 2 - 52} 44) scale(1.04)" stroke="${INK}" stroke-width="3.2"><ellipse cx="50" cy="52" rx="42" ry="40" fill="${MARK}" stroke="none" style="mix-blend-mode:multiply"/>${icon}</g></g></svg>
-      <div style="position:absolute;left:0;right:0;top:172px;text-align:center;font-size:${it.label.length <= 3 ? 84 : it.label.length === 4 ? 68 : 54}px;font-weight:900;letter-spacing:-.04em;line-height:1.1"><span class="mk-l" style="position:relative;display:inline-block;padding:0 .14em;isolation:isolate"><i style="position:absolute;left:0;right:0;bottom:.06em;height:.38em;background:${MARK};z-index:-1;mix-blend-mode:multiply;transform-origin:0 50%;transform:rotate(-.6deg)"></i>${esc(it.label)}</span></div>
+      <div style="position:absolute;left:0;right:0;top:172px;text-align:center;font-size:${[88, 88, 88, 80, 66, 52, 44][Math.min(6, it.label.length)]}px;font-weight:900;letter-spacing:-.04em;line-height:1.1"><span class="mk-l" style="position:relative;display:inline-block;padding:0 .14em;isolation:isolate"><i style="position:absolute;left:0;right:0;bottom:.06em;height:.38em;background:${MARK};z-index:-1;mix-blend-mode:multiply;transform-origin:0 50%;transform:rotate(-.6deg)"></i>${esc(it.label)}</span></div>
       <div style="position:absolute;left:28px;right:28px;top:272px;text-align:center;font-size:32px;font-weight:500;line-height:1.5;text-wrap:balance">${esc(it.sub || '')}</div>
     </div>`;
   }).join('');

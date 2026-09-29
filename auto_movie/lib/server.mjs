@@ -58,7 +58,8 @@ function startJob(spec) {
   const args = [path.join(ROOT, 'bin', 'auto-movie.mjs'), 'make', '--theme', spec.theme, '--seconds', String(Math.round(spec.lengthSec)), '--run', id, '--style', spec.style || 'auto', '--tts', spec.tts || 'voicevox', '--quality', spec.quality || 'looks', '--series', spec.series || 'lifehack'];
   if (sources.length) args.push('--sources', ...sources);
   if (spec.force) args.push('--force', spec.force);
-  const proc = spawn(process.execPath, args, { cwd: ROOT, env: process.env });
+  // own process group, so that cancelling also stops the claude / ffmpeg / chrome children
+  const proc = spawn(process.execPath, args, { cwd: ROOT, env: process.env, detached: true });
   const job = { proc, log: [], stage: 'starting', state: 'running', listeners: new Set() };
   jobs.set(id, job);
   const push = (chunk) => {
@@ -121,7 +122,7 @@ export async function startApp({ port = 8420 } = {}) {
         return;
       }
       m = p.match(/^\/api\/jobs\/([\w-]+)\/cancel$/);
-      if (m && req.method === 'POST') { jobs.get(m[1])?.proc.kill('SIGTERM'); return json(res, 200, { ok: true }); }
+      if (m && req.method === 'POST') { const j = jobs.get(m[1]); if (j) { try { process.kill(-j.proc.pid, 'SIGTERM'); } catch { j.proc.kill('SIGTERM'); } } return json(res, 200, { ok: true }); }
       m = p.match(/^\/runs\/([\w-]+)\/(.+)$/);
       if (m) {
         const f = path.normalize(path.join(RUNS, m[1], m[2]));
