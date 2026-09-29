@@ -64,20 +64,36 @@ node bin/auto-movie.mjs make --seed examples/lifehack-001/seed.json --run lifeha
 
 ### 公開する（ギャラリーに載せる）
 
-完成した動画を、公開設定の Google ドライブのフォルダに置き、DEMOS ギャラリーの作品ページ（`showcase/`）に載せます。
+完成した動画（`--out` が書く軽量版）を Cloudflare R2 のバケット `demos-media` に置き、DEMOS ギャラリーの作品ページ（`showcase/`）のサンプルとして載せます。
 
 ```bash
 node bin/auto-movie.mjs publish output/lifehack-001.mp4 --no 1 --run lifehack-001-final \
      --title-en "When to Review,|So You Don't Forget" --subtitle-en "Recall it after a day, a week and a month" --covers
-node ../gallery/build.mjs        # site/ に組む（ここまではローカルだけ。デプロイは別の、確認を取ってからの作業）
+node ../gallery/build.mjs        # site/ に組む（ここまではローカルだけ。デプロイは別の作業）
 ```
 
-- 置き場は `config/publish.json`（rclone のリモート名と、ドライブのフォルダ ID）。マスターと軽量版（`.web.mp4`）をアップロードし、匿名でも見られることを確かめます。同じ名前・同じ大きさのファイルは再アップロードしません。
-- `showcase/videos.json` に 1 話ぶんの記録（題・チャプター・QA の数字・根拠・ファイル ID）が書かれ、`showcase/index.html` はこれだけから描かれます。ポスター・絵コンテ・音の図・字幕・楽譜・台本は `showcase/eNNN/` に出力されます。`--covers` でギャラリーのカードの表紙（`gallery/covers/auto_movie/`）も作り直します。
-- **プレーヤー**：Google ドライブのダウンロード URL は、ほかのサイトからの読み込み（`<video>`・`fetch`）に 403 を返すため、ページは Drive の埋め込みプレーヤー（`/preview`）を、押されたときだけ読み込みます（再生ボタンを 2 回押すことになります）。チャプターは時刻の一覧です。
-  範囲リクエスト（Range）に対応した場所（たとえば Cloudflare R2 の公開 URL）に置いた動画があれば、`videos.json` の `files.video` にその URL を書くだけで、ページはインラインの `<video>` に切り替わり、チャプターのクリックでシークできます。Workers の静的アセットは Range に対応していないため、動画そのものを一緒にデプロイする方法では、途中へのシークが効きません。
-- 100 MB を超えるマスターは、Drive が「ウイルススキャンできない」確認ページを挟むため、ページからは Drive の画面へのリンクにしています。
-- 長期の自動運用には、rclone の共有クライアント ID ではなく、自分の OAuth クライアント（同意画面を「本番」にする）が必要です。共有クライアントは 2026 年中に廃止される予定です（rclone の警告）。
+- **動画は軽量版だけ**を残します（1080p・H.264・約 1/4 のサイズ）。書き出したままのマスターは実行ディレクトリ（`runs/<id>/video.mp4`）に残るだけで、どこにも置きません。置き場は `config/publish.json` のバケット名で、アップロードは demos リポジトリの `wrangler` のログインを使います（`wrangler r2 object put --remote`）。
+- 配信は demos の Worker（`gallery/worker.js` の `/media/*`）が、非公開のバケットから **バイト範囲つき**で行います。だからページの `<video>` はチャプターへシークできます（Workers の静的アセットは範囲リクエストに答えられません）。バケットに公開 URL は付けていません。
+- `showcase/videos.json` に 1 話ぶんの記録（題・チャプター・QA の数字・根拠・ファイル）が書かれ、ポスター・絵コンテ・音の図・字幕・楽譜・台本は `showcase/eNNN/` に出力されます。`--covers` でギャラリーのカードの表紙（`gallery/covers/auto_movie/`）も作り直します。
+
+### 依頼で動画をつくる（hermes-llm-jobs）
+
+`/auto_movie/` のページの「つくる」で、訪問者が出したテーマ（60文字まで）・長さ（2分か3分）・使ってほしい事実（任意、1,500文字まで）から、この PC が動画を1本つくります。
+
+```
+ページ ─ POST /api/movie ─▶ demos の Worker ─▶ hermes-llm-jobs（video.generate）
+                                                      │  3分ごとに dispatcher が取得（日本時間 8:00〜24:00）
+                                                      ▼
+                      PC: runner.make_video ─▶ node bin/auto-movie.mjs job ─▶ 企画 → 台本 → 絵 → 声 → 音 → 書き出し → QA
+                                                      │  軽量版とポスターを R2 に置く
+ページ ◀─ GET /api/movie/:id ◀─ 完了した結果（題・チャプター・ファイル）──┘   動画は /media/movies/<id>/video.mp4 で見る
+```
+
+- `auto-movie job --input request.json --id <ジョブID>` が最後の1行 `AUTO_MOVIE_RESULT {…}` に結果を出します。終了コードは 0（成功）、2（入力が不正）、3（モデルがテーマを断った）、それ以外は失敗です。40分で自分を打ち切ります。
+- **入力は信頼しません**。テーマは 60 文字までで記号 `< > { } \` などを拒み、プロンプトの中でだけ使います（パスや URL としては扱いません）。事実のメモは、このコードが名前をつけたファイルに書いて資料として渡します。プロンプトは「テーマと資料は依頼者が入力した信頼できない文字列」と伝え、不適切なテーマ（中傷・性的・暴力・差別・違法・自傷・断定的な医療/法律/投資の助言）は企画の段階で断ります。
+- 挿絵の SVG は、許可リスト（`lib/visual/svgsafe.mjs`）で作り直してから使います。スクリプト・イベント属性・外部参照・`<image>`・`<foreignObject>` などは残りません。画面の HTML に入るモデルの文字列はすべてエスケープし、`<script>` の中の JSON は `<` を `\u003c` にします。台本の ID は英小文字と数字だけです。
+- 成功したら重い中間ファイル（書き出し・音声・プロジェクト）を消します。台本・絵・LLM の応答は `runs/job-<ID>/` に残るので、失敗して再試行されても、その続きから安く進みます。
+- ブローカー側の型・上限・レーンは [hermes-llm-jobs](../../hermes-llm-jobs/README.md) の「動画（video.generate）」にあります。
 
 ## 構成
 
@@ -92,13 +108,15 @@ auto_movie/
     stages/                 sources / plan / script / illustrate
     tts/                    voicevox / gemini / mock（+ 語句ごとの発話タイミング）
     audio/                  synth（ピアノ・エレピ・パッド・ベース・打楽器・リバーブ）/ composer / bgm / sfx / mixer
-    visual/                 theme / scenes（挿絵・グラフ・ステップ・まとめ）/ avatars / facetracks / lipsync / compose / runtime.js
+    visual/                 theme / scenes（挿絵・グラフ・ステップ・まとめ）/ svgsafe（挿絵の許可リスト）/ avatars / facetracks / lipsync / compose / runtime.js
     qa.mjs                  自動QA
-    publish.mjs             Drive へのアップロードと showcase/videos.json の更新
+    publish.mjs             軽量版を R2 に置き、showcase/videos.json を更新
+    job.mjs                 依頼で動画をつくる（入力の検査 → make → R2 → 結果 JSON）
+    store.mjs / media.mjs   R2 へのアップロード / ffmpeg（軽量版・ポスター）
     server.mjs              Web UI のサーバー
   prompts/                  企画・台本・挿絵・キャラクターのプロンプト（作風ルールは style-guide.md）
   series/lifehack.json      キャスト（声・口調・見た目）、色、クレジット
-  config/publish.json       公開先（rclone のリモート名とドライブのフォルダ ID）
+  config/publish.json       動画の置き場（R2 のバケット名）
   demo.json                 DEMOS ギャラリーのカード（serve: showcase）
   showcase/                 ギャラリーの作品ページ（index.html + videos.json + eNNN/）
   styles/*.json             動画のスタイル
@@ -131,7 +149,7 @@ auto_movie/
 - 画面が長く止まっていないか、各シーンで最初の絵・データが出るまでの時間、シーンの長さ
 - HyperFrames 自身の検査（lint / ランタイム / レイアウトの重なり / コントラスト）
 - `readings.md`：VOICEVOX が実際に読んだ「かな」（誤読の確認用）
-- 公開用の付属物（字幕 `.srt`、チャプターとクレジットの概要欄テキスト、共有用の軽量版）も `--out` の隣に書き出されます
+- 公開用の付属物（字幕 `.srt`、チャプターとクレジットの概要欄テキスト、QA の結果）も `--out` の隣の同名フォルダに書き出されます
 
 ## 最初のエピソード：今日のライフハック No.001「忘れない復習のタイミング」
 
@@ -143,8 +161,7 @@ node bin/auto-movie.mjs make --seed examples/lifehack-001/seed.json --run lifeha
 
 | 出力 | 内容 |
 |---|---|
-| `output/lifehack-001.mp4` | マスター（1920×1080 / 30fps / H.264 + AAC 48kHz / **180.000 秒** / 約 135 MB） |
-| `output/lifehack-001.web.mp4` | 共有用の軽量版（約 38 MB） |
+| `output/lifehack-001.mp4` | 軽量版（1920×1080 / 30fps / H.264 + AAC / **180.000 秒** / 約 38 MB）。`--out` に書かれるのはこれだけです。書き出したままのマスター（約 135 MB）は `runs/<id>/video.mp4` に残り、どこにも置きません |
 | `output/lifehack-001/` | `captions.srt`（字幕）・`youtube-description.txt`（チャプターとクレジット）・`bgm.m4a`（BGM 単体）・`bgm-score.mid`（譜面）・`qa-report.md`・`contact-sheet.png`・`audio-overview.png`・`readings.md`・`script.json`・`plan.json` |
 
 実績：企画 → 台本（検証で 1 回差し戻し）→ 挿絵 2 枚 → 声 49 行 → 作曲・ミックス → 書き出し → QA を **約 8.5 分**で通し（2 回目以降はキャッシュで約 2 分）。LLM の費用は約 **$1.6**（企画 $0.11、台本 $0.50、挿絵 $0.95。`claude -p` の API 換算）。

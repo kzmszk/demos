@@ -1,19 +1,19 @@
 {
   "title": "auto_movie",
   "subtitle": {
-    "ja": "テーマを渡すと、絵も声も音楽もつくって3分の動画にする",
-    "en": "Hand it a theme; it draws, voices and scores a three-minute film"
+    "ja": "テーマを書くと、この PC が動画をつくる",
+    "en": "Write a theme and my PC makes a film"
   },
   "summary": {
-    "ja": "テーマと長さと参考資料から、スタイルを決め、台本・イラスト・グラフ・声・ピアノの BGM まで自動でつくり、HyperFrames で一本の動画に書き出すシステム。第1回「今日のライフハック」は、二人のキャストが画面の両脇に立ち、鉛筆で描かれていく図解が主役。180.000 秒ちょうど、声の重なり 0、自動 QA 18 項目すべて合格。",
-    "en": "From a theme, a length and reference material, it decides the style, then writes the script, draws the illustrations and charts, voices the lines and composes the piano score, and renders one film with HyperFrames. Episode 1 of Today's Lifehack keeps two cast members at the edges while pencil-drawn diagrams take the stage: exactly 180.000 s, zero overlapping voices, 18 of 18 automated checks passed."
+    "ja": "テーマと長さ（2〜3分）を書くと、絵も声も音楽もそろった、二人の掛け合いの解説動画を、私の PC が10〜15分でつくります。台本と挿絵は Claude、声は VOICEVOX、書き出しは HyperFrames。できあがった動画はその場で見られ、チャプターから飛べます。サンプルは「忘れない復習のタイミング」：180.000 秒ちょうど、声の重なり 0、自動検査 18 項目すべて合格。合言葉を知っている人だけが使えます。",
+    "en": "Write a theme and a length (two or three minutes) and my own PC makes a two-voice explainer film in ten to fifteen minutes — pictures, voices and music included. Claude writes the script and draws the illustrations, VOICEVOX speaks, HyperFrames renders. The film plays right there, with chapters to jump to. The sample runs exactly 180.000 s with no overlapping voices and 18 of 18 automated checks passed. Only people who know the passphrase can ask for one."
   },
   "date": "2026-09-30",
-  "tags": ["video", "hyperframes", "voicevox", "svg", "generative music"],
+  "tags": ["video", "hyperframes", "claude", "voicevox", "svg", "generative music", "r2"],
   "serve": "showcase",
   "entry": "index.html",
   "links": [
-    { "label": "再生", "href": "index.html" },
+    { "label": "つくる", "href": "index.html" },
     { "label": "English", "href": "index.html#en" }
   ]
 }

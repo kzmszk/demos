@@ -15,9 +15,15 @@
   const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- language: #en ---------- */
+  const PLACEHOLDER = {
+    ja: { theme: '例：三日坊主をやめる工夫', notes: '数字や出典など、動画に入れたいことがあれば。なければ、一般に確かなことだけで組み立てます。' },
+    en: { theme: 'e.g. 三日坊主をやめる工夫 (best written in Japanese)', notes: 'Numbers or sources you want in the film. Left empty, only well-established facts are used.' },
+  };
   const setLang = (l, push) => {
     document.documentElement.lang = l;
     $$('.lang button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.l === l)));
+    const ph_ = PLACEHOLDER[l] || PLACEHOLDER.ja;                       // placeholders cannot be switched by CSS
+    if ($('#theme')) { $('#theme').placeholder = ph_.theme; $('#notes').placeholder = ph_.notes; }
     if (push) history.replaceState(null, '', location.pathname + location.search + (l === 'en' ? '#en' : ''));
     fitTitles();
   };
