@@ -11,6 +11,7 @@ import { illustrate } from './stages/illustrate.mjs';
 import { countChars } from './schema.mjs';
 import { linesOf, stageVoice, stageTimeline, stageMusic, stageMix, stageCompose, stageCheck, stageRender } from './pipeline.mjs';
 import { runQA } from './qa.mjs';
+import { makeWebCopy } from './publish.mjs';
 
 
 const pad = (n, w = 2) => String(Math.floor(n)).padStart(w, '0');
@@ -128,6 +129,7 @@ export async function make(o) {
     const copy = (src, name) => { if (exists(src)) fs.copyFileSync(src, path.join(extras, name)); };
     copy(path.join(runDir, 'audio', 'score.mid'), 'bgm-score.mid');
     copy(path.join(runDir, 'qa', 'report.md'), 'qa-report.md');
+    copy(path.join(runDir, 'qa', 'report.json'), 'qa-report.json');
     copy(path.join(runDir, 'qa', 'contact-sheet.png'), 'contact-sheet.png');
     copy(path.join(runDir, 'qa', 'audio-overview.png'), 'audio-overview.png');
     copy(path.join(runDir, 'qa', 'readings.md'), 'readings.md');
@@ -136,7 +138,7 @@ export async function make(o) {
     if (exists(path.join(runDir, 'audio', 'bgm.wav'))) await run('ffmpeg', ['-y', '-loglevel', 'error', '-i', path.join(runDir, 'audio', 'bgm.wav'), '-c:a', 'aac', '-b:a', '192k', path.join(extras, 'bgm.m4a')]);
     writePublishingExtras({ dir: extras, timeline, episode, series: seriesForRun, plan });
     // a light copy for sharing (about a quarter of the size of the master)
-    await run('ffmpeg', ['-y', '-loglevel', 'error', '-i', finalPath, '-c:v', 'libx264', '-preset', 'slow', '-crf', '22', '-tune', 'animation', '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-movflags', '+faststart', '-c:a', 'copy', finalPath.replace(/\.mp4$/, '.web.mp4')]);
+    await makeWebCopy(finalPath, finalPath.replace(/\.mp4$/, '.web.mp4'));
     log('done', `video → ${finalPath} (+ extras in ${extras})`);
   }
   const summary = { runDir, video, finalPath, style: plan.style, title: episode.title, lengthSec, measuredSec: qa.measuredSec, qa: qa.status, chars: countChars(episode), speed, seconds: round((Date.now() - t0) / 1000, 0) };

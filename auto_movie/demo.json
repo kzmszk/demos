@@ -1,0 +1,19 @@
+{
+  "title": "auto_movie",
+  "subtitle": {
+    "ja": "テーマを渡すと、絵も声も音楽もつくって3分の動画にする",
+    "en": "Hand it a theme; it draws, voices and scores a three-minute film"
+  },
+  "summary": {
+    "ja": "テーマと長さと参考資料から、スタイルを決め、台本・イラスト・グラフ・声・ピアノの BGM まで自動でつくり、HyperFrames で一本の動画に書き出すシステム。第1回「今日のライフハック」は、二人のキャストが画面の両脇に立ち、鉛筆で描かれていく図解が主役。180.000 秒ちょうど、声の重なり 0、自動 QA 18 項目すべて合格。",
+    "en": "From a theme, a length and reference material, it decides the style, then writes the script, draws the illustrations and charts, voices the lines and composes the piano score, and renders one film with HyperFrames. Episode 1 of Today's Lifehack keeps two cast members at the edges while pencil-drawn diagrams take the stage: exactly 180.000 s, zero overlapping voices, 18 of 18 automated checks passed."
+  },
+  "date": "2026-09-30",
+  "tags": ["video", "hyperframes", "voicevox", "svg", "generative music"],
+  "serve": "showcase",
+  "entry": "index.html",
+  "links": [
+    { "label": "再生", "href": "index.html" },
+    { "label": "English", "href": "index.html#en" }
+  ]
+}

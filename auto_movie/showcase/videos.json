@@ -1,0 +1,127 @@
+{
+  "episodes": [
+    {
+      "no": 1,
+      "id": "001",
+      "date": "2026-09-30",
+      "series": {
+        "id": "lifehack",
+        "name": {
+          "ja": "今日のライフハック",
+          "en": "Today's Lifehack"
+        }
+      },
+      "title": {
+        "ja": "忘れない復習のタイミング",
+        "en": "When to Review, So You Don't Forget"
+      },
+      "titleLines": {
+        "ja": [
+          "忘れない復習の",
+          "タイミング"
+        ],
+        "en": [
+          "When to Review,",
+          "So You Don't Forget"
+        ]
+      },
+      "subtitle": {
+        "ja": "1日後・1週間後・1か月後に「思い出す」",
+        "en": "Recall it after a day, a week and a month"
+      },
+      "style": "podcast-duo",
+      "seconds": 180,
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "posterAt": 20.3,
+      "drive": {
+        "stream": "1MGvw-TfsAyKj0yOY50aHyo9gks30JyFg",
+        "master": "1dnxgW9bYpLIESzCzQWgzjsRRCEz85wN2",
+        "streamBytes": 37977659,
+        "masterBytes": 135297846
+      },
+      "chapters": [
+        {
+          "t": 0,
+          "title": "イントロ"
+        },
+        {
+          "t": 4,
+          "title": "昨日覚えたのに、もう忘れた！？"
+        },
+        {
+          "t": 21,
+          "title": "忘れるのは最初の1日が急"
+        },
+        {
+          "t": 52,
+          "title": "間隔をあけると落ち方が緩やかに"
+        },
+        {
+          "t": 77,
+          "title": "復習は1日後・1週間後・1か月後"
+        },
+        {
+          "t": 98,
+          "title": "読み返すより「思い出す」"
+        },
+        {
+          "t": 124,
+          "title": "ノートを閉じて書き出す5分"
+        },
+        {
+          "t": 144,
+          "title": "勉強した日にカレンダーへ3つ"
+        },
+        {
+          "t": 158,
+          "title": "今日のまとめ"
+        },
+        {
+          "t": 172,
+          "title": "エンディング"
+        }
+      ],
+      "files": {
+        "poster": "e001/poster.webp",
+        "storyboard": "e001/storyboard.webp",
+        "audio": "e001/audio.webp",
+        "captions": "e001/captions.srt",
+        "score": "e001/bgm-score.mid",
+        "script": "e001/script.json"
+      },
+      "facts": [
+        "エビングハウスは1885年、「DAX」「BOK」のような無意味綴りを自分で覚え、覚え直すときにどれだけ手間が減るか（節約率）を測った。",
+        "節約率は20分後に約58%、1時間後に約44%、1日後に約34%、6日後に約25%、31日後に約21%だった。",
+        "忘れるのは最初の1日がとくに急で、約3分の2が失われる。その後はゆるやかになり、1か月後でも2割ほどは残る。2015年にMurreとDrosが追試し、ほぼ同じ形の曲線が得られた。",
+        "実験に使ったのは意味のない文字列。意味を理解した内容や関心のある内容はこれほど急には忘れず、個人差も大きい。",
+        "同じ回数勉強するなら、一度にまとめるより間隔をあけて分けたほうが長く記憶に残る（分散効果）。Cepedaら（2006年）のレビューなど多数の研究で確認されている。復習するたびに、次に忘れるまでの時間が伸びる。",
+        "よく紹介される目安は「1日後・1週間後・1か月後」の復習。厳密な定説ではなく、実用的な目安。",
+        "RoedigerとKarpicke（2006年）の実験では、1週間後のテストの正答率が、読み直したグループで約40%、思い出す練習をしたグループで約61%だった。5分後のテストでは、読み直したグループのほうが成績がよかった。",
+        "1回の復習は5分ほどで十分。ノートを閉じて要点を思い出して書き出し、そのあと答え合わせをする。思い出せなくても、思い出そうとする努力に効果がある。"
+      ],
+      "qa": {
+        "status": "PASS",
+        "checks": 18,
+        "passed": 18,
+        "targetSec": 180,
+        "measuredSec": 180,
+        "lines": 49,
+        "minGapSec": 0.34,
+        "overlaps": 0,
+        "lufs": -16,
+        "truePeakDb": -1.4,
+        "voiceOverMusicDb": 17.5,
+        "textContrast": {
+          "pass": 59,
+          "total": 59
+        }
+      },
+      "build": {
+        "llmUsd": 1.56,
+        "minutes": 8.5
+      }
+    }
+  ]
+}

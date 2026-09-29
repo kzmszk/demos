@@ -6,6 +6,8 @@
 //   auto-movie build <script.json> --run <id>       (script → video, skipping the LLM stages)
 //   auto-movie voicevox [start|status|stop]         manage the local VOICEVOX engine (Docker)
 //   auto-movie qa <runDir> [--target 180]           re-run the automated QA on a rendered run
+//   auto-movie publish <video.mp4> [--no 1] [--run <id>] [--title-en "A|B"] [--subtitle-en …] [--poster-at 20.3] [--covers] [--no-upload]
+//                                                   upload to the public Drive folder (rclone) and list it on showcase/ (the gallery page)
 //   auto-movie app [--port 8420]                    local web UI
 import path from 'node:path';
 import fs from 'node:fs';
@@ -77,6 +79,14 @@ async function main() {
     const target = flags.target ? +flags.target : inp.lengthSec || 180;
     const rep = await runQA({ runDir, video: path.join(runDir, 'video.mp4'), targetSec: target, checkLog: exists(path.join(runDir, 'check.log')) ? fs.readFileSync(path.join(runDir, 'check.log'), 'utf8') : '' });
     console.log(`QA: ${rep.status}  → ${path.join(runDir, 'qa', 'report.md')}`);
+  } else if (cmd === 'publish') {
+    if (!pos[0]) throw new Error('usage: publish <video.mp4> [--no 1] [--run <id>] [--title-en "A|B"] [--subtitle-en …] [--poster-at 20.3] [--covers] [--no-upload]');
+    const { publish } = await import('../lib/publish.mjs');
+    const e = await publish({
+      video: pos[0], no: flags.no ? +flags.no : 1, runId: flags.run, titleEn: flags['title-en'], subtitleEn: flags['subtitle-en'], date: flags.date,
+      posterAt: flags['poster-at'] ? +flags['poster-at'] : undefined, covers: Boolean(flags.covers), upload: !flags['no-upload'], buildMinutes: flags['build-minutes'] ? +flags['build-minutes'] : undefined,
+    });
+    console.log(`\nepisode ${e.id}: ${e.title.ja} (${e.seconds}s)\nnext: node ../gallery/build.mjs   (deploying is a separate, explicit step)`);
   } else if (cmd === 'app') {
     const { startApp } = await import('../lib/server.mjs');
     await startApp({ port: flags.port ? +flags.port : 8420 });

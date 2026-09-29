@@ -62,6 +62,23 @@ node bin/auto-movie.mjs make --seed examples/lifehack-001/seed.json --run lifeha
 
 > Gemini TTS の呼び出し部分は、キーがない環境で書いたため、リクエストの形とレスポンスの読み取りを**スタブでテスト**（`test/tts.test.mjs`）しただけで、実際の API では未確認です。
 
+### 公開する（ギャラリーに載せる）
+
+完成した動画を、公開設定の Google ドライブのフォルダに置き、DEMOS ギャラリーの作品ページ（`showcase/`）に載せます。
+
+```bash
+node bin/auto-movie.mjs publish output/lifehack-001.mp4 --no 1 --run lifehack-001-final \
+     --title-en "When to Review,|So You Don't Forget" --subtitle-en "Recall it after a day, a week and a month" --covers
+node ../gallery/build.mjs        # site/ に組む（ここまではローカルだけ。デプロイは別の、確認を取ってからの作業）
+```
+
+- 置き場は `config/publish.json`（rclone のリモート名と、ドライブのフォルダ ID）。マスターと軽量版（`.web.mp4`）をアップロードし、匿名でも見られることを確かめます。同じ名前・同じ大きさのファイルは再アップロードしません。
+- `showcase/videos.json` に 1 話ぶんの記録（題・チャプター・QA の数字・根拠・ファイル ID）が書かれ、`showcase/index.html` はこれだけから描かれます。ポスター・絵コンテ・音の図・字幕・楽譜・台本は `showcase/eNNN/` に出力されます。`--covers` でギャラリーのカードの表紙（`gallery/covers/auto_movie/`）も作り直します。
+- **プレーヤー**：Google ドライブのダウンロード URL は、ほかのサイトからの読み込み（`<video>`・`fetch`）に 403 を返すため、ページは Drive の埋め込みプレーヤー（`/preview`）を、押されたときだけ読み込みます（再生ボタンを 2 回押すことになります）。チャプターは時刻の一覧です。
+  範囲リクエスト（Range）に対応した場所（たとえば Cloudflare R2 の公開 URL）に置いた動画があれば、`videos.json` の `files.video` にその URL を書くだけで、ページはインラインの `<video>` に切り替わり、チャプターのクリックでシークできます。Workers の静的アセットは Range に対応していないため、動画そのものを一緒にデプロイする方法では、途中へのシークが効きません。
+- 100 MB を超えるマスターは、Drive が「ウイルススキャンできない」確認ページを挟むため、ページからは Drive の画面へのリンクにしています。
+- 長期の自動運用には、rclone の共有クライアント ID ではなく、自分の OAuth クライアント（同意画面を「本番」にする）が必要です。共有クライアントは 2026 年中に廃止される予定です（rclone の警告）。
+
 ## 構成
 
 ```
@@ -77,9 +94,13 @@ auto_movie/
     audio/                  synth（ピアノ・エレピ・パッド・ベース・打楽器・リバーブ）/ composer / bgm / sfx / mixer
     visual/                 theme / scenes（挿絵・グラフ・ステップ・まとめ）/ avatars / facetracks / lipsync / compose / runtime.js
     qa.mjs                  自動QA
+    publish.mjs             Drive へのアップロードと showcase/videos.json の更新
     server.mjs              Web UI のサーバー
   prompts/                  企画・台本・挿絵・キャラクターのプロンプト（作風ルールは style-guide.md）
   series/lifehack.json      キャスト（声・口調・見た目）、色、クレジット
+  config/publish.json       公開先（rclone のリモート名とドライブのフォルダ ID）
+  demo.json                 DEMOS ギャラリーのカード（serve: showcase）
+  showcase/                 ギャラリーの作品ページ（index.html + videos.json + eNNN/）
   styles/*.json             動画のスタイル
   assets/cast/*.svg         描き下ろしのキャスト（口・目・眉が差し替わるリグ付き SVG）
   examples/lifehack-001/    シードと参考資料、手書きの基準台本（オフライン確認用）
@@ -128,7 +149,7 @@ node bin/auto-movie.mjs make --seed examples/lifehack-001/seed.json --run lifeha
 
 実績：企画 → 台本（検証で 1 回差し戻し）→ 挿絵 2 枚 → 声 49 行 → 作曲・ミックス → 書き出し → QA を **約 8.5 分**で通し（2 回目以降はキャッシュで約 2 分）。LLM の費用は約 **$1.6**（企画 $0.11、台本 $0.50、挿絵 $0.95。`claude -p` の API 換算）。
 
-QA は全 19 項目が PASS：長さ 180.000 秒（差 0）、声の重なり 0（最小の間隔 0.34 秒）、スケジュール外の声 0 秒、ラウドネス -16.0 LUFS・ピーク -1.4 dBFS、発話中の声と BGM の差 17.5 dB、字幕が発話を 100% 覆う、6 秒以上の静止なし、HyperFrames の検査（レイアウト 0 件・コントラスト 59/59 合格）。完成した MP4 は Chromium で実際に再生し（3 倍速で通し）、デコードされた音声の音量が、台本の「声の区間」と「間」でちょうど分かれること（中央値 -20.9 dB と -36.6 dB）も確かめています。
+QA は全 18 項目が PASS：長さ 180.000 秒（差 0）、声の重なり 0（最小の間隔 0.34 秒）、スケジュール外の声 0 秒、ラウドネス -16.0 LUFS・ピーク -1.4 dBFS、発話中の声と BGM の差 17.5 dB、字幕が発話を 100% 覆う、6 秒以上の静止なし、HyperFrames の検査（レイアウト 0 件・コントラスト 59/59 合格）。完成した MP4 は Chromium で実際に再生し（3 倍速で通し）、デコードされた音声の音量が、台本の「声の区間」と「間」でちょうど分かれること（中央値 -20.9 dB と -36.6 dB）も確かめています。
 
 ## クレジットとライセンス
 
