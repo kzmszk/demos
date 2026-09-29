@@ -8,6 +8,11 @@ import { loadStyles } from '../styles.mjs';
 export const PLAN_VISUALS = ['illustration', 'chart-line', 'chart-bar', 'chart-review', 'steps', 'recap'];
 export const INTRO_SEC = 4.4, OUTRO_SEC = 8.2;
 
+/** The model declined the theme (see "取り扱いの注意" in prompts/plan.md). */
+export class ThemeRejected extends Error {
+  constructor(reason) { super(`theme_rejected: ${reason}`); this.code = 'theme_rejected'; }
+}
+
 export function validatePlan(plan, { styles, forcedStyle, bodySec }) {
   const p = [];
   if (!plan || typeof plan !== 'object') return ['JSONのオブジェクトではありません'];
@@ -50,7 +55,8 @@ export async function makePlan({ theme, lengthSec, styleId, series, sourcesText,
     .replace('{{STYLE_INSTRUCTION}}', forced ? `※ このスタイルは依頼者が「${forced}」に指定しています。style には必ず "${forced}" を入れてください。` : '※ スタイルは指定されていません。あなたが決めてください。')
     .replace('{{SOURCES}}', sourcesText);
   log('plan', forced ? `style fixed: ${forced}` : 'style: auto (the model decides)');
-  const r = await askJSON({ prompt, tag: 'plan', dir: runDir, model: 'best', validate: (o) => validatePlan(o, { styles, forcedStyle: forced, bodySec }), repairs: 2 });
+  const r = await askJSON({ prompt, tag: 'plan', dir: runDir, model: 'best', validate: (o) => (o?.refuse ? [] : validatePlan(o, { styles, forcedStyle: forced, bodySec })), repairs: 2 });
+  if (r.data.refuse) throw new ThemeRejected(String(r.data.refuse).slice(0, 200));
   writeJSON(path.join(runDir, 'plan.json'), r.data);
   log('plan', `style=${r.data.style} — ${r.data.styleReason || ''}`);
   return r.data;

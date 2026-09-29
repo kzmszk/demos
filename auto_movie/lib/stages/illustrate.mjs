@@ -2,6 +2,7 @@
 import path from 'node:path';
 import { ROOT, readText, writeText, writeJSON, exists, ensureDir, log, pool } from '../util.mjs';
 import { askSVG } from '../llm.mjs';
+import { sanitizeSVG } from '../visual/svgsafe.mjs';
 
 const ALLOWED = new Set(['#3d3d3d', '#fff176', '#d64545', '#fff', '#ffffff', 'none', 'currentcolor', 'transparent']);
 
@@ -51,8 +52,16 @@ export async function illustrate({ episode, runDir, concurrency = 3, force = fal
     if (exists(out) && !force) { log('draw', `${sc.id}: exists`); return { id: sc.id, cached: true }; }
     const ids = elementIds(sc);
     const prompt = buildPrompt(sc, episode, styleGuide);
-    const r = await askSVG({ prompt, tag: `illust-${sc.id}`, dir: runDir, model, validate: (svg) => validateSceneSVG(svg, ids), repairs: 1 });
-    writeText(out, r.svg + '\n');
+    // The drawing is rebuilt from an allow-list before anything else sees it (see svgsafe.mjs); the checks run on the rebuilt drawing.
+    const check = (raw) => {
+      let safe;
+      try { safe = sanitizeSVG(raw).svg; } catch (e) { return [e.message]; }
+      return validateSceneSVG(safe, ids);
+    };
+    const r = await askSVG({ prompt, tag: `illust-${sc.id}`, dir: runDir, model, validate: check, repairs: 1 });
+    const { svg: safe, memo } = sanitizeSVG(r.svg);
+    r.svg = safe;
+    writeText(out, (memo ? `<!-- ${memo} -->\n` : '') + safe + '\n');
     writeJSON(path.join(outDir, `${sc.id}.meta.json`), { model: r.model, costUsd: r.costUsd, seconds: r.seconds, attempts: r.attempts, bytes: r.svg.length });
     log('draw', `${sc.id}: ok (${r.svg.length} bytes, $${(r.costUsd ?? 0).toFixed(2)}, ${r.seconds}s)`);
     return { id: sc.id, costUsd: r.costUsd };

@@ -35,12 +35,7 @@
       "height": 1080,
       "fps": 30,
       "posterAt": 20.3,
-      "drive": {
-        "stream": "1MGvw-TfsAyKj0yOY50aHyo9gks30JyFg",
-        "master": "1dnxgW9bYpLIESzCzQWgzjsRRCEz85wN2",
-        "streamBytes": 37977659,
-        "masterBytes": 135297846
-      },
+      "bytes": 37977659,
       "chapters": [
         {
           "t": 0,
@@ -85,6 +80,7 @@
       ],
       "files": {
         "poster": "e001/poster.webp",
+        "video": "/media/movies/lifehack-001/video.mp4",
         "storyboard": "e001/storyboard.webp",
         "audio": "e001/audio.webp",
         "captions": "e001/captions.srt",

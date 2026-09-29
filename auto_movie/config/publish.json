@@ -1,5 +1,4 @@
 {
-  "remote": "gdrive",
-  "folderId": "1ybQRGjWYeEYAYzhAAlfrZpGqYSbDcEg6",
-  "note": "folderId is the auto_movie folder inside the public 'share' folder of the owner's Google Drive (anyone with the link can view; new files inherit that). remote is an rclone remote of type drive."
+  "bucket": "demos-media",
+  "note": "Videos are stored in this Cloudflare R2 bucket (private; the demos Worker binds it as MEDIA and serves /media/*). Only the light 1080p copy is kept."
 }

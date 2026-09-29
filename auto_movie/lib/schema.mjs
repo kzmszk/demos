@@ -31,6 +31,9 @@ export function speechIssues(text) {
   return out;
 }
 
+// ids reach HTML attributes, DOM ids and CSS selectors: plain lowercase letters and digits only
+const SCENE_ID = /^[a-z][a-z0-9]{0,7}$/, LINE_ID = /^[a-z][a-z0-9]{0,11}$/;
+
 /**
  * @param {object} ep the script
  * @param {object} o
@@ -50,7 +53,7 @@ export function validateScript(ep, { speakers = ['host', 'guest'], charBudget, t
   const lineIds = new Set(), sceneIds = new Set(), lineById = new Map();
   let chars = 0, illustrations = 0;
   const addLine = (ln, where) => {
-    if (!isStr(ln?.id, 1, 12) || lineIds.has(ln.id)) { p.push(`${where}: 行の id が空か重複しています (${ln?.id})`); return; }
+    if (!isStr(ln?.id, 1, 12) || !LINE_ID.test(ln.id) || lineIds.has(ln.id)) { p.push(`${where}: 行の id が空・重複・または英小文字と数字以外を含んでいます (${ln?.id})。例: s1l1`); return; }
     lineIds.add(ln.id); lineById.set(ln.id, ln);
     if (!speakers.includes(ln.who)) p.push(`${ln.id}: who は ${speakers.join(' か ')} にしてください`);
     if (!isStr(ln.text, 3, 80)) p.push(`${ln.id}: text は3〜80文字にしてください（長い発言は2行に分ける。目安は1行あたり60字以内）`);
@@ -65,7 +68,7 @@ export function validateScript(ep, { speakers = ['host', 'guest'], charBudget, t
 
   ep.scenes.forEach((sc, i) => {
     const w = `scene[${i}]`;
-    if (!isStr(sc.id, 1, 8) || sceneIds.has(sc.id)) p.push(`${w}: id が空か重複しています`);
+    if (!isStr(sc.id, 1, 8) || !SCENE_ID.test(sc.id) || sceneIds.has(sc.id)) p.push(`${w}: id が空・重複・または英小文字と数字以外を含んでいます。例: s1`);
     sceneIds.add(sc.id);
     if (!MOODS.includes(sc.mood)) p.push(`${sc.id}: mood は ${MOODS.join('|')} のどれか`);
     if (!isNum(sc.energy) || sc.energy < 0 || sc.energy > 1) p.push(`${sc.id}: energy は 0〜1 の数`);

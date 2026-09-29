@@ -11,7 +11,7 @@ import { illustrate } from './stages/illustrate.mjs';
 import { countChars } from './schema.mjs';
 import { linesOf, stageVoice, stageTimeline, stageMusic, stageMix, stageCompose, stageCheck, stageRender } from './pipeline.mjs';
 import { runQA } from './qa.mjs';
-import { makeWebCopy } from './publish.mjs';
+import { makeLightCopy } from './media.mjs';
 
 
 const pad = (n, w = 2) => String(Math.floor(n)).padStart(w, '0');
@@ -50,11 +50,12 @@ export const STAGES = ['sources', 'plan', 'script', 'illustrate', 'voice', 'audi
  * @param {string} [o.quality='looks']       draft | looks | delivery
  * @param {string} o.runDir
  * @param {string[]} [o.force]               stages to redo
- * @param {string} [o.out]                   final mp4 path
+ * @param {string} [o.out]                   where to write the deliverable: the light copy (1080p); the render itself stays in the run directory
+ * @param {string} [o.label]                 shown instead of "No.001" in the picture (e.g. a date, for videos made on request)
  */
 export async function make(o) {
   const t0 = Date.now();
-  const { theme, lengthSec = 180, sources = [], style: styleId = 'auto', series: seriesId = 'lifehack', provider = 'voicevox', quality = 'looks', force = [], episodeNo = 1, concurrency = 3, keepScript = false, onStage } = o;
+  const { theme, lengthSec = 180, sources = [], style: styleId = 'auto', series: seriesId = 'lifehack', provider = 'voicevox', quality = 'looks', force = [], episodeNo = 1, concurrency = 3, keepScript = false, label, onStage } = o;
   const runDir = ensureDir(path.resolve(o.runDir));
   const series = loadSeries(seriesId), styles = loadStyles();
   const redo = (s) => force.includes(s) || force.includes('all');
@@ -105,7 +106,7 @@ export async function make(o) {
 
   // 7. picture
   stage('compose');
-  const project = await stageCompose({ episode, timeline, series: seriesForRun, runDir, audioFile: mix.masterPath, episodeNo, style });
+  const project = await stageCompose({ episode, timeline, series: seriesForRun, runDir, audioFile: mix.masterPath, episodeNo, style, label });
 
   stage('check');
   const check = await stageCheck({ runDir });
@@ -123,7 +124,8 @@ export async function make(o) {
   if (o.out) {
     finalPath = path.resolve(o.out);
     ensureDir(path.dirname(finalPath));
-    fs.copyFileSync(video, finalPath);
+    // Only the light copy (1080p, about a quarter of the render's size) is kept as the deliverable; the render itself stays in the run directory.
+    await makeLightCopy(video, finalPath);
     // extras next to the video: the music on its own, the score, the QA report and pictures
     const extras = ensureDir(path.join(path.dirname(finalPath), path.basename(finalPath, path.extname(finalPath))));
     const copy = (src, name) => { if (exists(src)) fs.copyFileSync(src, path.join(extras, name)); };
@@ -137,8 +139,6 @@ export async function make(o) {
     copy(path.join(runDir, 'plan.json'), 'plan.json');
     if (exists(path.join(runDir, 'audio', 'bgm.wav'))) await run('ffmpeg', ['-y', '-loglevel', 'error', '-i', path.join(runDir, 'audio', 'bgm.wav'), '-c:a', 'aac', '-b:a', '192k', path.join(extras, 'bgm.m4a')]);
     writePublishingExtras({ dir: extras, timeline, episode, series: seriesForRun, plan });
-    // a light copy for sharing (about a quarter of the size of the master)
-    await makeWebCopy(finalPath, finalPath.replace(/\.mp4$/, '.web.mp4'));
     log('done', `video → ${finalPath} (+ extras in ${extras})`);
   }
   const summary = { runDir, video, finalPath, style: plan.style, title: episode.title, lengthSec, measuredSec: qa.measuredSec, qa: qa.status, chars: countChars(episode), speed, seconds: round((Date.now() - t0) / 1000, 0) };

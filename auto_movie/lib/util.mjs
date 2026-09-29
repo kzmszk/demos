@@ -95,3 +95,6 @@ export const fmtTime = (sec) => {
 
 /** Escape for HTML text / attribute values. */
 export const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+/** JSON for embedding in an inline <script>: "<" (so "</script>" cannot close the element) and the two JS line separators are escaped. */
+export const jsonForScript = (v) => JSON.stringify(v).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');

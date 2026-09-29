@@ -88,10 +88,10 @@ export async function stageMix({ timeline, voice, bgm, runDir, speed, series }) 
   return r;
 }
 
-export async function stageCompose({ episode, timeline, series, runDir, audioFile, episodeNo, style }) {
+export async function stageCompose({ episode, timeline, series, runDir, audioFile, episodeNo, style, label }) {
   const projectDir = path.join(runDir, 'project');
   fs.rmSync(path.join(projectDir, 'assets'), { recursive: true, force: true });
-  return buildProject({ episode, timeline, series, runDir, projectDir, audioFile, episodeNo, style });
+  return buildProject({ episode, timeline, series, runDir, projectDir, audioFile, episodeNo, style, label });
 }
 
 /** Run a hyperframes CLI command in the project directory. */

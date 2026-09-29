@@ -55,10 +55,11 @@ test('showcase/videos.json has everything the page reads, and the files it point
     assert.equal(e.titleLines.ja.join(''), e.title.ja, 'the big title is the title, split');
     if (e.titleLines.en) assert.equal(e.titleLines.en.join(' '), e.title.en);
     assert.ok(e.seconds > 0 && e.width > 0 && e.height > 0 && e.fps > 0);
-    assert.ok(e.drive.stream && e.drive.master && e.drive.streamBytes > 0 && e.drive.masterBytes > 0);
+    assert.match(e.files.video, /^\/media\/movies\/[A-Za-z0-9-]+\/video\.mp4$/, 'the video is served from the bucket by the Worker');
+    assert.ok(e.bytes > 0);
     assert.equal(e.chapters[0].t, 0);
     assert.ok(e.chapters.every((c, i) => c.title && (i === 0 || c.t > e.chapters[i - 1].t) && c.t < e.seconds), 'chapters ascend and fit in the video');
     assert.ok(e.files.poster, 'a poster is required');
-    for (const f of Object.values(e.files)) if (!/^https?:/.test(f)) assert.ok(fs.existsSync(path.join(SHOWCASE, f)), `${f} exists`);
+    for (const f of Object.values(e.files)) if (!/^(https?:|\/media\/)/.test(f)) assert.ok(fs.existsSync(path.join(SHOWCASE, f)), `${f} exists`);
   }
 });

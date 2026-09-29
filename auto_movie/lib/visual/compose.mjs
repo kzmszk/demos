@@ -1,7 +1,7 @@
 // Assembles the HyperFrames project (index.html + assets) from the script, the timeline and the audio.
 import fs from 'node:fs';
 import path from 'node:path';
-import { ROOT, ensureDir, esc, round, writeText, writeJSON } from '../util.mjs';
+import { ROOT, ensureDir, esc, round, writeText, writeJSON, jsonForScript } from '../util.mjs';
 import { W, H, COLORS, STAGE, CAPTION, AVATAR, themeCSS } from './theme.mjs';
 import { buildFonts } from './fonts.mjs';
 import { renderStage } from './scenes.mjs';
@@ -49,7 +49,7 @@ const t3 = (x) => (Math.round(x * 1000) / 1000).toString();
 /**
  * Build <projectDir> for hyperframes. Returns { indexPath, data } where data is the runtime blob (AM).
  */
-export async function buildProject({ episode, timeline, series, runDir, projectDir, audioFile, episodeNo = 1, style = { avatars: 2 } }) {
+export async function buildProject({ episode, timeline, series, runDir, projectDir, audioFile, episodeNo = 1, label, style = { avatars: 2 } }) {
   ensureDir(projectDir);
   const assets = ensureDir(path.join(projectDir, 'assets'));
   const dur = timeline.duration;
@@ -109,8 +109,9 @@ export async function buildProject({ episode, timeline, series, runDir, projectD
   const longest = Math.max(t1.length, (t2 || '').length);
   const bigPx = Math.max(96, Math.min(214, Math.floor(1560 / Math.max(3, longest))));
   const no = String(episodeNo).padStart(3, '0');
+  const tag = label || `No.${no}`;                       // e.g. "No.001", or a date for videos made on request
   const introHTML = `<section class="clip card" id="intro" data-start="0" data-duration="${t3(timeline.intro.end + 0.35)}" data-track-index="8">
-    <div class="kicker" id="in-kick"><b>${esc(series.name)}</b>　No.${no}</div>
+    <div class="kicker" id="in-kick"><b>${esc(series.name)}</b>　${esc(tag)}</div>
     <div class="big" id="in-big" data-layout-allow-overlap style="font-size:${bigPx}px;top:${Math.round(H * 0.5 - bigPx * (t2 ? 1.05 : 0.6))}px"><span class="ln" id="in-l1" data-layout-allow-overlap><i class="mk" style="opacity:${t2 ? 0 : 1}"></i>${esc(t1)}</span>${t2 ? `<br><span class="ln" id="in-l2" data-layout-allow-overlap><i class="mk"></i>${esc(t2)}</span>` : ''}</div>
     <div class="bar" id="in-bar" style="top:${Math.round(H * 0.5 + bigPx * (t2 ? 1.25 : 0.55))}px"></div>
     <div class="sub" id="in-sub" style="top:${Math.round(H * 0.5 + bigPx * (t2 ? 1.25 : 0.55)) + 34}px">${esc(episode.subtitle || series.tagline || '')}</div>
@@ -118,7 +119,7 @@ export async function buildProject({ episode, timeline, series, runDir, projectD
   const outroStart = timeline.outro.start;
   const outroHTML = `<section class="clip card outro" id="outro" data-start="${t3(outroStart)}" data-duration="${t3(dur - outroStart)}" data-track-index="8" style="background:transparent" data-layout-allow-overlap>
     <div class="ostage" id="o-stage" style="position:absolute;left:${STAGE.x}px;top:${HEADLINE_Y()}px;width:${STAGE.w}px;height:${STAGE.y + STAGE.h - HEADLINE_Y()}px">
-      <div class="kicker" id="o-kick" style="left:6px;top:96px"><b>${esc(series.name)}</b>　No.${no}</div>
+      <div class="kicker" id="o-kick" style="left:6px;top:96px"><b>${esc(series.name)}</b>　${esc(tag)}</div>
       <div class="big" id="o-big" style="left:0;top:190px;font-size:190px"><span><i class="mk"></i>また次回。</span></div>
       <div class="sub" id="o-sub" style="left:6px;top:470px;font-size:44px;color:${COLORS.ink}">${esc(episode.subtitle || '')}</div>
     </div>
@@ -128,7 +129,7 @@ export async function buildProject({ episode, timeline, series, runDir, projectD
   </section>\n`;
 
   // ---- HUD
-  const hud = `<div class="hud" id="hud"><div><b>${esc(series.name)}</b><span class="no">No.${no}</span></div><div style="display:flex;align-items:center"><span style="display:inline-block;width:110px"></span><div class="prog" id="prog"><i id="prog-i"></i></div></div></div><div class="rule" id="rule"></div>`;
+  const hud = `<div class="hud" id="hud"><div><b>${esc(series.name)}</b><span class="no">${esc(tag)}</span></div><div style="display:flex;align-items:center"><span style="display:inline-block;width:110px"></span><div class="prog" id="prog"><i id="prog-i"></i></div></div></div><div class="rule" id="rule"></div>`;
   const ticks = timeline.scenes.map((s) => `<s style="left:${round(((s.start - timeline.scenes[0].start) / (timeline.outro.linesEnd - timeline.scenes[0].start)) * 100)}%"></s>`).join('');
 
   // ---- runtime data
@@ -146,7 +147,7 @@ export async function buildProject({ episode, timeline, series, runDir, projectD
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=${W}, height=${H}">
-<title>${esc(series.name)} No.${no} ${esc(episode.title)}</title>
+<title>${esc(series.name)} ${esc(tag)} ${esc(episode.title)}</title>
 <style>
 ${fonts.css}
 ${themeCSS()}
@@ -168,7 +169,7 @@ ${introHTML}
 ${outroHTML}
 ${audioFile ? `<audio id="master" src="assets/master.wav" data-start="0" data-duration="${t3(dur)}" data-track-index="10" data-volume="1"></audio>` : ''}
 </div>
-<script>window.AM = ${JSON.stringify(AM)};document.getElementById('prog').insertAdjacentHTML('beforeend', ${JSON.stringify(ticks)});</script>
+<script>window.AM = ${jsonForScript(AM)};document.getElementById('prog').insertAdjacentHTML('beforeend', ${jsonForScript(ticks)});</script>
 <script>
 ${fs.readFileSync(path.join(ROOT, 'lib', 'visual', 'runtime.js'), 'utf8')}
 </script>
