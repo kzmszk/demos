@@ -1,0 +1,7 @@
+runs/
+.cache/
+output/*.mp4
+output/*.wav
+*.log
+output/**/*.m4a
+output/**/*.mp4

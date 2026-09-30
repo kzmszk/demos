@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>auto_movie — テーマを書くと、動画ができる</title>
+<meta name="description" content="テーマを書くと、絵も声も音楽も自動でそろった2〜3分の解説動画を、この PC でつくります。二人の掛け合いで、鉛筆で描かれていく図解の動画。サンプルは「忘れない復習のタイミング」。">
+<meta name="theme-color" content="#fbf7ee">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23fbf7ee'/%3E%3Crect x='3' y='18' width='26' height='9' fill='%23fff176'/%3E%3Crect x='8' y='5' width='5' height='17' fill='%233d3d3d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="bar">
+  <a href="../" class="strong">DEMOS</a><span class="sep">/</span><span class="strong">auto_movie</span>
+  <span class="grow"></span>
+  <span class="lang" role="group" aria-label="Language"><button type="button" data-l="ja" aria-pressed="true">日本語</button><button type="button" data-l="en" aria-pressed="false">EN</button></span>
+</header>
+
+<main id="app">
+  <section class="hero" data-max="170">
+    <div class="titles">
+      <h1 class="title" lang="ja" aria-label="テーマを書くと、動画ができる。"><span class="ln"><span>テーマを書くと、</span></span><span class="ln"><span>動画ができる。</span></span></h1>
+      <h1 class="title" lang="en" aria-label="Write a theme, get a film."><span class="ln"><span>Write a theme,</span></span><span class="ln"><span>get a film.</span></span></h1>
+    </div>
+    <aside>
+      <p class="kicker"><span>AUTO_MOVIE</span></p>
+      <p class="sub"><span lang="ja">絵も、声も、音楽も、自動で。二人の掛け合いで解説する2〜3分の動画を、この PC でつくります。</span><span lang="en">Pictures, voices and music, all automatic. A two-voice explainer film of two or three minutes, made on my own PC.</span></p>
+      <p class="meta"><span lang="ja">できあがるまで10〜15分ほど。<br>受付は毎日 8時〜24時（日本時間）。</span><span lang="en">Ten to fifteen minutes to make.<br>Requests are taken 08:00–24:00 JST.</span></p>
+    </aside>
+  </section>
+  <div class="rule"></div>
+
+  <section class="slip" aria-label="リクエスト">
+    <div class="slip-head"><span>Request · <span lang="ja">リクエスト用紙</span><span lang="en">request slip</span></span><span><span lang="ja">1日3本まで · 合言葉が必要</span><span lang="en">3 a day · passphrase required</span></span></div>
+    <div class="work" id="work" hidden>
+      <div class="clock" id="clock" aria-hidden="true">00:00</div>
+      <div>
+        <p><b id="workTitle"></b></p>
+        <div class="pencil" aria-hidden="true"><i></i></div>
+        <p><span lang="ja">台本 → 絵 → 声 → 音楽 → 書き出し の順に進みます。このページを閉じても大丈夫です。もう一度開くと、続きが見られます。</span><span lang="en">Script → drawings → voices → music → render. You can close this page; open it again and it picks up where it was.</span></p>
+      </div>
+    </div>
+    <form id="req" autocomplete="off" novalidate>
+      <div class="left">
+        <div class="f">
+          <label class="lab" for="theme"><span lang="ja">テーマ</span><span lang="en">THEME</span><small id="themeCount">0 / 60</small></label>
+          <input id="theme" name="theme" type="text" maxlength="60" required enterkeyhint="next" autocapitalize="off" spellcheck="false" placeholder="例：三日坊主をやめる工夫">
+          <div class="chips" id="chips" aria-label="例">
+            <button type="button">三日坊主をやめる小さな工夫</button><button type="button">朝すっきり起きるコツ</button><button type="button">集中力が切れない休憩のとり方</button><button type="button">初対面で話がはずむ聞き方</button>
+          </div>
+        </div>
+        <div class="f">
+          <span class="lab" id="lenLab"><span lang="ja">長さ</span><span lang="en">LENGTH</span></span>
+          <div class="seg" role="radiogroup" aria-labelledby="lenLab">
+            <label><input type="radio" name="minutes" value="2"><span class="opt"><b>2<span lang="ja">分</span><span lang="en"> min</span></b><small><span lang="ja">要点だけ</span><span lang="en">the gist</span></small></span></label>
+            <label><input type="radio" name="minutes" value="3" checked><span class="opt"><b>3<span lang="ja">分</span><span lang="en"> min</span></b><small><span lang="ja">ていねいに</span><span lang="en">in full</span></small></span></label>
+          </div>
+        </div>
+        <div class="f">
+          <label class="lab" for="notes"><span><span lang="ja">使ってほしい事実（任意）</span><span lang="en">FACTS TO USE (OPTIONAL)</span></span><small id="notesCount">0 / 1500</small></label>
+          <textarea id="notes" name="notes" maxlength="1500" rows="4" placeholder="数字や出典など、動画に入れたいことがあれば。書かなければ、一般に確かなことだけで組み立てます。"></textarea>
+        </div>
+      </div>
+      <div class="right">
+        <div class="f">
+          <label class="lab" for="pass"><span lang="ja">合言葉</span><span lang="en">PASSPHRASE</span></label>
+          <input id="pass" name="passphrase" type="password" maxlength="60" required autocomplete="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <button type="submit" class="go" id="go"><span lang="ja">つくる</span><span lang="en">Make it</span></button>
+        <p class="fine"><span lang="ja">合言葉を知っている人だけが使えます。同じ内容の依頼は、同じ動画になります。テーマに沿わない指示や、不適切な題材は、動画になりません。</span><span lang="en">Only people who know the passphrase can use this. The same request gives the same film. Instructions hidden in the theme, and unsuitable subjects, do not become films.</span></p>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </section>
+
+  <div id="made" hidden></div>
+  <div id="sample"></div>
+  <noscript><p>このページは JavaScript を使います。<br>This page needs JavaScript.</p></noscript>
+</main>
+
+<footer>
+  <span><span lang="ja">動画は Cloudflare R2 に置いています。つくるのは、私の PC です。</span><span lang="en">Films are stored in Cloudflare R2. They are made on my own PC.</span></span>
+  <span><a href="../">← DEMOS</a></span>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>

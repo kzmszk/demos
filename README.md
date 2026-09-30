@@ -64,3 +64,18 @@ npm run deploy       # ビルドして Cloudflare に公開
 - 初めて公開するときは、先に `npx wrangler login` で Cloudflare にログインしてください。
 - 公開先は `https://demos.<アカウントのサブドメイン>.workers.dev` です。名前は `wrangler.jsonc` の `name` で変えられます。
 - 独自ドメインを使う場合は、Cloudflare のダッシュボードで Worker に Custom Domain を追加します。
+
+## Worker（`gallery/worker.js`）
+
+ギャラリーの大半は静的アセットですが、`/api/*` と `/media/*` だけは Worker が先に受けます。
+
+| パス | 用途 |
+|---|---|
+| `POST /api/sketch`、`GET /api/sketch/:id` | スケッチブックの「おためし」。`illustration.svg` のジョブを hermes-llm-jobs に登録し、このPCが描く |
+| `POST /api/movie`、`GET /api/movie/:id` | auto_movie の「つくる」。`video.generate` のジョブ（テーマ・2か3分・任意の事実メモ）を登録し、このPCが10〜15分で動画をつくる |
+| `GET /media/movies/<id>/video.mp4`・`poster.webp` | できあがった動画とポスター。非公開の R2 バケット `demos-media`（バインディング `MEDIA`）から、バイト範囲つきで返す（シークできる）。それ以外のキーは返さない |
+
+- シークレット（`npx wrangler secret put …`）：`SKETCH_PASSPHRASE`、`LLM_JOBS_API_KEY`（スケッチ用）、`MOVIE_JOBS_API_KEY`（動画用。hermes-llm-jobs の `provision-app.py auto-movie --types video.generate` で発行したアプリ用キー）、任意で `MOVIE_PASSPHRASE`（なければ `SKETCH_PASSPHRASE` を使う）。
+- ローカルでは `.dev.vars` に `SKETCH_MOCK=1`・`MOVIE_MOCK=1` を書くと、ジョブサービスの代わりに偽の進行（受付 → 制作中 → 完成）を返します。R2 はローカルの模擬ストレージ（`npx wrangler r2 object put demos-media/movies/<id>/video.mp4 --file … --local`）。
+- テスト：`npm test`（Worker の検証・ジョブの登録・結果の見せ方・`/media` の範囲リクエストを、偽のジョブサービスと偽のバケットで確かめる）。
+- 動画づくりの全体と、PC 側の仕組みは [auto_movie/README.md](auto_movie/README.md) と hermes-llm-jobs の README にあります。

@@ -1,0 +1,27 @@
+{
+  "title": "auto_movie",
+  "subtitle": {
+    "ja": "テーマを書くと、この PC が動画をつくる",
+    "en": "Write a theme and my PC makes a film"
+  },
+  "summary": {
+    "ja": "テーマと長さ（2〜3分）を書くと、絵も声も音楽もそろった、二人の掛け合いの解説動画を、私の PC が10〜15分でつくります。台本と挿絵は Claude、声は VOICEVOX、書き出しは HyperFrames。できあがった動画はその場で見られ、チャプターから飛べます。サンプルは「忘れない復習のタイミング」：180.000 秒ちょうど、声の重なり 0、自動検査 18 項目すべて合格。合言葉を知っている人だけが使えます。",
+    "en": "Write a theme and a length (two or three minutes) and my own PC makes a two-voice explainer film in ten to fifteen minutes — pictures, voices and music included. Claude writes the script and draws the illustrations, VOICEVOX speaks, HyperFrames renders. The film plays right there, with chapters to jump to. The sample runs exactly 180.000 s with no overlapping voices and 18 of 18 automated checks passed. Only people who know the passphrase can ask for one."
+  },
+  "date": "2026-09-30",
+  "tags": ["video", "hyperframes", "claude", "voicevox", "svg", "generative music", "r2"],
+  "serve": "showcase",
+  "entry": "index.html",
+  "shots": [
+    { "path": "index.html", "wait": 3000 },
+    { "path": "index.html", "wait": 2600, "eval": "document.querySelector('#chips button:nth-child(2)').click(); document.activeElement.blur(); window.scrollTo(0, document.querySelector('.slip').offsetTop - 60)", "after": 700 },
+    { "path": "index.html", "wait": 2600, "eval": "document.querySelector('#chips button:nth-child(2)').click(); AUTO_MOVIE.preview.working(); document.activeElement.blur(); window.scrollTo(0, document.querySelector('.slip').offsetTop - 60)", "after": 1200 },
+    { "path": "index.html", "wait": 3000, "eval": "document.querySelector('#sampleEp').scrollIntoView({ block: 'start', behavior: 'instant' })", "after": 700 },
+    { "path": "index.html", "wait": 3000, "eval": "((n) => [...document.querySelectorAll('#sample .sec')].find((s) => s.querySelector('.i')?.textContent === n))('02').scrollIntoView({ block: 'start', behavior: 'instant' })", "after": 700 },
+    { "path": "index.html", "wait": 3000, "eval": "((n) => [...document.querySelectorAll('#sample .sec')].find((s) => s.querySelector('.i')?.textContent === n))('04').scrollIntoView({ block: 'start', behavior: 'instant' })", "after": 900 }
+  ],
+  "links": [
+    { "label": "つくる", "href": "index.html" },
+    { "label": "English", "href": "index.html#en" }
+  ]
+}
