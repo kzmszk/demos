@@ -12,6 +12,14 @@
   "tags": ["video", "hyperframes", "claude", "voicevox", "svg", "generative music", "r2"],
   "serve": "showcase",
   "entry": "index.html",
+  "shots": [
+    { "path": "index.html", "wait": 3000 },
+    { "path": "index.html", "wait": 2600, "eval": "document.querySelector('#chips button:nth-child(2)').click(); document.activeElement.blur(); window.scrollTo(0, document.querySelector('.slip').offsetTop - 60)", "after": 700 },
+    { "path": "index.html", "wait": 2600, "eval": "document.querySelector('#chips button:nth-child(2)').click(); AUTO_MOVIE.preview.working(); document.activeElement.blur(); window.scrollTo(0, document.querySelector('.slip').offsetTop - 60)", "after": 1200 },
+    { "path": "index.html", "wait": 3000, "eval": "document.querySelector('#sampleEp').scrollIntoView({ block: 'start', behavior: 'instant' })", "after": 700 },
+    { "path": "index.html", "wait": 3000, "eval": "((n) => [...document.querySelectorAll('#sample .sec')].find((s) => s.querySelector('.i')?.textContent === n))('02').scrollIntoView({ block: 'start', behavior: 'instant' })", "after": 700 },
+    { "path": "index.html", "wait": 3000, "eval": "((n) => [...document.querySelectorAll('#sample .sec')].find((s) => s.querySelector('.i')?.textContent === n))('04').scrollIntoView({ block: 'start', behavior: 'instant' })", "after": 900 }
+  ],
   "links": [
     { "label": "つくる", "href": "index.html" },
     { "label": "English", "href": "index.html#en" }

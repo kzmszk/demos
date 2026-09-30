@@ -68,13 +68,13 @@ node bin/auto-movie.mjs make --seed examples/lifehack-001/seed.json --run lifeha
 
 ```bash
 node bin/auto-movie.mjs publish output/lifehack-001.mp4 --no 1 --run lifehack-001-final \
-     --title-en "When to Review,|So You Don't Forget" --subtitle-en "Recall it after a day, a week and a month" --covers
+     --title-en "When to Review,|So You Don't Forget" --subtitle-en "Recall it after a day, a week and a month"
 node ../gallery/build.mjs        # site/ に組む（ここまではローカルだけ。デプロイは別の作業）
 ```
 
 - **動画は軽量版だけ**を残します（1080p・H.264・約 1/4 のサイズ）。書き出したままのマスターは実行ディレクトリ（`runs/<id>/video.mp4`）に残るだけで、どこにも置きません。置き場は `config/publish.json` のバケット名で、アップロードは demos リポジトリの `wrangler` のログインを使います（`wrangler r2 object put --remote`）。
 - 配信は demos の Worker（`gallery/worker.js` の `/media/*`）が、非公開のバケットから **バイト範囲つき**で行います。だからページの `<video>` はチャプターへシークできます（Workers の静的アセットは範囲リクエストに答えられません）。バケットに公開 URL は付けていません。
-- `showcase/videos.json` に 1 話ぶんの記録（題・チャプター・QA の数字・根拠・ファイル）が書かれ、ポスター・絵コンテ・音の図・字幕・楽譜・台本は `showcase/eNNN/` に出力されます。`--covers` でギャラリーのカードの表紙（`gallery/covers/auto_movie/`）も作り直します。
+- `showcase/videos.json` に 1 話ぶんの記録（題・チャプター・QA の数字・根拠・ファイル）が書かれ、ポスター・絵コンテ・音の図・字幕・楽譜・台本は `showcase/eNNN/` に出力されます。ギャラリーのカードの表紙（`gallery/covers/auto_movie/`）は動画の場面ではなく、**このサイトのページそのもの**です（トップ、テーマを入れたところ、つくっているところ、できあがりの例、検証、絵コンテ）。`demo.json` の `shots` に撮る場面が書いてあり、ページを変えたら `node ../gallery/shoot.mjs auto_movie` で撮り直します（`AUTO_MOVIE.preview.working()` は「つくっている」画面を依頼なしで出すための、撮影用の入口です）。
 
 ### 依頼で動画をつくる（hermes-llm-jobs）
 

@@ -6,7 +6,7 @@
 //   auto-movie build <script.json> --run <id>       (script → video, skipping the LLM stages)
 //   auto-movie voicevox [start|status|stop]         manage the local VOICEVOX engine (Docker)
 //   auto-movie qa <runDir> [--target 180]           re-run the automated QA on a rendered run
-//   auto-movie publish <light.mp4> [--no 1] [--run <id>] [--title-en "A|B"] [--subtitle-en …] [--poster-at 20.3] [--covers] [--no-upload]
+//   auto-movie publish <light.mp4> [--no 1] [--run <id>] [--title-en "A|B"] [--subtitle-en …] [--poster-at 20.3] [--no-upload]
 //                                                   upload the light copy to the R2 bucket and list it on showcase/ (the gallery page)
 //   auto-movie job --input <request.json> --id <job id> [--keep]
 //                                                   a video made on request (hermes-llm-jobs video.generate): prints one line "AUTO_MOVIE_RESULT {json}"
@@ -82,11 +82,11 @@ async function main() {
     const rep = await runQA({ runDir, video: path.join(runDir, 'video.mp4'), targetSec: target, checkLog: exists(path.join(runDir, 'check.log')) ? fs.readFileSync(path.join(runDir, 'check.log'), 'utf8') : '' });
     console.log(`QA: ${rep.status}  → ${path.join(runDir, 'qa', 'report.md')}`);
   } else if (cmd === 'publish') {
-    if (!pos[0]) throw new Error('usage: publish <light.mp4> [--no 1] [--run <id>] [--title-en "A|B"] [--subtitle-en …] [--poster-at 20.3] [--covers] [--no-upload]');
+    if (!pos[0]) throw new Error('usage: publish <light.mp4> [--no 1] [--run <id>] [--title-en "A|B"] [--subtitle-en …] [--poster-at 20.3] [--no-upload]');
     const { publish } = await import('../lib/publish.mjs');
     const e = await publish({
       video: pos[0], no: flags.no ? +flags.no : 1, runId: flags.run, titleEn: flags['title-en'], subtitleEn: flags['subtitle-en'], date: flags.date,
-      posterAt: flags['poster-at'] ? +flags['poster-at'] : undefined, covers: Boolean(flags.covers), upload: !flags['no-upload'], buildMinutes: flags['build-minutes'] ? +flags['build-minutes'] : undefined,
+      posterAt: flags['poster-at'] ? +flags['poster-at'] : undefined, upload: !flags['no-upload'], buildMinutes: flags['build-minutes'] ? +flags['build-minutes'] : undefined,
     });
     console.log(`\nepisode ${e.id}: ${e.title.ja} (${e.seconds}s)\nnext: node ../gallery/build.mjs   (deploying is a separate, explicit step)`);
   } else if (cmd === 'job') {

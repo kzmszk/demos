@@ -338,4 +338,7 @@
   }
   counters();
   setLang(/#en\b/.test(location.hash) ? 'en' : 'ja');
+
+  /* for the gallery's cover shots (gallery/shoot.mjs): the slip in its "making" state, without sending a request */
+  window.AUTO_MOVIE = { ...(window.AUTO_MOVIE || {}), preview: { working(ms = 222000) { job = { id: 'preview', theme: themeEl.value, minutes: 3, at: Date.now() - ms }; setBusy(true); sayWorking(false); } } };
 })();

@@ -9,7 +9,6 @@ import { ffmpeg, posterFrame, probe } from './media.mjs';
 import { putObject, mediaPath } from './store.mjs';
 
 export const SHOWCASE = path.join(ROOT, 'showcase');
-const COVERS = path.resolve(ROOT, '..', 'gallery', 'covers', path.basename(ROOT));
 const pad3 = (n) => String(n).padStart(3, '0');
 
 /** Chapters as written into youtube-description.txt ("m:ss title"). */
@@ -47,16 +46,6 @@ export function keyTimes(chapters, seconds, max) {
   return times;
 }
 
-/** Cover frames for the DEMOS gallery card (16:10 like the other works; the 16:9 picture sits on paper-coloured matte). */
-async function makeCovers(video, times) {
-  ensureDir(COVERS);
-  for (const f of fs.readdirSync(COVERS)) if (/^\d\d\.webp$/.test(f)) fs.rmSync(path.join(COVERS, f));
-  for (const [i, t] of times.entries()) {
-    await ffmpeg(['-ss', String(t), '-i', video, '-frames:v', '1', '-vf', 'pad=iw:iw*10/16:0:(oh-ih)/2:color=0xfbf7ee,scale=960:600:flags=lanczos', '-c:v', 'libwebp', '-quality', '82', path.join(COVERS, `${String(i + 1).padStart(2, '0')}.webp`)]);
-  }
-  log('publish', `${times.length} gallery cover frames → ${path.relative(ROOT, COVERS)}`);
-}
-
 /** One picture of the whole film: those key frames, three across, on paper. */
 async function makeStoryboard(video, times, out) {
   const tmp = ensureDir(path.join(path.dirname(out), '.sb'));
@@ -75,7 +64,6 @@ async function makeStoryboard(video, times, out) {
  * @param {string} [o.titleEn]      English title; "|" marks a line break
  * @param {string} [o.subtitleEn]
  * @param {number} [o.posterAt]     second of the poster frame (default: a quarter of the way in)
- * @param {boolean} [o.covers]      also (re)make the gallery card's cover frames
  * @param {boolean} [o.upload=true] false: the video is already in the bucket
  * @param {string} [o.date]
  */
@@ -135,6 +123,5 @@ export async function publish(o) {
   writeJSON(dbFile, db);
   log('publish', `showcase/videos.json: episode ${id} "${titleJa}" (${info.seconds}s)`);
 
-  if (o.covers) await makeCovers(video, keyTimes(chapters, info.seconds, 10));
   return entry;
 }
