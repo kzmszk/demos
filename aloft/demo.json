@@ -1,0 +1,31 @@
+{
+  "no": "",
+  "title": "ALOFT",
+  "subtitle": {
+    "ja": "ドームいっぱいに、世界の空を渡る約五分の遊覧飛行",
+    "en": "A five-minute flight over the world, filling the screen"
+  },
+  "summary": {
+    "ja": "座席ごと浮かび上がるドーム型アトラクションを、ブラウザの全画面で。夜明けの雲の上から、雪の尖峰、大瀑布、珊瑚の海、赤い峡谷、オーロラの氷海、そして花火の中をくぐり抜ける夜の港へ。風景はすべてGPUでその場で描き、場面ごとに曲調の変わるピアノ曲と、滝や波の音もすべて合成。日本語と英語に対応。",
+    "en": "A dome-screen flight ride, in a browser, full screen. From the clouds at dawn over an ice spire, great falls, a coral atoll, a red canyon and an aurora over the ice, to a night harbor where you fly through the fireworks. Every landscape is ray-marched live on the GPU; the solo piano score, which changes with each place, and the sound of the water are synthesised. Japanese and English."
+  },
+  "date": "2026-10-01",
+  "tags": ["webgl", "raymarching", "audio", "ride"],
+  "serve": ".",
+  "entry": "index.html",
+  "gpu": true,
+  "links": [
+    { "label": "日本語", "href": "index.html#ja" },
+    { "label": "English", "href": "index.html#en" }
+  ],
+  "shots": [
+    { "path": "index.html?scale=1", "wait": 1500, "eval": "ALOFT.shot('title')", "after": 400 },
+    { "path": "index.html?scale=1", "wait": 1500, "eval": "ALOFT.shot('dawn')", "after": 300 },
+    { "path": "index.html?scale=1", "wait": 1500, "eval": "ALOFT.shot('ridge')", "after": 300 },
+    { "path": "index.html?scale=1", "wait": 1500, "eval": "ALOFT.shot('falls')", "after": 300 },
+    { "path": "index.html?scale=1", "wait": 1500, "eval": "ALOFT.shot('lagoon')", "after": 300 },
+    { "path": "index.html?scale=1", "wait": 1500, "eval": "ALOFT.shot('canyon')", "after": 300 },
+    { "path": "index.html?scale=1", "wait": 1500, "eval": "ALOFT.shot('ice')", "after": 300 },
+    { "path": "index.html?scale=1#en", "wait": 1500, "eval": "ALOFT.shot('fireworks')", "after": 300 }
+  ]
+}
