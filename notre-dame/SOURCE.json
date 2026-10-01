@@ -1,0 +1,177 @@
+{
+  "application": "demos-notre-dame",
+  "source_package_id": "f4d881b4345cb157f3a8",
+  "source_bundle": "/home/kazu/work/codex/2026-10-01/task-5/notre_dame_pre2019/web/site_bundle",
+  "source_manifest_sha256": "c417f0018a5619805b184a0d946c64d1b5313b5eda8a6d2abd588b992b516681",
+  "source_browser_validated": true,
+  "imported_at": "2026-10-01T10:09:25.051Z",
+  "local_adaptations": [
+    "DEMOS gallery return link",
+    "QA UI enabled only on loopback hostname"
+  ],
+  "file_count": 32,
+  "total_bytes": 257693958,
+  "max_file_bytes": 20971520,
+  "files": [
+    {
+      "path": "assets/f4d881b4345cb157f3a8/credits.html",
+      "bytes": 104976,
+      "sha256": "b34bd11e58b84ff25bc357def1c6dcc84e37bae7344302c5f041eaf06d49ba60"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.audio.position.worklet.js",
+      "bytes": 2973,
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.audio.position.worklet.js.gz",
+      "bytes": 1167,
+      "sha256": "c155860d0404d82b700cf8d909bab65ff26958cc14689a42c2b52d775b346af1"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.audio.worklet.js",
+      "bytes": 7298,
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.audio.worklet.js.gz",
+      "bytes": 2204,
+      "sha256": "3864d90788fdb625d9062adbdc2a07121edd49426f2b2928d829bf82539726bf"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.js",
+      "bytes": 279815,
+      "sha256": "33c94cb3175f3333b82e2a3be5e8e86f77986f0aa2042b1631f6367a4e5bb6ba"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.js.gz",
+      "bytes": 68740,
+      "sha256": "86cf70d97047579311910aa54e5490d60a583444fd9e327ac49a35d49388dcdc"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.pck.c05eee17894ebe8d.part00",
+      "bytes": 20971520,
+      "sha256": "461ac7b85ceb168786bdb19ba3e9b1c2584ee5c57a1dad6512f73568fcbad777"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.pck.c05eee17894ebe8d.part01",
+      "bytes": 20971520,
+      "sha256": "6fff33a6cbd28028e3287756e1cda0466fccbff6b0194d041f590e72c6f4085f"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.pck.c05eee17894ebe8d.part02",
+      "bytes": 20971520,
+      "sha256": "c3ca6f4f42073c6371aeea153ebed0206a778af6318ff8eca9e693763e736602"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.pck.c05eee17894ebe8d.part03",
+      "bytes": 20971520,
+      "sha256": "e0475f3db4d93ea39b6ba95e3e65deb809538aee3f7cc7f41bfdd72368df7d9f"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.pck.c05eee17894ebe8d.part04",
+      "bytes": 20971520,
+      "sha256": "60d531612bfd5d4f75365a03c17a65bf17caba0b3560661ca949527e5b21c72c"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.pck.c05eee17894ebe8d.part05",
+      "bytes": 20971520,
+      "sha256": "8528b2da611295f1d4861ab79e098b0aefdbc206e2b8243d53a98408c6fafcb0"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.pck.c05eee17894ebe8d.part06",
+      "bytes": 20971520,
+      "sha256": "295de47015bc6be297bd9a17caf742b064e020d309d79664d89729fe6d39e333"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.pck.c05eee17894ebe8d.part07",
+      "bytes": 20971520,
+      "sha256": "f8d280976a175ff8bbf89b6d7f23d4c9ff8bac69146e0b834e96489228a84949"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.pck.c05eee17894ebe8d.part08",
+      "bytes": 20971520,
+      "sha256": "a78353b3567772e800199136a107f409de651dde4463a1f33f452178300e1ac3"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.pck.c05eee17894ebe8d.part09",
+      "bytes": 20971520,
+      "sha256": "be8ed75fe343abf20eda64b33489059daccdfc13d6654046a41b0a1d77ee29ed"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.pck.c05eee17894ebe8d.part10",
+      "bytes": 20971520,
+      "sha256": "5958e059a011ceb83f0c62f958969f8982adb68666886c0c8507441f5e0ad6d1"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.pck.c05eee17894ebe8d.part11",
+      "bytes": 15915164,
+      "sha256": "abf72ac977db7a72006a854ad2e42a35175dec5087c29b6bdc87ebe893cca49f"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.png",
+      "bytes": 21443,
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/index.wasm.ff249a1a801983bb.gz",
+      "bytes": 10114291,
+      "sha256": "ff249a1a801983bb405f2a9976ded5dc6a614230f7c3561302db435f66f9ebee"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/legal/ASSET_SOURCES.json",
+      "bytes": 122253,
+      "sha256": "48e3bb50a3a48ff16481480b2bf57a0910396b8cfe9219ab89b6ec0670cea66b"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/legal/ASSET_SOURCES.json.gz",
+      "bytes": 19852,
+      "sha256": "6ed9bbecfc95054100659dd36145b60848f567624c9725697d623924f7244116"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/legal/Godot-COPYRIGHT.txt",
+      "bytes": 100108,
+      "sha256": "cb1980c88089573bcacd7221d777c689bb8bbd778799f24c27fca0fe5f774d6d"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/legal/Godot-LICENSE.txt",
+      "bytes": 1149,
+      "sha256": "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/legal/credits_manifest.json",
+      "bytes": 1251,
+      "sha256": "697a5a487ffa7423b75c949ccd284cab6ade7174742299daf870e96914eeb2f1"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/legal/credits_manifest.json.gz",
+      "bytes": 547,
+      "sha256": "e09e3b8faef5bf4cc40c75a8352677aeec3511318a166e65b08269ed78e52e4d"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/legal/font_license.txt",
+      "bytes": 14849,
+      "sha256": "1f5c2e1da40082563d7b488c7a338292619a59d8b3d013457ad9e322b40ee13f"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/notre_dame_ui.woff2",
+      "bytes": 204992,
+      "sha256": "d3e82a3506c9e7ce6aab894c1ac9de42877a1b6ab20a898a70ceccb3f12aff5c"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/static_assets.json",
+      "bytes": 2754,
+      "sha256": "5e7e10904afb309bec8e7038203a835e93f57ea03f85fc26640b6f7a67f4ca3f"
+    },
+    {
+      "path": "assets/f4d881b4345cb157f3a8/static_loader.js",
+      "bytes": 5690,
+      "sha256": "2fd0779edeacd54b3b013e925a578b151cbb9f894a8b70c2490eee0371d7b721"
+    },
+    {
+      "path": "index.html",
+      "bytes": 15722,
+      "sha256": "510063de45db85896ece2f5cfcaad30aa20583cd809575b3d4dd3cbf9390e15f"
+    }
+  ]
+}

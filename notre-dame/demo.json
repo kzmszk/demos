@@ -1,0 +1,22 @@
+{
+  "no": "",
+  "title": "NOTRE-DAME",
+  "subtitle": {
+    "ja": "火災前の大聖堂を、歩いて、飛んで見学する",
+    "en": "Walk and fly through a study of the cathedral before the fire"
+  },
+  "summary": {
+    "ja": "2019年4月の火災前のノートルダムを、写真と図面から推定再構成した3D空間。身廊や礼拝堂を歩き、Fで飛行に切り替え、E/Qで上下してバラ窓やヴォールトを近くから観察できます。PC・WebGL 2向け、初回読み込みは約258MB。公式の測量モデルではありません。出典・改変・ライセンスは作品内のCreditsに収録。",
+    "en": "A 3D study of Notre-Dame before the April 2019 fire, reconstructed from photographs and plans. Walk through the nave and chapels, press F to fly and E/Q to rise or descend for a closer look at the roses and vaults. For desktop WebGL 2 browsers; the initial download is about 258 MB. This is an interpretive reconstruction, not an official survey model. Full source credits, modifications and licenses are included in the Credits page."
+  },
+  "date": "2026-10-01",
+  "tags": [
+    "architecture",
+    "webgl",
+    "walkthrough",
+    "3d"
+  ],
+  "serve": "public",
+  "entry": "index.html",
+  "shots": []
+}

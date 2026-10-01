@@ -1,0 +1,38 @@
+{
+  "generator": "web/tools/build_credits.py",
+  "asset_records": 51,
+  "source_manifest_sha256": "48e3bb50a3a48ff16481480b2bf57a0910396b8cfe9219ab89b6ec0670cea66b",
+  "original_manifest_copied_verbatim": true,
+  "copied_source_images": 0,
+  "files": [
+    {
+      "file": "legal/Godot-LICENSE.txt",
+      "source": "web/tools/godot-4.7.2-web/LICENSE.txt",
+      "bytes": 1149,
+      "sha256": "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80"
+    },
+    {
+      "file": "legal/Godot-COPYRIGHT.txt",
+      "source": "web/tools/godot-4.7.2-web/COPYRIGHT.txt",
+      "bytes": 100108,
+      "sha256": "cb1980c88089573bcacd7221d777c689bb8bbd778799f24c27fca0fe5f774d6d"
+    },
+    {
+      "file": "legal/font_license.txt",
+      "source": "web/tools/font_license.txt",
+      "bytes": 14849,
+      "sha256": "1f5c2e1da40082563d7b488c7a338292619a59d8b3d013457ad9e322b40ee13f"
+    },
+    {
+      "file": "legal/ASSET_SOURCES.json",
+      "source": "docs/ASSET_SOURCES.json",
+      "bytes": 122253,
+      "sha256": "48e3bb50a3a48ff16481480b2bf57a0910396b8cfe9219ab89b6ec0670cea66b"
+    },
+    {
+      "file": "credits.html",
+      "bytes": 104976,
+      "sha256": "b34bd11e58b84ff25bc357def1c6dcc84e37bae7344302c5f041eaf06d49ba60"
+    }
+  ]
+}

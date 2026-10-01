@@ -1,0 +1,2473 @@
+{
+  "project": "Notre-Dame de Paris, pre-April2019 study",
+  "retrieved_utc": "2026-10-01",
+  "scope": "Local assets and explicit source/derivative provenance. Photo dates vary; no survey-grade claim.",
+  "licensing_policy": "Keep source attribution and license links with photo-derived glass. CC BY-SA derivatives remain under the listed compatible license; do not relabel them as CC0. Reference-only files excluded from runtime textures. Generic PBR materials are analogs, not authenticated site samples.",
+  "reference_facts": [
+    {
+      "source": "https://notre-dame-de-paris.culture.gouv.fr/fr/les-vitraux-du-moyen-age",
+      "facts": [
+        "North rose16 principal radiating divisions; south12",
+        "South rose rotated half-petal during1861restoration so mullions are on vertical/horizontalaxes",
+        "13th-century roses contain historic restoration panels; not all glass is medieval"
+      ]
+    },
+    {
+      "source": "https://notre-dame-de-paris.culture.gouv.fr/fr/les-vitraux-du-xxe-siecle",
+      "facts": [
+        "Jacques Le Chevallier made distinct nonfigurative windows for nave clerestory, west transept wall and galleries; last installed1965",
+        "Do not put medieval figure patterns in every clerestory window"
+      ]
+    },
+    {
+      "source": "https://notre-dame-de-paris.culture.gouv.fr/fr/les-vitraux-du-xixe-siecle",
+      "facts": [
+        "34 of41 chapel windows are ornamental or grisaille, chiefly pale patterned glass with colored borders, rather than a uniformly vivid figurative ensemble.",
+        "Choir chapel glass was restored by Antoine Lusson in the north from1862 and Alfred Gérente in the south in1863; nave chapel glazing followed in1864–1865.",
+        "The derived chapel atlases therefore retain actual prefire photographed grisaille and fine vegetal lead/paint patterns; the modeled chapel placement remains an interpretation."
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "id": "vault_west_2018",
+      "kind": "photographic_reference",
+      "title": "Gothic rib vault Notre Dame de Paris 04 2018 9673.jpg",
+      "author": "Mariordo (Mario Roberto Durán Ortiz)",
+      "creation_date": "2018-04-29 13:54:08",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gothic_rib_vault_Notre_Dame_de_Paris_04_2018_9673.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Gothic_rib_vault_Notre_Dame_de_Paris_04_2018_9673.jpg",
+      "source_dimensions_px": [
+        2400,
+        1600
+      ],
+      "attribution": "Gothic rib vault Notre Dame de Paris 04 2018 9673.jpg — Mariordo (Mario Roberto Durán Ortiz) — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Gothic_rib_vault_Notre_Dame_de_Paris_04_2018_9673.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/vault_west_2018.jpg",
+          "bytes": 3941853,
+          "sha256": "16cfe0c9adbce81d80464286164c8d23c4cd21c94d4d57718b6afd60260ccd48"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/rose_candidates.json"
+    },
+    {
+      "id": "north_rose_2013",
+      "kind": "photographic_reference",
+      "title": "North Rose Window in Notre Dame, 2013.jpg",
+      "author": "Ken and Nyetta",
+      "creation_date": "2013-12-24 20:36",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:North_Rose_Window_in_Notre_Dame,_2013.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/North_Rose_Window_in_Notre_Dame%2C_2013.jpg",
+      "source_dimensions_px": [
+        3188,
+        2757
+      ],
+      "attribution": "North Rose Window in Notre Dame, 2013.jpg — Ken and Nyetta — CC BY 2.0 — https://commons.wikimedia.org/wiki/File:North_Rose_Window_in_Notre_Dame,_2013.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/north_rose_2013.jpg",
+          "bytes": 4500811,
+          "sha256": "edded41be49dd409861fabce914969cae2a0bae1a2c89b231672f4df5857a436"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/rose_candidates.json"
+    },
+    {
+      "id": "south_rose_2019",
+      "kind": "photographic_reference",
+      "title": "Notre-Dame de Paris, 2019-02-16, south rose 01.jpg",
+      "author": "Lucas Werkmeister",
+      "creation_date": "2019-02-16 18:04:08",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Notre-Dame_de_Paris,_2019-02-16,_south_rose_01.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Notre-Dame_de_Paris%2C_2019-02-16%2C_south_rose_01.jpg",
+      "source_dimensions_px": [
+        4160,
+        3120
+      ],
+      "attribution": "Notre-Dame de Paris, 2019-02-16, south rose 01.jpg — Lucas Werkmeister — CC BY 4.0 — https://commons.wikimedia.org/wiki/File:Notre-Dame_de_Paris,_2019-02-16,_south_rose_01.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/south_rose_2019.jpg",
+          "bytes": 2613238,
+          "sha256": "398dc28f65bcaf290643caefddf485e21c6d92751d796cc1dcaf190dd275cc26"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/rose_candidates.json"
+    },
+    {
+      "id": "south_rose_2014",
+      "kind": "photographic_reference",
+      "title": "Notre-Dame de Paris - South Rose 01.jpg",
+      "author": "HerrAdams",
+      "creation_date": "2014-12-30 15:17:36",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Notre-Dame_de_Paris_-_South_Rose_01.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Notre-Dame_de_Paris_-_South_Rose_01.jpg",
+      "source_dimensions_px": [
+        2883,
+        2800
+      ],
+      "attribution": "Notre-Dame de Paris - South Rose 01.jpg — HerrAdams — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Notre-Dame_de_Paris_-_South_Rose_01.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/south_rose_2014.jpg",
+          "bytes": 2421249,
+          "sha256": "82fe102531bc20f7f4783ee9536dbfc9f27a394a76d14fae2de881936ab484e7"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/rose_candidates.json"
+    },
+    {
+      "id": "west_rose_2017",
+      "kind": "photographic_reference",
+      "title": "Paris Cathédrale Notre-Dame Innen Westliche Rosette 1.jpg",
+      "author": "Zairon",
+      "creation_date": "2017-04-04 11:13:22",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Paris_Cath%C3%A9drale_Notre-Dame_Innen_Westliche_Rosette_1.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Paris_Cath%C3%A9drale_Notre-Dame_Innen_Westliche_Rosette_1.jpg",
+      "source_dimensions_px": [
+        4351,
+        3438
+      ],
+      "attribution": "Paris Cathédrale Notre-Dame Innen Westliche Rosette 1.jpg — Zairon — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Paris_Cath%C3%A9drale_Notre-Dame_Innen_Westliche_Rosette_1.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration. Lower half occluded by the organ. Do not claim unobserved iconography.",
+      "files": [
+        {
+          "path": "assets/reference/west_rose_2017.jpg",
+          "bytes": 4084983,
+          "sha256": "93a52a0417d7eea07d2e082d3b8b2a6b21f73075e89dccc38d2c2ee7a03af998"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/rose_candidates.json"
+    },
+    {
+      "id": "west_rose_2017_alt",
+      "kind": "photographic_reference",
+      "title": "Paris Cathédrale Notre-Dame Innen Westliche Rosette 2.jpg",
+      "author": "Zairon",
+      "creation_date": "2017-04-04 10:33:09",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Paris_Cath%C3%A9drale_Notre-Dame_Innen_Westliche_Rosette_2.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Paris_Cath%C3%A9drale_Notre-Dame_Innen_Westliche_Rosette_2.jpg",
+      "source_dimensions_px": [
+        4448,
+        2918
+      ],
+      "attribution": "Paris Cathédrale Notre-Dame Innen Westliche Rosette 2.jpg — Zairon — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Paris_Cath%C3%A9drale_Notre-Dame_Innen_Westliche_Rosette_2.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration. Lower half occluded by the organ. Do not claim unobserved iconography.",
+      "files": [
+        {
+          "path": "assets/reference/west_rose_2017_alt.jpg",
+          "bytes": 3776396,
+          "sha256": "204483c791bad861f2c1cdde3a3f176104ca7f35c777d01e3cc99c5a564a601c"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/rose_candidates.json"
+    },
+    {
+      "id": "south_exterior_reference_2015",
+      "kind": "photographic_reference",
+      "title": "South rose window of Notre-Dame de Paris, 30 September 2015.jpg",
+      "author": "HAI YANG from SHANGHAI, CHINA",
+      "creation_date": "2015-09-30 08:56",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:South_rose_window_of_Notre-Dame_de_Paris,_30_September_2015.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/0/01/South_rose_window_of_Notre-Dame_de_Paris%2C_30_September_2015.jpg",
+      "source_dimensions_px": [
+        3840,
+        5760
+      ],
+      "attribution": "South rose window of Notre-Dame de Paris, 30 September 2015.jpg — HAI YANG from SHANGHAI, CHINA — CC BY-SA 2.0 — https://commons.wikimedia.org/wiki/File:South_rose_window_of_Notre-Dame_de_Paris,_30_September_2015.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/south_exterior_reference_2015.jpg",
+          "bytes": 4149625,
+          "sha256": "ac85d30eeeb32a3ed8d22b14196095a238f712839e519b3aa7431416da1168bc"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/rose_candidates.json"
+    },
+    {
+      "id": "north_rose_2010",
+      "kind": "photographic_reference",
+      "title": "North rose window of Notre-Dame de Paris, Aug 2010.jpg",
+      "author": "Julie Anne Workman",
+      "creation_date": "2010-08-22",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:North_rose_window_of_Notre-Dame_de_Paris,_Aug_2010.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/North_rose_window_of_Notre-Dame_de_Paris%2C_Aug_2010.jpg",
+      "source_dimensions_px": [
+        3574,
+        4650
+      ],
+      "attribution": "North rose window of Notre-Dame de Paris, Aug 2010.jpg — Julie Anne Workman — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:North_rose_window_of_Notre-Dame_de_Paris,_Aug_2010.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/north_rose_2010.jpg",
+          "bytes": 7787533,
+          "sha256": "0d5b897d7bda7f2f52a6c824cdfb6ee5e608c86551c4abbbcb235994a0f3804d"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/rose_historic_candidates.json"
+    },
+    {
+      "id": "west_rose_historic_cc0",
+      "kind": "historic_engraving",
+      "title": "XIIIe Siècle Pl. XIX Eglise Notre-Dame. Rose de la façade occidentale. (Restauration), Paris Musées 20230612164724.jpg",
+      "author": "Ollivier, Emile Edmond (Versailles, 07–09–1800 - en 1864), graveur",
+      "creation_date": "Unknown date",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_url": "https://commons.wikimedia.org/wiki/File:XIIIe_Si%C3%A8cle_Pl._XIX_Eglise_Notre-Dame._Rose_de_la_fa%C3%A7ade_occidentale._(Restauration),_Paris_Mus%C3%A9es_20230612164724.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/XIIIe_Si%C3%A8cle_Pl._XIX_Eglise_Notre-Dame._Rose_de_la_fa%C3%A7ade_occidentale._%28Restauration%29%2C_Paris_Mus%C3%A9es_20230612164724.jpg/960px-XIIIe_Si%C3%A8cle_Pl._XIX_Eglise_Notre-Dame._Rose_de_la_fa%C3%A7ade_occidentale._%28Restauration%29%2C_Paris_Mus%C3%A9es_20230612164724.jpg",
+      "source_dimensions_px": [
+        7440,
+        10880
+      ],
+      "attribution": "XIIIe Siècle Pl. XIX Eglise Notre-Dame. Rose de la façade occidentale. (Restauration), Paris Musées 20230612164724.jpg — Ollivier, Emile Edmond (Versailles, 07–09–1800 - en 1864), graveur — CC0 — https://commons.wikimedia.org/wiki/File:XIIIe_Si%C3%A8cle_Pl._XIX_Eglise_Notre-Dame._Rose_de_la_fa%C3%A7ade_occidentale._(Restauration),_Paris_Mus%C3%A9es_20230612164724.jpg",
+      "limitations": "Historic reconstruction engraving; CC0 digital reproduction, not evidence that every panel was unchanged by2019.",
+      "files": [
+        {
+          "path": "assets/reference/west_rose_historic_cc0.jpg",
+          "bytes": 432344,
+          "sha256": "8129e66ca5290147670c16e7b082dc0fecd37735381ccef26c15d05fad314666"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/rose_historic_candidates.json"
+    },
+    {
+      "id": "nave_reference_2014",
+      "kind": "photographic_reference",
+      "title": "Cathédrale Notre Dame de Paris (22466292571).jpg",
+      "author": "Jorge Láscar from Melbourne, Australia",
+      "creation_date": "7 December 2014, 18:29 (according to Exif data)",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cath%C3%A9drale_Notre_Dame_de_Paris_(22466292571).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Cath%C3%A9drale_Notre_Dame_de_Paris_%2822466292571%29.jpg/1920px-Cath%C3%A9drale_Notre_Dame_de_Paris_%2822466292571%29.jpg",
+      "source_dimensions_px": [
+        7360,
+        4912
+      ],
+      "attribution": "Cathédrale Notre Dame de Paris (22466292571).jpg — Jorge Láscar from Melbourne, Australia — CC BY 2.0 — https://commons.wikimedia.org/wiki/File:Cath%C3%A9drale_Notre_Dame_de_Paris_(22466292571).jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration. Despite local filename, depicts choir screen and choir organ rear, not a central nave overview.",
+      "files": [
+        {
+          "path": "assets/reference/nave_reference_2014.jpg",
+          "bytes": 657623,
+          "sha256": "cd0781c5fa509c89380fc1dd8d6e44fc0c534b9fb86147d0657770179a19408d"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/furnishing_candidates.json"
+    },
+    {
+      "id": "choir_organ_2011",
+      "kind": "photographic_reference",
+      "title": "Choir organ of Notre-Dame de Paris, April 2011.jpg",
+      "author": "Cristian Bortes from Cluj-Napoca, Romania",
+      "creation_date": "2011-04-28 19:41",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Choir_organ_of_Notre-Dame_de_Paris,_April_2011.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Choir_organ_of_Notre-Dame_de_Paris%2C_April_2011.jpg/1920px-Choir_organ_of_Notre-Dame_de_Paris%2C_April_2011.jpg",
+      "source_dimensions_px": [
+        4752,
+        3168
+      ],
+      "attribution": "Choir organ of Notre-Dame de Paris, April 2011.jpg — Cristian Bortes from Cluj-Napoca, Romania — CC BY 2.0 — https://commons.wikimedia.org/wiki/File:Choir_organ_of_Notre-Dame_de_Paris,_April_2011.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/choir_organ_2011.jpg",
+          "bytes": 467075,
+          "sha256": "072de2b9d1d29e456389b09cb6fdc66d4f4e7e4749a7cbb053f9f2b549cccb86"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/furnishing_candidates.json"
+    },
+    {
+      "id": "great_organ_2014",
+      "kind": "photographic_reference",
+      "title": "Great organ of Notre-Dame de Paris, July 2014.jpg",
+      "author": "Guilhem Vellut from Tokyo, Japan",
+      "creation_date": "2014-07-23 09:34",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Great_organ_of_Notre-Dame_de_Paris,_July_2014.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Great_organ_of_Notre-Dame_de_Paris%2C_July_2014.jpg/1920px-Great_organ_of_Notre-Dame_de_Paris%2C_July_2014.jpg",
+      "source_dimensions_px": [
+        2976,
+        3968
+      ],
+      "attribution": "Great organ of Notre-Dame de Paris, July 2014.jpg — Guilhem Vellut from Tokyo, Japan — CC BY 2.0 — https://commons.wikimedia.org/wiki/File:Great_organ_of_Notre-Dame_de_Paris,_July_2014.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/great_organ_2014.jpg",
+          "bytes": 1128356,
+          "sha256": "baf6900ef1adb362278784f411c3c8a616c75b2dd7d3eeb6b9a8ec9d971962bb"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/furnishing_candidates.json"
+    },
+    {
+      "id": "choir_reference_2011",
+      "kind": "photographic_reference",
+      "title": "Notre Dame Cathedral 2, Paris 8 October 2011.jpg",
+      "author": "Ed Webster",
+      "creation_date": "2011-10-08 17:58",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Notre_Dame_Cathedral_2,_Paris_8_October_2011.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Notre_Dame_Cathedral_2%2C_Paris_8_October_2011.jpg/1920px-Notre_Dame_Cathedral_2%2C_Paris_8_October_2011.jpg",
+      "source_dimensions_px": [
+        2980,
+        1680
+      ],
+      "attribution": "Notre Dame Cathedral 2, Paris 8 October 2011.jpg — Ed Webster — CC BY 2.0 — https://commons.wikimedia.org/wiki/File:Notre_Dame_Cathedral_2,_Paris_8_October_2011.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/choir_reference_2011.jpg",
+          "bytes": 591341,
+          "sha256": "ecaf62bece2d4259c7c7b2b61efbe5a77f9cbba4bb7073d235c649f8f4b1cd3d"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/furnishing_candidates.json"
+    },
+    {
+      "id": "choir_reference_2011_alt",
+      "kind": "photographic_reference",
+      "title": "Notre Dame Cathedral 4, Paris 8 October 2011.jpg",
+      "author": "Ed Webster",
+      "creation_date": "2011-10-08 18:01",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Notre_Dame_Cathedral_4,_Paris_8_October_2011.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Notre_Dame_Cathedral_4%2C_Paris_8_October_2011.jpg/1920px-Notre_Dame_Cathedral_4%2C_Paris_8_October_2011.jpg",
+      "source_dimensions_px": [
+        3648,
+        2056
+      ],
+      "attribution": "Notre Dame Cathedral 4, Paris 8 October 2011.jpg — Ed Webster — CC BY 2.0 — https://commons.wikimedia.org/wiki/File:Notre_Dame_Cathedral_4,_Paris_8_October_2011.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/choir_reference_2011_alt.jpg",
+          "bytes": 682028,
+          "sha256": "b43811584979de34385b349d93a86bf06c3b94165abd2b9b528aad21604e0a27"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/furnishing_candidates.json"
+    },
+    {
+      "id": "nave_vault_2015",
+      "kind": "photographic_reference",
+      "title": "Paris Notre-Dame Vaults 01.JPG",
+      "author": "Uoaei1",
+      "creation_date": "2015-10-10 10:30:59",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Paris_Notre-Dame_Vaults_01.JPG",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Paris_Notre-Dame_Vaults_01.JPG/1920px-Paris_Notre-Dame_Vaults_01.JPG",
+      "source_dimensions_px": [
+        3810,
+        5978
+      ],
+      "attribution": "Paris Notre-Dame Vaults 01.JPG — Uoaei1 — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Paris_Notre-Dame_Vaults_01.JPG",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/nave_vault_2015.jpg",
+          "bytes": 1808128,
+          "sha256": "4afe9c3cbc0f9f7692da042a4fbc74c4c0f6ff4c9f9fd4f9fe4cd8ed8639087c"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/furnishing_candidates.json"
+    },
+    {
+      "id": "interior_2017_kozlenko",
+      "kind": "photographic_reference",
+      "title": "2017-06-05 Interior of Notre-Dame de Paris.jpg",
+      "author": "Maksym Kozlenko",
+      "creation_date": "2017-06-05 12:25:39",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:2017-06-05_Interior_of_Notre-Dame_de_Paris.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/d/dc/2017-06-05_Interior_of_Notre-Dame_de_Paris.jpg",
+      "source_dimensions_px": [
+        5051,
+        3367
+      ],
+      "attribution": "2017-06-05 Interior of Notre-Dame de Paris.jpg — Maksym Kozlenko — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:2017-06-05_Interior_of_Notre-Dame_de_Paris.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/interior_2017_kozlenko.jpg",
+          "bytes": 7204367,
+          "sha256": "509b5804e79cc9f75ac09b0817ea9865927cc9b0aee8fcfddde34c43fd48427a"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/parent_references.json"
+    },
+    {
+      "id": "west_facade_2013_cc0",
+      "kind": "photographic_reference",
+      "title": "West facade of Notre-Dame de Paris, 25 September 2013.jpg",
+      "author": "fotokoci",
+      "creation_date": "2013-09-25 12:45:28",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_url": "https://commons.wikimedia.org/wiki/File:West_facade_of_Notre-Dame_de_Paris,_25_September_2013.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/West_facade_of_Notre-Dame_de_Paris%2C_25_September_2013.jpg/1920px-West_facade_of_Notre-Dame_de_Paris%2C_25_September_2013.jpg",
+      "source_dimensions_px": [
+        3968,
+        2232
+      ],
+      "attribution": "West facade of Notre-Dame de Paris, 25 September 2013.jpg — fotokoci — CC0 — https://commons.wikimedia.org/wiki/File:West_facade_of_Notre-Dame_de_Paris,_25_September_2013.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/west_facade_2013_cc0.jpg",
+          "bytes": 478070,
+          "sha256": "5121894cb11a977f5d79b06fddde9d019713e3bfff8b95f8cd81caeb2daad2fd"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/parent_references.json"
+    },
+    {
+      "id": "candidate_8249518",
+      "kind": "photographic_reference",
+      "title": "Notre-Dame-de-Paris - rosace sud.jpg",
+      "author": "Paryż_notre-dame_rozeta_4.JPG: Albertus teolog\nderivative work: Eusebius (talk)",
+      "creation_date": "5 August 2008 (original picture), 24 October 2009 (derivative)",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Notre-Dame-de-Paris_-_rosace_sud.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Notre-Dame-de-Paris_-_rosace_sud.jpg/960px-Notre-Dame-de-Paris_-_rosace_sud.jpg",
+      "source_dimensions_px": [
+        2091,
+        2164
+      ],
+      "attribution": "Notre-Dame-de-Paris - rosace sud.jpg — Paryż_notre-dame_rozeta_4.JPG: Albertus teolog\nderivative work: Eusebius (talk) — CC BY 3.0 — https://commons.wikimedia.org/wiki/File:Notre-Dame-de-Paris_-_rosace_sud.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/candidate_8249518.jpg",
+          "bytes": 435553,
+          "sha256": "fe7b0f04de63d8bc058f2e4be45ef800fe03a9df1fdbece4503a46a7c5aea0dd"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/south_lancet_candidates.json"
+    },
+    {
+      "id": "south_rose_full_2014",
+      "kind": "photographic_reference",
+      "title": "Paris, Notre-Dame, Rosettenfenster Süd 2014-12.jpg",
+      "author": "HerrAdams",
+      "creation_date": "2014-12-30 15:17:36",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Paris,_Notre-Dame,_Rosettenfenster_S%C3%BCd_2014-12.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/1/16/Paris%2C_Notre-Dame%2C_Rosettenfenster_S%C3%BCd_2014-12.jpg",
+      "source_dimensions_px": [
+        2956,
+        4204
+      ],
+      "attribution": "Paris, Notre-Dame, Rosettenfenster Süd 2014-12.jpg — HerrAdams — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Paris,_Notre-Dame,_Rosettenfenster_S%C3%BCd_2014-12.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/south_rose_full_2014.jpg",
+          "bytes": 10068524,
+          "sha256": "70f5b6a3ca982ec6b586eae5a5019f6d554ea5558ee5709167ef06382a344c02"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/south_lancet_candidates.json"
+    },
+    {
+      "id": "candidate_3578625",
+      "kind": "photographic_reference",
+      "title": "Rose du transept Sud Notre-Dame de Paris 170208 01.jpg",
+      "author": "Vassil",
+      "creation_date": "2008-02-18",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/Commons:Copyright_tags#Public_domain",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Rose_du_transept_Sud_Notre-Dame_de_Paris_170208_01.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Rose_du_transept_Sud_Notre-Dame_de_Paris_170208_01.jpg/960px-Rose_du_transept_Sud_Notre-Dame_de_Paris_170208_01.jpg",
+      "source_dimensions_px": [
+        2016,
+        2976
+      ],
+      "attribution": "Rose du transept Sud Notre-Dame de Paris 170208 01.jpg — Vassil — Public domain — https://commons.wikimedia.org/wiki/File:Rose_du_transept_Sud_Notre-Dame_de_Paris_170208_01.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/candidate_3578625.jpg",
+          "bytes": 524714,
+          "sha256": "58c49f8a991f3133f1a47d4cb1b6d8b3c0cdd9b178d8936a9c930e373f568846"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/south_lancet_candidates.json"
+    },
+    {
+      "id": "candidate_55988754",
+      "kind": "photographic_reference",
+      "title": "South Rose Window of the Notre Dame de Paris.jpg",
+      "author": "Eutouring",
+      "creation_date": "2013-09-17",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:South_Rose_Window_of_the_Notre_Dame_de_Paris.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/South_Rose_Window_of_the_Notre_Dame_de_Paris.jpg/960px-South_Rose_Window_of_the_Notre_Dame_de_Paris.jpg",
+      "source_dimensions_px": [
+        3000,
+        2219
+      ],
+      "attribution": "South Rose Window of the Notre Dame de Paris.jpg — Eutouring — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:South_Rose_Window_of_the_Notre_Dame_de_Paris.jpg",
+      "limitations": "Photographic visual reference; exposure, lens and perspective are not measurement calibration.",
+      "files": [
+        {
+          "path": "assets/reference/candidate_55988754.jpg",
+          "bytes": 276220,
+          "sha256": "549ffa46d4a5fa4b3873a5ffb959cacb1ac4452538b6483ba307f0f6d7a41362"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/south_lancet_candidates.json"
+    },
+    {
+      "id": "large_sandstone_blocks",
+      "kind": "generic_PBR_material",
+      "title": "Large Sandstone Blocks",
+      "author": {
+        "Rob Tuytel": "All"
+      },
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://polyhaven.com/a/large_sandstone_blocks",
+      "license_evidence": "https://polyhaven.com/license",
+      "physical_size_m": [
+        3.0,
+        3.000000238418579
+      ],
+      "files": [
+        {
+          "path": "assets/textures/large_sandstone_blocks/large_sandstone_blocks_diff_2k.jpg",
+          "bytes": 2700600,
+          "sha256": "0555a72f01754bb90d6ee8f5dffb92557cdf2dc13c4271e813e86114ce95cd87",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/large_sandstone_blocks/large_sandstone_blocks_diff_2k.jpg",
+          "map": "Diffuse",
+          "color_space": "sRGB"
+        },
+        {
+          "path": "assets/textures/large_sandstone_blocks/large_sandstone_blocks_nor_gl_2k.jpg",
+          "bytes": 2517711,
+          "sha256": "4e07f92c151c202914c33f329a8c1c6123a6158c5c3a23db4df03c2ab309d340",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/large_sandstone_blocks/large_sandstone_blocks_nor_gl_2k.jpg",
+          "map": "nor_gl",
+          "color_space": "Non-Color"
+        },
+        {
+          "path": "assets/textures/large_sandstone_blocks/large_sandstone_blocks_rough_2k.jpg",
+          "bytes": 2070646,
+          "sha256": "2f419a43d4600d83fdb4016477473107e1098f215e14ace9fc533500c6d36b67",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/large_sandstone_blocks/large_sandstone_blocks_rough_2k.jpg",
+          "map": "Rough",
+          "color_space": "Non-Color"
+        },
+        {
+          "path": "assets/textures/large_sandstone_blocks/large_sandstone_blocks_ao_2k.jpg",
+          "bytes": 1252998,
+          "sha256": "43ec67c5d4cf16f32d30040e37ff18459b58a309319e78ec9ad842e220856479",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/large_sandstone_blocks/large_sandstone_blocks_ao_2k.jpg",
+          "map": "AO",
+          "color_space": "Non-Color"
+        }
+      ],
+      "limitations": "Not captured at Notre-Dame. Sandstone is NOT Lutetian limestone. The large-sandstone set includes baked horizontal cornices and must NOT be tiled across universal walls/columns; superseded by Tiles143 for wall use."
+    },
+    {
+      "id": "wood_table_worn",
+      "kind": "generic_PBR_material",
+      "title": "Wood Table Worn",
+      "author": {
+        "Dimitrios Savva": "Photography",
+        "Rico Cilliers": "Processing"
+      },
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://polyhaven.com/a/wood_table_worn",
+      "license_evidence": "https://polyhaven.com/license",
+      "physical_size_m": [
+        0.5499999523162842,
+        0.5500000715255737
+      ],
+      "files": [
+        {
+          "path": "assets/textures/wood_table_worn/wood_table_worn_diff_2k.jpg",
+          "bytes": 3108339,
+          "sha256": "165cdba449d56ea8e9675116622b95d7af372b7d7c47b8a98a03fcc630f1d51c",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/wood_table_worn/wood_table_worn_diff_2k.jpg",
+          "map": "Diffuse",
+          "color_space": "sRGB"
+        },
+        {
+          "path": "assets/textures/wood_table_worn/wood_table_worn_nor_gl_2k.jpg",
+          "bytes": 3142587,
+          "sha256": "a90aaa321194fb41d6e44776c6ee88134e4be416051357a3c9e323cc447c4cf0",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/wood_table_worn/wood_table_worn_nor_gl_2k.jpg",
+          "map": "nor_gl",
+          "color_space": "Non-Color"
+        },
+        {
+          "path": "assets/textures/wood_table_worn/wood_table_worn_rough_2k.jpg",
+          "bytes": 2890891,
+          "sha256": "4263780c4b7737b8714eefcbda1b43c28f8e1e0ee2b797c125521cbe6e3889dd",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/wood_table_worn/wood_table_worn_rough_2k.jpg",
+          "map": "Rough",
+          "color_space": "Non-Color"
+        },
+        {
+          "path": "assets/textures/wood_table_worn/wood_table_worn_ao_2k.jpg",
+          "bytes": 2139016,
+          "sha256": "df58964c1648d12332210f2a94491563b9d051f88cb574e467703db6fe40a3fd",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/wood_table_worn/wood_table_worn_ao_2k.jpg",
+          "map": "AO",
+          "color_space": "Non-Color"
+        }
+      ],
+      "limitations": "Generic worn timber, not the cathedral furniture species/finish; use wood grain selectively and darken via material tint, not as documentary evidence."
+    },
+    {
+      "id": "limestone_tiles143",
+      "kind": "generic_PBR_material",
+      "title": "Tiles143 limestone",
+      "author": "ambientCG / Lennart Demes",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "license_evidence": "https://docs.ambientcg.com/license/",
+      "source_url": "https://ambientcg.com/a/Tiles143",
+      "download_url": "https://ambientcg.com/get?file=Tiles143_2K-JPG.zip",
+      "physical_size_m": [
+        2,
+        2
+      ],
+      "technique": "Height field photogrammetry",
+      "files": [
+        {
+          "path": "assets/textures/limestone_tiles143/Tiles143_2K-JPG.zip",
+          "bytes": 16966960,
+          "sha256": "d6f5c6f78d06675d4071b981c43da521d07702480d243eea250bd3d6ee1f24fc"
+        },
+        {
+          "path": "assets/textures/limestone_tiles143/Tiles143_2K-JPG_Color.jpg",
+          "bytes": 5438655,
+          "sha256": "bc74b3f603aec9ef4dcd91e2ffee6d689ec69f12921f7c27b5565ed989b1e863"
+        },
+        {
+          "path": "assets/textures/limestone_tiles143/Tiles143_2K-JPG_Displacement.jpg",
+          "bytes": 2210119,
+          "sha256": "11eae37a0fa74d4fa329ffa53ebd8fa4fcad14917019e0b92d7b64c75b129547"
+        },
+        {
+          "path": "assets/textures/limestone_tiles143/Tiles143_2K-JPG_NormalDX.jpg",
+          "bytes": 2673484,
+          "sha256": "7d17c7a1f91dbf161d28c22284593bd6e3306fb79a0d81b3e89ef39e6de1cf3e"
+        },
+        {
+          "path": "assets/textures/limestone_tiles143/Tiles143_2K-JPG_NormalGL.jpg",
+          "bytes": 2667191,
+          "sha256": "2a28db537ea096f649ce023ca2e9b776ff62ee6ee7ec86217090d2d87c4f7859"
+        },
+        {
+          "path": "assets/textures/limestone_tiles143/Tiles143_2K-JPG_Roughness.jpg",
+          "bytes": 2305125,
+          "sha256": "4648bf92b369edfb510eb6ffd4e309b1ab2a1819b3ce2c5926879145ee198eee"
+        },
+        {
+          "path": "assets/textures/limestone_tiles143/limestone_pore_color_610.png",
+          "bytes": 597839,
+          "sha256": "ad1f2ef81d4c19692ead582045dfce356bc550d436dc0799beee43b7e57fb2e1"
+        },
+        {
+          "path": "assets/textures/limestone_tiles143/limestone_pore_height_610.png",
+          "bytes": 175641,
+          "sha256": "cece7ad1aa85329c40b20de41e2e420eecf4f33d2efa09631619071aba2509fd"
+        },
+        {
+          "path": "assets/textures/limestone_tiles143/limestone_pore_roughness_610.png",
+          "bytes": 184810,
+          "sha256": "14bf55c84649e6d6b0147db64d70f17be0de3d96519e3e4667cc3656d34bd8ec"
+        },
+        {
+          "path": "assets/textures/limestone_tiles143/pore_transform.json",
+          "bytes": 386,
+          "sha256": "0548f16b437c01efa2eec4c37e09b11106bb74cca674af02da118fa0c455bba0"
+        }
+      ],
+      "derivative_method": "limestone_pore_*: source crop[1040,18,1345,323] of one stone, mirror tiled2x2 to610px. Reproducible script assets/reference/prepare_limestone_grain.py. Pore height intended for weak bump, not deep displacement.",
+      "limitations": "Generic real limestone scan, not a Notre-Dame sample. Uniform course layout and color must be judged against actual photographs. Physical tile size not a claim about cathedral block size; source seams are thin, source carries stains."
+    },
+    {
+      "id": "Tiles139_preview",
+      "kind": "material_preview",
+      "author": "ambientCG / Lennart Demes",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://ambientcg.com/a/Tiles139",
+      "download_url": "https://acg-media.struffelproductions.com/file/ambientCG-Web/media/thumbnail/512-JPG-FFFFFF/Tiles139.jpg",
+      "files": [
+        {
+          "path": "assets/reference/Tiles139_preview.jpg",
+          "bytes": 61885,
+          "sha256": "ecc07daf98984e3a4291fe8786150f63802cc36efa797e6c9a79ce38315c7aef"
+        }
+      ],
+      "limitations": "Preview render of generic material only; not cathedral evidence."
+    },
+    {
+      "id": "Tiles142_preview",
+      "kind": "material_preview",
+      "author": "ambientCG / Lennart Demes",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://ambientcg.com/a/Tiles142",
+      "download_url": "https://acg-media.struffelproductions.com/file/ambientCG-Web/media/thumbnail/512-JPG-FFFFFF/Tiles142.jpg",
+      "files": [
+        {
+          "path": "assets/reference/Tiles142_preview.jpg",
+          "bytes": 81607,
+          "sha256": "29bd4b999d2f4ca6939549b66d56cf48e8d606a328ce491e0275e1ace3865ee4"
+        }
+      ],
+      "limitations": "Preview render of generic material only; not cathedral evidence."
+    },
+    {
+      "id": "Tiles143_preview",
+      "kind": "material_preview",
+      "author": "ambientCG / Lennart Demes",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://ambientcg.com/a/Tiles143",
+      "download_url": "https://acg-media.struffelproductions.com/file/ambientCG-Web/media/thumbnail/512-JPG-FFFFFF/Tiles143.jpg",
+      "files": [
+        {
+          "path": "assets/reference/Tiles143_preview.jpg",
+          "bytes": 80123,
+          "sha256": "cbdc7d012b31e5c5af2ce294c6cf03200531769f274cbf1d8c99fb8e15f4cadf"
+        }
+      ],
+      "limitations": "Preview render of generic material only; not cathedral evidence."
+    },
+    {
+      "id": "north_rose_photo_3072",
+      "kind": "photo_derived_glass_texture",
+      "author": "Julie Anne Workman",
+      "derivative_editor": "Codex,2026-10-01",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_asset_id": "north_rose_2010",
+      "source_url": "https://commons.wikimedia.org/wiki/File:North_rose_window_of_Notre-Dame_de_Paris,_Aug_2010.jpg",
+      "attribution": "North rose window of Notre-Dame de Paris, Aug 2010.jpg — Julie Anne Workman — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:North_rose_window_of_Notre-Dame_de_Paris,_Aug_2010.jpg; cropped, resampled to circle and outside masked by Codex. Derivative retains source license.",
+      "method": {
+        "source": "north_rose_2010.jpg",
+        "output": "assets/textures/glass/north_rose_photo_3072.png",
+        "method": "visually estimated ellipse bounding-box crop, affine resize to circle, circular outside mask; no invented glass detail",
+        "crop_xyxy": [
+          100,
+          110,
+          3474,
+          3500
+        ],
+        "resolution": 3072,
+        "license": "CC BY-SA 3.0",
+        "limitation": "Residual lens/perspective distortion; crop estimated from original photo. No photometric calibration. Author Julie Anne Workman, 2010-08-22. North rose has16 principal lobes; top pane on vertical axis, mullions offset11.25deg."
+      },
+      "mapping": {
+        "uv_center": [
+          0.5,
+          0.5
+        ],
+        "radius": 0.5,
+        "image_top": "architectural up",
+        "color_space": "sRGB",
+        "black_regions": "actual lead/tracery and circular outside mask",
+        "north_phase": "16 major petals: top petal at12o'clock, spokes offset11.25degrees",
+        "south_phase": "12 major petals: mullion on vertical and horizontal axes"
+      },
+      "files": [
+        {
+          "path": "assets/textures/glass/north_rose_photo_3072.png",
+          "bytes": 13468699,
+          "sha256": "13952a8cc7c719d76417c151cd0cb9a258e8f4fc4b74fba07a27c27c5ced3167"
+        },
+        {
+          "path": "assets/textures/glass/north_rose_photo_3072_disk_mask.png",
+          "bytes": 27451,
+          "sha256": "f8e618e655b022ee5616788a3c223d889c27febbf45d2425319894e76c95ef63"
+        }
+      ],
+      "limitations": "Relative photographic colors/transmittance only, not calibrated spectral glass. Residual lens/perspective distortion. Stone tracery is photographed black; pair with modeled tracery. No generated iconography."
+    },
+    {
+      "id": "south_rose_photo_2560",
+      "kind": "photo_derived_glass_texture",
+      "author": "HerrAdams",
+      "derivative_editor": "Codex,2026-10-01",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_asset_id": "south_rose_2014",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Notre-Dame_de_Paris_-_South_Rose_01.jpg",
+      "attribution": "Notre-Dame de Paris - South Rose 01.jpg — HerrAdams — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Notre-Dame_de_Paris_-_South_Rose_01.jpg; cropped, resampled to circle and outside masked by Codex. Derivative retains source license.",
+      "method": {
+        "source": "south_rose_2014.jpg",
+        "output": "assets/textures/glass/south_rose_photo_2560.png",
+        "method": "visually estimated ellipse bounding-box crop, affine resize to circle, circular outside mask; no invented glass detail",
+        "crop_xyxy": [
+          90,
+          112,
+          2800,
+          2745
+        ],
+        "resolution": 2560,
+        "license": "CC BY-SA 4.0",
+        "limitation": "Residual lens/perspective distortion; crop estimated from original photo. No photometric calibration. Author HerrAdams, 2014-12-30. South rose has12 principal lobes; mullion on vertical and horizontal axes."
+      },
+      "mapping": {
+        "uv_center": [
+          0.5,
+          0.5
+        ],
+        "radius": 0.5,
+        "image_top": "architectural up",
+        "color_space": "sRGB",
+        "black_regions": "actual lead/tracery and circular outside mask",
+        "north_phase": "16 major petals: top petal at12o'clock, spokes offset11.25degrees",
+        "south_phase": "12 major petals: mullion on vertical and horizontal axes"
+      },
+      "files": [
+        {
+          "path": "assets/textures/glass/south_rose_photo_2560.png",
+          "bytes": 6855709,
+          "sha256": "b14e3212ffa550297330541e832db12b46793b962280be06f0774b01c204f6ed"
+        },
+        {
+          "path": "assets/textures/glass/south_rose_photo_2560_disk_mask.png",
+          "bytes": 21490,
+          "sha256": "38726e998f5aa44225962a5cae6c8ad847413b86b01d8897203bd8df361ea855"
+        }
+      ],
+      "limitations": "Relative photographic colors/transmittance only, not calibrated spectral glass. Residual lens/perspective distortion. Stone tracery is photographed black; pair with modeled tracery. No generated iconography."
+    },
+    {
+      "id": "clerestory_1965_reference_only_culture2006",
+      "kind": "reference_only_not_runtime_texture",
+      "title": "Côté sud de la nef de Notre-Dame",
+      "author": "Philippe Fortin / Inventaire général / Ministère de la Culture",
+      "creation_date": "2006",
+      "license": "Copyright retained; no reusable asset license established",
+      "source_url": "https://notre-dame-de-paris.culture.gouv.fr/fr/media/view/11251",
+      "download_url": "https://notre-dame-de-paris.culture.gouv.fr/sites/divers/files/styles/grand_format/public/upload/mediatheque/originales/images/c_1_ivn00_06750163nuc1.jpeg?itok=CY7sa7mt",
+      "files": [
+        {
+          "path": "assets/reference/clerestory_1965_reference_only_culture2006.jpg",
+          "bytes": 1395024,
+          "sha256": "d9959488cddfda99f71fa18d360b0552fbf20a000c64e0a8a5200de16bc45677"
+        }
+      ],
+      "limitations": "Private visual study only. Do not pack this image as runtime/blend texture or publish it. Glass design by Jacques Le Chevallier1896–1987; no assertion that photographer licensing clears modern glass artwork. Reconstruct approximate nonfigurative visual language, disclose inference."
+    },
+    {
+      "id": "west_rose_reconstruction",
+      "kind": "photo_derived_glass_visible_only",
+      "author": "Zairon",
+      "derivative_editor": "Codex,2026-10-01",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_asset_id": "west_rose_2017",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Paris_Cath%C3%A9drale_Notre-Dame_Innen_Westliche_Rosette_1.jpg",
+      "attribution": "Paris Cathédrale Notre-Dame Innen Westliche Rosette 1.jpg — Zairon — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Paris_Cath%C3%A9drale_Notre-Dame_Innen_Westliche_Rosette_1.jpg; ellipse-normalized, lower occluded half blacked by Codex; no new iconography.",
+      "method": {
+        "source": "assets/reference/west_rose_2017.jpg",
+        "output": "assets/textures/glass/west_rose_reconstruction.png",
+        "method": "ellipse bounding crop and affine circular normalization; retain upper half and original visible central medallion only; fill organ-occluded lower part black; mask outside circle; no invented detail",
+        "crop_xyxy": [
+          672,
+          565,
+          3632,
+          3385
+        ],
+        "resolution": 2048,
+        "license": "CC BY-SA4.0",
+        "author": "Zairon",
+        "date": "2017-04-04",
+        "limitation": "Visible portions only; lower half is intentionally not reconstructed. Use the physical organ in front. Residual perspective. No claim of full iconographic reconstruction.",
+        "uv_center": [
+          0.5,
+          0.5
+        ],
+        "radius": 0.5,
+        "image_top": "architectural up"
+      },
+      "files": [
+        {
+          "path": "assets/textures/glass/west_rose_reconstruction.png",
+          "bytes": 2979568,
+          "sha256": "b122731517a1f54f7ec1c524288a4f4108f1065f5564dd8569e31cb2bbc1d7b9"
+        },
+        {
+          "path": "assets/textures/glass/west_rose_observed_mask.png",
+          "bytes": 11432,
+          "sha256": "4194b495fa8509873195ff8d7e4eea27ac6a1cfdbde30af76d1827b2dc3f3428"
+        }
+      ],
+      "limitations": "Source upper rose and central medallion only; lower half is unobserved and intentionally black. Physical organ should cover this area; filename does not mean complete reconstruction."
+    },
+    {
+      "id": "north_lancet_bank_photo_derivatives",
+      "kind": "photo_derived_glass_textures",
+      "author": "Julie Anne Workman",
+      "derivative_editor": "Codex,2026-10-01",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_asset_id": "north_rose_2010",
+      "source_url": "https://commons.wikimedia.org/wiki/File:North_rose_window_of_Notre-Dame_de_Paris,_Aug_2010.jpg",
+      "attribution": "North rose window of Notre-Dame de Paris, Aug 2010.jpg — Julie Anne Workman — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:North_rose_window_of_Notre-Dame_de_Paris,_Aug_2010.jpg; individual lancets cropped without resampling by Codex; derivatives retain source license.",
+      "observed_lancet_count": 18,
+      "grouping": "9 pairs",
+      "order": "01 is leftmost when viewed from inside; do not mirror the iconography.",
+      "method": {
+        "north_count": 18,
+        "north_grouping": "9 pairs",
+        "count_evidence": "assets/reference/north_lancet_bank_inspection.png",
+        "panels": [
+          {
+            "file": "assets/textures/glass/north_lancet_01_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 1,
+            "crop_xyxy": [
+              111,
+              3915,
+              243,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              132,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_02_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 2,
+            "crop_xyxy": [
+              285,
+              3915,
+              424,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              139,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_03_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 3,
+            "crop_xyxy": [
+              495,
+              3915,
+              631,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              136,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_04_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 4,
+            "crop_xyxy": [
+              667,
+              3915,
+              812,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              145,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_05_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 5,
+            "crop_xyxy": [
+              873,
+              3915,
+              1015,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              142,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_06_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 6,
+            "crop_xyxy": [
+              1043,
+              3915,
+              1197,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              154,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_07_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 7,
+            "crop_xyxy": [
+              1247,
+              3915,
+              1401,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              154,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_08_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 8,
+            "crop_xyxy": [
+              1417,
+              3915,
+              1575,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              158,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_09_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 9,
+            "crop_xyxy": [
+              1623,
+              3915,
+              1777,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              154,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_10_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 10,
+            "crop_xyxy": [
+              1796,
+              3915,
+              1946,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              150,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_11_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 11,
+            "crop_xyxy": [
+              1994,
+              3915,
+              2157,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              163,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_12_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 12,
+            "crop_xyxy": [
+              2170,
+              3915,
+              2329,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              159,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_13_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 13,
+            "crop_xyxy": [
+              2382,
+              3915,
+              2539,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              157,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_14_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 14,
+            "crop_xyxy": [
+              2559,
+              3915,
+              2709,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              150,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_15_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 15,
+            "crop_xyxy": [
+              2766,
+              3915,
+              2912,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              146,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_16_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 16,
+            "crop_xyxy": [
+              2943,
+              3915,
+              3083,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              140,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_17_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 17,
+            "crop_xyxy": [
+              3154,
+              3915,
+              3290,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              136,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          },
+          {
+            "file": "assets/textures/glass/north_lancet_18_photo.png",
+            "source": "assets/reference/north_rose_2010.jpg",
+            "source_asset_id": "north_rose_2010",
+            "lancet_number_left_to_right": 18,
+            "crop_xyxy": [
+              3330,
+              3915,
+              3465,
+              4588
+            ],
+            "actual_output_dimensions_px": [
+              135,
+              673
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA3.0",
+            "author": "Julie Anne Workman",
+            "source_date": "2010-08-22",
+            "limitations": "Source photo perspective not orthographically calibrated. Frame blank edges included. Native resolution small but adequate for distant lancet field; do not claim4K."
+          }
+        ]
+      },
+      "files": [
+        {
+          "path": "assets/textures/glass/north_lancet_01_photo.png",
+          "bytes": 179630,
+          "sha256": "d519942ea9169ed25085ec80ac944b6ca82549a7ab9bca7434183eab1f67e086"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_02_photo.png",
+          "bytes": 185447,
+          "sha256": "73baacee49fe3f8d8a80c93aae89879d8ff0cee1e967f51a95c7e11a6b425c51"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_03_photo.png",
+          "bytes": 186435,
+          "sha256": "3511549ebe93059b384863222129f601f1ec09ac63873bb806a277e79fd87403"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_04_photo.png",
+          "bytes": 199721,
+          "sha256": "5308ac4a31c07396e31a76e33c1c062812aedf4666e243749009cb65f9c62f63"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_05_photo.png",
+          "bytes": 200731,
+          "sha256": "8899ab7c9666f7bd666fd1f77565c46b2459e401eeb3bdde92a70f6c0d9bcba6"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_06_photo.png",
+          "bytes": 214351,
+          "sha256": "57c812f46d118002f829b9cfa7e0d075153761e6569ec21e07b8d76aa8e96c10"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_07_photo.png",
+          "bytes": 219632,
+          "sha256": "8e8e325f1b7dd2cd745814fd9304277bf6a15c52dcff7d2fc536c52628399f40"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_08_photo.png",
+          "bytes": 219431,
+          "sha256": "705ce1e1c1f3b1a4cdd714fd974ff60ce83d8e795e5a3dc687ee6d4f9cd20128"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_09_photo.png",
+          "bytes": 211647,
+          "sha256": "1ceec7b0b04b1ff1d3883ddf88dd3814158778d0b01983218f6e6351b871da7f"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_10_photo.png",
+          "bytes": 203056,
+          "sha256": "c9d354010418c2b199a42d35ced006e77fa66abb473974b0c5bb6fd126e201f0"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_11_photo.png",
+          "bytes": 228332,
+          "sha256": "37c19d33cd98225dbb8e9906a0ec1bb27b5470c4afe02c12d49625dd0f8e9390"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_12_photo.png",
+          "bytes": 223005,
+          "sha256": "3263e6f67547f56de53c8724f656ba152dae1e61b3ae25b093e7ab031aec213d"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_13_photo.png",
+          "bytes": 219121,
+          "sha256": "bdb9740c6426005ec13335fa88158990be7bf98b314e9f8343d0af2df861c3c5"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_14_photo.png",
+          "bytes": 210909,
+          "sha256": "1ba98e0405a08ef1250f8e16a73eb9564b5791d2f53120bb0bfaee82aa3f2858"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_15_photo.png",
+          "bytes": 200349,
+          "sha256": "e65cd0a7496510d0bb4d7ae862e759d7ef8a97bc0d24f738c50771ee939a5afe"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_16_photo.png",
+          "bytes": 186750,
+          "sha256": "dd3752dc4e1c80b31ea65c7addd42fd018f1928b5ea22bee25db1be0b5c469de"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_17_photo.png",
+          "bytes": 184125,
+          "sha256": "55c233d4bdb4d27a6315fd7865c9968b689defad38bb0ec3d67ee2e03cf38f08"
+        },
+        {
+          "path": "assets/textures/glass/north_lancet_18_photo.png",
+          "bytes": 179531,
+          "sha256": "ed2080b2708048487d9df485dd98c748d0f68533db794cab931d66d0e31327f9"
+        },
+        {
+          "path": "assets/reference/north_lancet_bank_inspection.png",
+          "bytes": 4888030,
+          "sha256": "e46aa20f3294fe74b635d10a411feab630a16fc888527cb41543643851548678"
+        }
+      ],
+      "limitations": "Native photo detail only, small 130–163px width. Separate photographed originals avoid repeated saint designs. Perspective and exposure vary; proportions are visually inferred, not surveyed."
+    },
+    {
+      "id": "south_lancet_bank_photo_derivatives",
+      "kind": "photo_derived_glass_textures",
+      "author": "HerrAdams",
+      "derivative_editor": "Codex,2026-10-01",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_asset_id": "south_rose_full_2014",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Paris,_Notre-Dame,_Rosettenfenster_S%C3%BCd_2014-12.jpg",
+      "attribution": "Paris, Notre-Dame, Rosettenfenster Süd 2014-12.jpg — HerrAdams — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Paris,_Notre-Dame,_Rosettenfenster_S%C3%BCd_2014-12.jpg; individual lancets cropped without resampling by Codex; derivatives retain source license.",
+      "observed_lancet_count": 16,
+      "grouping": "8 pairs",
+      "order": "01 is leftmost when viewed from inside; do not mirror the iconography.",
+      "method": {
+        "south_count": 16,
+        "south_grouping": "8 pairs",
+        "count_evidence": "assets/reference/south_lancet_bank_inspection.png",
+        "panels": [
+          {
+            "file": "assets/textures/glass/south_lancet_01_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 1,
+            "crop_xyxy": [
+              105,
+              3314,
+              233,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              128,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_02_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 2,
+            "crop_xyxy": [
+              264,
+              3314,
+              394,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              130,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_03_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 3,
+            "crop_xyxy": [
+              451,
+              3314,
+              580,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              129,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_04_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 4,
+            "crop_xyxy": [
+              606,
+              3314,
+              746,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              140,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_05_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 5,
+            "crop_xyxy": [
+              792,
+              3314,
+              934,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              142,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_06_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 6,
+            "crop_xyxy": [
+              951,
+              3314,
+              1099,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              148,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_07_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 7,
+            "crop_xyxy": [
+              1138,
+              3314,
+              1283,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              145,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_08_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 8,
+            "crop_xyxy": [
+              1295,
+              3314,
+              1444,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              149,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_09_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 9,
+            "crop_xyxy": [
+              1487,
+              3314,
+              1633,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              146,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_10_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 10,
+            "crop_xyxy": [
+              1638,
+              3314,
+              1796,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              158,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_11_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 11,
+            "crop_xyxy": [
+              1826,
+              3314,
+              1984,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              158,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_12_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 12,
+            "crop_xyxy": [
+              1984,
+              3314,
+              2145,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              161,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_13_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 13,
+            "crop_xyxy": [
+              2174,
+              3314,
+              2330,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              156,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_14_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 14,
+            "crop_xyxy": [
+              2336,
+              3314,
+              2492,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              156,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_15_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 15,
+            "crop_xyxy": [
+              2524,
+              3314,
+              2679,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              155,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          },
+          {
+            "file": "assets/textures/glass/south_lancet_16_photo.png",
+            "source": "assets/reference/south_rose_full_2014.jpg",
+            "source_asset_id": "south_rose_full_2014",
+            "lancet_number_left_to_right": 16,
+            "crop_xyxy": [
+              2691,
+              3314,
+              2846,
+              4074
+            ],
+            "actual_output_dimensions_px": [
+              155,
+              760
+            ],
+            "method": "crop only; no synthesized or upscaled detail",
+            "license": "CC BY-SA4.0",
+            "author": "HerrAdams",
+            "source_date": "2014-12-30",
+            "limitations": "Source photo perspective not orthographically calibrated; native resolution around130x760px, not4K."
+          }
+        ]
+      },
+      "files": [
+        {
+          "path": "assets/textures/glass/south_lancet_01_photo.png",
+          "bytes": 198642,
+          "sha256": "8da56401828e12a82d71692cdd469a1229885eefd05e64e5a444191b739ac3c9"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_02_photo.png",
+          "bytes": 203028,
+          "sha256": "73588059f2eed06577a569692758cad7a1e88b12957883230468183a0a874e1c"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_03_photo.png",
+          "bytes": 205535,
+          "sha256": "49e8b620e663a2d0d97110def8efc3f6a9535339e3249e15cfd1ae6316cce27d"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_04_photo.png",
+          "bytes": 215661,
+          "sha256": "b0492b9c502bd84b3ac690b272886a47df1c6a73532c4004e87ab6b5d559b711"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_05_photo.png",
+          "bytes": 223760,
+          "sha256": "27c6a9685f9c1044577fd40e2d98aaf01354492ec756c8300ca5e7b5dc4c003e"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_06_photo.png",
+          "bytes": 233396,
+          "sha256": "775b59e1571c20f0702f1fb71574771fd71c85cdfa719d2545209dcbd1015f22"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_07_photo.png",
+          "bytes": 234452,
+          "sha256": "e22a00109f139391aee8c13d99f0aa4479ec2c1193339b9474cdcb476adcaa3e"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_08_photo.png",
+          "bytes": 241792,
+          "sha256": "c5ba2961cf213f96c50d8fec03a4768a4e06bc81b9a831b42f4873380acfff51"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_09_photo.png",
+          "bytes": 231563,
+          "sha256": "589cd9645fa47202f3bc1a721ac961268712d3de6bd1464f808a2e207ea7a223"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_10_photo.png",
+          "bytes": 254424,
+          "sha256": "d6ca54f1a88654dbf36f0067bc14e5740bf30d1805867804c849d1d53ca0b13c"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_11_photo.png",
+          "bytes": 247195,
+          "sha256": "d1c473b16be8396d3490d751616f695c531c661f20ce406540ad2b0aedd5ac38"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_12_photo.png",
+          "bytes": 250526,
+          "sha256": "adc3148216a1aca0033528250da71cec9dfd7620f23ea3c150b6372cb40f6ddf"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_13_photo.png",
+          "bytes": 248447,
+          "sha256": "524c680e32843cf4843ac99b0d30cdd75ed317231bb04819af353c327ece833e"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_14_photo.png",
+          "bytes": 246532,
+          "sha256": "34d682401d1cbb5da4515eb76a177e8bb5c11f4ccea22b16f0cd3109827725e1"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_15_photo.png",
+          "bytes": 246324,
+          "sha256": "23404bb5bdb5aa8b0f95de7cbe579cb170a93bbd6707a371a959e710f18b72b5"
+        },
+        {
+          "path": "assets/textures/glass/south_lancet_16_photo.png",
+          "bytes": 250947,
+          "sha256": "1719c10e2905089dc78cd88d4789f2ca5f3a7d8eadd24f238269ce22bfa20bb7"
+        },
+        {
+          "path": "assets/reference/south_lancet_bank_inspection.png",
+          "bytes": 5216107,
+          "sha256": "19937a4e24529c1f62344dd14ba7afe25cf83c8150bc42e19ecd287b70611647"
+        }
+      ],
+      "limitations": "Native photo detail only, small 130–163px width. Separate photographed originals avoid repeated saint designs. Perspective and exposure vary; proportions are visually inferred, not surveyed."
+    },
+    {
+      "id": "nave_2019_02_16_votive_reference",
+      "kind": "photographic_reference",
+      "title": "Notre-Dame de Paris,2019-02-16,nave02",
+      "author": "Lucas Werkmeister",
+      "creation_date": "2019-02-16",
+      "license": "CC BY4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Notre-Dame_de_Paris,_2019-02-16,_nave_02.jpg",
+      "source_dimensions_px": [
+        4160,
+        3120
+      ],
+      "attribution": "Notre-Dame de Paris,2019-02-16,nave02 — Lucas Werkmeister — CC BY4.0 — https://commons.wikimedia.org/wiki/File:Notre-Dame_de_Paris,_2019-02-16,_nave_02.jpg",
+      "files": [
+        {
+          "path": "assets/reference/nave_2019-02-16_Lucas_Werkmeister_CC_BY4.jpg",
+          "bytes": 3543683,
+          "sha256": "c769c7b98348f3ef14c86877e8ffe52408f2e7aea8895ffe1ca0c172f20e4f43"
+        }
+      ],
+      "use": "Visual reference for two rear-nave sloped red-cup votive stands; not an embedded material texture.",
+      "limitations": "Dimensions and cup counts inferred from the photograph. Source and license verified by furnishing agent; this final audit checks the local file integrity only."
+    },
+    {
+      "id": "final_graded_limestone_derivatives",
+      "kind": "runtime_material_derivatives",
+      "author": "Codex project material pipeline; source ambientCG / Lennart Demes",
+      "source_asset_id": "limestone_tiles143",
+      "source_url": "https://ambientcg.com/a/Tiles143",
+      "source_license": "CC0-1.0",
+      "source_license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "derivative_license": "Project-authored adjustment; no additional public redistribution license asserted by this audit.",
+      "method": "src/make_material_tiles.py then src/refine_material_tiles.py. Limestone source desaturated to18%, brightness68%; smooth pore crop contrast22%.",
+      "files": [
+        {
+          "path": "assets/textures/generated/limestone_aged.png",
+          "bytes": 5690593,
+          "sha256": "15a0a7104cc531dae856aaf9aaa84099d68820ef9dfa85fadfa6e1c058099442"
+        },
+        {
+          "path": "assets/textures/generated/limestone_smooth_aged.png",
+          "bytes": 242957,
+          "sha256": "f9e96629a706919942bef97fa01079197e3f276f5305375eec7d30e8beef1496"
+        }
+      ],
+      "limitations": "Generic limestone analogy; not a site material scan. Final-file hashes identify actual delivered pixels rather than a claim of bit-identical future regeneration."
+    },
+    {
+      "id": "final_procedural_material_tiles",
+      "kind": "project_authored_runtime_textures",
+      "author": "Codex project material pipeline",
+      "license": "Project-authored; public redistribution license not specified",
+      "source_scripts": [
+        "src/make_material_tiles.py",
+        "src/refine_material_tiles.py"
+      ],
+      "files": [
+        {
+          "path": "assets/textures/generated/chapel_ornament_interpretation.png",
+          "bytes": 31475,
+          "sha256": "41db422842207d42cd1ea1d91ff314bcaf88a5de4d2eb96564233b6ba6ec5add"
+        },
+        {
+          "path": "assets/textures/generated/clerestory_abstract_interpretation.png",
+          "bytes": 46523,
+          "sha256": "4071c4b0751bdf93fe708be122a3c4b2e614a6948ad353ec9fb3f9c39034a74f"
+        },
+        {
+          "path": "assets/textures/generated/lead_base.png",
+          "bytes": 878934,
+          "sha256": "cd1c11493ccdb39c972fdc5f4f3e2a12ba2fdbf53dea17459ac59745ce4358d3"
+        },
+        {
+          "path": "assets/textures/generated/paving_base.png",
+          "bytes": 166569,
+          "sha256": "5802491e7c601cfe10bb6bc1c73a10009dca035cff2060783375eb18a3ad5388"
+        },
+        {
+          "path": "assets/textures/generated/paving_rough.png",
+          "bytes": 7112,
+          "sha256": "0bdf675ff958b30a6304e5e39afd6d84643f7672263c9f27b967ba724e27a9e6"
+        }
+      ],
+      "method": "Procedural drawings and material variation, with final review adjustments in refine_material_tiles.py. No source photo pixels in this group.",
+      "limitations": "Clerestory uses a qualitative nonfigurative vocabulary, not panel-by-panel LeChevallier facsimile. Chapel glass is an ornamental interpretation. Paving dimensions and lead panel layouts are inferred."
+    },
+    {
+      "id": "chapel_saint_eloi_2007",
+      "kind": "photographic_source",
+      "title": "Cathedrale nd paris vitraux003.jpg",
+      "author": "Harmonia Amanda",
+      "creation_date": "2007-03-26",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux003.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Cathedrale_nd_paris_vitraux003.jpg",
+      "source_dimensions_px": [
+        2304,
+        3072
+      ],
+      "attribution": "Cathedrale nd paris vitraux003.jpg — Harmonia Amanda — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux003.jpg",
+      "use": "Original unmodified prefire chapel-glass photo. The2007 photographs supply photo-atlas textures;2009 close details are reference only.",
+      "limitations": "No metric calibration. Chapel name follows Commons category; placement of the derived atlas into reconstruction bays is inferred, not verified. Baked exposure, painted glass, support bars and perspective remain source constraints.",
+      "files": [
+        {
+          "path": "assets/reference/chapel_saint_eloi_2007.jpg",
+          "bytes": 1967487,
+          "sha256": "ddbd5f1efe012b6a003b287a92e55246d304a12b1a2982fbba44aee05b41c0ee"
+        },
+        {
+          "path": "assets/reference/chapel_candidate_7790804.jpg",
+          "bytes": 484755,
+          "sha256": "fff250d23a4c0ab996fdaa4f995a50c798ad83d0928ea2a1e40d6e7663c2bf35"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/chapel_photo_candidates.json"
+    },
+    {
+      "id": "chapel_saint_denis_2007",
+      "kind": "photographic_source",
+      "title": "Cathedrale nd paris vitraux014.jpg",
+      "author": "Harmonia Amanda",
+      "creation_date": "2007-03-26",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux014.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/5/57/Cathedrale_nd_paris_vitraux014.jpg",
+      "source_dimensions_px": [
+        2304,
+        3072
+      ],
+      "attribution": "Cathedrale nd paris vitraux014.jpg — Harmonia Amanda — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux014.jpg",
+      "use": "Original unmodified prefire chapel-glass photo. The2007 photographs supply photo-atlas textures;2009 close details are reference only.",
+      "limitations": "No metric calibration. Chapel name follows Commons category; placement of the derived atlas into reconstruction bays is inferred, not verified. Baked exposure, painted glass, support bars and perspective remain source constraints.",
+      "files": [
+        {
+          "path": "assets/reference/chapel_saint_denis_2007.jpg",
+          "bytes": 1853815,
+          "sha256": "f03b57ab1e855da130a0b2835ee94e8f84d226beb9c8c3b57814e8fec72c68ad"
+        },
+        {
+          "path": "assets/reference/chapel_candidate_7790847.jpg",
+          "bytes": 470776,
+          "sha256": "c9a1c4270feb27ba16f9975c4cbcb35f4ac312e81451aed6e45ab58bf5834a8d"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/chapel_photo_candidates.json"
+    },
+    {
+      "id": "chapel_sainte_madeleine_2007",
+      "kind": "photographic_source",
+      "title": "Cathedrale nd paris vitraux016.jpg",
+      "author": "Harmonia Amanda",
+      "creation_date": "2007-03-26",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux016.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/1/10/Cathedrale_nd_paris_vitraux016.jpg",
+      "source_dimensions_px": [
+        2304,
+        3072
+      ],
+      "attribution": "Cathedrale nd paris vitraux016.jpg — Harmonia Amanda — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux016.jpg",
+      "use": "Original unmodified prefire chapel-glass photo. The2007 photographs supply photo-atlas textures;2009 close details are reference only.",
+      "limitations": "No metric calibration. Chapel name follows Commons category; placement of the derived atlas into reconstruction bays is inferred, not verified. Baked exposure, painted glass, support bars and perspective remain source constraints.",
+      "files": [
+        {
+          "path": "assets/reference/chapel_sainte_madeleine_2007.jpg",
+          "bytes": 1891464,
+          "sha256": "5bb0d12dcdcc82e021a74c5c3b72e4cd0dac16f49c8b1df34c00148b89083c5f"
+        },
+        {
+          "path": "assets/reference/chapel_candidate_7790851.jpg",
+          "bytes": 464991,
+          "sha256": "8823db1127bb0b2881b3ce331d551254042365d0320f304de879685fa0d7519f"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/chapel_photo_candidates.json"
+    },
+    {
+      "id": "chapel_saint_louis_2007",
+      "kind": "photographic_source",
+      "title": "Cathedrale nd paris vitraux029.jpg",
+      "author": "Harmonia Amanda",
+      "creation_date": "2007-03-26",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux029.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/5/57/Cathedrale_nd_paris_vitraux029.jpg",
+      "source_dimensions_px": [
+        2304,
+        3072
+      ],
+      "attribution": "Cathedrale nd paris vitraux029.jpg — Harmonia Amanda — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux029.jpg",
+      "use": "Original unmodified prefire chapel-glass photo. The2007 photographs supply photo-atlas textures;2009 close details are reference only.",
+      "limitations": "No metric calibration. Chapel name follows Commons category; placement of the derived atlas into reconstruction bays is inferred, not verified. Baked exposure, painted glass, support bars and perspective remain source constraints.",
+      "files": [
+        {
+          "path": "assets/reference/chapel_saint_louis_2007.jpg",
+          "bytes": 2141213,
+          "sha256": "9c2f002126f9ff7ccf4a7f22e29ab00863de720d4a7d3b835cd4ecfe43b18dde"
+        },
+        {
+          "path": "assets/reference/chapel_candidate_7790892.jpg",
+          "bytes": 576624,
+          "sha256": "2db8936f15e343eaf0afa26a982f4131e0ea4058ffcb7a0afc28483e8e2ae0f2"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/chapel_photo_candidates.json"
+    },
+    {
+      "id": "chapel_saint_ferdinand_2007",
+      "kind": "photographic_source",
+      "title": "Cathedrale nd paris vitraux032.jpg",
+      "author": "Harmonia Amanda",
+      "creation_date": "2007-03-26",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux032.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Cathedrale_nd_paris_vitraux032.jpg",
+      "source_dimensions_px": [
+        2304,
+        3072
+      ],
+      "attribution": "Cathedrale nd paris vitraux032.jpg — Harmonia Amanda — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux032.jpg",
+      "use": "Original unmodified prefire chapel-glass photo. The2007 photographs supply photo-atlas textures;2009 close details are reference only.",
+      "limitations": "No metric calibration. Chapel name follows Commons category; placement of the derived atlas into reconstruction bays is inferred, not verified. Baked exposure, painted glass, support bars and perspective remain source constraints.",
+      "files": [
+        {
+          "path": "assets/reference/chapel_saint_ferdinand_2007.jpg",
+          "bytes": 1980440,
+          "sha256": "087c67c8de5f63cebcb16a5e0b0e9df67eabb926a9d7e9733da30c55f05d223f"
+        },
+        {
+          "path": "assets/reference/chapel_candidate_7790901.jpg",
+          "bytes": 470584,
+          "sha256": "f4579aa95b370ec3e96ba3798a2d0cf7e985e51ef0f6157c9e2ffcb2f9d51fc2"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/chapel_photo_candidates.json"
+    },
+    {
+      "id": "chapel_saint_louis_detail_2009",
+      "kind": "photographic_source",
+      "title": "ND de Paris, vitraux 016.jpg",
+      "author": "Cbyd",
+      "creation_date": "2009-08-06",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_url": "https://commons.wikimedia.org/wiki/File:ND_de_Paris,_vitraux_016.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/9/92/ND_de_Paris%2C_vitraux_016.jpg",
+      "source_dimensions_px": [
+        3648,
+        2736
+      ],
+      "attribution": "ND de Paris, vitraux 016.jpg — Cbyd — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:ND_de_Paris,_vitraux_016.jpg",
+      "use": "Original unmodified prefire chapel-glass photo. The2007 photographs supply photo-atlas textures;2009 close details are reference only.",
+      "limitations": "No metric calibration. Chapel name follows Commons category; placement of the derived atlas into reconstruction bays is inferred, not verified. Baked exposure, painted glass, support bars and perspective remain source constraints.",
+      "files": [
+        {
+          "path": "assets/reference/chapel_saint_louis_detail_2009.jpg",
+          "bytes": 4531345,
+          "sha256": "91ebbeb081d3bd00769db050c5b2a50d6b88a684a05533c173373acf739f4180"
+        },
+        {
+          "path": "assets/reference/chapel_candidate_16748540.jpg",
+          "bytes": 350002,
+          "sha256": "6284074a60e95cbe2d47e3ea81494f0ba84f1a8113a83dc54fb9d4abd9c56c9b"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/chapel_photo_candidates.json"
+    },
+    {
+      "id": "chapel_saint_ferdinand_detail_2009",
+      "kind": "photographic_source",
+      "title": "ND de Paris, vitraux 017.jpg",
+      "author": "Cbyd",
+      "creation_date": "2009-08-06",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_url": "https://commons.wikimedia.org/wiki/File:ND_de_Paris,_vitraux_017.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/c/ca/ND_de_Paris%2C_vitraux_017.jpg",
+      "source_dimensions_px": [
+        3648,
+        2736
+      ],
+      "attribution": "ND de Paris, vitraux 017.jpg — Cbyd — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:ND_de_Paris,_vitraux_017.jpg",
+      "use": "Original unmodified prefire chapel-glass photo. The2007 photographs supply photo-atlas textures;2009 close details are reference only.",
+      "limitations": "No metric calibration. Chapel name follows Commons category; placement of the derived atlas into reconstruction bays is inferred, not verified. Baked exposure, painted glass, support bars and perspective remain source constraints.",
+      "files": [
+        {
+          "path": "assets/reference/chapel_saint_ferdinand_detail_2009.jpg",
+          "bytes": 4338125,
+          "sha256": "d9b6f209f6e0479feb7ed104d70a4ee65b4099e636cdf656af0b862ee3232883"
+        },
+        {
+          "path": "assets/reference/chapel_candidate_16748517.jpg",
+          "bytes": 310984,
+          "sha256": "d705859c91c2db2b2dcebe504286814005e4403544f6d8cd3a6a802e084cf0aa"
+        }
+      ],
+      "metadata_snapshot": "assets/reference/metadata/chapel_photo_candidates.json"
+    },
+    {
+      "id": "chapel_atlas_01_saint_eloi",
+      "kind": "photographic_texture_derivative",
+      "title": "Three-lancet chapel atlas — saint eloi",
+      "author": "Source photograph: Harmonia Amanda; atlas sampling/normalization: project reconstruction",
+      "creation_date": "2026-10-01",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_asset_ids": [
+        "chapel_saint_eloi_2007"
+      ],
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux003.jpg",
+      "attribution": "Cathedrale nd paris vitraux003.jpg — Harmonia Amanda — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux003.jpg; modified: perspective-normalized shafts, three-lancet rearrangement, pointed masks, roundel crop and muted exposure/color.",
+      "dimensions_px": [
+        1024,
+        2048
+      ],
+      "operations": "Bilinear QUAD normalization from original photos; explicit linear saturation/brightness grade; original lead and paint preserved; rectangular shaft patterns masked to generic pointed heads; roundel sampled from the same photographed window. No AI imagery.",
+      "limitations": "Photographic atlas, not calibrated albedo/transmission. Exposure and baked support bars remain. Three-lancet arrangements and pointed heads are adapted to the model; some source windows have four lancets. Specific chapel positions and heraldic/iconographic allocation in the reconstruction are NOT verified. Do not claim a one-to-one chapel survey. Three distinct shafts selected from the four-lancet photograph. Upper roundel samples the same window upper central cross lobe.",
+      "files": [
+        {
+          "path": "assets/textures/generated/chapel_atlas_01_saint_eloi.png",
+          "bytes": 2214812,
+          "sha256": "6ca6b36814d806cee353ffd559ce0a04682d66b6aa072b2710b84bede9db092f"
+        }
+      ],
+      "transformation_record": "assets/textures/generated/chapel_atlas_transforms.json"
+    },
+    {
+      "id": "chapel_atlas_02_saint_denis",
+      "kind": "photographic_texture_derivative",
+      "title": "Three-lancet chapel atlas — saint denis",
+      "author": "Source photograph: Harmonia Amanda; atlas sampling/normalization: project reconstruction",
+      "creation_date": "2026-10-01",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_asset_ids": [
+        "chapel_saint_denis_2007"
+      ],
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux014.jpg",
+      "attribution": "Cathedrale nd paris vitraux014.jpg — Harmonia Amanda — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux014.jpg; modified: perspective-normalized shafts, three-lancet rearrangement, pointed masks, roundel crop and muted exposure/color.",
+      "dimensions_px": [
+        1024,
+        2048
+      ],
+      "operations": "Bilinear QUAD normalization from original photos; explicit linear saturation/brightness grade; original lead and paint preserved; rectangular shaft patterns masked to generic pointed heads; roundel sampled from the same photographed window. No AI imagery.",
+      "limitations": "Photographic atlas, not calibrated albedo/transmission. Exposure and baked support bars remain. Three-lancet arrangements and pointed heads are adapted to the model; some source windows have four lancets. Specific chapel positions and heraldic/iconographic allocation in the reconstruction are NOT verified. Do not claim a one-to-one chapel survey. Three distinct shafts from the three-lancet photograph; upper roundel samples the original central pelican medallion.",
+      "files": [
+        {
+          "path": "assets/textures/generated/chapel_atlas_02_saint_denis.png",
+          "bytes": 2588306,
+          "sha256": "7e10663a4a267e5980a39a5b5978bcdb8998c1b364dec21d6fd147681ee23066"
+        }
+      ],
+      "transformation_record": "assets/textures/generated/chapel_atlas_transforms.json"
+    },
+    {
+      "id": "chapel_atlas_03_sainte_madeleine",
+      "kind": "photographic_texture_derivative",
+      "title": "Three-lancet chapel atlas — sainte madeleine",
+      "author": "Source photograph: Harmonia Amanda; atlas sampling/normalization: project reconstruction",
+      "creation_date": "2026-10-01",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_asset_ids": [
+        "chapel_sainte_madeleine_2007"
+      ],
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux016.jpg",
+      "attribution": "Cathedrale nd paris vitraux016.jpg — Harmonia Amanda — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux016.jpg; modified: perspective-normalized shafts, three-lancet rearrangement, pointed masks, roundel crop and muted exposure/color.",
+      "dimensions_px": [
+        1024,
+        2048
+      ],
+      "operations": "Bilinear QUAD normalization from original photos; explicit linear saturation/brightness grade; original lead and paint preserved; rectangular shaft patterns masked to generic pointed heads; roundel sampled from the same photographed window. No AI imagery.",
+      "limitations": "Photographic atlas, not calibrated albedo/transmission. Exposure and baked support bars remain. Three-lancet arrangements and pointed heads are adapted to the model; some source windows have four lancets. Specific chapel positions and heraldic/iconographic allocation in the reconstruction are NOT verified. Do not claim a one-to-one chapel survey. Left and central shafts are clear. Third shaft repeats the left shaft because the original right shaft is occluded by a statue; no invented pixels or figures. Original heraldic central roundel retained.",
+      "files": [
+        {
+          "path": "assets/textures/generated/chapel_atlas_03_sainte_madeleine.png",
+          "bytes": 1728538,
+          "sha256": "c7ca881c16a264ca6e32481fb79307659294ab810e5cfb0493a938fb6bf581ac"
+        }
+      ],
+      "transformation_record": "assets/textures/generated/chapel_atlas_transforms.json"
+    },
+    {
+      "id": "chapel_atlas_04_saint_louis",
+      "kind": "photographic_texture_derivative",
+      "title": "Three-lancet chapel atlas — saint louis",
+      "author": "Source photograph: Harmonia Amanda; atlas sampling/normalization: project reconstruction",
+      "creation_date": "2026-10-01",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_asset_ids": [
+        "chapel_saint_louis_2007"
+      ],
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux029.jpg",
+      "attribution": "Cathedrale nd paris vitraux029.jpg — Harmonia Amanda — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux029.jpg; modified: perspective-normalized shafts, three-lancet rearrangement, pointed masks, roundel crop and muted exposure/color.",
+      "dimensions_px": [
+        1024,
+        2048
+      ],
+      "operations": "Bilinear QUAD normalization from original photos; explicit linear saturation/brightness grade; original lead and paint preserved; rectangular shaft patterns masked to generic pointed heads; roundel sampled from the same photographed window. No AI imagery.",
+      "limitations": "Photographic atlas, not calibrated albedo/transmission. Exposure and baked support bars remain. Three-lancet arrangements and pointed heads are adapted to the model; some source windows have four lancets. Specific chapel positions and heraldic/iconographic allocation in the reconstruction are NOT verified. Do not claim a one-to-one chapel survey. Three distinct shafts selected from the four-lancet photograph. Upper roundel samples the original heraldic center; placement into other chapels remains an interpretation.",
+      "files": [
+        {
+          "path": "assets/textures/generated/chapel_atlas_04_saint_louis.png",
+          "bytes": 2738983,
+          "sha256": "1d2be1ab90a6191b006ee482990f375e5e58bcd9d7615a91203b7bb628e8d230"
+        }
+      ],
+      "transformation_record": "assets/textures/generated/chapel_atlas_transforms.json"
+    },
+    {
+      "id": "chapel_atlas_05_saint_ferdinand",
+      "kind": "photographic_texture_derivative",
+      "title": "Three-lancet chapel atlas — saint ferdinand",
+      "author": "Source photograph: Harmonia Amanda; atlas sampling/normalization: project reconstruction",
+      "creation_date": "2026-10-01",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_asset_ids": [
+        "chapel_saint_ferdinand_2007"
+      ],
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux032.jpg",
+      "attribution": "Cathedrale nd paris vitraux032.jpg — Harmonia Amanda — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:Cathedrale_nd_paris_vitraux032.jpg; modified: perspective-normalized shafts, three-lancet rearrangement, pointed masks, roundel crop and muted exposure/color.",
+      "dimensions_px": [
+        1024,
+        2048
+      ],
+      "operations": "Bilinear QUAD normalization from original photos; explicit linear saturation/brightness grade; original lead and paint preserved; rectangular shaft patterns masked to generic pointed heads; roundel sampled from the same photographed window. No AI imagery.",
+      "limitations": "Photographic atlas, not calibrated albedo/transmission. Exposure and baked support bars remain. Three-lancet arrangements and pointed heads are adapted to the model; some source windows have four lancets. Specific chapel positions and heraldic/iconographic allocation in the reconstruction are NOT verified. Do not claim a one-to-one chapel survey. Three distinct shafts selected from the four-lancet photograph. The original photo is slightly soft; no artificial sharpened detail or claims of full resolution leadwork.",
+      "files": [
+        {
+          "path": "assets/textures/generated/chapel_atlas_05_saint_ferdinand.png",
+          "bytes": 2104784,
+          "sha256": "8b549f683ed79700cca277ccaaa53647dd6e1956e206c2c3276332ed41a2c342"
+        }
+      ],
+      "transformation_record": "assets/textures/generated/chapel_atlas_transforms.json"
+    },
+    {
+      "id": "chapel_atlas_preparation_and_reviews",
+      "kind": "derivative_pipeline_and_review",
+      "author": "Project reconstruction; source photos Harmonia Amanda",
+      "license": "Script/coordinates: original project source; photo contact sheets: CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_asset_ids": [
+        "chapel_saint_eloi_2007",
+        "chapel_saint_denis_2007",
+        "chapel_sainte_madeleine_2007",
+        "chapel_saint_louis_2007",
+        "chapel_saint_ferdinand_2007"
+      ],
+      "attribution": "Contact sheets include modified photographs by Harmonia Amanda, CC BY-SA 3.0; individual sources recorded in the five2007 photographic_source entries.",
+      "files": [
+        {
+          "path": "assets/reference/prepare_chapel_atlases.py",
+          "bytes": 6507,
+          "sha256": "6289569e9cd432d42e91f91f4eff41e53f35a47e97882b229b26e63d681e867c"
+        },
+        {
+          "path": "assets/textures/generated/chapel_atlas_transforms.json",
+          "bytes": 8021,
+          "sha256": "f0860f9b07343ea75f7c08a9f2d7917a73a33168cd4abd738e09a4cce4487da1"
+        },
+        {
+          "path": "assets/reference/chapel_source_review.jpg",
+          "bytes": 168900,
+          "sha256": "aab111179b7c9513bd473d911eeaa9727eb2b264058b8c4b18d33a4f43309a82"
+        },
+        {
+          "path": "assets/reference/chapel_atlas_review.jpg",
+          "bytes": 592466,
+          "sha256": "6814dde3afee86b5afc73a466bc8f39400e09455e0f3b17730aa9d638b9c3cf9"
+        }
+      ],
+      "limitations": "Review contact sheets show texture pixels, not final rendered architecture."
+    },
+    {
+      "id": "chapel_grisaille_apse_official_reference",
+      "kind": "copyrighted_reference_only",
+      "title": "Saint-Louis chapel, baie5, Antoine Lusson1862; photograph2021",
+      "author": "Élisabeth Pillet",
+      "creation_date": "2021",
+      "license": "Copyrighted official reference; no reusable texture license established",
+      "source_url": "https://notre-dame-de-paris.culture.gouv.fr/fr/les-vitraux-du-xixe-siecle",
+      "download_url": "https://notre-dame-de-paris.culture.gouv.fr/sites/divers/files/styles/deepzoom_poi_slider/public/2024-05/fig%2033a1%20IMG_3438%281%29.JPG?itok=zKAge1Ur",
+      "use": "Local visual research only. NOT used in textures, Blender or Godot. Do not publish or redistribute without permission.",
+      "limitations": "Postfire photographs of nineteenth-century windows; useful for ornamental-versus-figural context, not direct evidence of2019 display/exposure.",
+      "files": [
+        {
+          "path": "assets/reference/chapel_grisaille_apse_reference_only_culture.jpg",
+          "bytes": 84797,
+          "sha256": "670b847b78887f1b6af5f6e32645400a304c3e47f0fa6205d84e7c4d6300cafc"
+        }
+      ]
+    },
+    {
+      "id": "chapel_grisaille_nave_official_reference",
+      "kind": "copyrighted_reference_only",
+      "title": "Sacré-Cœur chapel, baie24, Alfred Gérente1864; photograph2021",
+      "author": "Michel Hérold",
+      "creation_date": "2021",
+      "license": "Copyrighted official reference; no reusable texture license established",
+      "source_url": "https://notre-dame-de-paris.culture.gouv.fr/fr/les-vitraux-du-xixe-siecle",
+      "download_url": "https://notre-dame-de-paris.culture.gouv.fr/sites/divers/files/styles/deepzoom_poi_slider/public/2024-05/fig%2039a%20P1012003.JPG?itok=sFvBHEwm",
+      "use": "Local visual research only. NOT used in textures, Blender or Godot. Do not publish or redistribute without permission.",
+      "limitations": "Postfire photographs of nineteenth-century windows; useful for ornamental-versus-figural context, not direct evidence of2019 display/exposure.",
+      "files": [
+        {
+          "path": "assets/reference/chapel_grisaille_nave_reference_only_culture.jpg",
+          "bytes": 176312,
+          "sha256": "bb1306cf9335acdd41b27544fa82892fa938cfe2c05ab4db9e3ae4301d832128"
+        }
+      ]
+    }
+  ],
+  "mesh_search": {
+    "queried_source": "https://api.sketchfab.com/v3/search?type=models&q=notre%20dame&downloadable=true&count=8",
+    "result": "Public metadata returned crowdsourced exterior scans, individual portal statue, and a SketchUp model derivative; no account-free high-fidelity complete prefire interior/exterior mesh verified. None downloaded or used.",
+    "examples": [
+      {
+        "uid": "c6f03e2284e049f38f118378b012c979",
+        "name": "Notre Dame crowdsourced photogrammetry",
+        "author": "Miguel Bandera",
+        "license": "CC BY-NC-SA"
+      },
+      {
+        "uid": "88eb6d9d68774fed8c1310b6a5fc283a",
+        "name": "NOTRE DAME DE PARIS",
+        "author": "Arquitecto Técnico Luis Alberto Galdames Márquez",
+        "license": "CC BY",
+        "caution": "Uploader cites original Chigirinsky SketchUp model; licensing chain and completeness unverified."
+      },
+      {
+        "uid": "5f96979d285746338502636d6950f377",
+        "name": "Notre-Dame de Paris - Jesus Christ",
+        "author": "Benoît Rogez",
+        "license": "CC BY-NC",
+        "caution": "Single portal sculpture, not complete building."
+      }
+    ]
+  },
+  "authored_derivatives": {
+    "material_pipeline": "src/make_material_tiles.py then src/refine_material_tiles.py",
+    "limestone": "CC0 ambientCG Tiles143 desaturated to18%, brightness68%; porecrop contrast22%. Analogofagedstone, notsite-material scan.",
+    "clerestory": "Original fine nonfigurative cell pattern from qualitative LeChevallier1965 reference, notpanel-by-panel facsimile.",
+    "paving": "Original restrained0.5x0.67m slab tile; sizes inferred, notsurveyed.",
+    "secondary_glazing": "Lower chapel glass now uses five photo-derived grisaille atlases from Harmonia Amanda2007 CC BY-SA3.0 photographs. Three-lancet arrangement, pointed masks and specific bay placement are approximate; Madeleine right shaft repeats the unobstructed left. Upper choir/apse decorative glass retains the original authored interpretation where exact iconography has not been reconstructed.",
+    "south_glass_orientation": "U-axis flipped for interior view; unique southlancets ordered right-to-left inworldX to preservethe photograph left-to-right.",
+    "votive_reference": {
+      "file": "assets/reference/nave_2019-02-16_Lucas_Werkmeister_CC_BY4.jpg",
+      "author": "Lucas Werkmeister",
+      "date": "2019-02-16",
+      "license": "CC BY4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Notre-Dame_de_Paris,_2019-02-16,_nave_02.jpg",
+      "use": "Visual reference for two rear-nave sloped stands. Dimensions and cup counts inferred.",
+      "bytes": 3543683,
+      "sha256": "c769c7b98348f3ef14c86877e8ffe52408f2e7aea8895ffe1ca0c172f20e4f43",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "chapel_atlases": {
+      "pipeline": "assets/reference/prepare_chapel_atlases.py",
+      "transform_record": "assets/textures/generated/chapel_atlas_transforms.json",
+      "photographer": "Harmonia Amanda",
+      "photo_date": "2007-03-26",
+      "license": "CC BY-SA3.0",
+      "placement": "Inferred across modeled lower chapels; not a one-to-one photographic chapel/window survey.",
+      "upper_roundels": "Each roundel is taken from the same photographed window as its shafts. Original heraldic or symbolic images are retained, but their assigned reconstructed positions are inferred.",
+      "forbidden_reuse_avoided": "No north/south transept figural lancet or rose textures copied into chapel windows."
+    }
+  },
+  "integrity_audit": {
+    "verified_at_utc": "2026-10-01T07:56:24.044307+00:00",
+    "file_records_verified": 118,
+    "unique_files_verified": 118,
+    "missing_files": [],
+    "stale_records_updated": [],
+    "previous_audit_record_count": 93,
+    "result": "PASS",
+    "scope": "All assets[].files[] entries checked for existence, bytes and SHA256 after chapel atlas addition. Separate2007 photo originals and modified atlas derivatives each have attribution and reuse terms. No root-owned architecture/material code changed."
+  }
+}
