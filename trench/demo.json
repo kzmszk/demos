@@ -1,0 +1,30 @@
+{
+  "no": "",
+  "title": "TRENCH RUN",
+  "subtitle": {
+    "ja": "ワイヤーフレームの要塞を、溝に沿って駆け抜ける",
+    "en": "A wireframe trench run, one exhaust port at the end"
+  },
+  "summary": {
+    "ja": "ベクタースキャン風の発光する線だけで描いた、巨大要塞のトレンチ・ラン。隔壁のすき間をすり抜け、砲台の火球とTIE型を撃ち落とし、最後の魚雷を排気口へ。マウス・キーボード・タッチで遊べる。日本語と英語に対応。",
+    "en": "A trench run drawn only in glowing vector lines. Thread the gaps in the bulkheads, shoot down turret fire and fighters, and put the last torpedo into the exhaust port. Mouse, keyboard or touch. Japanese and English."
+  },
+  "date": "2026-10-01",
+  "tags": ["game", "canvas", "vector", "audio"],
+  "serve": ".",
+  "entry": "index.html",
+  "links": [
+    { "label": "日本語", "href": "index.html#ja" },
+    { "label": "English", "href": "index.html#en" }
+  ],
+  "shots": [
+    { "path": "index.html", "wait": 700, "eval": "TRENCH.shot('title')", "after": 600 },
+    { "path": "index.html", "wait": 700, "eval": "TRENCH.shot('approach')", "after": 600 },
+    { "path": "index.html", "wait": 700, "eval": "TRENCH.shot('gate')", "after": 600 },
+    { "path": "index.html", "wait": 700, "eval": "TRENCH.shot('tie')", "after": 600 },
+    { "path": "index.html", "wait": 700, "eval": "TRENCH.shot('lock')", "after": 600 },
+    { "path": "index.html", "wait": 700, "eval": "TRENCH.shot('torpedo')", "after": 600 },
+    { "path": "index.html", "wait": 700, "eval": "TRENCH.shot('boom0')", "after": 600 },
+    { "path": "index.html#en", "wait": 700, "eval": "TRENCH.shot('boom3')", "after": 600 }
+  ]
+}
