@@ -46,6 +46,7 @@ demos/
 | `prebuild` | ビルド前に作品フォルダ内で実行するコマンド（例：`node build.mjs`） |
 | `lang` | doctype のないページを包むときの `lang`（既定 `ja`） |
 | `shots` | 表紙のフレーム。`path` を開き、`wait` ms 待つ。`eval` があれば実行して `after` ms 待ってから撮る |
+| `gpu` | `true` なら表紙を撮るときにヘッドレス Chrome で実際の GPU を使う（GPU で描く重い作品向け。ソフトウェア描画では遅すぎるため） |
 
 - 公開されないもの：`demo.json`、`prompts/`、`README.md`、ドットファイル。
 - 並び順：`date` の新しい順です。

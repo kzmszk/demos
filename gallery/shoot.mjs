@@ -55,9 +55,17 @@ const findChrome = () => {
   throw new Error('Chrome not found (set CHROME=/path/to/chrome)');
 };
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'demos-shoot-'));
+/* demos that ray-march on the GPU ("gpu": true in demo.json) need the real GPU; headless Chrome
+   otherwise falls back to a software renderer that is far too slow for them */
+const wantsGpu = fs.readdirSync(ROOT).some((slug) => {
+  const f = path.join(ROOT, slug, 'demo.json');
+  if (!fs.existsSync(f) || (only.length && !only.includes(slug))) return false;
+  try { return JSON.parse(fs.readFileSync(f, 'utf8')).gpu === true; } catch (e) { return false; }
+});
+const gpuFlags = !wantsGpu ? [] : process.platform === 'darwin' ? ['--use-angle=metal', '--ignore-gpu-blocklist'] : ['--use-gl=angle', '--use-angle=gl-egl', '--ignore-gpu-blocklist', '--enable-gpu'];
 const chrome = spawn(
   findChrome(),
-  ['--headless=new', '--remote-debugging-port=0', `--user-data-dir=${profile}`, '--no-first-run', '--no-default-browser-check', '--hide-scrollbars', '--mute-audio', `--window-size=${W},${H}`, 'about:blank'],
+  ['--headless=new', '--remote-debugging-port=0', `--user-data-dir=${profile}`, '--no-first-run', '--no-default-browser-check', '--hide-scrollbars', '--mute-audio', `--window-size=${W},${H}`, ...gpuFlags, 'about:blank'],
   { stdio: 'ignore' }
 );
 const portFile = path.join(profile, 'DevToolsActivePort');
