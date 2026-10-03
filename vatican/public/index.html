@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VATICANO</title>
+<meta name="description" content="サン・ピエトロ大聖堂、システィーナ礼拝堂、ヴァチカン美術館をドローンで巡る3D再現。">
+<style>
+  :root { --ink: #f3ede2; --dim: rgba(243, 237, 226, .62); --gold: #d8b766; --bg: #0b0906; --serif: "Optima", "Palatino Linotype", "Palatino", "Book Antiqua", "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif CJK JP", serif; --sans: "Helvetica Neue", "Hiragino Sans", "Noto Sans CJK JP", "Yu Gothic", system-ui, sans-serif; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); overflow: hidden; -webkit-font-smoothing: antialiased; }
+  #c { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; touch-action: none; }
+  #fade { position: fixed; inset: 0; background: #000; opacity: 1; pointer-events: none; transition: none; }
+  .ui { position: fixed; z-index: 2; font-family: var(--sans); }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+  /* title */
+  #title { inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 4vw 9vh; background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.55) 100%); transition: opacity 1.2s; }
+  #title h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(64px, 15vw, 260px); letter-spacing: .14em; line-height: .86; margin: 0 0 0 -.06em; color: #fffaf0; text-shadow: 0 2px 40px rgba(0,0,0,.35); }
+  #title .sub { font-family: var(--serif); font-size: clamp(15px, 1.5vw, 22px); letter-spacing: .06em; color: var(--ink); margin: 2.2vh 0 0; max-width: 46em; }
+  #title .row { display: flex; gap: 14px; align-items: center; margin-top: 4vh; flex-wrap: wrap; }
+  .btn { border: 1px solid rgba(243,237,226,.55); padding: 13px 26px; letter-spacing: .14em; font-size: 13px; text-transform: uppercase; transition: background .2s, color .2s; }
+  .btn:hover, .btn.primary { background: var(--ink); color: #111; }
+  .btn.primary:hover { background: var(--gold); border-color: var(--gold); }
+  #title .meta { font-size: 11px; letter-spacing: .12em; color: var(--dim); margin-left: 8px; }
+  #load { font-size: 11px; letter-spacing: .12em; color: var(--dim); margin-top: 2.2vh; height: 14px; }
+  /* caption */
+  #cap { left: 4vw; bottom: 9vh; max-width: min(780px, 86vw); pointer-events: none; transition: opacity .9s; opacity: 0; }
+  #cap .h { font-family: var(--serif); font-size: clamp(30px, 3.6vw, 56px); letter-spacing: .03em; line-height: 1.05; text-shadow: 0 1px 24px rgba(0,0,0,.45); }
+  #cap .p { font-size: clamp(13px, 1.05vw, 15px); line-height: 1.75; margin-top: 12px; color: var(--ink); text-shadow: 0 1px 12px rgba(0,0,0,.65); }
+  #cap .rule { width: 44px; height: 1px; background: var(--gold); margin: 0 0 16px; }
+  /* artwork card */
+  #art { right: 4vw; bottom: 9vh; text-align: right; pointer-events: none; opacity: 0; transition: opacity .6s; max-width: 40vw; }
+  #art .t { font-family: var(--serif); font-size: 18px; letter-spacing: .02em; text-shadow: 0 1px 12px rgba(0,0,0,.7); }
+  #art .a { font-size: 11px; letter-spacing: .12em; color: var(--dim); margin-top: 6px; text-transform: uppercase; text-shadow: 0 1px 10px rgba(0,0,0,.8); }
+  /* bar */
+  #bar { left: 0; right: 0; bottom: 0; height: 44px; display: flex; align-items: center; gap: 22px; padding: 0 4vw; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); background: linear-gradient(0deg, rgba(0,0,0,.45), rgba(0,0,0,0)); opacity: 0; transition: opacity .6s; }
+  #bar button { color: var(--dim); } #bar button:hover, #bar button.on { color: var(--ink); }
+  #bar .sp { flex: 1; }
+  #prog { position: fixed; left: 0; bottom: 0; height: 2px; background: var(--gold); width: 0; z-index: 3; }
+  #where { color: var(--ink); }
+  /* places */
+  #places { right: 4vw; bottom: 54px; background: rgba(12,10,8,.9); border: 1px solid rgba(243,237,226,.18); padding: 10px 0; display: none; max-height: 70vh; overflow: auto; }
+  #places button { display: block; width: 100%; text-align: left; padding: 7px 22px; font-size: 13px; letter-spacing: .04em; color: var(--ink); }
+  #places button:hover { background: rgba(216,183,102,.18); }
+  #places .n { color: var(--gold); font-size: 10px; letter-spacing: .14em; margin-right: 12px; }
+  /* help + credits */
+  #help { left: 4vw; top: 3vh; font-size: 11px; letter-spacing: .1em; color: var(--dim); line-height: 1.9; display: none; text-shadow: 0 1px 8px rgba(0,0,0,.8); }
+  #credits { inset: 0; background: rgba(10,8,6,.96); overflow: auto; display: none; padding: 8vh 6vw; font-size: 12px; line-height: 1.7; color: var(--dim); }
+  #credits h2 { font-family: var(--serif); font-weight: 400; color: var(--ink); font-size: 34px; margin: 0 0 18px; }
+  #credits h3 { color: var(--ink); font-weight: 400; letter-spacing: .12em; font-size: 11px; text-transform: uppercase; margin: 28px 0 8px; }
+  #credits a { color: var(--gold); }
+  #credits .x { position: fixed; top: 3vh; right: 4vw; }
+  #home { left: 4vw; top: 3vh; font-size: 11px; letter-spacing: .14em; color: var(--dim); text-decoration: none; }
+  @media (max-width: 640px) { #art { display: none; } #bar { gap: 14px; } }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="fade"></div>
+<a id="home" class="ui" href="../">DEMOS</a>
+<div id="title" class="ui">
+  <h1>VATICANO</h1>
+  <p class="sub" data-ja="サン・ピエトロ広場から大聖堂の内部、ミケランジェロのクーポラ、ヴァチカン美術館、そしてシスティーナ礼拝堂へ。約9分のドローン飛行。" data-en="From St Peter’s Square into the basilica, up Michelangelo’s dome, through the Vatican Museums and into the Sistine Chapel: a nine-minute drone flight."></p>
+  <div class="row">
+    <button class="btn primary" id="go" data-ja="ツアーを始める" data-en="Start the tour"></button>
+    <button class="btn" id="free" data-ja="自由に飛ぶ" data-en="Fly freely"></button>
+    <button class="btn" id="lang">EN</button>
+    <span class="meta" data-ja="音が出ます · PC推奨 · 初回約120MB" data-en="With sound · best on a desktop · ~120 MB"></span>
+  </div>
+  <div id="load"></div>
+</div>
+<div id="cap" class="ui"><div class="rule"></div><div class="h"></div><div class="p"></div></div>
+<div id="art" class="ui"><div class="t"></div><div class="a"></div></div>
+<div id="help" class="ui" data-ja="ドラッグ：見回す　WASD・矢印：移動　E/Q：上下　Shift：速く　ホイール：速度" data-en="Drag: look · WASD/arrows: move · E/Q: up/down · Shift: faster · wheel: speed"></div>
+<div id="places" class="ui"></div>
+<div id="bar" class="ui">
+  <span id="where"></span><span class="sp"></span>
+  <button id="b-tour" data-ja="ツアー" data-en="Tour"></button>
+  <button id="b-free" data-ja="自由飛行" data-en="Free flight"></button>
+  <button id="b-places" data-ja="場所" data-en="Places"></button>
+  <button id="b-sound" data-ja="音" data-en="Sound"></button>
+  <button id="b-lang">EN</button>
+  <button id="b-credits" data-ja="出典" data-en="Credits"></button>
+</div>
+<div id="prog"></div>
+<div id="credits" class="ui"><button class="x btn" id="credits-x">×</button><div id="credits-body"></div></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

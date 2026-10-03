@@ -1,0 +1,665 @@
+{
+ "_doc": "art key -> source (paintings dir file) or proc:<name>; max = longest side px for the web copy",
+ "sistine_ceiling": {
+  "src": "CAPPELLA_SISTINA_Ceiling.jpg",
+  "max": 4096,
+  "title": {
+   "ja": "システィーナ礼拝堂天井画",
+   "en": "Sistine Chapel ceiling"
+  },
+  "artist": "Michelangelo",
+  "date": "1508–1512"
+ },
+ "last_judgment": {
+  "src": "Last_Judgement_Michelangelo_.jpg",
+  "max": 4096,
+  "title": {
+   "ja": "最後の審判",
+   "en": "The Last Judgment"
+  },
+  "artist": "Michelangelo",
+  "date": "1536–1541"
+ },
+ "moses_journey": {
+  "src": "Pietro_Perugino_cat13d.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "モーセのエジプトへの旅",
+   "en": "Moses' Journey into Egypt"
+  },
+  "artist": "Pietro Perugino",
+  "date": "1482"
+ },
+ "moses_trials": {
+  "src": "Eventos_de_la_vida_de_Moisés_Sandro_Botticelli_.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "モーセの試練",
+   "en": "The Trials of Moses"
+  },
+  "artist": "Sandro Botticelli",
+  "date": "1481–82"
+ },
+ "red_sea": {
+  "src": "Cosimo_Rosselli_Attraversamento_del_Mar_Rosso.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "紅海渡渉",
+   "en": "Crossing of the Red Sea"
+  },
+  "artist": "Cosimo Rosselli",
+  "date": "1481–82"
+ },
+ "sinai": {
+  "src": "Cosimo_Rosselli_le_Tavole_della_Legge.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "シナイ山からの下山",
+   "en": "Descent from Mount Sinai"
+  },
+  "artist": "Cosimo Rosselli",
+  "date": "1481–82"
+ },
+ "korah": {
+  "src": "Botticcelli_Sandro_-_The_Punishment_of_Korah_and_the_Stoning_of_Moses_and_Aaron_-_1481-82.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "コラの懲罰",
+   "en": "Punishment of the Sons of Korah"
+  },
+  "artist": "Sandro Botticelli",
+  "date": "1481–82"
+ },
+ "moses_testament": {
+  "src": "Signorelli_Luca_-_Moses_s_Testament_and_Death_-_1481-82.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "モーセの遺言と死",
+   "en": "Testament and Death of Moses"
+  },
+  "artist": "Luca Signorelli",
+  "date": "1481–82"
+ },
+ "baptism": {
+  "src": "Pietro_Perugino_-_Baptism_of_Christ_-_Sistine_Chapel_-_cat13a.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "キリストの洗礼",
+   "en": "Baptism of Christ"
+  },
+  "artist": "Pietro Perugino",
+  "date": "1482"
+ },
+ "temptations": {
+  "src": "05_Tentaciones_de_Cristo_Botticelli_.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "キリストの誘惑",
+   "en": "Temptations of Christ"
+  },
+  "artist": "Sandro Botticelli",
+  "date": "1480–82"
+ },
+ "calling": {
+  "src": "Domenico_Ghirlandaio_-_Llamada_a_los_primeros_apóstoles_Capilla_Sixtina_Roma_1481-82_.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "最初の使徒たちの召命",
+   "en": "Calling of the First Apostles"
+  },
+  "artist": "Domenico Ghirlandaio",
+  "date": "1481–82"
+ },
+ "sermon": {
+  "src": "Cosimo_Rosselli_Sermone_della_Montagna.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "山上の垂訓",
+   "en": "Sermon on the Mount"
+  },
+  "artist": "Cosimo Rosselli",
+  "date": "1481–82"
+ },
+ "keys": {
+  "src": "Entrega_de_las_llaves_a_San_Pedro_Perugino_.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "聖ペテロへの鍵の授与",
+   "en": "Delivery of the Keys"
+  },
+  "artist": "Pietro Perugino",
+  "date": "1481–82"
+ },
+ "last_supper": {
+  "src": "Cosimo_Rosselli_Ultima_cena.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "最後の晩餐",
+   "en": "The Last Supper"
+  },
+  "artist": "Cosimo Rosselli",
+  "date": "1481–82"
+ },
+ "lunette_n0": {
+  "src": "Michelangelo_lunetta_Amminadab_01.jpg",
+  "max": 1280
+ },
+ "lunette_s0": {
+  "src": "Michelangelo_Sistine_Chapel_ceiling_-_Naason_restored.jpg",
+  "max": 1280
+ },
+ "lunette_n1": {
+  "src": "Salmon_-_Boaz_-_Obed.jpg",
+  "max": 1280
+ },
+ "lunette_s1": {
+  "src": "Michelangelo_lunetta_Jesse_-_David_-_Solomon_01.jpg",
+  "max": 1280
+ },
+ "lunette_n2": {
+  "src": "Rehoboam_-_Abijah.jpg",
+  "max": 1280
+ },
+ "lunette_s2": {
+  "src": "Michelangelo_-_Sistine_Chapel_ceiling_-_Lunette_Asa_-_Jehoshaphat_-_Joram_.jpg",
+  "max": 1280
+ },
+ "lunette_n3": {
+  "src": "Uzziah_-_Jotham_-_Ahaz.jpg",
+  "max": 1280
+ },
+ "lunette_s3": {
+  "src": "Michelangelo_-_Sistine_Chapel_ceiling_-_Lunette_Hezekiah_-_Manasseh_-_Amon_.jpg",
+  "max": 1280
+ },
+ "lunette_n4": {
+  "src": "Michelangelo_lunetta_Josiah_-_Jechoniah_-_Shealtiel_01.jpg",
+  "max": 1280
+ },
+ "lunette_s4": {
+  "src": "Michelangelo_lunetta_Zerubbabel_-_Abiud_-_Eliakim_01.jpg",
+  "max": 1280
+ },
+ "lunette_n5": {
+  "src": "Asor_und_Zadoch_Michelangelo_.jpg",
+  "max": 1280
+ },
+ "lunette_s5": {
+  "src": "Michelangelo_lunetta_Achim_-_Eliud_01.jpg",
+  "max": 1280
+ },
+ "sistine_drapery": {
+  "src": "proc:drapery",
+  "max": 1024
+ },
+ "sistine_band": {
+  "src": "proc:band",
+  "max": 512
+ },
+ "sistine_pilaster": {
+  "src": "proc:pilaster",
+  "max": 512
+ },
+ "sistine_upper": {
+  "src": "proc:upper",
+  "max": 1024
+ },
+ "sistine_floor": {
+  "src": "proc:cosmati",
+  "max": 2048
+ },
+ "sistine_entrance": {
+  "src": "proc:entrance",
+  "max": 2048
+ },
+ "sp_floor": {
+  "src": "proc:sp_floor",
+  "max": 2048
+ },
+ "sp_ring": {
+  "src": "proc:sp_ring",
+  "max": 4096
+ },
+ "sp_oculus": {
+  "src": "proc:sp_oculus",
+  "max": 4096
+ },
+ "sp_lantern": {
+  "src": "proc:sp_lantern",
+  "max": 1024
+ },
+ "sp_pendentive": {
+  "src": "proc:sp_pendentive",
+  "max": 1024
+ },
+ "sp_apse_dome": {
+  "src": "proc:sp_coffers",
+  "max": 1024
+ },
+ "sp_aisle_dome": {
+  "src": "proc:sp_coffers_small",
+  "max": 1024
+ },
+ "sp_frieze": {
+  "src": "proc:sp_frieze",
+  "max": 2048
+ },
+ "sp_dome": {
+  "src": "keep",
+  "max": 4096,
+  "title": {
+   "ja": "サン・ピエトロ大聖堂 クーポラ内部のモザイク",
+   "en": "Mosaics of the dome, St Peter's"
+  },
+  "artist": "after designs by Giuseppe Cesari (Cavalier d'Arpino)",
+  "date": "1603–1612"
+ },
+ "sp_vault": {
+  "src": "proc:sp_vault",
+  "max": 1024
+ },
+ "school_of_athens": {
+  "src": "The_School_of_Athens_by_Raffaello_Sanzio_da_Urbino.jpg",
+  "max": 3072,
+  "title": {
+   "ja": "アテナイの学堂",
+   "en": "The School of Athens"
+  },
+  "artist": "Raphael",
+  "date": "1509–1511"
+ },
+ "disputa": {
+  "src": "Raphaels_Disputation_of_the_Holy_Sacrament.jpg",
+  "max": 3072,
+  "title": {
+   "ja": "聖体の論議",
+   "en": "Disputation of the Holy Sacrament"
+  },
+  "artist": "Raphael",
+  "date": "1509–1510"
+ },
+ "parnassus": {
+  "src": "Raphael_-_The_Parnassus.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "パルナッソス",
+   "en": "The Parnassus"
+  },
+  "artist": "Raphael",
+  "date": "1509–1511"
+ },
+ "virtues": {
+  "src": "Raphael_-_Cardinal_and_Theological_Virtues.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "枢要徳と対神徳",
+   "en": "Cardinal and Theological Virtues"
+  },
+  "artist": "Raphael",
+  "date": "1511"
+ },
+ "heliodorus": {
+  "src": "Raphael_Heliodorus.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "神殿から追放されるヘリオドロス",
+   "en": "The Expulsion of Heliodorus"
+  },
+  "artist": "Raphael",
+  "date": "1511–1512"
+ },
+ "bolsena": {
+  "src": "Raphael_-_The_Mass_at_Bolsena.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "ボルセーナのミサ",
+   "en": "The Mass at Bolsena"
+  },
+  "artist": "Raphael",
+  "date": "1512"
+ },
+ "liberation": {
+  "src": "Raphael_-_Deliverance_of_Saint_Peter.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "聖ペテロの解放",
+   "en": "The Deliverance of Saint Peter"
+  },
+  "artist": "Raphael",
+  "date": "1514"
+ },
+ "attila": {
+  "src": "Raphael_-_The_Meeting_of_Leo_the_Great_and_Attila.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "大教皇レオとアッティラの会見",
+   "en": "The Meeting of Leo the Great and Attila"
+  },
+  "artist": "Raphael",
+  "date": "1514"
+ },
+ "fire_borgo": {
+  "src": "Raphael_-_Fire_in_the_Borgo.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "ボルゴの火災",
+   "en": "The Fire in the Borgo"
+  },
+  "artist": "Raphael and workshop",
+  "date": "1514–1517"
+ },
+ "coronation": {
+  "src": "Raphael_-_Coronation_of_Charlemagne.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "カール大帝の戴冠",
+   "en": "The Coronation of Charlemagne"
+  },
+  "artist": "Raphael's workshop",
+  "date": "1516–1517"
+ },
+ "ostia": {
+  "src": "Raphael_-_Battle_of_Ostia.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "オスティアの戦い",
+   "en": "The Battle of Ostia"
+  },
+  "artist": "Raphael's workshop",
+  "date": "1514–1515"
+ },
+ "oath": {
+  "src": "Raphael_-_Oath_of_Leo_III.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "レオ3世の誓い",
+   "en": "The Oath of Leo III"
+  },
+  "artist": "Raphael's workshop",
+  "date": "1516–1517"
+ },
+ "milvian": {
+  "src": "Giulio_Romano_-_The_Battle_of_the_Milvian_Bridge.jpg",
+  "max": 3072,
+  "title": {
+   "ja": "ミルウィウス橋の戦い",
+   "en": "The Battle of the Milvian Bridge"
+  },
+  "artist": "Giulio Romano",
+  "date": "1520–1524"
+ },
+ "vision_cross": {
+  "src": "School_of_Raphael_-_Vision_of_the_Cross.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "十字架の幻視",
+   "en": "The Vision of the Cross"
+  },
+  "artist": "Giulio Romano, Gianfrancesco Penni",
+  "date": "1520–1524"
+ },
+ "baptism_constantine": {
+  "src": "Raphael_Baptism_Constantine.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "コンスタンティヌスの洗礼",
+   "en": "The Baptism of Constantine"
+  },
+  "artist": "Gianfrancesco Penni",
+  "date": "1520–1524"
+ },
+ "donation_constantine": {
+  "src": "Donatio_Constantini_school_of_Raphael.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "コンスタンティヌスの寄進",
+   "en": "The Donation of Constantine"
+  },
+  "artist": "Gianfrancesco Penni",
+  "date": "1520–1524"
+ },
+ "transfiguration": {
+  "src": "Transfigurazione_Raffaello_September_2015-1a.jpg",
+  "max": 3072,
+  "title": {
+   "ja": "キリストの変容",
+   "en": "The Transfiguration"
+  },
+  "artist": "Raphael",
+  "date": "1516–1520"
+ },
+ "foligno": {
+  "src": "Madonna_di_Foligno_Raphael_September_2015-1a.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "フォリーニョの聖母",
+   "en": "Madonna of Foligno"
+  },
+  "artist": "Raphael",
+  "date": "1511–1512"
+ },
+ "oddi": {
+  "src": "PalaOddiRaffaello.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "聖母戴冠（オッディ祭壇画）",
+   "en": "Oddi Altarpiece"
+  },
+  "artist": "Raphael",
+  "date": "1502–1504"
+ },
+ "entombment": {
+  "src": "The_Entombment_of_Christ-Caravaggio_c.1602-3_.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "キリストの埋葬",
+   "en": "The Entombment of Christ"
+  },
+  "artist": "Caravaggio",
+  "date": "1603–1604"
+ },
+ "muse_ceiling": {
+  "src": "Tommaso_Conca_-_Apollo_and_the_Muses_-_Musei_Vaticani_-_Roma.jpg",
+  "max": 2048,
+  "title": {
+   "ja": "アポロンとムーサたち（天井画）",
+   "en": "Apollo and the Muses (ceiling)"
+  },
+  "artist": "Tommaso Conca",
+  "date": "1782–1787"
+ },
+ "map_etruria": {
+  "src": "maps:Etruria_-_Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536,
+  "title": {
+   "ja": "地図のギャラリー（エトルリア）",
+   "en": "Gallery of Maps (Etruria)"
+  },
+  "artist": "Ignazio Danti (design)",
+  "date": "1580–1585"
+ },
+ "map_latium": {
+  "src": "maps:Latium_et_Sabina_Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_patrimonium": {
+  "src": "maps:Patrimonium_Sancti_Petri_-_Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_umbria": {
+  "src": "maps:05_Egnazio_Danti_Umbria_1580-81.jpg",
+  "max": 1536
+ },
+ "map_perusinus": {
+  "src": "maps:Perusinus_ac_Tifernas_-_Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_flaminia": {
+  "src": "maps:Flaminia_Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_urbini": {
+  "src": "maps:Urbini_Ducatus_Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_bononiensis": {
+  "src": "maps:Bononiensis_Ditio_Galleria_dele_Carte_Geografiche_Musei_Vaticani_-FG.jpg",
+  "max": 1536
+ },
+ "map_ferraria": {
+  "src": "maps:Ferrariae_ducatus._Galleria_delle_carte_geografiche_Musei_Vaticani_-FG.jpg",
+  "max": 1536
+ },
+ "map_transpadana": {
+  "src": "maps:Transpadana_Venetorum_Ditio_-_Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_forum_iulii": {
+  "src": "maps:Forum_Iulii_Galleria_delle_carte_geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_mediolanum": {
+  "src": "maps:Mediolanensis_Ducatus_-_Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_pedemontium": {
+  "src": "maps:Pedemontium_et_Monsferratus_-_Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_lucania": {
+  "src": "maps:Lucania_Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_salerno": {
+  "src": "maps:Principatus_Salerni_Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_sicilia": {
+  "src": "maps:0_Sicile_-_Galleria_delle_carte_geografiche.JPG",
+  "max": 1536
+ },
+ "map_sardinia": {
+  "src": "maps:0_Sardaigne_-_Galleria_delle_carte_geografiche.JPG",
+  "max": 1536
+ },
+ "map_corsica": {
+  "src": "maps:0_Corse_-_Galleria_delle_carte_geografiche.JPG",
+  "max": 1536
+ },
+ "map_avignon": {
+  "src": "maps:0_Avignon_et_le_Comtat_Venaissin_-_Galleria_delle_carte_geografiche.JPG",
+  "max": 1536
+ },
+ "map_malta": {
+  "src": "maps:Malta_l_assedio_della_Valletta_da_parte_degli_ottomani._Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_genua": {
+  "src": "maps:Genua_Galleria_delle_Carte_Geografiche_Musei_Vaticani_-FG.jpg",
+  "max": 1536
+ },
+ "map_venetiae": {
+  "src": "maps:Venetiae_civitas._Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_civitas_vetus": {
+  "src": "maps:Civitas_Vetus_Galleria_delle_Carte_Geografiche_Musei_Vaticani_-FG.jpg",
+  "max": 1536
+ },
+ "map_corfu": {
+  "src": "maps:Corfù_e_la_battaglia_di_Lepanto_Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "map_tremiti": {
+  "src": "maps:Tremitae_insulae._Galleria_delle_carte_geografiche_Musei_Vaticani_-FG.jpg",
+  "max": 1536
+ },
+ "map_lepanto": {
+  "src": "maps:La_battaglia_di_Lepanto._Galleria_delle_Carte_Geografiche_-FG.jpg",
+  "max": 1536
+ },
+ "vault_segnatura": {
+  "src": "comp:vault_segnatura",
+  "max": 2048
+ },
+ "vault_eliodoro": {
+  "src": "comp:vault_eliodoro",
+  "max": 2048
+ },
+ "vault_incendio": {
+  "src": "proc:vault_incendio",
+  "max": 2048
+ },
+ "vault_costantino": {
+  "src": "proc:vault_costantino",
+  "max": 2048
+ },
+ "stanza_floor": {
+  "src": "proc:stanza_floor",
+  "max": 1024
+ },
+ "stanza_dado_win": {
+  "src": "proc:stanza_dado_win",
+  "max": 1024
+ },
+ "stanza_dado_door": {
+  "src": "proc:stanza_dado_door",
+  "max": 1024
+ },
+ "costantino_wall": {
+  "src": "proc:costantino_wall",
+  "max": 1024
+ },
+ "maps_vault": {
+  "src": "comp:maps_vault",
+  "bays": ["05a", "09a", "12a", "13a", "17a", "24a", "33a", "45a"],
+  "max": 2048,
+  "title": {
+   "ja": "地図のギャラリーの天井画（教化と奇跡の物語）",
+   "en": "Edifying and miraculous stories, vault of the Gallery of Maps"
+  },
+  "artist": "Cesare Nebbia, Girolamo Muziano and workshop",
+  "date": "1581–83"
+ },
+ "maps_floor": {
+  "src": "proc:maps_floor",
+  "max": 1024
+ },
+ "maps_wall": {
+  "src": "proc:maps_wall",
+  "max": 1024
+ },
+ "rotonda_dome": {
+  "src": "proc:rotonda_dome",
+  "max": 1024
+ },
+ "otricoli_floor": {
+  "src": "proc:otricoli_floor",
+  "max": 1024
+ },
+ "muse_wall": {
+  "src": "proc:muse_wall",
+  "max": 1024
+ },
+ "pina_floor": {
+  "src": "proc:pina_floor",
+  "max": 1024
+ },
+ "pina_wall": {
+  "src": "proc:pina_wall",
+  "max": 1024
+ },
+ "momo_rail": {
+  "src": "proc:momo_rail",
+  "alpha": true,
+  "max": 1024
+ },
+ "pieta_back": {
+  "src": "proc:pieta_back",
+  "max": 1024
+ },
+ "maps_end": {
+  "src": "proc:maps_end",
+  "max": 1024
+ }
+}

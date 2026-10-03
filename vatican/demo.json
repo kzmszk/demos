@@ -1,0 +1,31 @@
+{
+  "no": "",
+  "title": "VATICANO",
+  "subtitle": {
+    "ja": "サン・ピエトロ広場から大聖堂、美術館、システィーナ礼拝堂へ。ドローンで巡るヴァチカン",
+    "en": "From St Peter’s Square into the basilica, the museums and the Sistine Chapel, by drone"
+  },
+  "summary": {
+    "ja": "ヴァチカン市国を3Dで再現し、約9分のドローン飛行で巡ります。ベルニーニの列柱とオベリスク、ミケランジェロのクーポラの外と内、ピエタと天蓋、モモの螺旋階段、ラオコーン、地図のギャラリー、ラファエロの間、そしてシスティーナ礼拝堂の天井画と最後の審判。建物は実測図とOpenStreetMapから組み立て、光はBlenderで焼き込み、作品はパブリックドメインの画像と3Dスキャンで配置。自由飛行と場所ジャンプも可能。ピアノ曲と噴水・鐘の音はすべて合成。日本語と英語に対応。",
+    "en": "Vatican City rebuilt in 3D and toured in a nine-minute drone flight: Bernini’s colonnade and the obelisk, Michelangelo’s dome inside and out, the Pietà and the baldachin, the Momo staircase, the Laocoön, the Gallery of Maps, the Raphael Rooms, and the ceiling and Last Judgment of the Sistine Chapel. Buildings from measured drawings and OpenStreetMap, light baked in Blender, artworks from public-domain images and 3D scans. Free flight and a place menu; synthesised piano with the fountains and bells. Japanese and English."
+  },
+  "date": "2026-10-03",
+  "tags": ["webgl", "3d", "architecture", "museum", "audio"],
+  "serve": "public",
+  "entry": "index.html",
+  "gpu": true,
+  "links": [
+    { "label": "日本語", "href": "index.html#ja" },
+    { "label": "English", "href": "index.html#en" }
+  ],
+  "shots": [
+    { "path": "index.html", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VAT && VAT.ready ? r() : setTimeout(f, 200)); f(); })", "after": 2500 },
+    { "path": "index.html", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VAT && VAT.ready ? r() : setTimeout(f, 200)); f(); }).then(() => VAT.at(52))", "after": 3000 },
+    { "path": "index.html", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VAT && VAT.ready ? r() : setTimeout(f, 200)); f(); }).then(() => VAT.at(126))", "after": 3000 },
+    { "path": "index.html", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VAT && VAT.ready ? r() : setTimeout(f, 200)); f(); }).then(() => VAT.at(204))", "after": 3500 },
+    { "path": "index.html", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VAT && VAT.ready ? r() : setTimeout(f, 200)); f(); }).then(() => VAT.at(368))", "after": 3500 },
+    { "path": "index.html", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VAT && VAT.ready ? r() : setTimeout(f, 200)); f(); }).then(() => VAT.at(412))", "after": 3500 },
+    { "path": "index.html#en", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VAT && VAT.ready ? r() : setTimeout(f, 200)); f(); }).then(() => VAT.at(500))", "after": 3500 },
+    { "path": "index.html", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VAT && VAT.ready ? r() : setTimeout(f, 200)); f(); }).then(() => VAT.at(520))", "after": 3500 }
+  ]
+}
