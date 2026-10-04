@@ -1,0 +1,1049 @@
+{
+ "layers": [
+  {
+   "name": "plaster",
+   "src": "painted_plaster_wall",
+   "size": 2.0,
+   "neutral": true
+  },
+  {
+   "name": "plaster_peel",
+   "src": "PaintedPlaster014",
+   "size": 2.0,
+   "neutral_mask": true
+  },
+  {
+   "name": "plaster_red",
+   "src": "red_plaster_weathered",
+   "size": 2.0
+  },
+  {
+   "name": "plaster_yel",
+   "src": "yellow_plaster",
+   "size": 2.0
+  },
+  {
+   "name": "plaster_worn",
+   "src": "worn_plaster_wall",
+   "size": 1.8
+  },
+  {
+   "name": "brick",
+   "src": "red_bricks_04",
+   "size": 2.5
+  },
+  {
+   "name": "brick_old",
+   "src": "red_brick_plaster_patch_02",
+   "size": 1.5
+  },
+  {
+   "name": "stone_block",
+   "src": "marble_01",
+   "size": 1.5
+  },
+  {
+   "name": "stone_rough",
+   "src": "white_sandstone_blocks_02",
+   "size": 2.0
+  },
+  {
+   "name": "masegni",
+   "src": "masegni",
+   "size": 3.0
+  },
+  {
+   "name": "coppi",
+   "src": "clay_roof_tiles_02",
+   "size": 2.5
+  },
+  {
+   "name": "coppi_old",
+   "src": "RoofingTiles014C",
+   "size": 2.0
+  },
+  {
+   "name": "wood_paint",
+   "src": "green_rough_planks",
+   "size": 1.5,
+   "neutral": true
+  },
+  {
+   "name": "wood_raw",
+   "src": "weathered_planks",
+   "size": 2.0
+  },
+  {
+   "name": "algae",
+   "src": "brick_moss_001",
+   "size": 2.2
+  },
+  {
+   "name": "metal",
+   "src": "rusty_metal",
+   "size": 1.5
+  }
+ ],
+ "mats": [
+  {
+   "id": 0,
+   "name": "wall_plaster",
+   "layer": 0,
+   "kind": "wall",
+   "albedo": [
+    0.62,
+    0.58,
+    0.52
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 1,
+   "name": "wall_brick",
+   "layer": 5,
+   "kind": "wall",
+   "albedo": [
+    0.3,
+    0.15,
+    0.1
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 2,
+   "name": "wall_stone",
+   "layer": 7,
+   "kind": "wall",
+   "albedo": [
+    0.62,
+    0.58,
+    0.5
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 3,
+   "name": "ground",
+   "layer": 9,
+   "kind": "ground",
+   "albedo": [
+    0.2,
+    0.19,
+    0.18
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 4,
+   "name": "coping",
+   "layer": 8,
+   "kind": "stone",
+   "albedo": [
+    0.55,
+    0.52,
+    0.46
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 5,
+   "name": "riva",
+   "layer": 6,
+   "kind": "wall",
+   "albedo": [
+    0.28,
+    0.17,
+    0.12
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 6,
+   "name": "roof",
+   "layer": 10,
+   "kind": "roof",
+   "albedo": [
+    0.38,
+    0.17,
+    0.09
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 7,
+   "name": "roof_old",
+   "layer": 11,
+   "kind": "roof",
+   "albedo": [
+    0.25,
+    0.14,
+    0.1
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 8,
+   "name": "trim",
+   "layer": 7,
+   "kind": "stone",
+   "albedo": [
+    0.65,
+    0.62,
+    0.55
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 9,
+   "name": "wood_paint",
+   "layer": 12,
+   "kind": "wood",
+   "albedo": [
+    0.2,
+    0.3,
+    0.22
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 10,
+   "name": "wood_raw",
+   "layer": 13,
+   "kind": "wood",
+   "albedo": [
+    0.18,
+    0.13,
+    0.09
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 11,
+   "name": "metal",
+   "layer": 15,
+   "kind": "metal",
+   "albedo": [
+    0.08,
+    0.07,
+    0.06
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 12,
+   "name": "glass",
+   "layer": -1,
+   "kind": "glass",
+   "albedo": [
+    0.02,
+    0.02,
+    0.02
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 13,
+   "name": "bridge_brick",
+   "layer": 5,
+   "kind": "wall",
+   "albedo": [
+    0.3,
+    0.15,
+    0.1
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 14,
+   "name": "bridge_stone",
+   "layer": 8,
+   "kind": "stone",
+   "albedo": [
+    0.58,
+    0.55,
+    0.48
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 15,
+   "name": "flat_roof",
+   "layer": 8,
+   "kind": "roof",
+   "albedo": [
+    0.35,
+    0.33,
+    0.3
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 16,
+   "name": "lawn",
+   "layer": -1,
+   "kind": "plain",
+   "albedo": [
+    0.08,
+    0.16,
+    0.05
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 17,
+   "name": "dark",
+   "layer": -1,
+   "kind": "plain",
+   "albedo": [
+    0.03,
+    0.03,
+    0.03
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 18,
+   "name": "portico_floor",
+   "layer": 7,
+   "kind": "ground",
+   "albedo": [
+    0.45,
+    0.42,
+    0.38
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 19,
+   "name": "portico_wall",
+   "layer": 0,
+   "kind": "wall",
+   "albedo": [
+    0.6,
+    0.57,
+    0.52
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 20,
+   "name": "shop_wood",
+   "layer": 13,
+   "kind": "wood",
+   "albedo": [
+    0.12,
+    0.08,
+    0.05
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 21,
+   "name": "florian_wood",
+   "layer": 13,
+   "kind": "wood",
+   "albedo": [
+    0.1,
+    0.05,
+    0.03
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 22,
+   "name": "shop_sign",
+   "layer": -1,
+   "kind": "plain",
+   "albedo": [
+    0.05,
+    0.05,
+    0.05
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 23,
+   "name": "florian_sign",
+   "layer": -1,
+   "kind": "plain",
+   "albedo": [
+    0.12,
+    0.02,
+    0.02
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 24,
+   "name": "istrian",
+   "layer": 8,
+   "kind": "stone",
+   "albedo": [
+    0.62,
+    0.6,
+    0.55
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 25,
+   "name": "campanile_brick",
+   "layer": 5,
+   "kind": "wall",
+   "albedo": [
+    0.32,
+    0.14,
+    0.08
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 26,
+   "name": "copper",
+   "layer": 7,
+   "kind": "marble",
+   "albedo": [
+    0.2,
+    0.4,
+    0.31
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 27,
+   "name": "gold",
+   "layer": -1,
+   "kind": "gold",
+   "albedo": [
+    0.95,
+    0.7,
+    0.32
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 28,
+   "name": "relief",
+   "layer": 7,
+   "kind": "stone",
+   "albedo": [
+    0.6,
+    0.57,
+    0.5
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 29,
+   "name": "marble_white",
+   "layer": 7,
+   "kind": "marble",
+   "albedo": [
+    0.47,
+    0.45,
+    0.42
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 30,
+   "name": "marble_red",
+   "layer": 7,
+   "kind": "marble",
+   "albedo": [
+    0.55,
+    0.22,
+    0.16
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 31,
+   "name": "marble_verde",
+   "layer": 7,
+   "kind": "marble",
+   "albedo": [
+    0.06,
+    0.12,
+    0.09
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 32,
+   "name": "marble_pink",
+   "layer": 7,
+   "kind": "marble",
+   "albedo": [
+    0.78,
+    0.55,
+    0.5
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 33,
+   "name": "mosaic_gold",
+   "layer": -1,
+   "kind": "mosaic",
+   "albedo": [
+    0.52,
+    0.33,
+    0.08
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 34,
+   "name": "bronze",
+   "layer": 15,
+   "kind": "metal",
+   "albedo": [
+    0.1,
+    0.08,
+    0.05
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 35,
+   "name": "bronze_gilt",
+   "layer": -1,
+   "kind": "gold",
+   "albedo": [
+    0.6,
+    0.42,
+    0.18
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 36,
+   "name": "lead",
+   "layer": 8,
+   "kind": "roof",
+   "albedo": [
+    0.2,
+    0.21,
+    0.22
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 37,
+   "name": "basilica_wall",
+   "layer": 7,
+   "kind": "marble",
+   "albedo": [
+    0.4,
+    0.37,
+    0.33
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 38,
+   "name": "glass_lattice",
+   "layer": -1,
+   "kind": "glass",
+   "albedo": [
+    0.02,
+    0.02,
+    0.02
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 39,
+   "name": "lion_field",
+   "layer": -1,
+   "kind": "plain",
+   "albedo": [
+    0.03,
+    0.06,
+    0.2
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 40,
+   "name": "mosaic_photo",
+   "layer": -1,
+   "kind": "photo",
+   "albedo": [
+    0.5,
+    0.4,
+    0.25
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 41,
+   "name": "ducale_wall",
+   "layer": 7,
+   "kind": "lozenge",
+   "albedo": [
+    0.7,
+    0.5,
+    0.44
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 42,
+   "name": "granite_grey",
+   "layer": 8,
+   "kind": "marble",
+   "albedo": [
+    0.3,
+    0.3,
+    0.31
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 43,
+   "name": "granite_pink",
+   "layer": 8,
+   "kind": "marble",
+   "albedo": [
+    0.42,
+    0.3,
+    0.28
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 44,
+   "name": "clock_blue",
+   "layer": -1,
+   "kind": "plain",
+   "albedo": [
+    0.02,
+    0.05,
+    0.22
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 45,
+   "name": "parquet",
+   "layer": 13,
+   "kind": "interior",
+   "albedo": [
+    0.13,
+    0.075,
+    0.04
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 46,
+   "name": "walnut",
+   "layer": 13,
+   "kind": "interior",
+   "albedo": [
+    0.065,
+    0.035,
+    0.02
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 47,
+   "name": "velvet",
+   "layer": -1,
+   "kind": "interior",
+   "albedo": [
+    0.15,
+    0.01,
+    0.016
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 48,
+   "name": "cream",
+   "layer": 0,
+   "kind": "interior",
+   "albedo": [
+    0.7,
+    0.62,
+    0.48
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 49,
+   "name": "pale_blue",
+   "layer": 0,
+   "kind": "interior",
+   "albedo": [
+    0.52,
+    0.62,
+    0.66
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 50,
+   "name": "gilt",
+   "layer": -1,
+   "kind": "interior",
+   "albedo": [
+    0.58,
+    0.41,
+    0.15
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 51,
+   "name": "mirror",
+   "layer": -1,
+   "kind": "mirror",
+   "albedo": [
+    0.75,
+    0.75,
+    0.74
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 52,
+   "name": "lamp_glass",
+   "layer": -1,
+   "kind": "emissive",
+   "albedo": [
+    1.0,
+    0.72,
+    0.42
+   ],
+   "emit": [
+    60.0,
+    60.0
+   ]
+  },
+  {
+   "id": 53,
+   "name": "painting",
+   "layer": -1,
+   "kind": "photo",
+   "albedo": [
+    0.4,
+    0.32,
+    0.22
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 54,
+   "name": "terrazzo",
+   "layer": 8,
+   "kind": "interior",
+   "albedo": [
+    0.42,
+    0.3,
+    0.25
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 55,
+   "name": "cast_iron",
+   "layer": -1,
+   "kind": "metal",
+   "albedo": [
+    0.04,
+    0.04,
+    0.04
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 56,
+   "name": "linen",
+   "layer": -1,
+   "kind": "interior",
+   "albedo": [
+    0.78,
+    0.76,
+    0.72
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 57,
+   "name": "basilica_marble",
+   "layer": 7,
+   "kind": "interior",
+   "albedo": [
+    0.46,
+    0.41,
+    0.36
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 58,
+   "name": "basilica_floor",
+   "layer": 8,
+   "kind": "floor",
+   "albedo": [
+    0.45,
+    0.4,
+    0.35
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 59,
+   "name": "daylight",
+   "layer": -1,
+   "kind": "emissive",
+   "albedo": [
+    0.92,
+    0.96,
+    1.0
+   ],
+   "emit": [
+    45.0,
+    0.0
+   ]
+  },
+  {
+   "id": 60,
+   "name": "street_glass",
+   "layer": -1,
+   "kind": "emissive",
+   "albedo": [
+    1.0,
+    0.74,
+    0.46
+   ],
+   "emit": [
+    0.0,
+    60.0
+   ]
+  },
+  {
+   "id": 61,
+   "name": "basilica_front",
+   "layer": 7,
+   "kind": "marble",
+   "albedo": [
+    0.4,
+    0.37,
+    0.32
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 62,
+   "name": "basilica_marble_ext",
+   "layer": 7,
+   "kind": "marble",
+   "albedo": [
+    0.33,
+    0.31,
+    0.29
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 63,
+   "name": "porphyry",
+   "layer": 7,
+   "kind": "marble",
+   "albedo": [
+    0.2,
+    0.07,
+    0.07
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  }
+ ]
+}

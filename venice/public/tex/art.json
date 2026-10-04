@@ -1,0 +1,230 @@
+{
+ "size": 1024,
+ "items": {
+  "ui1": {
+   "layer": 0,
+   "aspect": 0.7038,
+   "src": "florian/Sala_degli_Uomini_Illustri1.jpg"
+  },
+  "ui2": {
+   "layer": 1,
+   "aspect": 0.681,
+   "src": "florian/Sala_degli_Uomini_Illustri2.jpg"
+  },
+  "ui3": {
+   "layer": 2,
+   "aspect": 0.6589,
+   "src": "florian/Sala_degli_Uomini_Illustri3.jpg"
+  },
+  "ui4": {
+   "layer": 3,
+   "aspect": 0.6689,
+   "src": "florian/Sala_degli_Uomini_Illustri4.jpg"
+  },
+  "ui5": {
+   "layer": 4,
+   "aspect": 0.6496,
+   "src": "florian/Sala_degli_Uomini_Illustri5.jpg"
+  },
+  "ui6": {
+   "layer": 5,
+   "aspect": 0.6247,
+   "src": "florian/Sala_degli_Uomini_Illustri6.jpg"
+  },
+  "ui7": {
+   "layer": 6,
+   "aspect": 0.6692,
+   "src": "florian/Sala_degli_Uomini_Illustri7.jpg"
+  },
+  "ui8": {
+   "layer": 7,
+   "aspect": 0.6385,
+   "src": "florian/Sala_degli_Uomini_Illustri8.jpg"
+  },
+  "ui9": {
+   "layer": 8,
+   "aspect": 0.75,
+   "src": "florian/Sala_degli_Uomini_Illustri9.jpg"
+  },
+  "ui10": {
+   "layer": 9,
+   "aspect": 0.6525,
+   "src": "florian/Sala_degli_Uomini_Illustri10.jpg"
+  },
+  "spring": {
+   "layer": 10,
+   "aspect": 0.7949,
+   "src": "florian/Spring_by_Rosalba_Carriera_Rijksdienst_voor_het_Cultureel_Erfgoed_NK1710.jpg"
+  },
+  "summer": {
+   "layer": 11,
+   "aspect": 0.7933,
+   "src": "florian/Summer_by_Rosalba_Carriera_Rijksdienst_voor_het_Cultureel_Erfgoed_NK1711.jpg"
+  },
+  "autumn": {
+   "layer": 12,
+   "aspect": 0.7928,
+   "src": "florian/Autumn_by_Rosalba_Carriera_Rijksdienst_voor_het_Cultureel_Erfgoed_NK1708.jpg"
+  },
+  "winter": {
+   "layer": 13,
+   "aspect": 0.7539,
+   "src": "florian/Rosalba_Carriera_-_Winter_-_WGA04501.jpg"
+  },
+  "progress": {
+   "layer": 14,
+   "aspect": 0.8017,
+   "src": "florian/Sala_Senato_Caff\u00e8_Florian.jpg"
+  },
+  "vigilance": {
+   "layer": 15,
+   "aspect": 0.733,
+   "src": "florian/Rosalba_Carriera_-_Allegorie_der_Wachsamkeit.jpg"
+  },
+  "charity": {
+   "layer": 16,
+   "aspect": 0.7194,
+   "src": "florian/Rosalba_Carriera_-_Charity_and_Justice.jpg"
+  },
+  "pescivendola": {
+   "layer": 17,
+   "aspect": 0.6707,
+   "src": "florian/La_pescivendola_quadro_del_signor_Giulio_Carlini.jpg"
+  },
+  "senato_ceiling": {
+   "layer": 18,
+   "aspect": 1.4577,
+   "src": "florian/Sala_del_Senato_soffitto_Caff\u00e8_Florian.jpg"
+  },
+  "chin1": {
+   "layer": 19,
+   "aspect": 1.5055,
+   "src": "florian/Fran\u00e7ois_Boucher_-_Chinoiserie_-_2573_OK_-_Museum_Boijmans_Van_Beuningen.jpg"
+  },
+  "chin2": {
+   "layer": 20,
+   "aspect": 1.3304,
+   "src": "florian/Boucher-chinoiserie-Besan\u00e7on.jpg"
+  },
+  "chin3": {
+   "layer": 21,
+   "aspect": 0.7472,
+   "src": "florian/Chinoiserie_with_Figures_in_a_Landscape_MET_DP826913.jpg"
+  },
+  "chin4": {
+   "layer": 22,
+   "aspect": 0.7002,
+   "src": "florian/Chinoiserie_scene_with_figures_in_a_landscape_MET_DP826703.jpg"
+  },
+  "chin5": {
+   "layer": 23,
+   "aspect": 1.3001,
+   "src": "florian/Fran\u00e7ois_Boucher_Der_galante_Chinese.jpg"
+  },
+  "orient1": {
+   "layer": 24,
+   "aspect": 0.8022,
+   "src": "florian/Marastoni_Greek_woman_1850.jpg"
+  },
+  "orient2": {
+   "layer": 25,
+   "aspect": 0.771,
+   "src": "florian/Young_Woman_in_Oriental_Garb_1871_-_Edouard_Manet_Kunsthaus_Z\u00fcrich_.jpg"
+  },
+  "orient3": {
+   "layer": 26,
+   "aspect": 0.7669,
+   "src": "florian/Bathsheba_c.1827_by_Francesco_Hayez.jpg"
+  },
+  "longhi1": {
+   "layer": 27,
+   "aspect": 0.7968,
+   "src": "florian/Ca_Rezzonico_-_Il_rinoceronte_1751_-_Pietro_Longhi_.jpg"
+  },
+  "longhi2": {
+   "layer": 28,
+   "aspect": 0.814,
+   "src": "florian/Ca_Rezzonico_-_La_venditrice_di_essenze_-_Pietro_Longhi.jpg"
+  },
+  "longhi3": {
+   "layer": 29,
+   "aspect": 0.7831,
+   "src": "florian/Ca_Rezzonico_-_Il_Ciarlatano_-_Pietro_Longhi.jpg"
+  },
+  "dome_pentecost": {
+   "layer": 30,
+   "aspect": 1.0031,
+   "src": "basilica/Mosaico_della_cupola_di_San_Marco_prima_del_1976_-_Archivio_Accademia_delle_Scienze_Torino_Millon_48_13_252.jpg"
+  },
+  "dome_emmanuel": {
+   "layer": 31,
+   "aspect": 1.2962,
+   "src": "basilica/Venezia_Basilica_di_San_Marco_Innen_Emmanuelkuppel_3.jpg"
+  },
+  "dome_ascension": {
+   "layer": 32,
+   "aspect": 1.3168,
+   "src": "basilica/Venezia_Basilica_di_San_Marco_Innen_Auferstehungskuppel_4.jpg"
+  },
+  "lun0": {
+   "layer": 33,
+   "aspect": 2.1111,
+   "src": "lunettes/Basilica_di_San_Marco_-_Porta_Sant_Alipio_EOS5001403_.jpg"
+  },
+  "lun1": {
+   "layer": 34,
+   "aspect": 1.9245,
+   "src": "lunettes/Venice_St._Mark_s_Basilica_Second_lunette_counting_from_left_-_Saint_Mark_s_body_venerated_by_the_doge_by_Sebastiano_Ricci_and_Leopoldo_Del_Pozzo_1728"
+  },
+  "lun2": {
+   "layer": 35,
+   "aspect": 2.3027,
+   "src": "lunettes/Venice_St._Mark_s_Basilica_lunette_of_the_main_portal_-_The_Last_Judgment_by_Lattanzio_Querena.jpg"
+  },
+  "lun3": {
+   "layer": 36,
+   "aspect": 1.8526,
+   "src": "lunettes/Venice_St._Mark_s_Basilica_lunette_-_The_body_of_St._Mark_is_received_in_Venice_ca._1660_by_Pietro_Vecchia.jpg"
+  },
+  "lun4": {
+   "layer": 37,
+   "aspect": 2.1032,
+   "src": "lunettes/Mosaic-St-Marks-20050527-003.jpg"
+  },
+  "lun5": {
+   "layer": 38,
+   "aspect": 2.1638,
+   "src": "lunettes/0_Venise_mosa\u00efque_La_descente_de_Croix_-_Basilique_St-Marc.JPG"
+  },
+  "lun6": {
+   "layer": 39,
+   "aspect": 2.3164,
+   "src": "lunettes/0_Venise_mosa\u00efque_La_descente_du_Christ_aux_Limbes_-_Basilique_St-Marc.JPG"
+  },
+  "lun7": {
+   "layer": 40,
+   "aspect": 1.9331,
+   "src": "lunettes/SanMarko_luneta_4.jpg"
+  },
+  "lun8": {
+   "layer": 41,
+   "aspect": 1.7135,
+   "src": "lunettes/SanMarko_luneta_3.jpg"
+  },
+  "fen_par_a": {
+   "layer": 42,
+   "aspect": 3.6717,
+   "src": "fenice/La_Fenice_boxes.jpg"
+  },
+  "fen_par_b": {
+   "layer": 43,
+   "aspect": 3.0803,
+   "src": "fenice/La_Fenice_boxes.jpg"
+  },
+  "fen_ceiling": {
+   "layer": 44,
+   "aspect": 1.3333,
+   "src": "fenice/La_Fenice_ceiling.jpg"
+  }
+ }
+}

@@ -1,0 +1,16 @@
+{
+ "src": "/home/kazu/work/venice-assets/hdri/qwantani_night_puresky_4k.hdr",
+ "sun_el": 32.0,
+ "sun_az": 120.0,
+ "sun_rgb": [
+  0.029750000000000002,
+  0.032200000000000006,
+  0.035
+ ],
+ "sky_horiz": [
+  0.02943500454189056,
+  0.030338076700553423,
+  0.03318676045868662
+ ],
+ "moon": true
+}
