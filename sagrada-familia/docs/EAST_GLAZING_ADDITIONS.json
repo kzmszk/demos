@@ -1,0 +1,248 @@
+{
+  "status": "Selected source window banks and manually traced aperture geometry used by the V12 reconstruction. Historical source study; no newly surveyed bay placement.",
+  "created_utc_date": "2026-10-01",
+  "scope": "Faithful distinct east-side glass photographic patterns. No geometry/runtime edits.",
+  "candidate_json": "assets/textures/east_bank_candidates.json",
+  "reproduction_script": "src/prepare_extra_east_banks.py",
+  "preview_script": "src/preview_extra_east_banks.py",
+  "new_banks": [
+    {
+      "id": "east_yellowgreen",
+      "texture": "assets/textures/glass_east_yellowgreen_meskens2016.jpg",
+      "size_px": [
+        2112,
+        2816
+      ],
+      "sha256": "9009a9d8c63fe46a997bbf17be4925ab0e07d092a3d0e6da1a69239c8fc20e98",
+      "qa_preview": "screenshots/materials/additional_window_bank_east_yellowgreen_uv.png",
+      "identification": "East-aisle yellow/green bank left of pale-green bank in Ad Meskens 2016 interior10/11 and Richard Mortel 2016 photos4/5/10. Relative adjacency confirmed; absolute bay number unresolved.",
+      "limits": "Bottom visitor rail touches the original lowest glass edges; crops stop just inside observed glazing. Perspective, dimensional placement and lighting exposure approximate; source photograph contains brighter highlights in upper-right panes.",
+      "derivation": {
+        "method": "55 independently traced observed glass apertures. Rose hull from colour segmentation; capsules and circles manually traced against source. Per-aperture UV fan and affine projection basis; no whole-bank homography; no pattern invention, recolouring, text replacement, generative filling or pixel modification.",
+        "source_view_width_px": 960,
+        "coordinate_scale": 2.2,
+        "source_sha256": "9009a9d8c63fe46a997bbf17be4925ab0e07d092a3d0e6da1a69239c8fc20e98",
+        "texture_sha256": "9009a9d8c63fe46a997bbf17be4925ab0e07d092a3d0e6da1a69239c8fc20e98",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "geometry_limit": "Approximate source perspective correction and metric aperture placement; not surveyed."
+      }
+    },
+    {
+      "id": "east_palegreen",
+      "texture": "assets/textures/glass_east_palegreen_mortel_meskens_atlas.png",
+      "size_px": [
+        1920,
+        2986
+      ],
+      "sha256": "bfbad84e7e532f982474ef807722a59cf811c340300607c7435d1e0e45f3216f",
+      "qa_preview": "screenshots/materials/additional_window_bank_east_palegreen_uv.png",
+      "identification": "East-aisle pale-green bank between yellowgreen and bluegreen banks in Ad Meskens 2016 interior11 and Richard Mortel2016 photos10/11/12; unique bottom blue-to-red capsules and Juan Sahagun oculus. Absolute bay number unresolved.",
+      "limits": "Mortel upper49 apertures preserve lower-exposure real motifs; six complete lower capsules come from the same identified bank in Meskens2016. Exact matching confirmed by unique blue/green/red lower pattern and Juan Sahagun oculus. Photograph lighting differs between source blocks, with residual highlights. No generated fill, individual-glass colour change or cross-bank substitution.",
+      "derivation": {
+        "method": "Lossless vertical pixel atlas: Mortel1920x1280 at[0,0], Meskens1920x1706 at[0,1280]. All49 upper/oculus/rose polygons refer to Mortel; only six bottom capsule polygons refer to Meskens, offset1280px. Each complete aperture belongs to one unchanged photo block. Affine per-aperture UV, no global homography.",
+        "atlas_license": "CC BY-SA4.0",
+        "atlas_license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "sources": [
+          {
+            "path": "assets/reference/artwork_east_mortel_2016_11_high.jpg",
+            "photographer": "Richard Mortel",
+            "license": "CC BY2.0",
+            "license_url": "https://creativecommons.org/licenses/by/2.0/",
+            "offset_px": [
+              0,
+              0
+            ],
+            "sha256": "c57ef5e39e4d0f6affc8bfb328b5fab97b4ba897ff69365417499524c3b3f105"
+          },
+          {
+            "path": "assets/reference/artwork_east_barcelona11_high.jpg",
+            "photographer": "Ad Meskens",
+            "license": "CC BY-SA4.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "offset_px": [
+              0,
+              1280
+            ],
+            "sha256": "3239ecf50be9e2964b9bfbb37f95c802c3c13237afffdf2d83763cde7dab1b83"
+          }
+        ],
+        "atlas_sha256": "bfbad84e7e532f982474ef807722a59cf811c340300607c7435d1e0e45f3216f",
+        "underlying_artist": "Joan Vila-Grau, separately attributed glass designer; photographer licenses do not establish separate artwork copyright waiver."
+      }
+    }
+  ],
+  "source_entries": [
+    {
+      "id": "east_painting04",
+      "kind": "photograph",
+      "title": "Stained Glass paintings at Sagrada Familia, Barcelona 04.jpg",
+      "local_path": "assets/reference/artwork_east_painting04_high.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Stained_Glass_paintings_at_Sagrada_Familia%2C_Barcelona_04.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Stained_Glass_paintings_at_Sagrada_Familia%2C_Barcelona_04.jpg/1920px-Stained_Glass_paintings_at_Sagrada_Familia%2C_Barcelona_04.jpg",
+      "photographer": "Ank Kumar",
+      "capture_date": "2014-09-13 11:35:10",
+      "capture_date_note": "Commons author-supplied date/EXIF, not independently verified",
+      "accessed_utc": "2026-10-01",
+      "photo_license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "required_attribution": "© Ank Kumar / Wikimedia Commons / CC BY-SA 4.0",
+      "dimensions_px": [
+        1920,
+        2880
+      ],
+      "sha256": "9f999618cff0e39213ba63a085b0e3cd59206a07cbbb37401ff7e7974f46166a",
+      "visually_inspected": true,
+      "location_evidence": "East aisle Commons category and matched neighbouring photographed patterns. Relative adjacency supported; absolute numbered bay unresolved.",
+      "observations": "Individually identifiable real capsule-bank pattern; three registers of six capsules, eighteen small oculi, six large oculi and twelve-petal rose plus centre.",
+      "permitted_use": "Local visual reference; photo may be reused subject to stated attribution/share-alike requirements. Record modifications in any rectified or traced derivative.",
+      "underlying_artwork_note": "Glass design attributed separately to Joan Vila-Grau. The photographer license is not evidence of a separate artist copyright waiver; no separate artist copyright waiver is claimed.",
+      "changes": "Downloaded pixels unchanged. Texture is a byte-identical local copy; glass apertures cropped through individually traced UVs and perspective approximation. Derivative UV coordinate records are CC BY-SA4.0 for Meskens/Kumar photos and CC BY2.0 for Mortel photos.",
+      "source_evidence_html": "assets/reference/artwork_east_painting04.source.html",
+      "use_status": "Reference-only cross-check for Mortel blue bank; bottom visitor posters prevent using this full photo as final texture.",
+      "underlying_artist": "Joan Vila-Grau (glass artwork; distinct from photographer)"
+    },
+    {
+      "id": "east_2016_mortel2",
+      "kind": "photograph",
+      "title": "Sagrada Famiia, stained glass windows (2) (31240948686).jpg",
+      "local_path": "assets/reference/artwork_east_2016_mortel2_high.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Sagrada_Famiia%2C_stained_glass_windows_%282%29_%2831240948686%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Sagrada_Famiia%2C_stained_glass_windows_%282%29_%2831240948686%29.jpg/3840px-Sagrada_Famiia%2C_stained_glass_windows_%282%29_%2831240948686%29.jpg",
+      "photographer": "Richard Mortel",
+      "capture_date": "2016-11-12 11:18",
+      "capture_date_note": "Commons author-supplied date/EXIF, not independently verified",
+      "accessed_utc": "2026-10-01",
+      "photo_license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "required_attribution": "© Richard Mortel / Wikimedia Commons / CC BY 2.0",
+      "dimensions_px": [
+        3840,
+        2560
+      ],
+      "sha256": "4a5452d2d3d62e7807ed8b1c0b1a35f7ff4381799174d354b10eb5e12182cd4d",
+      "visually_inspected": true,
+      "location_evidence": "East aisle Commons category and matched neighbouring photographed patterns. Relative adjacency supported; absolute numbered bay unresolved.",
+      "observations": "Individually identifiable real capsule-bank pattern; three registers of six capsules, eighteen small oculi, six large oculi and twelve-petal rose plus centre.",
+      "permitted_use": "Local visual reference; photo may be reused subject to stated attribution/share-alike requirements. Record modifications in any rectified or traced derivative.",
+      "underlying_artwork_note": "Glass design attributed separately to Joan Vila-Grau. The photographer license is not evidence of a separate artist copyright waiver; no separate artist copyright waiver is claimed.",
+      "changes": "Downloaded pixels unchanged. Texture is a byte-identical local copy; glass apertures cropped through individually traced UVs and perspective approximation. Derivative UV coordinate records are CC BY-SA4.0 for Meskens/Kumar photos and CC BY2.0 for Mortel photos.",
+      "source_evidence_html": "assets/reference/artwork_east_2016_mortel2.source.html",
+      "underlying_artist": "Joan Vila-Grau (glass artwork; distinct from photographer)"
+    },
+    {
+      "id": "east_barcelona10",
+      "kind": "photograph",
+      "title": "Barcelona Sagrada Familia interior 10.jpg",
+      "local_path": "assets/reference/artwork_east_barcelona10_high.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Barcelona_Sagrada_Familia_interior_10.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Barcelona_Sagrada_Familia_interior_10.jpg",
+      "photographer": "Ad Meskens",
+      "capture_date": "2016-05-23 18:24:31",
+      "capture_date_note": "Commons author-supplied date/EXIF, not independently verified",
+      "accessed_utc": "2026-10-01",
+      "photo_license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "required_attribution": "© Ad Meskens / Wikimedia Commons / CC BY-SA 4.0",
+      "dimensions_px": [
+        2112,
+        2816
+      ],
+      "sha256": "9009a9d8c63fe46a997bbf17be4925ab0e07d092a3d0e6da1a69239c8fc20e98",
+      "visually_inspected": true,
+      "location_evidence": "East aisle Commons category and matched neighbouring photographed patterns. Relative adjacency supported; absolute numbered bay unresolved.",
+      "observations": "Individually identifiable real capsule-bank pattern; three registers of six capsules, eighteen small oculi, six large oculi and twelve-petal rose plus centre. Yellow-green bank next to pale-green bank; source lowest rail grazes final pane edges, traced slightly inside glass.",
+      "permitted_use": "Local visual reference; photo may be reused subject to stated attribution/share-alike requirements. Record modifications in any rectified or traced derivative.",
+      "underlying_artwork_note": "Glass design attributed separately to Joan Vila-Grau. The photographer license is not evidence of a separate artist copyright waiver; no separate artist copyright waiver is claimed.",
+      "changes": "Downloaded pixels unchanged. Texture is a byte-identical local copy; glass apertures cropped through individually traced UVs and perspective approximation. Derivative UV coordinate records are CC BY-SA4.0 for Meskens/Kumar photos and CC BY2.0 for Mortel photos.",
+      "source_evidence_html": "assets/reference/artwork_east_barcelona10.source.html",
+      "underlying_artist": "Joan Vila-Grau (glass artwork; distinct from photographer)"
+    },
+    {
+      "id": "east_barcelona11",
+      "kind": "photograph",
+      "title": "Barcelona Sagrada Familia interior 11.jpg",
+      "local_path": "assets/reference/artwork_east_barcelona11_high.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Barcelona_Sagrada_Familia_interior_11.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e6/Barcelona_Sagrada_Familia_interior_11.jpg/1920px-Barcelona_Sagrada_Familia_interior_11.jpg",
+      "photographer": "Ad Meskens",
+      "capture_date": "2016-05-23 18:25:25",
+      "capture_date_note": "Commons author-supplied date/EXIF, not independently verified",
+      "accessed_utc": "2026-10-01",
+      "photo_license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "required_attribution": "© Ad Meskens / Wikimedia Commons / CC BY-SA 4.0",
+      "dimensions_px": [
+        1920,
+        1706
+      ],
+      "sha256": "3239ecf50be9e2964b9bfbb37f95c802c3c13237afffdf2d83763cde7dab1b83",
+      "visually_inspected": true,
+      "location_evidence": "East aisle Commons category and matched neighbouring photographed patterns. Relative adjacency supported; absolute numbered bay unresolved.",
+      "observations": "Individually identifiable real capsule-bank pattern; three registers of six capsules, eighteen small oculi, six large oculi and twelve-petal rose plus centre. Pale-green bank between yellow-green and bluegreen banks; source upper-pane highlights are clipped and remain a documented fidelity limit.",
+      "permitted_use": "Local visual reference; photo may be reused subject to stated attribution/share-alike requirements. Record modifications in any rectified or traced derivative.",
+      "underlying_artwork_note": "Glass design attributed separately to Joan Vila-Grau. The photographer license is not evidence of a separate artist copyright waiver; no separate artist copyright waiver is claimed.",
+      "changes": "Downloaded pixels unchanged. Texture is a byte-identical local copy; glass apertures cropped through individually traced UVs and perspective approximation. Derivative UV coordinate records are CC BY-SA4.0 for Meskens/Kumar photos and CC BY2.0 for Mortel photos.",
+      "source_evidence_html": "assets/reference/artwork_east_barcelona11.source.html",
+      "underlying_artist": "Joan Vila-Grau (glass artwork; distinct from photographer)"
+    },
+    {
+      "id": "east_mortel_2016_11",
+      "kind": "photograph",
+      "title": "Sagrada Familia, stained glass windows (11) (31150428592).jpg",
+      "local_path": "assets/reference/artwork_east_mortel_2016_11_high.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Sagrada_Familia%2C_stained_glass_windows_%2811%29_%2831150428592%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Sagrada_Familia%2C_stained_glass_windows_%2811%29_%2831150428592%29.jpg/1920px-Sagrada_Familia%2C_stained_glass_windows_%2811%29_%2831150428592%29.jpg",
+      "photographer": "Richard Mortel",
+      "capture_date": "2016-11-12 10:58",
+      "capture_date_note": "Commons author-supplied date/EXIF, not independently verified",
+      "accessed_utc": "2026-10-01",
+      "photo_license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "required_attribution": "© Richard Mortel / Wikimedia Commons / CC BY 2.0",
+      "dimensions_px": [
+        1920,
+        1280
+      ],
+      "sha256": "c57ef5e39e4d0f6affc8bfb328b5fab97b4ba897ff69365417499524c3b3f105",
+      "visually_inspected": true,
+      "location_evidence": "East aisle Commons category and matched neighbouring photographed patterns. Relative adjacency supported; absolute numbered bay unresolved.",
+      "observations": "Individually identifiable real capsule-bank pattern; three registers of six capsules, eighteen small oculi, six large oculi and twelve-petal rose plus centre.",
+      "permitted_use": "Local visual reference; photo may be reused subject to stated attribution/share-alike requirements. Record modifications in any rectified or traced derivative.",
+      "underlying_artwork_note": "Glass design attributed separately to Joan Vila-Grau. The photographer license is not evidence of a separate artist copyright waiver; no separate artist copyright waiver is claimed.",
+      "changes": "Downloaded pixels unchanged. Texture is a byte-identical local copy; glass apertures cropped through individually traced UVs and perspective approximation. Derivative UV coordinate records are CC BY-SA4.0 for Meskens/Kumar photos and CC BY2.0 for Mortel photos.",
+      "source_evidence_html": "assets/reference/artwork_east_mortel_2016_11.source.html",
+      "underlying_artist": "Joan Vila-Grau (glass artwork; distinct from photographer)"
+    }
+  ],
+  "relative_order": {
+    "interior_facing_photo_left_to_right": [
+      "east_yellowgreen",
+      "east_palegreen",
+      "unimplemented Chartres/Lourdes bluegreen bank",
+      "east_blue_mortel2016"
+    ],
+    "evidence": [
+      "assets/reference/artwork_east_mortel_2016_10.jpg",
+      "assets/reference/artwork_east_barcelona09.jpg",
+      "assets/reference/artwork_east_barcelona10.jpg",
+      "assets/reference/artwork_east_barcelona11.jpg"
+    ],
+    "limits": "Absolute bay numbers and the original Ribeiro bank relation to this chain remain unestablished; model assignment must be marked approximate."
+  },
+  "rejected_shortcuts": [
+    "Did not tint or randomize repeated glass.",
+    "Did not substitute another bank for unseen details.",
+    "Did not retain visitor-poster photography on the blue bank (materials chose the matched Mortel view).",
+    "No new services, authentication, purchases, or GPU workloads."
+  ],
+  "validation": {
+    "apertures_per_new_bank": 55,
+    "unique_rose_sectors_per_bank": 12,
+    "cpu_uv_images_visually_inspected": true,
+    "atlas_mortel_block_pixel_identical": true,
+    "atlas_meskens_block_pixel_identical": true,
+    "preview_type": "CPU geometry/UV rasterization; not Cycles render or real-time screenshot."
+  },
+  "detail_review": "docs/YELLOWGREEN_DETAIL_VALIDATION.json: capsule4 red circular detail retained after independent-photo and primary artist evidence review; crown-glass identity plausible but not individually proven."
+}

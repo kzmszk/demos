@@ -1,0 +1,14 @@
+.state/
+__pycache__/
+dist/
+site_bundle/
+logs/
+qa/
+screenshots/
+godot/.godot/
+godot/assets/
+godot/scripts/
+godot/project.godot
+godot/main.tscn
+godot/export_presets.cfg
+*.import

@@ -1,0 +1,1168 @@
+{
+  "project": "Sagrada Familia 2026 exterior",
+  "as_of_requested": "2026-10-01",
+  "latest_official_state_used": "2026-09-22",
+  "photographic_state_anchor": "2026-08-09",
+  "model_status": "Exterior v3: dimensional tower/current-state anchors + photo-guided authored geometry; seven selected actual sculpture groups use masked licensed photographic relief, not a 3D scan.",
+  "sources": [
+    {
+      "url": "https://sagradafamilia.org/en/-/una-creu-que-arriba-al-cel-de-barcelona",
+      "type": "official construction announcement",
+      "published": "2026-02-20",
+      "claims": [
+        "Jesus exterior complete172.5m",
+        "12faces;12levels from85m to142.5m",
+        "29m pinnacle",
+        "four-armed3D cross17m tall13.5m wide ceramic/glass",
+        "interior works2027–28"
+      ],
+      "usage": "facts and architectural visual reference only"
+    },
+    {
+      "url": "https://sagradafamilia.org/es/-/la-sagrada-familia-avanca-en-la-darrera-fase-de-construccio-del-temple-projectat-per-antoni-gaudi",
+      "type": "official construction update",
+      "published": "2026-09-22",
+      "claims": [
+        "Glory construction continues",
+        "Assumption incomplete;8m tribune stone vault built, exterior sculptures await installation",
+        "Jesus interior scaffold about1year to removal",
+        "Nativity conservation ongoing;Simon tower restoration is future"
+      ],
+      "usage": "Current state, no extrapolated completion"
+    },
+    {
+      "url": "https://sagradafamilia.org/es/-/la-grua-central-de-la-sagrada-familia-inicia-una-nova-etapa-despres-de-completar-l-exterior-de-la-torre-de-jesucrist",
+      "type": "official construction update",
+      "published": "2026-07-24",
+      "claims": [
+        "Central crane lowered to174m",
+        "Jesus brace removed",
+        "Crane now supportsGlory work"
+      ],
+      "usage": "Crane remains, placement and slew angle approximate"
+    },
+    {
+      "url": "https://sagradafamilia.org/en/history-of-the-temple",
+      "type": "official history",
+      "claims": [
+        "Mary138m finished2021",
+        "Evangelists4x135m completed2023",
+        "Jesus blessed2026-06-10"
+      ],
+      "usage": "Heights and state"
+    },
+    {
+      "url": "https://sagradafamilia.org/en/photo-gallery",
+      "type": "official visual references",
+      "capture_date": "Unspecified; explicitly not equated with gallery update timestamp",
+      "files": [
+        "references/exterior/nativity_official.jpg",
+        "references/exterior/passion_pinnacles_official.jpg",
+        "references/exterior/mary_star_official.jpg",
+        "references/exterior/jesus_cross_official.jpg",
+        "references/exterior/construction_official.jpg",
+        "references/exterior/passion_detail_official.jpg",
+        "references/exterior/passion_official.jpg"
+      ],
+      "license": "Copyright Sagrada Familia. Reference-only, no texture or public package inclusion authorized.",
+      "usage": "Tower/cross/mosaic/pediment shape, carvings. Historical construction images not treated as current.",
+      "capture_dates_verified_by_visualQA": {
+        "nativity": "2026-03-25",
+        "passion_detail": "2018-11-21",
+        "passion_front": "2019-12-23",
+        "jesus_cross": "2026-06-10"
+      }
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/File:View_of_Sagrada_Familia_2026.jpg",
+      "type": "firsthand geotagged photo",
+      "capture_date": "2026-08-09T10:25:16",
+      "author": "ほっきー",
+      "license": "CC0 1.0",
+      "claims": [
+        "Completed white cross; no upperJesus exterior platforms",
+        "Central crane tie absent",
+        "Additional apse-side luffing crane present",
+        "Nativity four towers and side nave crowns"
+      ],
+      "usage": "Dated exterior silhouette anchor; Glory partly occluded."
+    },
+    {
+      "url": "https://sagradafamilia.org/documents/20142/1000561/Booklet_10.pdf/d5c2d0df-43ce-b6d2-0b51-103d5718820e",
+      "type": "official booklet shared by visualQA",
+      "claims": [
+        "Nativity12ribs square-to-round",
+        "Passion14ribs rhomboid-to-ellipse",
+        "Evangelists8ribs",
+        "Jesus/Marybase approx18mdiameter"
+      ],
+      "usage": "Architectural construction principles, target shapes; verified by sibling QA"
+    },
+    {
+      "url": "https://www.etsurosotoo.com/en/sotoo",
+      "type": "artist official career chronology",
+      "claims": [
+        "Harpangel1984,bassoon1985,viola1987,guitar1988,dulzainaanddrum1989",
+        "Motherpelicanandchicks1991",
+        "Nativityfirstdoor2014-07-16 and doors complete2015",
+        "Grape mosaic2003,wheatandbread2005model/Eucharist2006"
+      ],
+      "usage": "Individual authorship limited to grounded chronology; no attribution of allNativity sculpture."
+    },
+    {
+      "url": "https://www.capaesculturas.com/en/realized-works/fachada-de-la-natividad-nativity-facade/",
+      "type": "producing foundry project record",
+      "claims": [
+        "SotooNativitydoors:4doors7m bronze12tons2015"
+      ],
+      "usage": "Door dimensions/material/authorship"
+    }
+  ],
+  "geometry_assumptions": [
+    "Coordinate grid/intertower positions photo-derived; not surveyed",
+    "Tower heights anchored but panels details simplified",
+    "No future Glory fourtowers or grandstairs",
+    "Glory construction wall/platform placement is schematic, not documented exact extent",
+    "Assumption unfinishedwall heights/plan schematic;onlytribune8m official",
+    "Apse framing follows internal7chapel contract, individualabutments approximate",
+    "Museum/roof visitoraccess notasserted;Jesusinterior notwalkable",
+    "Second apse-side crane present in dated8/9photo; modeled126m tip approximate; exact configuration can change daily",
+    "Nativity stone portal face projects4.5m beyond initialcontract30mtransect; active portalfront nowy34.5source coordinates",
+    "Photographic relief imagery must not be interpreted as measured sculpture depth",
+    "Sotoo botanical leaf door relief is entirely author-created geometry; arrangement approximated from foundry photograph, four7m panels",
+    "Centralcrane mast54..112m +luffingjib174m;54mroofanchor and174mheightofficial,exactXYandjibangleestimated"
+  ],
+  "sculpture_method": "Seven selected sculpture groups preserve actual source faces/poses using photo-textured hand-masked relief meshes with stone silhouette returns and support ledges. Depth0.45–0.85m and local metric placement are estimated; photographed lighting remains in diffuse textures. Not photogrammetric or complete freestanding sculpture reproduction.",
+  "derived_artwork_assets": [
+    {
+      "id": "Busquets_Nativity_Holy_Family",
+      "source": "artwork_sculpture_nativity_2016.jpg",
+      "cx": 52.5,
+      "y": 38.0,
+      "z": 9.8,
+      "h": 6.8,
+      "depth": 0.85,
+      "sign": 1,
+      "license": "CC BY 2.0",
+      "author": "Richard Mortel",
+      "date": "2016-11-12",
+      "texture": "assets/textures/exterior_sculpture/Busquets_Nativity_Holy_Family.png",
+      "nx": 256,
+      "ny": 296,
+      "width": 5.874739583333334,
+      "reconstruction": "Licensed photograph on a hand-masked curved relief; depth and metric placement are approximations, not photogrammetry.",
+      "original_photo_page": "https://commons.wikimedia.org/wiki/File:Sagrada_Familia%2C_Nativity_facade_%2816%29_%2831153735122%29.jpg",
+      "original_photo_download": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Sagrada_Familia%2C_Nativity_facade_%2816%29_%2831153735122%29.jpg",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "required_attribution": "Richard Mortel / Wikimedia Commons / CC BY 2.0",
+      "adaptation": "Cropped, hand-masked, downsampled photographic texture on estimated-depth relief. Adaptation by project author.",
+      "adaptation_license": "CC BY 2.0",
+      "sha256": "c6c292e28ef551d22a76aeebf37a5e8af8b2069c071178d77e921e67238270af",
+      "mask_refinement": "Blue-sky fringe removed by conservative chroma threshold;1px alphaerosion;256segmenthorizontalgrid for close-up contour",
+      "grid": [
+        256,
+        296
+      ],
+      "method": "Original licensed photograph on a closed hand-masked rounded relief. Front silhouette, source shading and pose retained; depth, hidden sides/back and metric placement estimated, not photogrammetry or complete sculpture survey."
+    },
+    {
+      "id": "Sotoo_Harp_Angel_1984",
+      "source": "artwork_sculpture_angel_harp_2014.jpg",
+      "cx": 59.3,
+      "y": 38.0,
+      "z": 17.7,
+      "h": 7.6,
+      "depth": 0.65,
+      "sign": 1,
+      "license": "CC BY-SA 3.0",
+      "author": "José Luiz Bernardes Ribeiro",
+      "date": "2014-02-11",
+      "texture": "assets/textures/exterior_sculpture/Sotoo_Harp_Angel_1984.png",
+      "nx": 96,
+      "ny": 178,
+      "width": 4.106770833333333,
+      "reconstruction": "Licensed photograph on a hand-masked curved relief; depth and metric placement are approximations, not photogrammetry.",
+      "original_photo_page": "https://commons.wikimedia.org/wiki/File:Angels_-_Nativity_Facade_-_Sagrada_Fam%C3%ADlia_-_Barcelona_2014_%283%29.JPG",
+      "original_photo_download": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Angels_-_Nativity_Facade_-_Sagrada_Fam%C3%ADlia_-_Barcelona_2014_%283%29.JPG",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "required_attribution": "José Luiz Bernardes Ribeiro / Wikimedia Commons / CC BY-SA 3.0",
+      "adaptation": "Cropped, hand-masked, downsampled photographic texture on estimated-depth relief. Adaptation by project author.",
+      "adaptation_license": "CC BY-SA 3.0",
+      "sha256": "c2afce86382f2cf86dc01750180ef3f2f4b5b18730cdff077d61457e5b7dd924",
+      "grid": [
+        96,
+        178
+      ],
+      "method": "Original licensed photograph on a closed hand-masked rounded relief. Front silhouette, source shading and pose retained; depth, hidden sides/back and metric placement estimated, not photogrammetry or complete sculpture survey."
+    },
+    {
+      "id": "Sotoo_Viola_and_Lute_Angels",
+      "source": "artwork_sculpture_angel_mandolin_2016.jpg",
+      "cx": 45.75,
+      "y": 38.0,
+      "z": 17.9,
+      "h": 7.8,
+      "depth": 0.62,
+      "sign": 1,
+      "license": "CC BY 2.0",
+      "author": "Richard Mortel",
+      "date": "2016-11-12",
+      "texture": "assets/textures/exterior_sculpture/Sotoo_Viola_and_Lute_Angels.png",
+      "nx": 96,
+      "ny": 92,
+      "width": 8.098261877172654,
+      "reconstruction": "Licensed photograph on a hand-masked curved relief; depth and metric placement are approximations, not photogrammetry.",
+      "original_photo_page": "https://commons.wikimedia.org/wiki/File:Sagrada_Familia%2C_Nativity_facade_%2818%29_%2830489800873%29.jpg",
+      "original_photo_download": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Sagrada_Familia%2C_Nativity_facade_%2818%29_%2830489800873%29.jpg",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "required_attribution": "Richard Mortel / Wikimedia Commons / CC BY 2.0",
+      "adaptation": "Cropped, hand-masked, downsampled photographic texture on estimated-depth relief. Adaptation by project author.",
+      "adaptation_license": "CC BY 2.0",
+      "sha256": "0fc81346e19615d5b3a37e31402b2be9656e2658975a77f196e85b24b85af856",
+      "grid": [
+        96,
+        92
+      ],
+      "method": "Original licensed photograph on a closed hand-masked rounded relief. Front silhouette, source shading and pose retained; depth, hidden sides/back and metric placement estimated, not photogrammetry or complete sculpture survey."
+    },
+    {
+      "id": "Sotoo_Singing_Children_1999",
+      "source": "artwork_sculpture_choir_2016.jpg",
+      "cx": 52.5,
+      "y": 37.9,
+      "z": 23.0,
+      "h": 5.7,
+      "depth": 0.58,
+      "sign": 1,
+      "license": "CC BY 2.0",
+      "author": "Richard Mortel",
+      "date": "2016-11-12",
+      "texture": "assets/textures/exterior_sculpture/Sotoo_Singing_Children_1999.png",
+      "nx": 96,
+      "ny": 60,
+      "width": 9.169120287253142,
+      "reconstruction": "Licensed photograph on a hand-masked curved relief; depth and metric placement are approximations, not photogrammetry.",
+      "original_photo_page": "https://commons.wikimedia.org/wiki/File:Sagrada_Familia%2C_Nativity_facade_%2815%29_%2831133090922%29.jpg",
+      "original_photo_download": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Sagrada_Familia%2C_Nativity_facade_%2815%29_%2831133090922%29.jpg",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "required_attribution": "Richard Mortel / Wikimedia Commons / CC BY 2.0",
+      "adaptation": "Cropped, hand-masked, downsampled photographic texture on estimated-depth relief. Adaptation by project author.",
+      "adaptation_license": "CC BY 2.0",
+      "sha256": "1c9492cc7d5416f90201306e0a4511ac2516a4bed42767f3bccc3509bec0054e",
+      "grid": [
+        96,
+        60
+      ],
+      "method": "Original licensed photograph on a closed hand-masked rounded relief. Front silhouette, source shading and pose retained; depth, hidden sides/back and metric placement estimated, not photogrammetry or complete sculpture survey."
+    },
+    {
+      "id": "Subirachs_Judas_Kiss_and_Magic_Square",
+      "source": "artwork_sculpture_judas.jpg",
+      "cx": 42.6,
+      "y": -33.7,
+      "z": 3.5,
+      "h": 5.8,
+      "depth": 0.45,
+      "sign": -1,
+      "license": "CC BY 3.0",
+      "author": "Karsten Knöfler",
+      "date": "Source page date retained in metadata",
+      "texture": "assets/textures/exterior_sculpture/Subirachs_Judas_Kiss_and_Magic_Square.png",
+      "nx": 96,
+      "ny": 98,
+      "width": 5.694270833333333,
+      "reconstruction": "Licensed photograph on a hand-masked curved relief; depth and metric placement are approximations, not photogrammetry.",
+      "original_photo_page": "https://commons.wikimedia.org/wiki/File:Der_Judaskuss_und_das_magische_Quadrat_von_Josep_Maria_Subirachs.jpg",
+      "original_photo_download": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Der_Judaskuss_und_das_magische_Quadrat_von_Josep_Maria_Subirachs.jpg",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "required_attribution": "Karsten Knöfler / Wikimedia Commons / CC BY 3.0",
+      "adaptation": "Cropped, hand-masked, downsampled photographic texture on estimated-depth relief. Adaptation by project author.",
+      "adaptation_license": "CC BY 3.0",
+      "sha256": "f5b6bb71d9118edd135061b0ec682082acd231485d5e6d73cb3e66bc4ed8f1db",
+      "grid": [
+        96,
+        98
+      ],
+      "method": "Original licensed photograph on a closed hand-masked rounded relief. Front silhouette, source shading and pose retained; depth, hidden sides/back and metric placement estimated, not photogrammetry or complete sculpture survey."
+    },
+    {
+      "id": "Subirachs_Crucifixion",
+      "source": "artwork_sculpture_crucifixion_2014.jpg",
+      "cx": 52.5,
+      "y": -33.65,
+      "z": 22.1,
+      "h": 7.5,
+      "depth": 0.72,
+      "sign": -1,
+      "license": "CC BY-SA 3.0",
+      "author": "José Luiz Bernardes Ribeiro",
+      "date": "2014-02-11",
+      "texture": "assets/textures/exterior_sculpture/Subirachs_Crucifixion.png",
+      "nx": 96,
+      "ny": 94,
+      "width": 7.671232876712328,
+      "reconstruction": "Licensed photograph on a hand-masked curved relief; depth and metric placement are approximations, not photogrammetry.",
+      "original_photo_page": "https://commons.wikimedia.org/wiki/File:Crucifixion_-_Sagrada_Familia_-_Barcelona_2014.JPG",
+      "original_photo_download": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Crucifixion_-_Sagrada_Familia_-_Barcelona_2014.JPG/960px-Crucifixion_-_Sagrada_Familia_-_Barcelona_2014.JPG",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "required_attribution": "José Luiz Bernardes Ribeiro / Wikimedia Commons / CC BY-SA 3.0",
+      "adaptation": "Cropped, hand-masked, downsampled photographic texture on estimated-depth relief. Adaptation by project author.",
+      "adaptation_license": "CC BY-SA 3.0",
+      "sha256": "e8bcc03364260309155fa3f34b3d192b8aefddd26de60d7fafae4b82aa37d7f9",
+      "grid": [
+        96,
+        94
+      ],
+      "method": "Original licensed photograph on a closed hand-masked rounded relief. Front silhouette, source shading and pose retained; depth, hidden sides/back and metric placement estimated, not photogrammetry or complete sculpture survey."
+    },
+    {
+      "id": "Subirachs_Veronica_and_Soldiers",
+      "source": "artwork_sculpture_veronica_2014.jpg",
+      "cx": 52.5,
+      "y": -33.65,
+      "z": 14.0,
+      "h": 6.0,
+      "depth": 0.6,
+      "sign": -1,
+      "license": "CC BY-SA 3.0",
+      "author": "José Luiz Bernardes Ribeiro",
+      "date": "2014-02-11",
+      "texture": "assets/textures/exterior_sculpture/Subirachs_Veronica_and_Soldiers.png",
+      "nx": 96,
+      "ny": 60,
+      "width": 9.591436217662801,
+      "reconstruction": "Licensed photograph on a hand-masked curved relief; depth and metric placement are approximations, not photogrammetry.",
+      "original_photo_page": "https://commons.wikimedia.org/wiki/File:La_Veronica_-_Sagrada_Familia_-_Barcelona_2014.JPG",
+      "original_photo_download": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/La_Veronica_-_Sagrada_Familia_-_Barcelona_2014.JPG/1920px-La_Veronica_-_Sagrada_Familia_-_Barcelona_2014.JPG",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "required_attribution": "José Luiz Bernardes Ribeiro / Wikimedia Commons / CC BY-SA 3.0",
+      "adaptation": "Cropped, hand-masked, downsampled photographic texture on estimated-depth relief. Adaptation by project author.",
+      "adaptation_license": "CC BY-SA 3.0",
+      "sha256": "29207a6bbd015141355d111202e7c996c1d2b4e8e4c29d3f988c3aae8670d663",
+      "grid": [
+        192,
+        120
+      ],
+      "method": "Original licensed photograph on a closed hand-masked rounded relief. Front silhouette, source shading and pose retained; depth, hidden sides/back and metric placement estimated, not photogrammetry or complete sculpture survey."
+    }
+  ],
+  "artwork_licenses_note": "CC BY attribution and CC BY-SA adaptations remain under their respective source licenses. Complete Commons original URL/license snapshots maintained in docs/ARTWORK_SOURCES.json (or source HTML beside assets/reference by artwork_references owner). Full official gallery photos are REFERENCE ONLY and excluded from distribution.",
+  "current_artwork_texture_bytes": 27813356,
+  "v4_changes": [
+    "Central crane atsource(31,0) supported on central nave roof54m, as officialJuly24statement; no mastbelow54m",
+    "Passionbelfry drums shifted3.8mbehind sculpturestage to make visible deepportico; placementphoto-estimated, towerheightsunchanged",
+    "NativityHolyFamily centralpier+carvedbacking restored; supportsactualcapital visibleinreference; centraldoorwaydividesinto twopassages",
+    "HolyFamily silhouette256widegrid;bluephotographicfringeremoved"
+  ],
+  "v5_changes": [
+    "HolyFamily: restored original unaltered RGB photograph; removed only conservative blue sky connected to polygon exterior and filled enclosed accidental voids. Retained256horizontal sampling.",
+    "All7photo reliefs: closed front/rear shared-edge mesh, thin15cm silhouette rim, subcell smoothed contour and8cell depth taper. No missing edges or boundary pinches in topology validation. Unseen backs remain plain estimated stone; no claim of complete surveyed sculpture.",
+    "Veronica: real open gap between robed male and soldiers hand-traced from original source to remove daylight wedge; originalphoto RGB otherwise retained. Sampling192horizontal.",
+    "HolyFamily separate plain background reduced from10.6m tall triangular panel to silhouette-following7.45m carved support, avoiding a giant blank panel above actualgroup.",
+    "Glory existing weather closure reconstructed from2022-04-30Canaan frontalphoto: rawconcreteflanks, narrowclosedslits, three centralglazedbays, closedtealentrancescreen andconcretecanopy. Broadfuture completedsculptures/fourtowers stillabsent. Newer2024photo onlyconfirms upperglazing; retentionof2022lowerclosure into2026 is explicitly anassumption.",
+    "Centralcrane mastremains54mroofmount; temporarysupportstool connects54mplatform toapproximatefoldedroof46.55m, entirelyabove45mvault. Detailedmemberlayout is interpreted."
+  ],
+  "v5_relief_topology_validation": [
+    {
+      "vertices": 78230,
+      "faces": 78228,
+      "boundary_vertices": 1180,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "id": "Busquets_Nativity_Holy_Family"
+    },
+    {
+      "vertices": 21632,
+      "faces": 21630,
+      "boundary_vertices": 524,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "id": "Sotoo_Harp_Angel_1984"
+    },
+    {
+      "vertices": 12310,
+      "faces": 12308,
+      "boundary_vertices": 422,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "id": "Sotoo_Viola_and_Lute_Angels"
+    },
+    {
+      "vertices": 8664,
+      "faces": 8662,
+      "boundary_vertices": 412,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "id": "Sotoo_Singing_Children_1999"
+    },
+    {
+      "vertices": 12232,
+      "faces": 12230,
+      "boundary_vertices": 364,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "id": "Subirachs_Judas_Kiss_and_Magic_Square"
+    },
+    {
+      "vertices": 7268,
+      "faces": 7266,
+      "boundary_vertices": 518,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "id": "Subirachs_Crucifixion"
+    },
+    {
+      "vertices": 36244,
+      "faces": 36244,
+      "boundary_vertices": 740,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "id": "Subirachs_Veronica_and_Soldiers"
+    }
+  ],
+  "v5_glory_weather_closure_source": {
+    "source_url": "https://commons.wikimedia.org/wiki/File:SF_-_Gloria_(2022).jpg",
+    "local_photo": "assets/reference/artwork_glory_2022_canaan.jpg",
+    "author": "Canaan",
+    "license": "CC BY-SA 4.0",
+    "capture_date": "2022-04-30",
+    "use": "Reference-only, authored geometry; photo not texture",
+    "verified_features": "Continuous concrete lower wall;closed narrow slits;three stacked central facetedgreenishglazingbays;closeddarktealentrancescreen undercurvedconcretecanopy.",
+    "limitation": "Exact2026lowerclosure configuration notphotographicallyconfirmed;2024photo confirmsupperglazedbay only. Dimensions andtemporaryweather-envelope geometry approximate."
+  },
+  "v6_relief_topology_validation": [
+    {
+      "vertices": 78230,
+      "faces": 78228,
+      "boundary_vertices": 1180,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 6684,
+      "photo_front_faces": 30660,
+      "id": "Busquets_Nativity_Holy_Family"
+    },
+    {
+      "vertices": 21632,
+      "faces": 21630,
+      "boundary_vertices": 524,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 1817,
+      "photo_front_faces": 8212,
+      "id": "Sotoo_Harp_Angel_1984"
+    },
+    {
+      "vertices": 12310,
+      "faces": 12308,
+      "boundary_vertices": 422,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 653,
+      "photo_front_faces": 4868,
+      "id": "Sotoo_Viola_and_Lute_Angels"
+    },
+    {
+      "vertices": 8664,
+      "faces": 8662,
+      "boundary_vertices": 412,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 735,
+      "photo_front_faces": 2978,
+      "id": "Sotoo_Singing_Children_1999"
+    },
+    {
+      "vertices": 12232,
+      "faces": 12230,
+      "boundary_vertices": 364,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 943,
+      "photo_front_faces": 4626,
+      "id": "Subirachs_Judas_Kiss_and_Magic_Square"
+    },
+    {
+      "vertices": 7268,
+      "faces": 7266,
+      "boundary_vertices": 518,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 915,
+      "photo_front_faces": 1941,
+      "id": "Subirachs_Crucifixion"
+    },
+    {
+      "vertices": 36244,
+      "faces": 36244,
+      "boundary_vertices": 740,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 2431,
+      "photo_front_faces": 14581,
+      "id": "Subirachs_Veronica_and_Soldiers"
+    }
+  ],
+  "v6_changes": [
+    "Steep authored outer-depth-taper faces (within18cmphysicaloutlineband,capped1.8..8gridcells,and plane-normalalignment<0.88) now use neutralstone rather thanfrontphotoUVs. Originalphoto textureunchanged; interior/front-facingpixels preserved. Backs/rim alreadyneutralstone. Physicaledgewidthavoids erasingthinlimbs inlowerresolutiongroups.",
+    "Removed projecting silhouette-shaped backing board. Replaced withnarrow rounded supportspine recessedbehindcentralfigure andbelowheads. Allunobservedsides remain estimated stone, notmulti-view sculpture reconstruction."
+  ],
+  "v7_relief_topology_validation": [
+    {
+      "vertices": 78230,
+      "faces": 78228,
+      "boundary_vertices": 1180,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 7748,
+      "photo_front_faces": 29596,
+      "id": "Busquets_Nativity_Holy_Family"
+    },
+    {
+      "vertices": 113162,
+      "faces": 113160,
+      "boundary_vertices": 1414,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 9917,
+      "photo_front_faces": 44542,
+      "id": "Sotoo_Harp_Angel_1984"
+    },
+    {
+      "vertices": 83858,
+      "faces": 83856,
+      "boundary_vertices": 1128,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 5728,
+      "photo_front_faces": 34508,
+      "id": "Sotoo_Viola_and_Lute_Angels"
+    },
+    {
+      "vertices": 36680,
+      "faces": 36678,
+      "boundary_vertices": 1162,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 5688,
+      "photo_front_faces": 10908,
+      "id": "Sotoo_Singing_Children_1999"
+    },
+    {
+      "vertices": 12232,
+      "faces": 12230,
+      "boundary_vertices": 364,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 1243,
+      "photo_front_faces": 4326,
+      "id": "Subirachs_Judas_Kiss_and_Magic_Square"
+    },
+    {
+      "vertices": 7268,
+      "faces": 7266,
+      "boundary_vertices": 518,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 1239,
+      "photo_front_faces": 1617,
+      "id": "Subirachs_Crucifixion"
+    },
+    {
+      "vertices": 36244,
+      "faces": 36244,
+      "boundary_vertices": 740,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 2614,
+      "photo_front_faces": 14398,
+      "id": "Subirachs_Veronica_and_Soldiers"
+    }
+  ],
+  "v7_changes": [
+    "Sotoo choir mask follows separate4left/5right child groups andfloralbases. Largephotographedbluewindowpanes excluded; lowerleftwindow opening also traced. SourceRGBunchanged. Separate recessedconsoles replaceonewidehorizontalplank.",
+    "Harp mask followsactualinstrumentcurve, angel anddrapery insteadofrectangularbackground.",
+    "Choir, harp, viola/lute masks tessellatedat256horizontal samples. Other4originalphotoassets preserved.",
+    "Manhattan grid-distance taper replacedbyphysicalEuclidean distance transform;12localdepth-smoothingpasses and14boundarysmoothingpasses reduceedgecorrugation. Neutralstone returns andclosedbacks retained. Geometrydepths unmeasured2.5D interpretation remain explicitlylimited."
+  ],
+  "v7_derived_photo_hashes": {
+    "Busquets_Nativity_Holy_Family": "c6c292e28ef551d22a76aeebf37a5e8af8b2069c071178d77e921e67238270af",
+    "Sotoo_Harp_Angel_1984": "5f75db27a19fdc7dc78e48ca3966db2d66eef41516382b97865e9e7b0d724d2d",
+    "Sotoo_Viola_and_Lute_Angels": "0fc81346e19615d5b3a37e31402b2be9656e2658975a77f196e85b24b85af856",
+    "Sotoo_Singing_Children_1999": "2339ceab9e26de3ca8015e145a2e7a3ae143eecaa81ced65f21571a22802b396",
+    "Subirachs_Judas_Kiss_and_Magic_Square": "f5b6bb71d9118edd135061b0ec682082acd231485d5e6d73cb3e66bc4ed8f1db",
+    "Subirachs_Crucifixion": "e8bcc03364260309155fa3f34b3d192b8aefddd26de60d7fafae4b82aa37d7f9",
+    "Subirachs_Veronica_and_Soldiers": "29207a6bbd015141355d111202e7c996c1d2b4e8e4c29d3f988c3aae8670d663"
+  },
+  "v8_photo_edge_derivatives": [
+    {
+      "id": "Busquets_Nativity_Holy_Family",
+      "source_texture": "assets/textures/exterior_sculpture/Busquets_Nativity_Holy_Family.png",
+      "source_sha256": "c6c292e28ef551d22a76aeebf37a5e8af8b2069c071178d77e921e67238270af",
+      "derivative_texture": "assets/textures/exterior_sculpture/Busquets_Nativity_Holy_Family_edge_blended.png",
+      "derivative_sha256": "385e4fb2d61924a569320ff9b28135ffe2e37ac362c37c749eb66688f6501184",
+      "transition_mask": "assets/textures/exterior_sculpture/Busquets_Nativity_Holy_Family_edge_transition.png",
+      "transition_mask_sha256": "2fca58833c91ecfe39144e4bc260323435389242398865ed54a999a1c71079b8",
+      "stone_tile": "assets/textures/stone_light_base.png",
+      "stone_tile_sha256": "699ab8448f13ccaefda23dbd0dfe1916eb6f27e33779e7cfc0d9e30676ceb462",
+      "method": "v8: baked sRGB diffuse transition to authored stone_light_base.png. Area-weighted geometric vertex-normal alignment smoothstep0.70..0.97 only within outer18cmreturnband; interior beyondband+2gridcells fullyphoto; boundary0photo;0.65gridpixelGaussian+ bicubicupsampling. Allfrontfaces shareoneglTFimage. SourceRGBatweight255 retainedexactly; sourcePNGuntouched.",
+      "fully_preserved_original_pixels": 730549,
+      "plateau_max_rgb_difference": 0,
+      "protected_original_face_ellipses": [],
+      "protected_narrow_figure_core_ellipses": []
+    },
+    {
+      "id": "Sotoo_Harp_Angel_1984",
+      "source_texture": "assets/textures/exterior_sculpture/Sotoo_Harp_Angel_1984.png",
+      "source_sha256": "5f75db27a19fdc7dc78e48ca3966db2d66eef41516382b97865e9e7b0d724d2d",
+      "derivative_texture": "assets/textures/exterior_sculpture/Sotoo_Harp_Angel_1984_edge_blended.png",
+      "derivative_sha256": "1c0e5416f98df75a45df6fe67dfeed679a2ca836b40e9a7715370e0a7557a775",
+      "transition_mask": "assets/textures/exterior_sculpture/Sotoo_Harp_Angel_1984_edge_transition.png",
+      "transition_mask_sha256": "4cc62feeb9b8a20f465bb1b1bb68a000d1bb82ecba4babddbcb1613c5f2679e7",
+      "stone_tile": "assets/textures/stone_light_base.png",
+      "stone_tile_sha256": "699ab8448f13ccaefda23dbd0dfe1916eb6f27e33779e7cfc0d9e30676ceb462",
+      "method": "v8: baked sRGB diffuse transition to authored stone_light_base.png. Area-weighted geometric vertex-normal alignment smoothstep0.70..0.97 only within outer18cmreturnband; interior beyondband+2gridcells fullyphoto; boundary0photo;0.65gridpixelGaussian+ bicubicupsampling. Allfrontfaces shareoneglTFimage. SourceRGBatweight255 retainedexactly; sourcePNGuntouched.",
+      "fully_preserved_original_pixels": 429556,
+      "plateau_max_rgb_difference": 0,
+      "protected_original_face_ellipses": [],
+      "protected_narrow_figure_core_ellipses": []
+    },
+    {
+      "id": "Sotoo_Viola_and_Lute_Angels",
+      "source_texture": "assets/textures/exterior_sculpture/Sotoo_Viola_and_Lute_Angels.png",
+      "source_sha256": "0fc81346e19615d5b3a37e31402b2be9656e2658975a77f196e85b24b85af856",
+      "derivative_texture": "assets/textures/exterior_sculpture/Sotoo_Viola_and_Lute_Angels_edge_blended.png",
+      "derivative_sha256": "b2aae62c8538ad532483d6bbf89c5b03fe63aa98d3a3ac5996cae27ab9982c2a",
+      "transition_mask": "assets/textures/exterior_sculpture/Sotoo_Viola_and_Lute_Angels_edge_transition.png",
+      "transition_mask_sha256": "802873a0425a8d324d3486d1f321ccab7b7c24b7c2c082aff0761513c26aa341",
+      "stone_tile": "assets/textures/stone_light_base.png",
+      "stone_tile_sha256": "699ab8448f13ccaefda23dbd0dfe1916eb6f27e33779e7cfc0d9e30676ceb462",
+      "method": "v8: baked sRGB diffuse transition to authored stone_light_base.png. Area-weighted geometric vertex-normal alignment smoothstep0.70..0.97 only within outer18cmreturnband; interior beyondband+2gridcells fullyphoto; boundary0photo;0.65gridpixelGaussian+ bicubicupsampling. Allfrontfaces shareoneglTFimage. SourceRGBatweight255 retainedexactly; sourcePNGuntouched.",
+      "fully_preserved_original_pixels": 1571655,
+      "plateau_max_rgb_difference": 0,
+      "protected_original_face_ellipses": [],
+      "protected_narrow_figure_core_ellipses": []
+    },
+    {
+      "id": "Sotoo_Singing_Children_1999",
+      "source_texture": "assets/textures/exterior_sculpture/Sotoo_Singing_Children_1999.png",
+      "source_sha256": "2339ceab9e26de3ca8015e145a2e7a3ae143eecaa81ced65f21571a22802b396",
+      "derivative_texture": "assets/textures/exterior_sculpture/Sotoo_Singing_Children_1999_edge_blended.png",
+      "derivative_sha256": "8ae055162829ab1dfe7ab5936bb578dc113265f359e1d5911e501a57ca990c8e",
+      "transition_mask": "assets/textures/exterior_sculpture/Sotoo_Singing_Children_1999_edge_transition.png",
+      "transition_mask_sha256": "c446a587cc8966d2f0e1e60f31e5a203b91f53aefa2cf557f17e33903de5905a",
+      "stone_tile": "assets/textures/stone_light_base.png",
+      "stone_tile_sha256": "699ab8448f13ccaefda23dbd0dfe1916eb6f27e33779e7cfc0d9e30676ceb462",
+      "method": "v8: baked sRGB diffuse transition to authored stone_light_base.png. Area-weighted geometric vertex-normal alignment smoothstep0.70..0.97 only within outer18cmreturnband; interior beyondband+2gridcells fullyphoto; boundary0photo;0.65gridpixelGaussian+ bicubicupsampling. Allfrontfaces shareoneglTFimage. SourceRGBatweight255 retainedexactly; sourcePNGuntouched.",
+      "fully_preserved_original_pixels": 503034,
+      "plateau_max_rgb_difference": 0,
+      "protected_original_face_ellipses": [
+        [
+          0.154,
+          0.219,
+          0.024,
+          0.033
+        ],
+        [
+          0.205,
+          0.442,
+          0.025,
+          0.036
+        ],
+        [
+          0.334,
+          0.35,
+          0.023,
+          0.036
+        ],
+        [
+          0.321,
+          0.531,
+          0.026,
+          0.043
+        ],
+        [
+          0.813,
+          0.196,
+          0.026,
+          0.044
+        ],
+        [
+          0.849,
+          0.198,
+          0.027,
+          0.04
+        ],
+        [
+          0.628,
+          0.473,
+          0.02,
+          0.035
+        ],
+        [
+          0.678,
+          0.432,
+          0.032,
+          0.041
+        ],
+        [
+          0.669,
+          0.527,
+          0.025,
+          0.042
+        ]
+      ],
+      "protected_narrow_figure_core_ellipses": [
+        [
+          0.151,
+          0.337,
+          0.033,
+          0.136
+        ],
+        [
+          0.333,
+          0.453,
+          0.03,
+          0.113
+        ],
+        [
+          0.813,
+          0.35,
+          0.027,
+          0.165
+        ],
+        [
+          0.859,
+          0.346,
+          0.029,
+          0.16
+        ]
+      ]
+    },
+    {
+      "id": "Subirachs_Judas_Kiss_and_Magic_Square",
+      "source_texture": "assets/textures/exterior_sculpture/Subirachs_Judas_Kiss_and_Magic_Square.png",
+      "source_sha256": "f5b6bb71d9118edd135061b0ec682082acd231485d5e6d73cb3e66bc4ed8f1db",
+      "derivative_texture": "assets/textures/exterior_sculpture/Subirachs_Judas_Kiss_and_Magic_Square_edge_blended.png",
+      "derivative_sha256": "3874fa1cb4a85a21badbdc16a46379aa087d611eb7e72c9ca2faa2ae81cb89e4",
+      "transition_mask": "assets/textures/exterior_sculpture/Subirachs_Judas_Kiss_and_Magic_Square_edge_transition.png",
+      "transition_mask_sha256": "10a29414bf91c34f0e3626511d38a14fa36df9e3ca48e2c9d11a8ecc1b3569f3",
+      "stone_tile": "assets/textures/stone_light_base.png",
+      "stone_tile_sha256": "699ab8448f13ccaefda23dbd0dfe1916eb6f27e33779e7cfc0d9e30676ceb462",
+      "method": "v8: baked sRGB diffuse transition to authored stone_light_base.png. Area-weighted geometric vertex-normal alignment smoothstep0.70..0.97 only within outer18cmreturnband; interior beyondband+2gridcells fullyphoto; boundary0photo;0.65gridpixelGaussian+ bicubicupsampling. Allfrontfaces shareoneglTFimage. SourceRGBatweight255 retainedexactly; sourcePNGuntouched.",
+      "fully_preserved_original_pixels": 902037,
+      "plateau_max_rgb_difference": 0,
+      "protected_original_face_ellipses": [],
+      "protected_narrow_figure_core_ellipses": []
+    },
+    {
+      "id": "Subirachs_Crucifixion",
+      "source_texture": "assets/textures/exterior_sculpture/Subirachs_Crucifixion.png",
+      "source_sha256": "e8bcc03364260309155fa3f34b3d192b8aefddd26de60d7fafae4b82aa37d7f9",
+      "derivative_texture": "assets/textures/exterior_sculpture/Subirachs_Crucifixion_edge_blended.png",
+      "derivative_sha256": "1855850bdd5019f372f9c04a0518e67621ece5c0f08b05ffaaa7e2be433fe1fd",
+      "transition_mask": "assets/textures/exterior_sculpture/Subirachs_Crucifixion_edge_transition.png",
+      "transition_mask_sha256": "7a016be94345016a30a0370d3b95f87546add53669215ba7b0d6dc1a62c97c8e",
+      "stone_tile": "assets/textures/stone_light_base.png",
+      "stone_tile_sha256": "699ab8448f13ccaefda23dbd0dfe1916eb6f27e33779e7cfc0d9e30676ceb462",
+      "method": "v8: baked sRGB diffuse transition to authored stone_light_base.png. Area-weighted geometric vertex-normal alignment smoothstep0.70..0.97 only within outer18cmreturnband; interior beyondband+2gridcells fullyphoto; boundary0photo;0.65gridpixelGaussian+ bicubicupsampling. Allfrontfaces shareoneglTFimage. SourceRGBatweight255 retainedexactly; sourcePNGuntouched.",
+      "fully_preserved_original_pixels": 274288,
+      "plateau_max_rgb_difference": 0,
+      "protected_original_face_ellipses": [],
+      "protected_narrow_figure_core_ellipses": []
+    },
+    {
+      "id": "Subirachs_Veronica_and_Soldiers",
+      "source_texture": "assets/textures/exterior_sculpture/Subirachs_Veronica_and_Soldiers.png",
+      "source_sha256": "29207a6bbd015141355d111202e7c996c1d2b4e8e4c29d3f988c3aae8670d663",
+      "derivative_texture": "assets/textures/exterior_sculpture/Subirachs_Veronica_and_Soldiers_edge_blended.png",
+      "derivative_sha256": "51f3a5cbf0ef94f6e53be0d843206d351816874f9821bbeb9896c85b0622196f",
+      "transition_mask": "assets/textures/exterior_sculpture/Subirachs_Veronica_and_Soldiers_edge_transition.png",
+      "transition_mask_sha256": "2ca1bd719e81f80b34f813dc7737fcd1f0a7539d86b1f61a15ff645ada48a070",
+      "stone_tile": "assets/textures/stone_light_base.png",
+      "stone_tile_sha256": "699ab8448f13ccaefda23dbd0dfe1916eb6f27e33779e7cfc0d9e30676ceb462",
+      "method": "v8: baked sRGB diffuse transition to authored stone_light_base.png. Area-weighted geometric vertex-normal alignment smoothstep0.70..0.97 only within outer18cmreturnband; interior beyondband+2gridcells fullyphoto; boundary0photo;0.65gridpixelGaussian+ bicubicupsampling. Allfrontfaces shareoneglTFimage. SourceRGBatweight255 retainedexactly; sourcePNGuntouched.",
+      "fully_preserved_original_pixels": 1099628,
+      "plateau_max_rgb_difference": 0,
+      "protected_original_face_ellipses": [],
+      "protected_narrow_figure_core_ellipses": []
+    }
+  ],
+  "v8_relief_topology_validation": [
+    {
+      "vertices": 78230,
+      "faces": 78228,
+      "boundary_vertices": 1180,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 0,
+      "estimated_return_faces": 7748,
+      "photo_front_faces": 37344,
+      "smooth_baked_edge_transition": true,
+      "id": "Busquets_Nativity_Holy_Family"
+    },
+    {
+      "vertices": 113162,
+      "faces": 113160,
+      "boundary_vertices": 1414,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 0,
+      "estimated_return_faces": 9917,
+      "photo_front_faces": 54459,
+      "smooth_baked_edge_transition": true,
+      "id": "Sotoo_Harp_Angel_1984"
+    },
+    {
+      "vertices": 83858,
+      "faces": 83856,
+      "boundary_vertices": 1128,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 0,
+      "estimated_return_faces": 5728,
+      "photo_front_faces": 40236,
+      "smooth_baked_edge_transition": true,
+      "id": "Sotoo_Viola_and_Lute_Angels"
+    },
+    {
+      "vertices": 36680,
+      "faces": 36678,
+      "boundary_vertices": 1162,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 0,
+      "estimated_return_faces": 5688,
+      "photo_front_faces": 16596,
+      "smooth_baked_edge_transition": true,
+      "id": "Sotoo_Singing_Children_1999"
+    },
+    {
+      "vertices": 12232,
+      "faces": 12230,
+      "boundary_vertices": 364,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 0,
+      "estimated_return_faces": 1243,
+      "photo_front_faces": 5569,
+      "smooth_baked_edge_transition": true,
+      "id": "Subirachs_Judas_Kiss_and_Magic_Square"
+    },
+    {
+      "vertices": 7268,
+      "faces": 7266,
+      "boundary_vertices": 518,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 0,
+      "estimated_return_faces": 1239,
+      "photo_front_faces": 2856,
+      "smooth_baked_edge_transition": true,
+      "id": "Subirachs_Crucifixion"
+    },
+    {
+      "vertices": 36244,
+      "faces": 36244,
+      "boundary_vertices": 740,
+      "non_closed_edges": 0,
+      "boundary_pinches": 0,
+      "neutral_front_returns": 0,
+      "estimated_return_faces": 2614,
+      "photo_front_faces": 17012,
+      "smooth_baked_edge_transition": true,
+      "id": "Subirachs_Veronica_and_Soldiers"
+    }
+  ],
+  "v8_changes": [
+    "V7geometryandmaskfieldpreserved. Binaryfrontphoto/stonematerialassignment replacedbyonebaked diffuseimagewithsmoothUVedgecolourtransition; standardimage→PrincipledsupportsidenticalBlender/glTFbehaviour. SourcePNGsretainedandhashed; derivativeandtransitionmask savedseparately.",
+    "Fullphoto plateau retains originalsourceRGBexactly(verifiedpixelcomparison). Steepouterreturns becomeauthoredstone; hiddenback/rimremainplainstone. Underlyingphotoreliefisstilllimited2.5D reconstruction.",
+    "Nine choir face cores and four narrow standing-figure robe cores preserve original photographed detail through explicit source-coordinate ellipse masks. Outside these protected cores the edge transition remains gradual. No generated faces, repainting, recolouring of preserved pixels or geometry changes. Seven original PNG hashes verified unchanged from V7."
+  ],
+  "v8_actual_render_texture_bytes": 17045590,
+  "v9_changes": [
+    "Material routing limited to apostle_tower(old=True): four Nativity apostles; and nativity(): historic organic portal/gable mass. Keys nativity_stone and nativity_stone_detail defined in materials.py. Passion, central/new towers, nave roof, glass, mosaics, bronze and all photographic relief materials remain unchanged.",
+    "Relative warmer/darker Nativity stone appearance follows2026-08-09 dated exterior photograph. Texture patina is original procedural approximation, not a colourimetric survey or damage/conservation assessment. Existing facade stone has varied repairs; this is a restrained visual material grouping.",
+    "Faceted ellipsoid bead chains beside reliefs replaced with continuous smooth stems and individually curled lobed leaf surfaces; shallow embedded smooth knots replace scattered angular boulders. Leaves remain authored approximations of organic facade carving, with no claim to reproduce an identified sculptor artwork or botanically exact species.",
+    "Same existing three gable envelopes, portal openings, four tower geometry/radii/heights; no central-tower or unfinished-state changes. V8 sculpture source and derivative PNG hashes verified unchanged."
+  ],
+  "v9_carved_leaf_mesh_validation": {
+    "vertices_per_leaf": 90,
+    "faces_per_leaf": 88,
+    "non_closed_edges": 0,
+    "finite_coordinates": true,
+    "smooth_shading": "Only Nativity foliage/knots batch"
+  },
+  "portal_weather_backing_fix": {
+    "method": "CPU AABB/plane proof using exact generated box parameters; final Blender scene ray audit still required after integration",
+    "boxes_source_frame": [
+      {
+        "name": "Nativity_inner_weather_backing_above_entrance_clearance",
+        "center": [
+          52.5,
+          29.85,
+          20.25
+        ],
+        "size": [
+          30.0,
+          0.8,
+          20.5
+        ]
+      },
+      {
+        "name": "Passion_inner_weather_backing_above_entrance_clearance",
+        "center": [
+          52.5,
+          -29.85,
+          20.25
+        ],
+        "size": [
+          30.0,
+          0.8,
+          20.5
+        ]
+      }
+    ],
+    "formerly_missed_rays": [
+      {
+        "pixel": [
+          705,
+          610
+        ],
+        "original_no_hit_to_m": 600,
+        "predicted_hit_object": "Nativity_inner_weather_backing_above_entrance_clearance",
+        "distance_m": 25.47257949195049,
+        "predicted_world_hit": [
+          48.0400842545188,
+          -29.450000000000003,
+          19.21943023841065
+        ]
+      },
+      {
+        "pixel": [
+          710,
+          590
+        ],
+        "original_no_hit_to_m": 600,
+        "predicted_hit_object": "Nativity_inner_weather_backing_above_entrance_clearance",
+        "distance_m": 25.464967060909384,
+        "predicted_world_hit": [
+          47.94841317203567,
+          -29.450000000000003,
+          19.543294101312537
+        ]
+      }
+    ],
+    "entrance_clearance_m": 10,
+    "ground_routes_and_existing_colliders_changed": false,
+    "source_photo_context": [
+      "assets/reference/qa_nativity_front.jpg",
+      "assets/reference/qa_passion_front.jpg"
+    ],
+    "evidence_limits": "Facade photographs show enclosed sculptural masonry backing. They do not establish exact inner-wall height/layout or hidden windows. This plain recessed weather layer and its dimensions are an explicit reconstruction inference, not new claimed ornament or measured survey.",
+    "collider_validation": {
+      "count": 2,
+      "exact_geometry_bounds_match": true,
+      "minimum_z_m": 10,
+      "maximum_z_m": 30.5,
+      "ground_entrance_clearance_preserved": true,
+      "runtime_path": "Normal walking StaticBody3D boxes only. Existing inspection-flight noclip behavior is preserved; no additional camera or flight restriction.",
+      "inspection_flight_noclip_preserved": true
+    },
+    "added_colliders_source_frame": [
+      {
+        "type": "box",
+        "name": "Nativity_inner_weather_backing_above_entrance_clearance",
+        "center": [
+          52.5,
+          29.85,
+          20.25
+        ],
+        "size": [
+          30.0,
+          0.8,
+          20.5
+        ],
+        "walkable_floor": false
+      },
+      {
+        "type": "box",
+        "name": "Passion_inner_weather_backing_above_entrance_clearance",
+        "center": [
+          52.5,
+          -29.85,
+          20.25
+        ],
+        "size": [
+          30.0,
+          0.8,
+          20.5
+        ],
+        "walkable_floor": false
+      }
+    ]
+  },
+  "nativity_render_harmonization": {
+    "report": "docs/NATIVITY_RENDER_GRADE.json",
+    "comparison": "docs/NATIVITY_RENDER_GRADE_comparison.jpg",
+    "source_and_previous_derivatives_unchanged": true,
+    "records": [
+      {
+        "id": "Busquets_Nativity_Holy_Family",
+        "author": "Richard Mortel",
+        "license": "CC BY 2.0",
+        "capture_date": "2016-11-12",
+        "original_photo": "assets/reference/artwork_sculpture_nativity_2016.jpg",
+        "original_photo_sha256": "eeacd7a710cae5297bff8076a21d37574de7b57d2ad5aa94da84565848a35145",
+        "masked_source_png": "assets/textures/exterior_sculpture/Busquets_Nativity_Holy_Family.png",
+        "masked_source_sha256": "c6c292e28ef551d22a76aeebf37a5e8af8b2069c071178d77e921e67238270af",
+        "previous_v8_render_png": "assets/textures/exterior_sculpture/Busquets_Nativity_Holy_Family_edge_blended.png",
+        "previous_v8_render_sha256": "385e4fb2d61924a569320ff9b28135ffe2e37ac362c37c749eb66688f6501184",
+        "output_render_png": "assets/textures/exterior_sculpture/Busquets_Nativity_Holy_Family_nativity_warm_render.png",
+        "output_sha256": "88a2737024decba0acf7e28ef59735fb11e1aff12c839102a6eb814d6f57385f",
+        "dimensions": [
+          1327,
+          1536
+        ],
+        "white_balance_gains_srgb": [
+          1.04,
+          0.997,
+          0.925
+        ],
+        "brightness_gain_srgb": 0.94,
+        "net_channel_gains_srgb": [
+          0.9776,
+          0.9371799999999999,
+          0.8694999999999999
+        ],
+        "channel_transform": "round(source_8bit_sRGB * net_channel_gain), clamped to 0..255; no resampling, blur, sharpening or painted detail",
+        "transition_mask": "assets/textures/exterior_sculpture/Busquets_Nativity_Holy_Family_edge_transition.png",
+        "transition_mask_sha256": "2fca58833c91ecfe39144e4bc260323435389242398865ed54a999a1c71079b8",
+        "transition_method": "Unchanged V8 smooth UV edge mask, including protected choir faces/robes; composite(graded source, stone tile, mask). No alpha or mesh changes.",
+        "neutral_return_texture": "assets/textures/nativity_stone_detail_base.png",
+        "neutral_return_texture_sha256": "9742cd1a0e681b3dc731b0bdd6a25f9a182f5d86c6ad675b6e4321feb77e4105",
+        "neutral_return_material": "nativity_stone_detail",
+        "core_pixels_verified_equal_to_exact_lut": 730549,
+        "alpha_byte_identical": true,
+        "limitation": "Photograph-derived 2.5D relief; estimated shallow depth and neutral unseen returns. Grade is restrained scene harmonization, not measured artwork albedo."
+      },
+      {
+        "id": "Sotoo_Harp_Angel_1984",
+        "author": "José Luiz Bernardes Ribeiro",
+        "license": "CC BY-SA 3.0",
+        "capture_date": "2014-02-11",
+        "original_photo": "assets/reference/artwork_sculpture_angel_harp_2014.jpg",
+        "original_photo_sha256": "d2a55a0b3eeda32b44958b8ee0fed5a53b960720f9a74c072f23b3221df95cfd",
+        "masked_source_png": "assets/textures/exterior_sculpture/Sotoo_Harp_Angel_1984.png",
+        "masked_source_sha256": "5f75db27a19fdc7dc78e48ca3966db2d66eef41516382b97865e9e7b0d724d2d",
+        "previous_v8_render_png": "assets/textures/exterior_sculpture/Sotoo_Harp_Angel_1984_edge_blended.png",
+        "previous_v8_render_sha256": "1c0e5416f98df75a45df6fe67dfeed679a2ca836b40e9a7715370e0a7557a775",
+        "output_render_png": "assets/textures/exterior_sculpture/Sotoo_Harp_Angel_1984_nativity_warm_render.png",
+        "output_sha256": "3aa883f470ad951ff39107ccece908451c41761f6882ce3e77aa0f2ed9defec0",
+        "dimensions": [
+          830,
+          1536
+        ],
+        "white_balance_gains_srgb": [
+          1.025,
+          1.005,
+          0.955
+        ],
+        "brightness_gain_srgb": 0.96,
+        "net_channel_gains_srgb": [
+          0.9839999999999999,
+          0.9647999999999999,
+          0.9168
+        ],
+        "channel_transform": "round(source_8bit_sRGB * net_channel_gain), clamped to 0..255; no resampling, blur, sharpening or painted detail",
+        "transition_mask": "assets/textures/exterior_sculpture/Sotoo_Harp_Angel_1984_edge_transition.png",
+        "transition_mask_sha256": "4cc62feeb9b8a20f465bb1b1bb68a000d1bb82ecba4babddbcb1613c5f2679e7",
+        "transition_method": "Unchanged V8 smooth UV edge mask, including protected choir faces/robes; composite(graded source, stone tile, mask). No alpha or mesh changes.",
+        "neutral_return_texture": "assets/textures/nativity_stone_detail_base.png",
+        "neutral_return_texture_sha256": "9742cd1a0e681b3dc731b0bdd6a25f9a182f5d86c6ad675b6e4321feb77e4105",
+        "neutral_return_material": "nativity_stone_detail",
+        "core_pixels_verified_equal_to_exact_lut": 429556,
+        "alpha_byte_identical": true,
+        "limitation": "Photograph-derived 2.5D relief; estimated shallow depth and neutral unseen returns. Grade is restrained scene harmonization, not measured artwork albedo."
+      },
+      {
+        "id": "Sotoo_Viola_and_Lute_Angels",
+        "author": "Richard Mortel",
+        "license": "CC BY 2.0",
+        "capture_date": "2016-11-12",
+        "original_photo": "assets/reference/artwork_sculpture_angel_mandolin_2016.jpg",
+        "original_photo_sha256": "d7803da295733c9b2197cde34053f7b3b5f1a2603ca0de0bafa19ef9fca8ff2c",
+        "masked_source_png": "assets/textures/exterior_sculpture/Sotoo_Viola_and_Lute_Angels.png",
+        "masked_source_sha256": "0fc81346e19615d5b3a37e31402b2be9656e2658975a77f196e85b24b85af856",
+        "previous_v8_render_png": "assets/textures/exterior_sculpture/Sotoo_Viola_and_Lute_Angels_edge_blended.png",
+        "previous_v8_render_sha256": "b2aae62c8538ad532483d6bbf89c5b03fe63aa98d3a3ac5996cae27ab9982c2a",
+        "output_render_png": "assets/textures/exterior_sculpture/Sotoo_Viola_and_Lute_Angels_nativity_warm_render.png",
+        "output_sha256": "51879ca8e7e544efcb03d803a194b12496b58f54b7139e41ad73b852eaa18824",
+        "dimensions": [
+          1792,
+          1726
+        ],
+        "white_balance_gains_srgb": [
+          1.025,
+          1.005,
+          0.955
+        ],
+        "brightness_gain_srgb": 0.96,
+        "net_channel_gains_srgb": [
+          0.9839999999999999,
+          0.9647999999999999,
+          0.9168
+        ],
+        "channel_transform": "round(source_8bit_sRGB * net_channel_gain), clamped to 0..255; no resampling, blur, sharpening or painted detail",
+        "transition_mask": "assets/textures/exterior_sculpture/Sotoo_Viola_and_Lute_Angels_edge_transition.png",
+        "transition_mask_sha256": "802873a0425a8d324d3486d1f321ccab7b7c24b7c2c082aff0761513c26aa341",
+        "transition_method": "Unchanged V8 smooth UV edge mask, including protected choir faces/robes; composite(graded source, stone tile, mask). No alpha or mesh changes.",
+        "neutral_return_texture": "assets/textures/nativity_stone_detail_base.png",
+        "neutral_return_texture_sha256": "9742cd1a0e681b3dc731b0bdd6a25f9a182f5d86c6ad675b6e4321feb77e4105",
+        "neutral_return_material": "nativity_stone_detail",
+        "core_pixels_verified_equal_to_exact_lut": 1571655,
+        "alpha_byte_identical": true,
+        "limitation": "Photograph-derived 2.5D relief; estimated shallow depth and neutral unseen returns. Grade is restrained scene harmonization, not measured artwork albedo."
+      },
+      {
+        "id": "Sotoo_Singing_Children_1999",
+        "author": "Richard Mortel",
+        "license": "CC BY 2.0",
+        "capture_date": "2016-11-12",
+        "original_photo": "assets/reference/artwork_sculpture_choir_2016.jpg",
+        "original_photo_sha256": "81a463f74225ebd43b3ec3248eb68e24af8ab5ca77ce17f11c7c5a0a9188582a",
+        "masked_source_png": "assets/textures/exterior_sculpture/Sotoo_Singing_Children_1999.png",
+        "masked_source_sha256": "2339ceab9e26de3ca8015e145a2e7a3ae143eecaa81ced65f21571a22802b396",
+        "previous_v8_render_png": "assets/textures/exterior_sculpture/Sotoo_Singing_Children_1999_edge_blended.png",
+        "previous_v8_render_sha256": "8ae055162829ab1dfe7ab5936bb578dc113265f359e1d5911e501a57ca990c8e",
+        "output_render_png": "assets/textures/exterior_sculpture/Sotoo_Singing_Children_1999_nativity_warm_render.png",
+        "output_sha256": "2cff7e2eca8e0030d65eb546d0d9c5ff6e7611f8323473f6d2470264292915be",
+        "dimensions": [
+          1792,
+          1114
+        ],
+        "white_balance_gains_srgb": [
+          1.025,
+          1.005,
+          0.955
+        ],
+        "brightness_gain_srgb": 0.96,
+        "net_channel_gains_srgb": [
+          0.9839999999999999,
+          0.9647999999999999,
+          0.9168
+        ],
+        "channel_transform": "round(source_8bit_sRGB * net_channel_gain), clamped to 0..255; no resampling, blur, sharpening or painted detail",
+        "transition_mask": "assets/textures/exterior_sculpture/Sotoo_Singing_Children_1999_edge_transition.png",
+        "transition_mask_sha256": "c446a587cc8966d2f0e1e60f31e5a203b91f53aefa2cf557f17e33903de5905a",
+        "transition_method": "Unchanged V8 smooth UV edge mask, including protected choir faces/robes; composite(graded source, stone tile, mask). No alpha or mesh changes.",
+        "neutral_return_texture": "assets/textures/nativity_stone_detail_base.png",
+        "neutral_return_texture_sha256": "9742cd1a0e681b3dc731b0bdd6a25f9a182f5d86c6ad675b6e4321feb77e4105",
+        "neutral_return_material": "nativity_stone_detail",
+        "core_pixels_verified_equal_to_exact_lut": 503034,
+        "alpha_byte_identical": true,
+        "limitation": "Photograph-derived 2.5D relief; estimated shallow depth and neutral unseen returns. Grade is restrained scene harmonization, not measured artwork albedo."
+      }
+    ],
+    "scope_limit": "Four Nativity photo relief render textures and their neutral return material only. Passion, stained glass, source photographs, masked source PNGs, V8 textures/masks, and geometry unchanged."
+  }
+}

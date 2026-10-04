@@ -1,0 +1,6 @@
+# Optional CPU texture preparation and font subsetting, outside Blender.
+numpy>=1.26,<3
+Pillow>=10,<13
+scipy>=1.11,<2
+fonttools[woff]>=4.47,<5
+Brotli>=1,<2
