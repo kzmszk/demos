@@ -58,7 +58,11 @@ def dead_bridges(world, bridges, blockers, passages, hero_walk):
     for k, br in enumerate(bridges):
         a = np.array(br['a']); d = np.array(br['d']); n = np.array([-d[1], d[0]]); s_lo, _, _, s_hi = br['s']; ti = br['ti']
         for (s, sg) in ((s_lo, -1.0), (s_hi, 1.0)):
-            if not any(walkable(a + d * (s + sg * 0.8) + n * t, k) for t in (-ti * 0.5, 0.0, ti * 0.5)):
+            ahead = [a + d * (s + sg * 0.8) + n * t for t in (-ti * 0.5, 0.0, ti * 0.5)]
+            # most bridges land on a fondamenta along a wall and are left sideways (Pugni, Frari, San Trovaso...):
+            # walkable ground just past the parapets at the foot opens the bridge too
+            side = [a + d * (s - sg * f) + n * (sd * (ti + 0.7)) for f in (0.3, 1.0) for sd in (-1.0, 1.0)]
+            if not any(walkable(p, k) for p in ahead + side):
                 out.add(k); break
     return out
 
@@ -110,6 +114,13 @@ def raster(world, R, buildings, passages, bridges, hero_walk=()):
         _fill(d2, poly.intersection(R), R, 255, S)
         m = np.array(img) > 0
         if isinstance(z, dict):            # ramp: z interpolated along a direction from a profile
+            # a lane drawn over its own blocked footprint can leave a staircase of blocked pixels where the two
+            # outlines meet at a slant (the Scalzi and the Costituzione stopped walkers there): blocked pixels
+            # touching the lane take the ramp height too
+            g = m.copy()
+            g[1:, :] |= m[:-1, :]; g[:-1, :] |= m[1:, :]; g[:, 1:] |= m[:, :-1]; g[:, :-1] |= m[:, 1:]
+            g[1:, 1:] |= m[:-1, :-1]; g[:-1, :-1] |= m[1:, 1:]; g[1:, :-1] |= m[:-1, 1:]; g[:-1, 1:] |= m[1:, :-1]
+            m = m | (g & (W == 0))
             a = np.array(z['a']); d = np.array(z['d']); pr = np.array(z['prof'], float)
             sv = (px[m] - a[0]) * d[0] + (py[m] - a[1]) * d[1]
             zz = np.interp(sv, pr[:, 0], pr[:, 1])

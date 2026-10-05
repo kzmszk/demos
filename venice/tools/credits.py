@@ -82,6 +82,7 @@ LICENSE_URLS = {
     'LGPL-3.0': 'https://www.gnu.org/licenses/lgpl-3.0.html',
     'MIT-CMU': 'https://github.com/python-pillow/Pillow/blob/main/LICENSE',
     'ODbL': 'https://opendatacommons.org/licenses/odbl/1-0/',
+    'OFL-1.1': 'https://openfontlicense.org/open-font-license-official-text/',
 }
 SOURCE_URLS = {'Poly Haven': 'https://polyhaven.com', 'ambientCG': 'https://ambientcg.com'}
 # software:  ([(name, url), ...], JA use, EN use, [licences])   (versions: tools/package.json and the venv)
@@ -89,11 +90,13 @@ SOFTWARE_PAGE = [
     ([('three.js', 'https://threejs.org')], '3Dエンジン（WebGPU 描画、シェーダー、影、後処理）', '3D engine: WebGPU rendering, shaders, shadows, post-processing', ['MIT']),
     ([('meshoptimizer', 'https://github.com/zeux/meshoptimizer')], 'メッシュの圧縮と展開', 'Mesh compression and decoding', ['MIT']),
     ([('Basis Universal', 'https://github.com/BinomialLLC/basis_universal')], 'テクスチャ（KTX2）のトランスコーダー', 'Texture (KTX2) transcoder', ['Apache-2.0']),
+    ([('Liberation Sans', 'https://github.com/liberationfonts/liberation-fonts')], 'サンタ・ルチア駅の「FERROVIE DELLO STATO」の文字（Bold の字形を立体にしたもの）', 'The letters FERROVIE DELLO STATO on Santa Lucia station (Bold glyph outlines, extruded)', ['OFL-1.1']),
 ]
 SOFTWARE_BUILD = [
     ([('Blender', 'https://www.blender.org')], '光の焼き込み（Cycles。頂点ごとの間接光）', 'Light baking (Cycles, per-vertex indirect light)', ['GPL']),
     ([('KTX-Software', 'https://github.com/KhronosGroup/KTX-Software')], 'KTX2 テクスチャの書き出し', 'KTX2 texture packing', ['Apache-2.0']),
     ([('esbuild', 'https://esbuild.github.io')], 'スクリプトのバンドル', 'Script bundling', ['MIT']),
+    ([('fontTools', 'https://github.com/fonttools/fonttools')], '字形の輪郭の取り出し', 'Glyph outline extraction', ['MIT']),
     ([('shapely', 'https://shapely.readthedocs.io'), ('NumPy', 'https://numpy.org'), ('SciPy', 'https://scipy.org')], '形状と数値の処理', 'Geometry and numerics', ['BSD-3-Clause']),
     ([('triangle', 'https://rufat.be/triangle')], '三角形分割（Shewchuk の Triangle の Python バインディング）', 'Triangulation (Python bindings to Shewchuk’s Triangle)', ['LGPL-3.0']),
     ([('mapbox_earcut', 'https://github.com/skogler/mapbox_earcut_python')], 'ポリゴンの三角形分割', 'Polygon triangulation', ['ISC']),

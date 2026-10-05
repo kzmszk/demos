@@ -64,6 +64,10 @@ def material_attr():
     return m
 
 def mesh_obj(name, P, I, N, alb, mat, emi=None):
+    # triangles with a repeated corner (slivers welded shut) and zero-length normals make normals_split_custom_set
+    # segfault (t_19_11, a vaporetto stop); they draw nothing anyway, and the bake is per vertex
+    I = I[(I[:, 0] != I[:, 1]) & (I[:, 1] != I[:, 2]) & (I[:, 0] != I[:, 2])]
+    N = np.array(N, np.float32); N[np.linalg.norm(N, axis=1) < 1e-6] = (0.0, 0.0, 1.0)
     me = bpy.data.meshes.new(name)
     nv = len(P); nt = len(I)
     me.vertices.add(nv); me.vertices.foreach_set('co', P.astype(np.float32).ravel())

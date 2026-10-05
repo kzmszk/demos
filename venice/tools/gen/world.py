@@ -91,9 +91,12 @@ class World:
                 for q in polys_of(g):
                     if q.area > 1.5: self.buildings.append(Building(f'r{rid}', t, q))
         for b in self.buildings: _height(b)
-        # piers with roofs (vaporetto stops) are props, not buildings
+        # piers are not buildings; the floating ones, and the stops and ships drawn as buildings in the water, become
+        # pontoons with cabins and gangways, and boats (pontoons.py)
         self.piers = [b for b in self.buildings if b.tags.get('man_made') == 'pier']
         self.buildings = [b for b in self.buildings if b.tags.get('man_made') != 'pier']
+        from . import pontoons
+        self.stops, self.ships = pontoons.collect(self)
         # OSM 3D parts replace (or extend) the buildings they belong to
         self.btree = STRtree([b.poly for b in self.buildings])
         from . import parts

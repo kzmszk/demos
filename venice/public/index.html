@@ -10,8 +10,10 @@
     --sans: "Helvetica Neue", "Helvetica", "Arial", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; }
   html, body { margin: 0; height: 100%; background: #0d0f12; overflow: hidden; }
   #c { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
-  #load { position: fixed; left: 24px; bottom: 20px; color: var(--dim); font: 12px/1.4 var(--sans); letter-spacing: .04em; z-index: 5; }
-  .nogpu { position: fixed; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 max(16px, 8vw); color: var(--ink); font: 15px/1.7 var(--sans); z-index: 6; }
+  /* the veil covers the canvas until the first view is ready (its tiles and shaders), then lifts */
+  #veil { position: fixed; inset: 0; background: #0d0f12; z-index: 3; transition: opacity 1.4s ease; }
+  #veil.off { opacity: 0; pointer-events: none; }
+  .nogpu { position: fixed; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 max(16px, 8vw); color: var(--ink); background: #0d0f12; font: 15px/1.7 var(--sans); z-index: 20; }
   .nogpu b { font-size: clamp(48px, 14vw, 180px); line-height: .9; letter-spacing: -.02em; margin-bottom: 28px; font-weight: 700; }
   .nogpu p { margin: 0 0 6px; max-width: 46em; color: var(--dim); } .nogpu p:first-of-type { color: var(--ink); font-size: 18px; }
   .ui { position: fixed; inset: 0; pointer-events: none; color: var(--ink); font-family: var(--sans); z-index: 4; }
@@ -23,7 +25,20 @@
   .title .word { font-weight: 700; font-size: min(23vw, 40vh); line-height: .78; letter-spacing: -.055em; margin-left: -.06em;
     color: rgba(246, 241, 231, .92); mix-blend-mode: soft-light; user-select: none; }
   .title .sub { font-size: 15px; letter-spacing: .08em; color: var(--dim); margin: 2.2vh 0 3.2vh .2vw; }
-  .title .starts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .title .starts { display: none; gap: 10px; flex-wrap: wrap; min-height: 58px; align-items: flex-start; }
+  .title.ready .starts { display: flex; animation: rise .9s ease both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  /* loading line: a hairline that fills, with a light running along it (a compositor animation: it keeps moving
+     even while the page is busy, so a long step never looks like a freeze) */
+  .title .prep { display: flex; flex-wrap: wrap; align-items: center; column-gap: 16px; row-gap: 8px; min-height: 58px; align-content: flex-start; }
+  .title.ready .prep { display: none; }
+  .title .pbar { position: relative; width: min(340px, 56vw); height: 1px; margin-top: 2px; background: var(--line); overflow: hidden; }
+  .title .pbar i { position: absolute; inset: 0; background: var(--ink); transform: scaleX(0); transform-origin: 0 50%; transition: transform .5s ease; }
+  .title .pbar::after { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 25%; animation: run 1.8s cubic-bezier(.45, 0, .55, 1) infinite;
+    background: linear-gradient(90deg, rgba(246, 241, 231, 0), rgba(246, 241, 231, .95), rgba(246, 241, 231, 0)); }
+  @keyframes run { from { transform: translateX(-100%); } to { transform: translateX(400%); } }
+  .title .ptxt { font-size: 13px; letter-spacing: .14em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .title .pstage { flex-basis: 100%; font-size: 12px; letter-spacing: .06em; color: var(--dim); }
   .title .start { pointer-events: auto; background: none; border: 1px solid var(--line); color: var(--ink); padding: 12px 22px; font-size: 14px; letter-spacing: .1em;
     cursor: pointer; transition: background .25s, border-color .25s; }
   .title .start:hover { background: rgba(246, 241, 231, .12); border-color: var(--ink); }
@@ -47,6 +62,11 @@
   .bar .br input::-moz-range-track { height: 1px; background: var(--line); }
   .bar .br input::-webkit-slider-thumb { -webkit-appearance: none; width: 11px; height: 11px; border-radius: 50%; background: var(--ink); margin-top: -5px; }
   .bar .br input::-moz-range-thumb { width: 11px; height: 11px; border: 0; border-radius: 50%; background: var(--ink); }
+  .map { position: absolute; top: 14px; right: 14px; width: 172px; height: 172px; border: 1px solid var(--line); background: #1a2734; pointer-events: auto;
+    cursor: zoom-in; overflow: hidden; box-shadow: 0 6px 24px rgba(0, 0, 0, .35); transition: width .3s, height .3s, top .3s, right .3s, transform .3s; }
+  .map canvas { display: block; width: 100%; height: 100%; }
+  .map.big { top: 50%; right: 50%; width: min(94vw, 1500px); height: min(80vh, 830px); transform: translate(50%, -50%); cursor: zoom-out; z-index: 2; }
+  .map.hidden { display: none; }
   .label { position: absolute; left: 18px; top: 16px; font-size: 12px; letter-spacing: .14em; color: var(--dim); text-transform: uppercase; }
   .help { position: absolute; left: 50%; bottom: 52px; transform: translateX(-50%); font-size: 12px; letter-spacing: .08em; color: var(--dim); white-space: nowrap; opacity: 0; }
   .help.fade { animation: hl 7s ease forwards; }
@@ -54,12 +74,35 @@
   .stick { position: absolute; bottom: 70px; left: 24px; width: 110px; height: 110px; border-radius: 50%; border: 1px solid var(--line); display: none; pointer-events: auto; touch-action: none; }
   .stick i { position: absolute; left: 39px; top: 39px; width: 32px; height: 32px; border-radius: 50%; background: rgba(246, 241, 231, .4); }
   @media (pointer: coarse) { .stick { display: block; } }
-  @media (max-width: 640px) { .bar { flex-wrap: wrap; } .help { white-space: normal; text-align: center; width: 90vw; } .title .start { padding: 10px 14px; } }
+  @media (max-width: 640px) { .map { width: 116px; height: 116px; top: 10px; right: 10px; } .bar { flex-wrap: wrap; } .help { white-space: normal; text-align: center; width: 90vw; } .title .start { padding: 10px 14px; } }
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
-<div id="load">読み込み中</div>
+<div id="veil"></div>
+<div class="ui">
+  <div class="title">
+    <div class="word">VENEZIA</div><div class="sub"></div>
+    <div class="prep"><div class="pbar"><i></i></div><div class="ptxt"></div><div class="pstage"></div></div>
+    <div class="starts"></div>
+    <div class="lang"><button data-l="ja">JA</button><button data-l="en">EN</button></div>
+  </div>
+</div>
+<script>
+  // the title and its loading line, before the app (1.5 MB) has arrived; the app's UI takes them over
+  (function () {
+    var S = { ja: ['ヴェネツィア本島を、歩いて、ゴンドラで。', '準備中', 'サン・マルコ広場とそのまわりを読み込んでいます'],
+              en: ['Walk the island. Ride a gondola.', 'Preparing', 'Loading Piazza San Marco and its surroundings'] };
+    var h = location.hash, q = function (s) { return document.querySelector('.title ' + s); };
+    function set(l) {
+      window.__lang = l; document.documentElement.lang = l;
+      q('.sub').textContent = S[l][0]; q('.ptxt').textContent = S[l][1]; q('.pstage').textContent = S[l][2];
+      document.querySelectorAll('.title .lang button').forEach(function (b) { b.classList.toggle('on', b.dataset.l === l); });
+    }
+    document.querySelectorAll('.title .lang button').forEach(function (b) { b.onclick = function () { set(b.dataset.l); }; });
+    set((h === '#en' || (navigator.language || '').slice(0, 2) !== 'ja') && h !== '#ja' ? 'en' : 'ja');
+  })();
+</script>
 <script type="module" src="app.js"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@ class WaterMaterial extends THREE.MeshStandardNodeMaterial {
 }
 
 export function makeWater(scene, nrmTex, opts = {}) {
-  const refl = reflector({ resolutionScale: 0.5, generateMipmaps: false, bounces: false });
+  const refl = reflector({ resolutionScale: opts.reflScale ?? 0.5, generateMipmaps: false, bounces: false });
   scene.add(refl.target);
   // mark the mirrored cameras so shadow maps are not re-rendered for them (same light frusta as the main view)
   const base = refl.reflector, gvc = base.getVirtualCamera.bind(base);

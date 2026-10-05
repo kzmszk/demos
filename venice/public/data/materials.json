@@ -1044,6 +1044,51 @@
     0,
     0
    ]
+  },
+  {
+   "id": 64,
+   "name": "actv_paint",
+   "layer": -1,
+   "kind": "plain",
+   "albedo": [
+    0.56,
+    0.58,
+    0.58
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 65,
+   "name": "actv_yellow",
+   "layer": -1,
+   "kind": "plain",
+   "albedo": [
+    0.78,
+    0.55,
+    0.04
+   ],
+   "emit": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": 66,
+   "name": "hull_paint",
+   "layer": -1,
+   "kind": "plain",
+   "albedo": [
+    0.035,
+    0.04,
+    0.045
+   ],
+   "emit": [
+    0,
+    0
+   ]
   }
  ]
 }

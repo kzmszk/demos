@@ -1,0 +1,3 @@
+# the film itself stays out of git (venice-assets/film/ has it; the site plays it from R2, see README "Film")
+public/movie/*.mp4
+__pycache__/

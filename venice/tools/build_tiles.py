@@ -12,6 +12,7 @@ from gen.bridges import find_bridges, gen_bridge
 from gen import props as PR
 from gen import hero as HERO
 from gen import walk as WALK
+from gen import pontoons as PT
 from PIL import Image
 from gen.world import h32
 from gen.mesh import MeshBuilder, tangents
@@ -58,6 +59,8 @@ def main():
         i0, j0 = tile_of(x0, y0); i1, j1 = tile_of(x1 - 0.01, y1 - 0.01)
         tiles = [(i, j) for i in range(i0, i1 + 1) for j in range(j0, j1 + 1)]
     brs = [br for br in find_bridges(w) if not any(math.dist((br['a'] + br['b']) / 2, (x, y)) < r for (x, y, r) in HERO.EXCLUDE_BRIDGES)]
+    nb = len(brs); brs = PT.drop_stop_bridges(w.stops, brs)            # the stops bring their own gangways
+    print('bridges to vaporetto stops left out:', nb - len(brs), flush=True)
     brt = {}
     for br in brs:
         c = (br['a'] + br['b']) / 2; brt.setdefault(tile_of(c[0], c[1]), []).append(br)
@@ -66,7 +69,9 @@ def main():
         try: bwalk.append(gen_bridge(MeshBuilder(), br)['walk'])
         except Exception: pass
     passages = WALK.Passages(w)
-    hero_walk = HERO.walk_areas()
+    hero_walk = HERO.walk_areas() + PT.walk_areas(w)
+    stt = {}
+    for it in w.stops + w.ships: stt.setdefault(tile_of(*it['c']), []).append(it)
     blockers = [b for b in w.buildings if b.z0 < GROUND_Z + 2.0]
     btree_low = shapely.STRtree([b.poly for b in blockers])
     dead = WALK.dead_bridges(w, bwalk, [b.poly for b in blockers], passages, hero_walk)
@@ -114,6 +119,9 @@ def main():
             try: bridges_meta.append(gen_bridge(mb, br))
             except Exception as e: print('  bridge fail', e, flush=True)
         st['bridges'] = len(bridges_meta)
+        for it in stt.get((i, j), []):
+            try: PT.build(mb, it)
+            except Exception as e: print('  stop fail', it['id'], e, flush=True)
         A = mb.arrays()
         if len(A['I']) == 0 and not fac:
             continue

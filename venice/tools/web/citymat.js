@@ -47,7 +47,11 @@ class SpecEnvNode extends THREE.LightingNode {
 
 export class CityMaterial extends THREE.MeshPhysicalNodeMaterial {
   static get type() { return 'CityMaterial'; }
-  constructor(opts) { super(); this.irrNode = opts.irrNode; this.occNode = opts.occNode; }
+  constructor(opts) { super(); this.irrNode = opts.irrNode; this.occNode = opts.occNode; this.pro = opts.pro || []; }
+  setupDiffuseColor(builder) {
+    for (const v of this.pro) builder.stack.addToStack(v);       // the surface variables first, in order (see below)
+    super.setupDiffuseColor(builder);
+  }
   setupLightMap() { return new THREE.IrradianceNode(this.irrNode); }
   setupEnvironment(builder) {
     const e = this.envNode || builder.environmentNode;
@@ -84,25 +88,30 @@ export function makeCityMaterial({ arrays, mats, layers, lighting, lmPool, hasAu
   const st = uv().mul(q1.y);
   const wp = positionWorld;
 
+  // the surface's running values and shared terms are variables, evaluated once and in order at the top of the
+  // fragment shader (CityMaterial.setupDiffuseColor): as plain expressions each select() re-generated everything
+  // before it in both branches, a 0.5 MB shader (230 albedo samples) that a GPU driver took 15-25 s to compile
+  const pro = [];
+  const V = (n) => { const v = n.toVar(); pro.push(v); return v; };
   const sampleA = (lay, coord) => texture(arrays.albedo, coord).depth(lay);
   const sampleN = (lay, coord) => texture(arrays.normal, coord).depth(lay);
   const sampleO = (lay, coord) => texture(arrays.orm, coord).depth(lay);
 
   // ---------------------------------------------------------------- surface (pure expressions)
   const surf = () => {
-    const A = sampleA(layer, st), O = sampleO(layer, st);
-    let Nt = sampleN(layer, st).xyz.mul(2).sub(1);
+    const A = V(sampleA(layer, st)), O = V(sampleO(layer, st));
+    let Nt = V(sampleN(layer, st).xyz.mul(2).sub(1));
     const hasTex = q2.z;
-    let col = mix(alU.element(mid).rgb, A.rgb, hasTex);
+    let col = V(mix(alU.element(mid).rgb, A.rgb, hasTex));
     const tint0 = s2l(c0.rgb);
-    const tint = mix(tint0, vec3(lum(tint0)), 0.22);
-    col = mix(col, col.mul(tint).mul(1.12), A.a.mul(q1.z));
-    let rough = O.g.mul(q2.x);
+    const tint = V(mix(tint0, vec3(lum(tint0)), 0.22));
+    col = V(mix(col, col.mul(tint).mul(1.12), A.a.mul(q1.z)));
+    let rough = V(O.g.mul(q2.x));
     const metal = q2.y;
-    let ao = mix(float(1.0), O.r, hasTex);
+    let ao = V(mix(float(1.0), O.r, hasTex));
     const z = wp.z;
-    const n1 = mx_fractal_noise_float(wp.mul(vec3(0.35, 0.35, 0.55)), int(3), float(2.0), float(0.5));
-    const n2 = mx_noise_float(wp.mul(vec3(1.7, 1.7, 2.3)));
+    const n1 = V(mx_fractal_noise_float(wp.mul(vec3(0.35, 0.35, 0.55)), int(3), float(2.0), float(0.5)));
+    const n2 = V(mx_noise_float(wp.mul(vec3(1.7, 1.7, 2.3))));
     // ---------- walls
     const isWall = kind.lessThan(0.5);
     const decay = c0.a;
@@ -110,9 +119,9 @@ export function makeCityMaterial({ arrays, mats, layers, lighting, lmPool, hasAu
     const inBase = isWall.and(z.lessThan(baseZ));
     const stoneUV = uv().mul(1.0 / 2.0);
     const SA = sampleA(int(LY.stone_rough), stoneUV), SN = sampleN(int(LY.stone_rough), stoneUV), SO = sampleO(int(LY.stone_rough), stoneUV);
-    col = select(inBase, mix(SA.rgb, vec3(lum(SA.rgb)), 0.55).mul(1.08), col);
-    Nt = select(inBase, SN.xyz.mul(2).sub(1), Nt);
-    rough = select(inBase, SO.g, rough);
+    col = V(select(inBase, mix(SA.rgb, vec3(lum(SA.rgb)), 0.55).mul(1.08), col));
+    Nt = V(select(inBase, SN.xyz.mul(2).sub(1), Nt));
+    rough = V(select(inBase, SO.g, rough));
     // peeling plaster: brick shows through irregular patches ringed by the grey render coat; more of it low
     // on the wall and on decayed buildings
     const isPl = isWall.and(q1.z.greaterThan(0.5)).and(inBase.not());
@@ -127,93 +136,93 @@ export function makeCityMaterial({ arrays, mats, layers, lighting, lmPool, hasAu
     const puv = uv().mul(1 / 2.0);
     const PN = sampleN(int(LY.plaster_peel), puv);
     const render = vec3(0.30, 0.285, 0.26).mul(float(0.85).add(n2.mul(0.2)));
-    col = mix(col, render, ring);
-    col = mix(col, BA.rgb.mul(0.92), inner);
-    col = col.mul(float(1.0).sub(edge.mul(0.35)));
-    Nt = mix(Nt, PN.xyz.mul(2).sub(1), ring);
-    Nt = mix(Nt, BN.xyz.mul(2).sub(1), inner);
-    rough = mix(rough, BO.g, inner);
+    col = V(mix(col, render, ring));
+    col = V(mix(col, BA.rgb.mul(0.92), inner));
+    col = V(col.mul(float(1.0).sub(edge.mul(0.35))));
+    Nt = V(mix(Nt, PN.xyz.mul(2).sub(1), ring));
+    Nt = V(mix(Nt, BN.xyz.mul(2).sub(1), inner));
+    rough = V(mix(rough, BO.g, inner));
     // tonal variation, vertical rain streaks, soot under the eaves, splash dirt at the foot
-    const streak = mx_noise_float(vec3(uv().x.mul(1.6), z.mul(0.07), c1.z.mul(37.0))).mul(0.5).add(0.5);
-    const streak2 = mx_noise_float(vec3(uv().x.mul(6.0), z.mul(0.25), c1.z.mul(11.0))).mul(0.5).add(0.5);
+    const streak = V(mx_noise_float(vec3(uv().x.mul(1.6), z.mul(0.07), c1.z.mul(37.0))).mul(0.5).add(0.5));
+    const streak2 = V(mx_noise_float(vec3(uv().x.mul(6.0), z.mul(0.25), c1.z.mul(11.0))).mul(0.5).add(0.5));
     const grime = streak.mul(0.6).add(streak2.mul(0.4)).mul(smoothstep(2.0, 10.0, zg)).mul(0.22);
-    col = select(isWall, col.mul(float(0.9).add(n1.mul(0.12))).mul(float(1.0).sub(grime)).mul(float(1.0).sub(smoothstep(0.9, 0.0, zg).mul(0.18))), col);
+    col = V(select(isWall, col.mul(float(0.9).add(n1.mul(0.12))).mul(float(1.0).sub(grime)).mul(float(1.0).sub(smoothstep(0.9, 0.0, zg).mul(0.18))), col));
     // rising damp + salt efflorescence + algae at the tide line (walls and canal walls)
     const wetK = isWall.or(kind.greaterThan(2.5).and(kind.lessThan(3.5)));
     const wetF = wetK.select(1.0, 0.0);
-    const dampTop = float(1.1).add(float(0.75).add(n1.mul(0.55)).add(streak2.mul(0.35)).mul(float(0.6).add(decay)));
+    const dampTop = V(float(1.1).add(float(0.75).add(n1.mul(0.55)).add(streak2.mul(0.35)).mul(float(0.6).add(decay))));
     const damp = smoothstep(dampTop, dampTop.sub(0.35), z).mul(wetF);
     const salt = smoothstep(0.10, 0.0, abs(z.sub(dampTop.sub(0.04)))).mul(smoothstep(0.2, 0.7, n2.add(0.2))).mul(wetF);
-    col = mix(col, col.mul(vec3(0.58, 0.57, 0.52)), damp.mul(0.85));
-    col = mix(col, vec3(0.52, 0.51, 0.48), salt.mul(0.4));
-    rough = mix(rough, rough.mul(0.85), damp);
+    col = V(mix(col, col.mul(vec3(0.58, 0.57, 0.52)), damp.mul(0.85)));
+    col = V(mix(col, vec3(0.52, 0.51, 0.48), salt.mul(0.4)));
+    rough = V(mix(rough, rough.mul(0.85), damp));
     // tide line: algae below ~0.4 m, a pale salt band above it up to ~1.1 m on walls in the water
     const tide = float(0.40).add(n2.mul(0.10));
     const algae = smoothstep(tide, tide.sub(0.10), z).mul(wetF);
     const tideBand = smoothstep(tide, tide.add(0.1), z).mul(smoothstep(1.15, 0.8, z)).mul(wetF);
-    col = mix(col, col.mul(vec3(0.8, 0.82, 0.78)).add(vec3(0.03)), tideBand.mul(0.6));
+    col = V(mix(col, col.mul(vec3(0.8, 0.82, 0.78)).add(vec3(0.03)), tideBand.mul(0.6)));
     const auv = vec2(uv().x, z).mul(1 / 2.2);
     const AA = sampleA(int(LY.algae), auv);
     const acol = mix(AA.rgb.mul(vec3(0.42, 0.5, 0.33)), vec3(0.03, 0.036, 0.024), smoothstep(0.1, -0.35, z));
-    col = mix(col, acol, algae);
-    rough = mix(rough, float(0.28), algae.mul(smoothstep(0.3, 0.0, z)));
+    col = V(mix(col, acol, algae));
+    rough = V(mix(rough, float(0.28), algae.mul(smoothstep(0.3, 0.0, z))));
     // ---------- roofs: lichen and soot
     const isRoof = kind.greaterThan(1.5).and(kind.lessThan(2.5));
     const lich = smoothstep(0.25, 0.55, n1.add(n2.mul(0.3)));
-    col = select(isRoof, mix(col.mul(float(0.85).add(n2.mul(0.15))), vec3(0.16, 0.15, 0.11), lich.mul(0.45)), col);
+    col = V(select(isRoof, mix(col.mul(float(0.85).add(n2.mul(0.15))), vec3(0.16, 0.15, 0.11), lich.mul(0.45)), col));
     // ---------- ground: big-scale dirt/wear variation
     const isGround = kind.greaterThan(0.5).and(kind.lessThan(1.5));
     const stain = smoothstep(0.2, 0.6, mx_noise_float(wp.mul(vec3(0.12, 0.12, 1.0))));
     const grime2 = smoothstep(-0.2, 0.8, mx_noise_float(wp.mul(vec3(0.45, 0.45, 1.0))));
-    col = select(isGround, col.mul(float(0.72).add(n1.mul(0.24))).mul(float(1.0).sub(stain.mul(0.22))).mul(float(1.0).sub(grime2.mul(0.18))), col);
+    col = V(select(isGround, col.mul(float(0.72).add(n1.mul(0.24))).mul(float(1.0).sub(stain.mul(0.22))).mul(float(1.0).sub(grime2.mul(0.18))), col));
     // ---------- Istrian stone: whiten and add black crust where sheltered
     const isStone = kind.greaterThan(2.5).and(kind.lessThan(3.5));
     const scol = mix(col, vec3(lum(col)), 0.6).mul(1.18);
-    col = select(isStone, mix(scol, scol.mul(0.45), smoothstep(0.35, 0.7, n2).mul(0.35)), col);
+    col = V(select(isStone, mix(scol, scol.mul(0.45), smoothstep(0.35, 0.7, n2).mul(0.35)), col));
     // ---------- wood: louvred shutters (flag 1) via normal tweaks; flower boxes etc. flat colour
     const isWood = kind.greaterThan(3.5).and(kind.lessThan(4.5));
-    const fl = c1.w.mul(255.0).add(0.5).floor();
+    const fl = V(c1.w.mul(255.0).add(0.5).floor());
     const slat = fract(z.div(0.065));
     const louv = isWood.and(fl.equal(1.0));
-    Nt = select(louv, normalize(vec3(0.0, slat.sub(0.5).mul(1.6), 1.0)), Nt);
-    ao = select(louv, ao.mul(smoothstep(0.0, 0.25, slat).mul(0.5).add(0.5)), ao);
-    rough = select(isWood, max(rough, float(0.62)), rough);
+    Nt = V(select(louv, normalize(vec3(0.0, slat.sub(0.5).mul(1.6), 1.0)), Nt));
+    ao = V(select(louv, ao.mul(smoothstep(0.0, 0.25, slat).mul(0.5).add(0.5)), ao));
+    rough = V(select(isWood, max(rough, float(0.62)), rough));
     // flat-painted props: flower boxes/leaves/flowers (3-5), boat paint (8), canvas (10), lacquer (11)
     const plain = isWood.and(fl.greaterThan(2.5).and(fl.lessThan(5.5)).or(fl.equal(8.0)).or(fl.equal(10.0)).or(fl.equal(11.0)));
     const fine = mx_noise_float(wp.mul(9.0)).mul(0.06);
-    col = select(plain, tint.mul(float(0.85).add(n2.mul(0.15)).add(fine)), col);
-    rough = select(isWood.and(fl.equal(8.0)), float(0.42), rough);
-    rough = select(isWood.and(fl.equal(10.0)), float(0.95), rough);
-    rough = select(isWood.and(fl.equal(11.0)), float(0.16), rough);
+    col = V(select(plain, tint.mul(float(0.85).add(n2.mul(0.15)).add(fine)), col));
+    rough = V(select(isWood.and(fl.equal(8.0)), float(0.42), rough));
+    rough = V(select(isWood.and(fl.equal(10.0)), float(0.95), rough));
+    rough = V(select(isWood.and(fl.equal(11.0)), float(0.16), rough));
     // spiral-striped mooring poles (6): instance colour over white paint
     if (lighting === 'inst') {
       const ic = s2l(attribute('icol', 'vec4').rgb);
       const stripe = step(0.5, fract(uv().x.div(0.69).add(uv().y.div(0.55))));
       const isStripe = isWood.and(fl.equal(6.0));
-      col = select(isStripe, mix(vec3(0.62, 0.6, 0.56), ic, stripe).mul(float(0.85).add(n2.mul(0.15))), col);
-      rough = select(isStripe, float(0.5), rough);
+      col = V(select(isStripe, mix(vec3(0.62, 0.6, 0.56), ic, stripe).mul(float(0.85).add(n2.mul(0.15))), col));
+      rough = V(select(isStripe, float(0.5), rough));
     }
     // ---------- glass: dark; metal: dark painted iron
     const isGlass = kind.greaterThan(5.5).and(kind.lessThan(6.5));
-    col = select(isGlass, vec3(0.012, 0.014, 0.016), col);
-    rough = select(isGlass, float(0.05), rough);
+    col = V(select(isGlass, vec3(0.012, 0.014, 0.016), col));
+    rough = V(select(isGlass, float(0.05), rough));
     const isMetal = kind.greaterThan(4.5).and(kind.lessThan(5.5));
-    col = select(isMetal, vec3(0.035, 0.036, 0.034).add(col.mul(0.15)), col);
-    let metal2 = metal;
+    col = V(select(isMetal, vec3(0.035, 0.036, 0.034).add(col.mul(0.15)), col));
+    let metal2 = V(metal);
     const gilt = isMetal.and(fl.equal(7.0)), steel = isMetal.and(fl.equal(12.0));
-    col = select(gilt, vec3(0.95, 0.70, 0.32), select(steel, vec3(0.62, 0.62, 0.64), col));
-    metal2 = select(gilt.or(steel), float(1.0), metal2);
-    rough = select(gilt, float(0.3), select(steel, float(0.22), rough));
+    col = V(select(gilt, vec3(0.95, 0.70, 0.32), select(steel, vec3(0.62, 0.62, 0.64), col)));
+    metal2 = V(select(gilt.or(steel), float(1.0), metal2));
+    rough = V(select(gilt, float(0.3), select(steel, float(0.22), rough)));
     // gilding and polished marbles (hero materials): albedo param tints the vein pattern of the stone layer
     const isGold = kind.greaterThan(8.5).and(kind.lessThan(9.5));
     const pat = smoothstep(0.1, 0.7, n2);                   // dark patina blotches on old gilding
-    col = select(isGold, mix(alU.element(mid).rgb.mul(1.15).min(vec3(1.0)), vec3(0.13, 0.11, 0.06), pat.mul(0.55)), col);
-    metal2 = select(isGold, float(1.0), metal2);
-    rough = select(isGold, mix(float(0.32), float(0.6), pat), rough);
+    col = V(select(isGold, mix(alU.element(mid).rgb.mul(1.15).min(vec3(1.0)), vec3(0.13, 0.11, 0.06), pat.mul(0.55)), col));
+    metal2 = V(select(isGold, float(1.0), metal2));
+    rough = V(select(isGold, mix(float(0.32), float(0.6), pat), rough));
     const isMarble = kind.greaterThan(9.5).and(kind.lessThan(10.5));
     const veins = lum(A.rgb).div(0.36);
-    col = select(isMarble, alU.element(mid).rgb.mul(veins.mul(0.6).add(0.45)).mul(float(0.92).add(n2.mul(0.08))), col);
-    rough = select(isMarble, float(0.38), rough);
+    col = V(select(isMarble, alU.element(mid).rgb.mul(veins.mul(0.6).add(0.45)).mul(float(0.92).add(n2.mul(0.08))), col));
+    rough = V(select(isMarble, float(0.38), rough));
     // Palazzo Ducale: pink Verona marble lozenges in a lattice of white Istrian stone (small blocks = stone layer)
     const isLoz = kind.greaterThan(10.5).and(kind.lessThan(11.5));
     const lq = uv().div(vec2(1.3, 1.3));
@@ -221,30 +230,30 @@ export function makeCityMaterial({ arrays, mats, layers, lighting, lmPool, hasAu
     const line = float(1.0).sub(smoothstep(0.025, 0.06, abs(dd.sub(0.5))));
     const blocks = lum(A.rgb).div(0.36).mul(0.25).add(0.75);
     const pink = vec3(0.70, 0.37, 0.30).mul(float(0.9).add(n2.mul(0.1))), white = vec3(0.74, 0.72, 0.67);
-    col = select(isLoz, mix(pink, white, line).mul(blocks), col);
-    rough = select(isLoz, float(0.7), rough);
+    col = V(select(isLoz, mix(pink, white, line).mul(blocks), col));
+    rough = V(select(isLoz, float(0.7), rough));
     // interiors: albedo modulated by the texture's luminance, no weathering
     const isInt = kind.greaterThan(12.5).and(kind.lessThan(13.5));
     const alb0 = alU.element(mid).rgb;
-    col = select(isInt, mix(alb0.mul(float(0.92).add(n2.mul(0.08))), alb0.mul(lum(A.rgb).div(0.32)), hasTex), col);
-    rough = select(isInt, select(hasTex, O.g.mul(0.75), float(0.92)), rough);
+    col = V(select(isInt, mix(alb0.mul(float(0.92).add(n2.mul(0.08))), alb0.mul(lum(A.rgb).div(0.32)), hasTex), col));
+    rough = V(select(isInt, select(hasTex, O.g.mul(0.75), float(0.92)), rough));
     // paintings / mosaics (art array layer in c1.y), lamp glass, mirrors
     const isPhoto = kind.greaterThan(11.5).and(kind.lessThan(12.5));
     if (art) {
       const lay = c1.y.mul(255.0).add(0.5).toInt();
-      col = select(isPhoto, texture(art, uv()).depth(lay).rgb, col);
+      col = V(select(isPhoto, texture(art, uv()).depth(lay).rgb, col));
     }
-    rough = select(isPhoto, float(0.3), rough);
+    rough = V(select(isPhoto, float(0.3), rough));
     const isEm = kind.greaterThan(13.5).and(kind.lessThan(14.5));
-    col = select(isEm, alb0.mul(0.6), col);
+    col = V(select(isEm, alb0.mul(0.6), col));
     // gold mosaic: warm gold with tesserae (cells ~2.5 cm) that vary in tone and catch the light
     const isMos = kind.greaterThan(15.5).and(kind.lessThan(16.5));
     const wpm = wp.mul(12.0);
     const cell = floor(wpm.x.add(wpm.y.mul(0.37))).add(floor(wpm.z).mul(57.0)).add(floor(wpm.y).mul(13.0));
     const tess = fract(sin(cell.mul(12.9898)).mul(43758.5453));
     const blot = mx_noise_float(wp.mul(0.35)).mul(0.5).add(0.5);
-    col = select(isMos, alb0.mul(float(0.88).add(tess.mul(0.24))).mul(float(0.9).add(blot.mul(0.2))), col);
-    rough = select(isMos, float(0.35), rough);
+    col = V(select(isMos, alb0.mul(float(0.88).add(tess.mul(0.24))).mul(float(0.9).add(blot.mul(0.2))), col));
+    rough = V(select(isMos, float(0.35), rough));
     // opus sectile floor: 1.6 m panels with a white border, a red diamond and a green roundel, small checks
     const isFl = kind.greaterThan(16.5).and(kind.lessThan(17.5));
     const fq = wp.xy.div(1.6); const fc = fract(fq).sub(0.5); const fid = floor(fq);
@@ -255,14 +264,14 @@ export function makeCityMaterial({ arrays, mats, layers, lighting, lmPool, hasAu
     const chk = fract(wp.x.mul(3.2)).lessThan(0.5).equal(fract(wp.y.mul(3.2)).lessThan(0.5));
     const fWhite = vec3(0.62, 0.6, 0.55), fRed = vec3(0.30, 0.06, 0.05), fGreen = vec3(0.07, 0.17, 0.11), fGrey = vec3(0.16, 0.16, 0.17), fOchre = vec3(0.55, 0.4, 0.18);
     const fcol = select(border, select(chk, fWhite, fGrey), select(dia.lessThan(0.38), select(rad.lessThan(0.17), select(fh.lessThan(0.5), fGreen, fOchre), fRed), select(chk, fWhite, vec3(0.42, 0.38, 0.33))));
-    col = select(isFl, fcol.mul(float(0.8).add(lum(A.rgb).div(0.39).mul(0.2))), col);
-    rough = select(isFl, float(0.3), rough);
+    col = V(select(isFl, fcol.mul(float(0.8).add(lum(A.rgb).div(0.39).mul(0.2))), col));
+    rough = V(select(isFl, float(0.3), rough));
     // old mirrors: the sky map is no picture of a café room, so they show a dull warm blur of the room's light
     const isMir = kind.greaterThan(14.5).and(kind.lessThan(15.5));
-    col = select(isMir, vec3(0.34, 0.30, 0.24).mul(float(0.94).add(n2.mul(0.06))), col);
-    metal2 = select(isMir, float(0.0), metal2);
-    rough = select(isMir, float(0.4), rough);
-    Nt = select(isPhoto.or(isEm).or(isMir).or(isMos).or(isLoz.not().and(isInt.and(hasTex.lessThan(0.5)))), vec3(0.0, 0.0, 1.0), Nt);
+    col = V(select(isMir, vec3(0.34, 0.30, 0.24).mul(float(0.94).add(n2.mul(0.06))), col));
+    metal2 = V(select(isMir, float(0.0), metal2));
+    rough = V(select(isMir, float(0.4), rough));
+    Nt = V(select(isPhoto.or(isEm).or(isMir).or(isMos).or(isLoz.not().and(isInt.and(hasTex.lessThan(0.5)))), vec3(0.0, 0.0, 1.0), Nt));
     const e3 = p3.element(mid);
     // night: lit windows (glass with the 'lit' flag) and lantern glass (flag 9) glow warm
     const flw = c1.w.mul(255.0).add(0.5).floor();
@@ -270,7 +279,7 @@ export function makeCityMaterial({ arrays, mats, layers, lighting, lmPool, hasAu
     const lantern = isGlass.and(flw.equal(9.0));
     const wv = fract(sin(c1.z.mul(97.3).add(floor(uv().x.mul(0.7)).mul(13.1)).add(floor(wp.z.mul(0.3)).mul(7.7))).mul(43758.5453));
     const nightEm = select(winLit, vec3(1.0, 0.66, 0.36).mul(float(1.2).add(wv.mul(2.2))), select(lantern, vec3(1.0, 0.74, 0.44).mul(14.0), vec3(0.0)));
-    return { col, Nt, rough, metal: metal2, ao, raw: A.rgb, emit: select(isEm, alb0.mul(mix(e3.x, e3.y, G.night)).mul(0.1), vec3(0.0)).add(nightEm.mul(G.night)) };
+    return { col, Nt, rough, metal: metal2, ao, raw: A.rgb, emit: V(select(isEm, alb0.mul(mix(e3.x, e3.y, G.night)).mul(0.1), vec3(0.0)).add(nightEm.mul(G.night))) };
   };
 
   const S = surf();
@@ -283,7 +292,7 @@ export function makeCityMaterial({ arrays, mats, layers, lighting, lmPool, hasAu
   const kindI = p1.element(c1.x.mul(255.0).add(0.5).toInt()).w;
   const occ = clamp(lum(irrDay).div(0.32), 0.03, 1.0).pow(0.8).mul(aoGeo).mul(select(kindI.greaterThan(11.5).and(kindI.lessThan(17.5)), float(0.12), float(1.0)));
 
-  const mat = new CityMaterial({ irrNode: irr, occNode: occ.mul(mix(float(1), float(0.15), G.night)) });
+  const mat = new CityMaterial({ irrNode: irr, occNode: occ.mul(mix(float(1), float(0.15), G.night)), pro });
   mat.colorNode = S.col;
   // debug views: replace the lit result through emissive and black diffuse
   const dbgOn = G.dbg.greaterThan(0.5);

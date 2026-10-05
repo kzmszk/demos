@@ -96,6 +96,9 @@ MATS = [
     ('basilica_front', 'stone_block', 'marble',   (0.40, 0.37, 0.32)),     # San Marco's west front: warm, weathered
     ('basilica_marble_ext', 'stone_block', 'marble', (0.33, 0.31, 0.29)),  # its grey veined panels
     ('porphyry',       'stone_block', 'marble',   (0.20, 0.07, 0.07)),     # imperial red porphyry (Tetrarchs, Pietra del Bando)
+    ('actv_paint',     None,          'plain',    (0.56, 0.58, 0.58)),     # vaporetto stops (pontoons.py): pale grey painted steel
+    ('actv_yellow',    None,          'plain',    (0.78, 0.55, 0.04)),     # ACTV yellow: name boards, boarding edges
+    ('hull_paint',     None,          'plain',    (0.035, 0.04, 0.045)),   # pontoon hulls: near-black painted steel
 ]
 # emissive strength (Blender emission strength) per material in the bake: (day, night)
 EMIT = {'lamp_glass': (60.0, 60.0), 'daylight': (45.0, 0.0), 'street_glass': (0.0, 60.0)}

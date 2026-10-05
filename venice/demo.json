@@ -6,8 +6,8 @@
     "en": "From Piazza San Marco to the Grand Canal and the Rialto, on foot and by gondola"
   },
   "summary": {
-    "ja": "ヴェネツィア本島の全域を3Dで再現し、歩いて、ゴンドラで、空から巡ります。サン・マルコ広場と寺院（正面のモザイク、五つのドームの内部）、鐘楼、ドゥカーレ宮殿と嘆きの橋、リアルト橋、カフェ・フローリアンの客室、フェニーチェ劇場。運河のコースは三つ、櫂を漕ぐ船頭つき。建物は地図データから生成し、名所は手でモデリング。光はBlenderで焼き込み、WebGPUで描画。ピアノ独奏と水・鐘・鳩の音はすべて合成。日本語と英語に対応。WebGPU対応ブラウザ向け、初回読み込みは約150MB。",
-    "en": "The whole main island of Venice rebuilt in 3D, to walk, to ride by gondola along three canal routes with a rowing gondolier, or to fly over: Piazza San Marco and the Basilica (the mosaics of its west front, five domes inside), the Campanile, the Doge’s Palace and the Bridge of Sighs, the Rialto, Caffè Florian and La Fenice. Buildings are generated from OpenStreetMap, with the landmarks modelled by hand; light is baked in Blender and drawn with WebGPU. Solo piano, water, bells and pigeons are all synthesised. Japanese and English. Needs a WebGPU browser; the first load is about 150 MB."
+    "ja": "ヴェネツィア本島の全域を3Dで再現し、歩いて、ゴンドラで、空から巡ります。サン・マルコ広場と寺院（正面のモザイク、五つのドームの内部）、鐘楼、ドゥカーレ宮殿と嘆きの橋、リアルト橋、カフェ・フローリアンの客室、フェニーチェ劇場。運河のコースは三つ、櫂を漕ぐ船頭つき。建物は地図データから生成し、名所は手でモデリング。光はBlenderで焼き込み、WebGPUで描画。ピアノ独奏と水・鐘・鳩の音はすべて合成。日本語と英語に対応。WebGPU対応ブラウザ向け、初回読み込みは約100MB（残りは巡りながら読み込みます）。",
+    "en": "The whole main island of Venice rebuilt in 3D, to walk, to ride by gondola along three canal routes with a rowing gondolier, or to fly over: Piazza San Marco and the Basilica (the mosaics of its west front, five domes inside), the Campanile, the Doge’s Palace and the Bridge of Sighs, the Rialto, Caffè Florian and La Fenice. Buildings are generated from OpenStreetMap, with the landmarks modelled by hand; light is baked in Blender and drawn with WebGPU. Solo piano, water, bells and pigeons are all synthesised. Japanese and English. Needs a WebGPU browser; the first load is about 100 MB (the rest streams in as you go)."
   },
   "date": "2026-10-04",
   "tags": ["webgpu", "3d", "architecture", "city", "audio"],
@@ -16,10 +16,11 @@
   "gpu": "webgpu",
   "links": [
     { "label": "日本語", "href": "index.html#ja" },
-    { "label": "English", "href": "index.html#en" }
+    { "label": "English", "href": "index.html#en" },
+    { "label": "紹介動画 · Film", "href": "film.html" }
   ],
   "shots": [
-    { "path": "index.html#ja", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VEN && VEN.ready ? r() : setTimeout(f, 200)); f(); }).then(() => VEN.settle(3500)).then(() => VEN.freeze())", "after": 600 },
+    { "path": "index.html#ja", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VEN && VEN.prepared ? r() : setTimeout(f, 200)); f(); }).then(() => VEN.settle(3500)).then(() => VEN.freeze())", "after": 600 },
     { "path": "index.html#ja", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VEN && VEN.ready ? r() : setTimeout(f, 200)); f(); }).then(() => { VEN.look(-1400, -1700, 700, -300, 300, 0); VEN.ui.help.remove(); }).then(() => VEN.settle(3500)).then(() => VEN.freeze())", "after": 600 },
     { "path": "index.html#ja", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VEN && VEN.ready ? r() : setTimeout(f, 200)); f(); }).then(() => { VEN.place('piazza'); VEN.ui.help.remove(); }).then(() => VEN.settle(3500)).then(() => VEN.freeze())", "after": 600 },
     { "path": "index.html#ja", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VEN && VEN.ready ? r() : setTimeout(f, 200)); f(); }).then(() => { VEN.place('piazzetta'); VEN.ui.help.remove(); }).then(() => VEN.settle(3500)).then(() => VEN.freeze())", "after": 600 },

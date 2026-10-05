@@ -5,17 +5,75 @@ import * as THREE from 'three/webgpu';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { buildFarFacades, FacadeBuilder, packAtlas, fillAtlas, chunkFacades } from './facade.js';
 
-const NEAR_R = 150;          // tile gets its lightmap atlas (near facades possible)
-const CHUNK_R = 75;          // a 50 m chunk of facades gets real openings, sills, shutters, balconies
-const PROPS_R = 280;         // instanced props (poles, chimneys, boats) per tile
-const FULL_R = 380;          // full tile
-const FULL_DROP = 500;
-const HERO_R = 260;          // hand-modelled heroes in full detail (else their simplified far LOD)
+// streaming radii (m); a phone gets shorter ones (main.js)
+export const RADII = {
+  near: 150,                 // tile gets its lightmap atlas (near facades possible)
+  chunk: 75,                 // a 50 m chunk of facades gets real openings, sills, shutters, balconies
+  props: 280,                // props (poles, chimneys, boats) per tile
+  full: 380,                 // full tile
+  drop: 500,
+  hero: 260,                 // hand-modelled heroes in full detail (else their simplified far LOD)
+};
+
+// CPU copies of geometry are let go once it is on the GPU: they were most of the page's memory (about 1 GB of typed
+// arrays after a walk to the Rialto, more than a phone gives a tab).  Each mesh is uploaded as soon as it is built
+// (three.js's WebGPU backend keeps one buffer per attribute and reads the array again only when the attribute's
+// version changes, which never happens to these); the emptied arrays keep their type, which gives the vertex formats.
+const bufs = (g) => { const b = Object.values(g.attributes).map((a) => (a.isInterleavedBufferAttribute ? a.data : a)); if (g.index) b.push(g.index); return [...new Set(b)]; };
+export function toGPU(obj, backend) {
+  if (!backend || !backend.createAttribute || !backend.createIndexAttribute) return;
+  obj.traverse((o) => {
+    if (!o.isMesh || !o.geometry) return;
+    const g = o.geometry;
+    for (const a of Object.values(g.attributes)) { const b = a.isInterleavedBufferAttribute ? a.data : a; if (b.array.length) { backend.createAttribute(a); b.array = new b.array.constructor(0); } }
+    if (g.index && g.index.array.length) { backend.createIndexAttribute(g.index); g.index.array = new g.index.array.constructor(0); }
+  });
+}
+// dispose() frees only the buffers three.js has drawn with; ones uploaded here and never drawn go too
+function release(g, backend) {
+  g.dispose();
+  if (!backend || !backend.data) return;
+  for (const b of bufs(g)) { const d = backend.data.get(b); if (d && d.buffer) { d.buffer.destroy(); backend.data.delete(b); } }
+}
 
 // frame-hitch diagnostics: phases slower than 8 ms are logged to window.__perf ([label, ms, t])
 const PERF = (globalThis.__perf = globalThis.__perf || []);
 export function perfLog(e) { PERF.push(e); if (PERF.length > 4000) PERF.splice(0, 1000); }   // bounded
 export function timed(label, fn) { const t = performance.now(); const r = fn(); const dt = performance.now() - t; if (dt > 8) perfLog([label, Math.round(dt), Math.round(t)]); return r; }
+
+// tile binaries are gzip files (pack.mjs): fetched with their bytes counted as they arrive (the loading bar), then
+// inflated by the browser.  Plain meshopt data (an older pack) starts with 0xa0/0xe0 and is used as it is.
+export async function fetchBin(url, onBytes) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`${url}: ${r.status}`);
+  let buf;
+  if (onBytes && r.body) {
+    const rd = r.body.getReader(), parts = []; let n = 0;
+    for (;;) { const { done, value } = await rd.read(); if (done) break; parts.push(value); n += value.length; onBytes(value.length); }
+    buf = new Uint8Array(n); let o = 0; for (const q of parts) { buf.set(q, o); o += q.length; }
+  } else buf = new Uint8Array(await r.arrayBuffer());
+  if (buf[0] === 0x1f && buf[1] === 0x8b) return new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+  return buf.buffer;
+}
+const fetchJSON = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); });
+const fetchBlob = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.blob(); });
+const tileDist = (bb, x, y) => Math.hypot(Math.max(bb[0] - x, 0, x - bb[2]), Math.max(bb[1] - y, 0, y - bb[3]));
+// the first view's tiles, fetched while the textures still load: full tiles within `full` m of (x, y), far LOD within
+// `lite` m.  Returns the promises by URL (handed to Tiles, which takes them instead of fetching again) and the bytes.
+export function prefetch(base, index, x, y, full, lite, onBytes) {
+  const pre = new Map(); let bytes = 0;
+  for (const [n, t] of Object.entries(index)) {
+    const d = tileDist(t.bbox, x, y);
+    if (d < full) {
+      pre.set(`${base}/${n}.json`, fetchJSON(`${base}/${n}.json`));
+      pre.set(`${base}/${n}.bin`, fetchBin(`${base}/${n}.bin`, onBytes)); bytes += t.bytes || 0;
+      if (t.walk) pre.set(`${base}/${n}.walk.png`, fetchBlob(`${base}/${n}.walk.png`));
+    }
+    if (t.lite && d < lite) { pre.set(`${base}/${n}.lite.bin`, fetchBin(`${base}/${n}.lite.bin`, onBytes)); bytes += t.lite.bytes || 0; }
+  }
+  for (const v of pre.values()) v.catch(() => {});              // a failure surfaces where the tile is loaded
+  return { pre, bytes };
+}
 
 function decodeStreams(bin, streams) {
   const src = new Uint8Array(bin); const S = {};
@@ -30,66 +88,98 @@ function decodeStreams(bin, streams) {
 export class Tiles {
   constructor(scene, o) {
     Object.assign(this, o); this.scene = scene; this.tiles = new Map(); this.lites = new Map(); this.loading = 0; this.liteLoading = 0; this.nearBusy = false;
-    this.walk = new Map();      // name -> {data: Uint8Array RGBA, size, bbox}
+    this.R = { ...RADII, ...(o.radii || {}) };
+    this.pre = o.pre || new Map();        // prefetched files by URL (see prefetch)
+    this.cap = null;                      // {x, y, full, lite}: while the first view loads, nothing beyond it (main.js)
+    this.chunkMs = 4.0;                   // time per frame for detailed facades (more while the loading screen is up)
+    this.walk = new Map();      // name -> {data: Uint8Array of (height code, water) pairs, size, bbox}
   }
-  async init() {
+  async init(index) {
     await MeshoptDecoder.ready;
-    this.index = (await (await fetch(`${this.base}/tiles.json`)).json()).tiles;
+    this.index = index || (await (await fetch(`${this.base}/tiles.json`)).json()).tiles;
   }
   dist(bb, p) {
     const dx = Math.max(bb[0] - p.x, 0, p.x - bb[2]), dy = Math.max(bb[1] - p.y, 0, p.y - bb[3]);
     return Math.hypot(dx, dy);
   }
+  // a prefetched file if there is one (used once), else a fetch
+  take(url, get) { const p = this.pre.get(url); if (p) { this.pre.delete(url); return p; } return get(url); }
   update(cam) {
-    const p = cam.position;
+    const p = cam.position, cap = this.cap;
     const all = Object.entries(this.index).map(([n, t]) => [n, t, this.dist(t.bbox, p)]).sort((a, b) => a[2] - b[2]);
+    const capD = (t) => (cap ? tileDist(t.bbox, cap.x, cap.y) : 0);
     // full tiles near the camera (the walk raster needs the tile we stand on first)
     for (const [n, t, d] of all) {
-      if (d < FULL_R && !this.tiles.has(n) && this.loading < 3) { this.tiles.set(n, { state: 'loading' }); this.loading++; this.load(n).catch((e) => console.error(n, e)).finally(() => this.loading--); }
+      if (cap && capD(t) >= cap.full) continue;
+      if (d < this.R.full && !this.tiles.has(n) && this.loading < 3) { this.tiles.set(n, { state: 'loading' }); this.loading++; this.load(n).catch((e) => console.error(n, e)).finally(() => this.loading--); }
     }
     // far LOD everywhere, nearest first
     for (const [n, t, d] of all) {
-      if (!t.lite || this.lites.has(n) || this.liteLoading >= 6) continue;
+      if (!t.lite || this.lites.has(n) || this.liteLoading >= 6 || (cap && capD(t) >= cap.lite)) continue;
       this.lites.set(n, { state: 'loading' }); this.liteLoading++;
       this.loadLite(n, t).catch((e) => console.error('lite', n, e)).finally(() => this.liteLoading--);
     }
     for (const [n, T] of this.tiles) {
-      if (T.state === 'ready' && this.dist(T.meta.bbox, p) > FULL_DROP) this.drop(n, T);
+      if (T.state === 'ready' && this.dist(T.meta.bbox, p) > this.R.drop) this.drop(n, T);
     }
-    // a tile shows its far LOD until the full version is in; heroes switch to full detail within HERO_R.
+    // a tile shows its far LOD until the full version is in; heroes switch to full detail within R.hero.
     // layers: 0 = everyone, 1 = main view (and shadows) only, 2 = water reflection only
     for (const [n, L] of this.lites) {
       if (!L.group) continue;
       const T = this.tiles.get(n); const full = !!(T && T.state === 'ready');
       L.base.visible = !full;
-      const heroNear = full && T.hero && this.dist(T.meta.bbox, p) < HERO_R;
+      const heroNear = full && T.hero && this.dist(T.meta.bbox, p) < this.R.hero;
       if (T && T.hero) T.hero.visible = heroNear;
       if (L.hero) { L.hero.visible = true; L.hero.traverse((o) => o.layers.set(heroNear ? 2 : 0)); }
     }
-    // near facades: tiles within NEAR_R own a lightmap atlas; chunks within CHUNK_R get detailed geometry.
+    // near facades: tiles within R.near own a lightmap atlas; chunks within R.chunk get detailed geometry.
     // A chunk is built a few facades per frame (~4 ms), so walking never stalls on it; one atlas per frame.
-    if (this.job) timed('chunk-step', () => this.stepChunk(4.0));
-    let budget = 1;
+    if (this.job) timed('chunk-step', () => this.stepChunk(this.chunkMs));
+    let budget = 1, propsBudget = 1;
     for (const [n, t, d] of all) {
       const T = this.tiles.get(n);
       if (!T || T.state !== 'ready' || !T.chunks) continue;
-      if (d < NEAR_R && !T.slots && budget > 0) { timed('atlas', () => this.makeAtlas(T)); budget--; }
-      if (T.props) T.props.visible = d < PROPS_R;
+      if (d < this.R.near && !T.slots && budget > 0) { timed('atlas', () => this.makeAtlas(T)); budget--; }
+      if (this.props && !T.props && d < this.R.props && propsBudget-- > 0) {
+        const pg = T.props = timed('props', () => this.props.build(T.SP)); pg.traverse((o) => o.layers.set(1)); T.group.add(pg); toGPU(pg, this.backend);
+      } else if (T.props && d > this.R.props + 60) { T.group.remove(T.props); T.props.traverse((o) => { if (o.isMesh) release(o.geometry, this.backend); }); T.props = null; }
+      if (T.props) T.props.visible = d < this.R.props;
       if (!T.slots) continue;
       for (const c of T.chunks) {
         const dc = this.dist(c.bbox, p);
-        if (dc < CHUNK_R && !c.near && !this.job) this.job = { T, c, fb: new FacadeBuilder(this.mats, { rects: T.rects, slots: T.slots }), k: 0 };
+        if (dc < this.R.chunk && !c.near && !this.job) this.job = { T, c, fb: new FacadeBuilder(this.mats, { rects: T.rects, slots: T.slots }), k: 0 };
         if (c.near) {
-          const on = dc < CHUNK_R + 25;
+          const on = dc < this.R.chunk + 25;
           c.near.visible = on; c.far.visible = !on;
-          if (dc > CHUNK_R + 80) this.dropChunk(T, c);
+          if (dc > this.R.chunk + 80) this.dropChunk(T, c);
         }
       }
     }
-    for (const T of this.tiles.values()) if (T.slots && this.dist(T.meta.bbox, p) > NEAR_R + 60) this.dropAtlas(T);
+    for (const T of this.tiles.values()) if (T.slots && this.dist(T.meta.bbox, p) > this.R.near + 60) this.dropAtlas(T);
+  }
+  // work still to do for the view at p: tiles in flight, near tiles without their lightmap atlas, props or detailed
+  // facades (the loading screen stays up until this is 0)
+  pending(p) {
+    let n = this.loading + this.liteLoading + (this.job ? 1 : 0);
+    const cap = this.cap;
+    if (cap) for (const [name, t] of Object.entries(this.index)) {        // the first view's tiles not even started
+      const d = tileDist(t.bbox, cap.x, cap.y);
+      if (d < cap.full && !this.tiles.has(name)) n++;
+      if (t.lite && d < cap.lite && !this.lites.has(name)) n++;
+    }
+    for (const T of this.tiles.values()) {
+      if (T.state !== 'ready') { n++; continue; }
+      const d = this.dist(T.meta.bbox, p);
+      if (this.index[T.name] && this.index[T.name].walk && !this.walk.has(T.name)) n++;
+      if (!T.chunks) continue;
+      if (d < this.R.near && !T.slots && !this.poolFull) n++;
+      if (this.props && d < this.R.props && !T.props) n++;
+      if (T.slots) for (const c of T.chunks) if (!c.near && this.dist(c.bbox, p) < this.R.chunk) n++;
+    }
+    return n;
   }
   async loadLite(n, t) {
-    const bin = await (await fetch(`${this.base}/${n}.lite.bin`)).arrayBuffer();
+    const bin = await this.take(`${this.base}/${n}.lite.bin`, (u) => fetchBin(u));
     const S = timed('lite:decode', () => decodeStreams(bin, t.lite.streams));
     const group = new THREE.Group(); group.name = n + ':lite';
     const base = new THREE.Group(), hero = new THREE.Group(); group.add(base, hero);
@@ -117,11 +207,11 @@ export class Tiles {
       g.setAttribute('w0', new THREE.BufferAttribute(new Float32Array(S['f:w0'].buffer), 4));
       g.setAttribute('w1', new THREE.BufferAttribute(new Float32Array(S['f:w1'].buffer), 4));
     });
-    this.scene.add(group);
+    this.scene.add(group); toGPU(group, this.backend);
     this.lites.set(n, { state: 'ready', group, base, hero: S['h:pos'] ? hero : null });
   }
   async load(n) {
-    const [meta, bin] = await Promise.all([fetch(`${this.base}/${n}.json`).then((r) => r.json()), fetch(`${this.base}/${n}.bin`).then((r) => r.arrayBuffer())]);
+    const [meta, bin] = await Promise.all([this.take(`${this.base}/${n}.json`, fetchJSON), this.take(`${this.base}/${n}.bin`, (u) => fetchBin(u))]);
     const S = timed('full:decode', () => decodeStreams(bin, meta.streams));
     const tb = performance.now();
     const T = { name: n, meta, S, state: 'ready', group: new THREE.Group() };
@@ -139,7 +229,12 @@ export class Tiles {
       g.boundingBox = new THREE.Box3(new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 1, 1));
       g.boundingSphere = g.boundingBox.getBoundingSphere(new THREE.Sphere());
       const mkMesh = (idx) => {
-        const gg = idx === S.idx ? g : g.clone();
+        let gg = g;
+        if (idx !== S.idx) {         // the hero split: same vertices, own index (a clone would copy them, CPU and GPU)
+          gg = new THREE.BufferGeometry();
+          for (const k in g.attributes) gg.setAttribute(k, g.attributes[k]);
+          gg.boundingBox = g.boundingBox; gg.boundingSphere = g.boundingSphere;
+        }
         gg.setIndex(new THREE.BufferAttribute(idx, 1));
         const m = new THREE.Mesh(gg, this.matStatic);
         m.position.set(...meta.qmin); m.scale.setScalar(Array.isArray(meta.qext) ? Math.max(...meta.qext) : meta.qext);
@@ -162,24 +257,30 @@ export class Tiles {
       T.farAll.castShadow = true; T.farAll.receiveShadow = true; T.group.add(T.farAll);
       T.chunks = chunkFacades(meta).map((c) => ({ ...c, far: null, near: null }));
     });
-    if (this.props) { const pg = timed('full:props', () => this.props.build(S)); pg.traverse((o) => o.layers.set(1)); T.group.add(pg); T.props = pg; }
     if (this.index[n] && this.index[n].walk) this.loadWalk(n).catch((e) => console.error('walk', n, e));
-    this.scene.add(T.group);
+    // kept: the facade light for atlases made later, the prop instances for props made when the tile comes near
+    T.S = { girr: S.girr, girrn: S.girrn }; T.SP = { ipos: S.ipos, isct: S.isct, icol: S.icol, iirr: S.iirr, iirrn: S.iirrn };
+    this.scene.add(T.group); toGPU(T.group, this.backend);
     this.tiles.set(n, T);
     this.onLoad && this.onLoad(T);
   }
   async loadWalk(n) {
-    const blob = await (await fetch(`${this.base}/${n}.walk.png`)).blob();
+    const blob = await this.take(`${this.base}/${n}.walk.png`, fetchBlob);
     const bmp = await createImageBitmap(blob, { colorSpaceConversion: 'none', premultiplyAlpha: 'none' });
     const c = new OffscreenCanvas(bmp.width, bmp.height); const g = c.getContext('2d', { willReadFrequently: true });
     g.drawImage(bmp, 0, 0);
-    const data = timed('walk:png', () => g.getImageData(0, 0, bmp.width, bmp.height).data);
+    const data = timed('walk:png', () => {
+      const rgba = g.getImageData(0, 0, bmp.width, bmp.height).data; const d = new Uint8Array(rgba.length / 2);
+      for (let i = 0, j = 0; i < rgba.length; i += 4, j += 2) { d[j] = rgba[i]; d[j + 1] = rgba[i + 1]; }
+      return d;
+    });
     this.walk.set(n, { data, size: bmp.width, bbox: this.index[n].bbox });
   }
   drop(n, T) {
     if (T.slots) this.dropAtlas(T);
     this.scene.remove(T.group);
-    T.group.traverse((o) => { if (o.isMesh && o.geometry) o.geometry.dispose(); });
+    const gs = new Set(); T.group.traverse((o) => { if (o.isMesh && o.geometry) gs.add(o.geometry); });
+    for (const g of gs) release(g, this.backend);
     this.tiles.delete(n);
     this.walk.delete(n);
   }
@@ -187,6 +288,7 @@ export class Tiles {
     const fac = T.meta.fac;
     const { rects, pages } = packAtlas(fac);
     const slots = this.pool.alloc(pages);
+    this.poolFull = !slots;
     if (!slots) return;
     this.pool.write(slots, fillAtlas(fac, rects, pages, T.S.girr), 'day');
     this.pool.write(slots, fillAtlas(fac, rects, pages, T.S.girrn), 'night');
@@ -194,7 +296,7 @@ export class Tiles {
     // near: the merged coarse facades stay for the water reflection only; the main view gets them per chunk
     for (const c of T.chunks) {
       c.far = new THREE.Mesh(buildFarFacades(T.meta, T.S.girr, T.S.girrn, this.mats, c.list), this.matStatic);
-      c.far.castShadow = true; c.far.receiveShadow = true; c.far.layers.set(1); T.group.add(c.far);
+      c.far.castShadow = true; c.far.receiveShadow = true; c.far.layers.set(1); T.group.add(c.far); toGPU(c.far, this.backend);
     }
     T.farAll.layers.set(2);
   }
@@ -205,16 +307,16 @@ export class Tiles {
     const mesh = new THREE.Mesh(J.fb.g.build(true), this.matNear);
     mesh.castShadow = true; mesh.receiveShadow = true;
     mesh.layers.set(1);                           // main view only; the coarse facades still show in the water
-    J.T.group.add(mesh); J.c.near = mesh; this.job = null;
+    J.T.group.add(mesh); J.c.near = mesh; this.job = null; toGPU(mesh, this.backend);
   }
   dropChunk(T, c) {
-    T.group.remove(c.near); c.near.geometry.dispose(); c.near = null; if (c.far) c.far.visible = true;
+    T.group.remove(c.near); release(c.near.geometry, this.backend); c.near = null; if (c.far) c.far.visible = true;
   }
   dropAtlas(T) {
     if (this.job && this.job.T === T) this.job = null;     // its atlas slots go away: abandon the half-built chunk
     for (const c of T.chunks) {
       if (c.near) this.dropChunk(T, c);
-      if (c.far) { T.group.remove(c.far); c.far.geometry.dispose(); c.far = null; }
+      if (c.far) { T.group.remove(c.far); release(c.far.geometry, this.backend); c.far = null; }
     }
     if (T.farAll) T.farAll.layers.set(0);
     this.pool.release(T.slots); T.slots = null; T.rects = null;
@@ -228,7 +330,7 @@ export class Tiles {
     const bb = W.bbox, S = W.size;
     const px = Math.min(S - 1, Math.max(0, Math.floor((x - bb[0]) / (bb[2] - bb[0]) * S)));
     const py = Math.min(S - 1, Math.max(0, Math.floor((bb[3] - y) / (bb[3] - bb[1]) * S)));
-    const k = (py * S + px) * 4; const c = W.data[k];
+    const k = (py * S + px) * 2; const c = W.data[k];
     return { z: c ? (c - 1) * 0.04 - 1.0 : null, water: W.data[k + 1] > 127 };
   }
   hasWalkTile(x, y) {

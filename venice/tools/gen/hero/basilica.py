@@ -336,8 +336,25 @@ def body(world, poly):
     strip = SP([tuple(wf(-60, -60)), tuple(wf(44.0, -60)), tuple(wf(44.0, 130)), tuple(wf(-60, 130))])
     P = orient(poly.simplify(0.5, preserve_topology=True).difference(strip).buffer(0), 1.0)
     if P.geom_type != 'Polygon': P = max(P.geoms, key=lambda g: g.area)
-    ring = list(P.exterior.coords)[:-1]
-    m.merge(G.prism([ring], GROUND_Z - 0.1, GROUND_Z + 22.0, 'basilica_wall', top=False))
+    ring = G.ccw(list(P.exterior.coords)[:-1])
+    # the walls (as G.prism), except that the west one (u = 44) is open where the narthex runs through it, up to the
+    # narthex vault's crown: it stood as a blank wall 3 m inside the main portal
+    from . import basilica_int as BI
+    nv0, nv1, zn = BI.AX - 5.5, BI.AX + 5.5, BI.ZF + 11.1
+    z0, z1 = GROUND_Z - 0.1, GROUND_Z + 22.0
+    for i in range(len(ring)):
+        a, b = ring[i], ring[(i + 1) % len(ring)]
+        (ua, va), (ub, vb) = pf(a), pf(b)
+        lo, hi = max(min(va, vb), nv0), min(max(va, vb), nv1)
+        runs = [(a, b, z0)]
+        if abs(ua - 44.0) < 0.05 and abs(ub - 44.0) < 0.05 and hi - lo > 0.01:
+            s0, s1 = (lo, hi) if va < vb else (hi, lo)
+            p0, p1 = tuple(wf(44.0, s0)), tuple(wf(44.0, s1))
+            runs = [(a, p0, z0), (p0, p1, zn), (p1, b, z0)]
+        for (p, q, zb) in runs:
+            if math.dist(p[:2], q[:2]) < 0.01: continue
+            o = m.add_v([(p[0], p[1], zb), (q[0], q[1], zb), (q[0], q[1], z1), (p[0], p[1], z1)])
+            m.face([o, o + 1, o + 2, o + 3], 'basilica_wall')
     # close the zone between the facade's upper register and the massing: a back wall at u = 44 and a lead lid
     front = poly.intersection(strip)
     if not front.is_empty:

@@ -1,5 +1,5 @@
 """Artworks (paintings, mosaics, dials) as one KTX2 texture array (ETC1S, 1024², mipmapped) + art.json.
-python art_build.py OUT_DIR      -> OUT_DIR/art.ktx2, OUT_DIR/art.json   (layer per item; aspect stored for UVs)
+python art_build.py OUT_DIR [SIZE] -> OUT_DIR/art.ktx2, OUT_DIR/art.json   (layer per item; aspect stored for UVs; SIZE 1024)
 
 Items reference files downloaded with commons_fetch.py (licences in each folder's manifest.json); the credits
 page is generated from the same list."""
@@ -8,7 +8,7 @@ from PIL import Image, ImageOps
 
 KTX = '/home/kazu/work/venice-assets/tools/KTX-Software-4.4.2-Linux-x86_64/bin/ktx'
 C = '/home/kazu/work/venice-assets/commons'
-S = 1024
+S = int(sys.argv[2]) if len(sys.argv) > 2 else 1024        # python art_build.py OUT_DIR 512: the lighter set for phones
 
 # key: (folder, file, crop (x0, y0, x1, y1) as fractions or None)
 ITEMS = {

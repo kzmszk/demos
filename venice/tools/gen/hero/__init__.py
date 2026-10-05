@@ -3,7 +3,7 @@ for heroes anchored in that tile."""
 import numpy as np
 from shapely.geometry import Point, LineString
 from .common import wf, pf
-from . import procuratie, campanile, basilica, basilica_int, rialto, ducale, piazzetta, florian, fenice, piazza_props, gc_bridges
+from . import procuratie, campanile, basilica, basilica_int, rialto, ducale, piazzetta, florian, fenice, piazza_props, gc_bridges, santa_lucia
 
 HEROES = []          # (anchor world xy, builder fn)
 # generic OSM bridges replaced by hand-modelled ones: (x, y, radius)
@@ -69,6 +69,10 @@ def setup(world):
     HEROES.append((gc_bridges.ANCHORS['accademia'], lambda mb, inst: gc_bridges.build_accademia(mb)))
     HEROES.append((gc_bridges.ANCHORS['scalzi'], lambda mb, inst: gc_bridges.build_scalzi(mb)))
     HEROES.append((gc_bridges.ANCHORS['costituzione'], lambda mb, inst: gc_bridges.build_costituzione(mb)))
+    # Stazione di Santa Lucia: the 1950s front (hall with its glass wall and lettering, wings, canopy, scalinata);
+    # the OSM parts behind it are cut back to it
+    santa_lucia.setup(world)
+    HEROES.append((santa_lucia.ANCHOR, lambda mb, inst: santa_lucia.build(mb)))
     # Basilica di San Marco (full replacement: massing, domes, west front)
     bb = B.get('w138800932')
     if bb is not None:
@@ -81,10 +85,14 @@ def setup(world):
     for bid in piazza_props.osm_pole_stubs(world):
         if bid in B: B[bid].hero = True
     HEROES.extend(piazza_props.hero_entries())
+    # setups may split or add buildings: index them again
+    from shapely import STRtree
+    world.btree = STRtree([b.poly for b in world.buildings])
+    world.bidx = {b.id: i for i, b in enumerate(world.buildings)}
 
 def walk_areas():
     """[(polygon, z or None)] walkable overrides (porticoes, interiors) and blocked spots (piers, columns)."""
-    return procuratie.walk_areas() + rialto.walk_areas() + gc_bridges.walk_areas() + ducale.walk_areas() + piazzetta.libreria_walk() + piazzetta.columns_walk() + florian.walk_areas() + basilica_int.walk_area() + fenice.walk_areas() + piazza_props.walk_areas()
+    return procuratie.walk_areas() + rialto.walk_areas() + gc_bridges.walk_areas() + ducale.walk_areas() + piazzetta.libreria_walk() + piazzetta.columns_walk() + florian.walk_areas() + basilica_int.walk_area() + fenice.walk_areas() + piazza_props.walk_areas() + santa_lucia.walk_areas()
 
 def build(tile_box, mb, inst):
     """heroes whose anchor falls in this tile (half-open box, so a point on a border belongs to one tile)."""

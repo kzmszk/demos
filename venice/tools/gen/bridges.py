@@ -15,17 +15,24 @@ from .materials import MAT
 
 TREAD = 0.42
 RISE = 0.15
+TREAD_MIN = 0.27      # steepest steps, where a bank leaves little room (a wall or a narrow fondamenta beyond it)
+RISE_MAX = 0.19
 ARCH_MAX = 40.0       # wider crossings get a timber footbridge on piles instead of a brick arch
 LONG_MAX = 120.0
 
 def find_bridges(world):
     o = world.o
     lines = []
+    named = []           # lines of footways called "Ponte ...": the only ones allowed a long timber crossing
     for wid, way in o.ways.items():
         t = way.get('tags', {})
         if t.get('bridge') in ('yes', 'arch', 'covered') and t.get('highway') and t.get('highway') not in ('motorway', 'trunk', 'primary', 'secondary', 'tertiary', 'unclassified', 'service', 'residential'):
             P = o.way_xy(wid)
-            if len(P) >= 2: lines.append(LineString(P))
+            if len(P) >= 2:
+                lines.append(LineString(P))
+                if t.get('highway') in ('footway', 'pedestrian', 'steps', 'path') and str(t.get('name', '')).startswith('Ponte'): named.append(LineString(P))
+    named_u = unary_union(named) if named else None
+    def is_named(g): return named_u is not None and g.buffer(0.5).intersection(named_u).length > 0.5 * min(g.length, 30.0)
     merged = linemerge(unary_union(lines))
     groups = list(merged.geoms) if hasattr(merged, 'geoms') else [merged]
     mm = []
@@ -64,6 +71,7 @@ def find_bridges(world):
             sa, sb = max(0.0, min(pts)), min(L, max(pts))
             if sb - sa < 1.0: continue
             mid = Point(*(a + d * (sa + sb) / 2))
+            if (sb - sa) > ARCH_MAX and not is_named(g): continue
             out.append(dict(a=a, b=b, d=d, L=L, sa=sa, sb=sb, w=width_at(mid), seed=h32('br', round(a[0], 1), round(a[1], 1)), long=(sb - sa) > ARCH_MAX))
         else:
             # bent or merged lines (two bridges meeting at an angle, a bridge continuing a fondamenta): the chord of
@@ -73,8 +81,56 @@ def find_bridges(world):
                 if wc < 1.2 or wc > LONG_MAX or p.length > 1.25 * wc + 1.0: continue
                 dd = (p1 - p0) / wc
                 mid = Point(*((p0 + p1) / 2))
+                if wc > ARCH_MAX and not is_named(p): continue
                 out.append(dict(a=p0, b=p1, d=dd, L=wc, sa=0.0, sb=wc, w=width_at(mid), seed=h32('br', round(p0[0], 1), round(p0[1], 1)), long=wc > ARCH_MAX))
+    _free_ends(world, out)
     return out
+
+def _free_ends(world, brs, maxd=6.0, step=0.1):
+    """br['free'] = open ground beyond each bank along the axis, up to the first building (unless a calle passes
+    through it) or water: the steps stop short of it instead of running into a wall."""
+    from .walk import Passages
+    bl = [b.poly for b in world.buildings if b.z0 < GROUND_Z + 2.0]; bt = STRtree(bl)
+    pas = Passages(world)                                  # the same calli through buildings the walk raster opens
+    land = world.land
+    shapely.prepare(land)
+    def open_at(p):
+        q = Point(float(p[0]), float(p[1]))
+        if not land.contains(q): return False
+        for i in bt.query(q):
+            if bl[i].contains(q): return any(g.contains(q) for g in pas.within(q))
+        return True
+    for br in brs:
+        fr = []
+        gp = []
+        for sv, sg in ((br['sa'], -1.0), (br['sb'], 1.0)):
+            p0 = br['a'] + br['d'] * sv; f = maxd; on = False; g = 0.0
+            for k in range(1, int(maxd / step) + 1):
+                o = open_at(p0 + br['d'] * (sg * k * step))
+                if not on:                                 # an OSM bridge line can stop short of the mapped bank
+                    if o: on = True; g = (k - 1) * step
+                    elif k * step >= 3.0: f = 0.0; break
+                    continue
+                if not o: f = (k - 1) * step; break
+            fr.append(f); gp.append(g if on else 0.0)
+        br['free'] = tuple(fr); br['gap'] = tuple(gp)
+
+def _fit_steps(span_half, E0, F, nst, rise, ztop, landing, landing_min=0.6, gap=0.0):
+    """one side's flight: (steps, rise, tread, landing half length) so that it ends E <= F - 0.25 beyond the bank,
+    and at least 0.4 m onto land when the OSM line stopped `gap` short of it.  span_half: centre to bank.  Short of
+    room: steeper treads first, then a shorter landing, then higher risers; with room to spare the landing grows."""
+    lo = gap + 0.4 if gap > 0 else 0.0
+    E = min(max(E0, lo), max(F - 0.25, min(F, 0.35), lo))
+    avail = span_half + E
+    n, r, l = nst, rise, landing
+    t = (avail - l) / n
+    if t < TREAD_MIN:
+        l = max(landing_min, avail - n * TREAD_MIN); t = (avail - l) / n
+    if t < TREAD_MIN:
+        n = max(2, int(math.ceil((ztop - GROUND_Z) / RISE_MAX))); r = (ztop - GROUND_Z) / n
+        t = max(TREAD_MIN, (avail - l) / n)
+    if t > TREAD: t = TREAD; l = avail - n * TREAD
+    return n, r, t, l
 
 def gen_long_bridge(mb, br):
     """a long timber footbridge (Ponte San Pietro, Quintavalle, Ponte Longo...): stone steps up from both banks,
@@ -83,8 +139,12 @@ def gen_long_bridge(mb, br):
     n_ = np.array([-d[1], d[0]]); rnd = br['seed']
     ztop = GROUND_Z + 1.65
     nst = max(2, int(round((ztop - GROUND_Z) / RISE))); rise = (ztop - GROUND_Z) / nst
-    s_l0, s_l1 = sa - 0.6, sb + 0.6                        # the deck reaches 0.6 m onto each bank
-    s_lo, s_hi = s_l0 - nst * TREAD, s_l1 + nst * TREAD
+    fr = br.get('free', (9.0, 9.0)); gp = br.get('gap', (0.0, 0.0))
+    # the deck reaches 0.6 m onto each bank (further where OSM stops short of it); flights from its ends inland, as far
+    # as the open ground allows
+    fl = {sd: _fit_steps(0.0, 0.6 + nst * TREAD, f, nst, rise, ztop, 0.6, 0.6, gap=g) for sd, f, g in ((-1, fr[0], gp[0]), (1, fr[1], gp[1]))}
+    s_l0, s_l1 = sa - fl[-1][3], sb + fl[1][3]
+    s_lo, s_hi = s_l0 - fl[-1][0] * fl[-1][2], s_l1 + fl[1][0] * fl[1][2]
     hw = W / 2; ti = hw - 0.14
     P = lambda s, t, z: (a[0] + d[0] * s + n_[0] * t, a[1] + d[1] * s + n_[1] * t, z)
     wood = MAT['wood_raw']; stone = MAT['bridge_stone']; tread_m = MAT['ground']
@@ -103,11 +163,12 @@ def gen_long_bridge(mb, br):
         quad(P(s0, t0, z0), P(s0, t1, z0), P(s0, t1, z1), P(s0, t0, z1), [(t0, z0), (t1, z0), (t1, z1), (t0, z1)], mat, (-fw[0], -fw[1], 0.0))
     # steps on both banks (stone risers, trachyte treads), the full width
     for side in (-1, 1):
-        for k in range(nst):
-            s_r = (s_lo + k * TREAD) if side < 0 else (s_hi - k * TREAD)
-            s_t = s_r + TREAD * (1 if side < 0 else -1)
+        n_s, r_s, t_s, _ = fl[side]
+        for k in range(n_s):
+            s_r = (s_lo + k * t_s) if side < 0 else (s_hi - k * t_s)
+            s_t = s_r + t_s * (1 if side < 0 else -1)
             lo, hi = min(s_r, s_t), max(s_r, s_t)
-            box(lo, hi, -hw, hw, GROUND_Z - 0.05, GROUND_Z + rise * (k + 1), stone if k == nst - 1 else tread_m)
+            box(lo, hi, -hw, hw, GROUND_Z - 0.05, GROUND_Z + r_s * (k + 1), stone if k == n_s - 1 else tread_m)
     # the deck: planks on two side beams
     box(s_l0, s_l1, -hw, hw, ztop - 0.12, ztop, wood)
     for side in (-1, 1):
@@ -154,7 +215,12 @@ def gen_bridge(mb, br):
     nst = max(2, int(round((ztop - GROUND_Z) / RISE)))
     rise = (ztop - GROUND_Z) / nst
     lh = max(0.7, Wc * 0.16, Wc / 2 + 1.2 - nst * TREAD)     # the steps always start on the banks (wide canals)
-    s_lo, s_hi = sc - lh - nst * TREAD, sc + lh + nst * TREAD
+    E0 = lh + nst * TREAD - Wc / 2                            # how far they reach inland where there is room
+    fr = br.get('free', (9.0, 9.0))
+    gp = br.get('gap', (0.0, 0.0))
+    fl = {sd: _fit_steps(Wc / 2, E0, f, nst, rise, ztop, lh, gap=g) for sd, f, g in ((-1, fr[0], gp[0]), (1, fr[1], gp[1]))}
+    s_l0, s_l1 = sc - fl[-1][3], sc + fl[1][3]
+    s_lo, s_hi = s_l0 - fl[-1][0] * fl[-1][2], s_l1 + fl[1][0] * fl[1][2]
     P = lambda s, t, z: (a[0] + d[0] * s + n_[0] * t, a[1] + d[1] * s + n_[1] * t, z)
     hw = W / 2; pw = 0.24                  # parapet thickness
     stone = MAT['bridge_stone']; brick = MAT['bridge_brick']; tread_m = MAT['ground']
@@ -167,13 +233,13 @@ def gen_bridge(mb, br):
     up = (0, 0, 1.0); fwd = (d[0], d[1], 0.0); bwd = (-d[0], -d[1], 0.0)
     ti = hw - pw
     # ---- steps (both sides) and landing
-    def zstep(k): return GROUND_Z + rise * k
     for side in (-1, 1):
-        for k in range(nst):
-            # step k: riser at s_r, tread from s_r to s_r + TREAD toward the centre
-            s_r = (s_lo + k * TREAD) if side < 0 else (s_hi - k * TREAD)
-            s_t = s_r + TREAD * (1 if side < 0 else -1)
-            z0, z1 = zstep(k), zstep(k + 1)
+        n_s, r_s, t_s, _ = fl[side]
+        for k in range(n_s):
+            # step k: riser at s_r, tread from s_r to s_r + t_s toward the centre
+            s_r = (s_lo + k * t_s) if side < 0 else (s_hi - k * t_s)
+            s_t = s_r + t_s * (1 if side < 0 else -1)
+            z0, z1 = GROUND_Z + r_s * k, GROUND_Z + r_s * (k + 1)
             nr = bwd if side < 0 else fwd
             # riser (stone)
             if side < 0:
@@ -188,7 +254,6 @@ def gen_bridge(mb, br):
                 for j in range(nt):
                     ta, tb = -ti + 2 * ti * j / nt, -ti + 2 * ti * (j + 1) / nt
                     quad(P(lo, ta, z1), P(hi, ta, z1), P(hi, tb, z1), P(lo, tb, z1), [(lo, ta), (hi, ta), (hi, tb), (lo, tb)], m, up)
-    s_l0, s_l1 = s_lo + nst * TREAD, s_hi - nst * TREAD
     quad(P(s_l0, -ti, ztop), P(s_l1, -ti, ztop), P(s_l1, ti, ztop), P(s_l0, ti, ztop), [(s_l0, -ti), (s_l1, -ti), (s_l1, ti), (s_l0, ti)], tread_m, up)
     # ---- arch soffit (brick) between the abutments
     R = ((Wc / 2) ** 2 + (zcr - zsp) ** 2) / (2 * (zcr - zsp)); zc = zcr - R

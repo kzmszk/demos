@@ -39,6 +39,9 @@ class MeshBuilder:
             fn = np.cross(P[I[:, 1]] - P[I[:, 0]], P[I[:, 2]] - P[I[:, 0]])
             bad = np.einsum('ij,ij->i', fn, Nn[I].sum(1)) < 0
             if bad.any(): I = I.copy(); I[bad] = I[bad][:, ::-1]
+        # a triangle with a repeated corner (a sliver welded shut) draws nothing and crashes Blender's custom normals
+        I = I[(I[:, 0] != I[:, 1]) & (I[:, 1] != I[:, 2]) & (I[:, 0] != I[:, 2])]
+        if len(I) == 0: return
         n = len(P)
         if UV is None: UV = np.zeros((n, 2))
         UV = np.asarray(UV, np.float64).reshape(-1, 2)

@@ -1,5 +1,7 @@
 // pack.mjs — meshopt-encode staged tile streams:  node pack.mjs STAGE_DIR OUT_DIR
-import fs from 'node:fs'; import path from 'node:path';
+// Tile binaries are written gzip-compressed (the viewer inflates them with DecompressionStream): meshopt streams
+// shrink by another ~40%, and the host does not compress application/octet-stream itself.
+import fs from 'node:fs'; import path from 'node:path'; import zlib from 'node:zlib';
 import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
 await MeshoptEncoder.ready; await MeshoptSimplifier.ready;
 const [stage, out] = process.argv.slice(2);
@@ -54,8 +56,9 @@ function packLite(L, raw, file) {
     enc('f:idx', S['fac:idx'].d, 4, 'i');
   }
   const bin = Buffer.concat(parts.map((p) => Buffer.from(p.buffer, p.byteOffset, p.length)));
-  fs.writeFileSync(file, bin);
-  return { qmin: lo, qext: ext, streams, bytes: bin.length };
+  const gz = zlib.gzipSync(bin, { level: 9 });
+  fs.writeFileSync(file, gz);
+  return { qmin: lo, qext: ext, streams, bytes: gz.length };
 }
 for (const f of fs.readdirSync(stage).filter((f) => f.endsWith(".json") && f.startsWith("t_") && !f.endsWith(".lite.json"))) {
   const hdr = JSON.parse(fs.readFileSync(path.join(stage, f), 'utf8'));
@@ -70,16 +73,17 @@ for (const f of fs.readdirSync(stage).filter((f) => f.endsWith(".json") && f.sta
     parts.push(enc); off += enc.length;
   }
   const bin = Buffer.concat(parts.map((p) => Buffer.from(p.buffer, p.byteOffset, p.length)));
-  fs.writeFileSync(path.join(out, hdr.name + '.bin'), bin);
-  const meta = { name: hdr.name, tile: hdr.tile, bbox: hdr.bbox, qmin: hdr.qmin, qext: hdr.qext, nv: hdr.nv, ni: hdr.ni, hr: hdr.hr, streams, fac: hdr.fac, bytes: bin.length };
+  const gz = zlib.gzipSync(bin, { level: 9 });
+  fs.writeFileSync(path.join(out, hdr.name + '.bin'), gz);
+  const meta = { name: hdr.name, tile: hdr.tile, bbox: hdr.bbox, qmin: hdr.qmin, qext: hdr.qext, nv: hdr.nv, ni: hdr.ni, hr: hdr.hr, streams, fac: hdr.fac, bytes: gz.length };
   fs.writeFileSync(path.join(out, hdr.name + '.json'), JSON.stringify(meta));
-  man.tiles[hdr.name] = { tile: hdr.tile, bbox: hdr.bbox, bytes: bin.length };
-  total += bin.length;
+  man.tiles[hdr.name] = { tile: hdr.tile, bbox: hdr.bbox, bytes: gz.length };
+  total += gz.length;
   const lj = path.join(stage, hdr.name + '.lite.json');
   if (fs.existsSync(lj)) { const lite = packLite(JSON.parse(fs.readFileSync(lj, 'utf8')), fs.readFileSync(path.join(stage, hdr.name + '.lite.raw')), path.join(out, hdr.name + '.lite.bin')); man.tiles[hdr.name].lite = lite; liteTotal += lite.bytes; }
   const wp = path.join(stage, hdr.name + '.walk.png');
   if (fs.existsSync(wp)) { fs.copyFileSync(wp, path.join(out, hdr.name + '.walk.png')); man.tiles[hdr.name].walk = 1; }
-  console.log(hdr.name, (raw.length / 1024) | 0, 'KB raw ->', (bin.length / 1024) | 0, 'KB');
+  console.log(hdr.name, (raw.length / 1024) | 0, 'KB raw ->', (bin.length / 1024) | 0, 'KB ->', (gz.length / 1024) | 0, 'KB gz');
 }
 fs.writeFileSync(path.join(out, 'tiles.json'), JSON.stringify(man));
 console.log('total', (total / 1048576).toFixed(1), 'MB', 'lite', (liteTotal / 1048576).toFixed(2), 'MB');
