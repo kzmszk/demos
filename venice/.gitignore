@@ -1,3 +1,6 @@
 # the film itself stays out of git (venice-assets/film/ has it; the site plays it from R2, see README "Film")
 public/movie/*.mp4
 __pycache__/
+# the city tiles are generated (run_island.sh gen bake pack, from venice-assets) and replaced on every rebuild (~330 MB):
+# they stay out of git; a deploy takes the local copy
+public/data/island/
