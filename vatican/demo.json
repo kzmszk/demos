@@ -16,7 +16,8 @@
   "gpu": true,
   "links": [
     { "label": "日本語", "href": "index.html#ja" },
-    { "label": "English", "href": "index.html#en" }
+    { "label": "English", "href": "index.html#en" },
+    { "label": "紹介動画 · Film", "href": "film.html" }
   ],
   "shots": [
     { "path": "index.html", "wait": 3000, "eval": "new Promise((r) => { const f = () => (window.VAT && VAT.ready ? r() : setTimeout(f, 200)); f(); })", "after": 2500 },

@@ -250,8 +250,8 @@ export const AUDIO = (() => {
         for (let i = 0; i < n; i++) { const e = Math.exp((-dec * i) / rate); if (e < 1e-3) break; d[i] += a * e * Math.sin(w * i + ph); } } }
     return b;
   }
-  function build() {
-    ctx = new (window.AudioContext || window.webkitAudioContext)({ latencyHint: 'playback' });
+  function build(given = null) {
+    ctx = given || new (window.AudioContext || window.webkitAudioContext)({ latencyHint: 'playback' });
     master = ctx.createGain(); master.gain.value = muted ? 0 : MASTER;
     const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -16; comp.ratio.value = 2.5; comp.attack.value = 0.02; comp.release.value = 0.3;
     const lim = ctx.createDynamicsCompressor(); lim.threshold.value = -2; lim.knee.value = 0; lim.ratio.value = 20; lim.attack.value = 0.002; lim.release.value = 0.12;
@@ -354,6 +354,28 @@ export const AUDIO = (() => {
       f.g.gain.setTargetAtTime(g, ctx.currentTime, 0.3);
     },
     events: () => events,
+    /* a film (tools/film.mjs): `sec` seconds of the score from `from`, rendered offline at 48 kHz with the same piano,
+       body and hall; amb.fountain (gains per 1/30 s), amb.bells ([t, prime Hz, weight, pan]) are the square's sounds.
+       music: false renders those alone; no note starts after `until` (score seconds).  Only for a page whose sound was never
+       started. */
+    async offline(sec, from = 0, amb = {}, music = true, until = Infinity) {
+      if (ctx) throw new Error('the live sound is running');
+      const oac = new OfflineAudioContext(2, Math.ceil(sec * 48000), 48000);
+      build(oac);
+      // the keys this stretch of the score plays (all of them would take minutes), then the fountain
+      const want = music ? plan(events.filter((e) => e.t < from + sec && e.t + e.d > from)) : []; loadKit(want);
+      for (let i = 0; i < 12000 && !(want.every((j) => KEYS[j.m]) && WATER.fountain); i++) await new Promise((r) => setTimeout(r, 50));
+      if (!WATER.fountain || !want.every((j) => KEYS[j.m])) throw new Error('the sound kit did not finish');
+      if (music) for (const e of events) {
+        if (e.t + e.d <= from || e.t >= from + sec || e.t >= until) continue;      // until: no note begins after it (a movement's end)
+        if (e.t >= from) strike(e, e.t - from); else strike(e, 0, from - e.t);
+      }
+      if (amb.fountain && amb.fountain.length > 1) { const f = fountainLoop(); f.g.gain.setValueCurveAtTime(Float32Array.from(amb.fountain), 0, amb.fountain.length / 30); }
+      for (const [t, prime, v, pan] of amb.bells || []) bell(t, prime, v, pan);
+      const buf = await oac.startRendering();
+      ctx = null; epochBus = null; fountain = null;
+      return buf;
+    },
     kit: () => ({ keys: Object.keys(KEYS).length, want: new Set(Object.values(KEYMAP)).size, water: Object.keys(WATER) }),
   };
 })();

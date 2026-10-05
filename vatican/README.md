@@ -32,6 +32,19 @@ node build_web.mjs       # --dev でソースマップ付き
 - `pack.mjs` は焼き込み後の三角形を、形（2 cm）と光の差が見えない範囲で間引きます。手前で見る彫刻（`statue_marble`）は間引きません。
 - 確認：`node snap.mjs out.jpg "" shots.json`（実 GPU のヘッドレス Chrome）。`window.VAT.at(秒)` でツアーの任意の時刻、`VAT.look(x,y,z,tx,ty,tz)` で任意の視点、`?dbg=irr|nrm|alb` で焼き込み光・法線・色を表示します。
 
+## 紹介動画
+
+約 1 分の紹介動画（1920×1080・30fps）を、アプリ自身を 1/30 秒ずつ進めて 1 コマずつ書き出して作ります。音楽はツアーの楽譜の冒頭（到着の楽章の 0〜8 小節と、広場の楽章の 4 小節目から最後まで）を、アプリの音源でオフライン描画したもので、カットはその小節線（4 秒ごと）に合わせています。噴水と鐘の音も重ねます。
+
+```bash
+cd vatican/tools
+node film.mjs scout OUTDIR [shot,shot]   # 各ショットの静止画 3 枚（構図の確認）
+node film.mjs render OUTDIR              # 全コマ（JPEG）と音（music_full.wav・amb.wav・cut.json）
+python film_mix.py OUTDIR                # 楽譜の切りつなぎ、環境音、-16 LUFS → OUTDIR/vaticano.mp4
+```
+
+ショットは `film_shots.mjs`（ツアーの区間 `seg` の局所時刻 a〜b、字幕、タイトル）。`film_page.js` がページ内で動き、`VAT.step` でコマを進め、作品の画像が読み込み終わるのを待ってから、描いた直後の WebGL の画素を `readPixels` で読みます（canvas の drawImage だと、ときどき空だけの画像になった）。音は `AUDIO.offline()`（OfflineAudioContext）。2026-10-06 の動画は `vatican-assets/film/`（`vaticano.mp4`、送付用の `vaticano_share.mp4`）。公開は `/vatican/film`（`public/film.html`、ギャラリーのカードの「紹介動画 · Film」）：動画は R2 から Worker の `/media/movies/vaticano-film/video.mp4` で配信し（静的ファイルはバイト範囲指定に応えず、Safari が再生しないため）、`public/movie/vaticano.mp4`（25 MiB 未満の送付用と同じもの）を予備にしています。動画ファイルは Git に入れません（`vatican/.gitignore`）。
+
 ## 素材と限界
 
 地図のギャラリーの天井とクーポラ内側のモザイクは、Wikimedia Commons の CC0 写真を切り抜いて組み直しています。寸法はカルロ・フォンターナ『Templum Vaticanum』（1694）の実測図、OpenStreetMap、写真から推定しています。公式の測量モデルではありません。絵画は Wikimedia Commons のパブリックドメイン（一部 CC BY-SA）の画像、彫刻はデンマーク国立美術館（SMK）の石膏像スキャン（CC0）と Scan the World（CC BY-SA）です。自由に使えるスキャンがない彫刻（列柱上の聖人像、ペルセウスなど）は別の像で代用しています。全出典は作品内の「出典」に載せています。

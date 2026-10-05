@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>VATICANO — Film</title>
+<meta name="description" content="VATICANO, a one-minute film of the web app: St Peter's Square, the dome, the Pietà, the Vatican Museums and the Sistine Chapel.">
+<style>
+  :root { --ink: #f3ede2; --dim: rgba(243, 237, 226, .62); --gold: #d8b766; --bg: #0b0906;
+    --serif: "Optima", "Palatino Linotype", "Palatino", "Book Antiqua", "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif CJK JP", serif;
+    --sans: "Helvetica Neue", "Hiragino Sans", "Noto Sans CJK JP", "Yu Gothic", system-ui, sans-serif; }
+  html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  main { max-width: 1600px; margin: 0 auto; padding: clamp(16px, 3vw, 40px) 16px 40px; box-sizing: border-box; }
+  .top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: clamp(12px, 2vw, 24px); }
+  .word { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 7vw, 96px); letter-spacing: .14em; line-height: .86; margin-left: -.04em; color: #fffaf0; }
+  .top a, .meta a { color: var(--dim); text-decoration: none; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+  .top a:hover, .meta a:hover { color: var(--ink); }
+  video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+  .meta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 10px 24px; margin-top: 14px; font-size: 13px; letter-spacing: .06em; color: var(--dim); }
+  .meta .cap { font-family: var(--serif); }
+  .meta .open { color: var(--ink); border-bottom: 1px solid var(--gold); padding-bottom: 2px; font-size: 12px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><span class="word">VATICANO</span><a class="back" href="../">← Gallery</a></div>
+  <!-- the site's media route first: it answers byte ranges (Safari plays nothing without them, and seeking needs them);
+       the copy among the static files (which answer every range with the whole file) is the fallback, and what a local server has -->
+  <video poster="movie/poster.jpg" controls playsinline preload="metadata">
+    <source src="/media/movies/vaticano-film/video.mp4" type="video/mp4">
+    <source src="movie/vaticano.mp4" type="video/mp4">
+  </video>
+  <div class="meta"><span class="cap"></span><a class="open" href="index.html"></a></div>
+</main>
+<script>
+  // JA unless the browser (or #en) says otherwise, as the app itself
+  (function () {
+    var h = location.hash, en = (h === '#en' || (navigator.language || '').slice(0, 2) !== 'ja') && h !== '#ja';
+    document.documentElement.lang = en ? 'en' : 'ja';
+    document.querySelector('.cap').textContent = en ? 'A film of the web app · 63 s · its own score, fountains and bells' : '紹介動画 · 63秒 · 音楽と噴水・鐘の音はアプリのもの';
+    document.querySelector('.open').textContent = en ? 'Open the app ↗' : 'アプリを開く ↗';
+    document.querySelector('.open').href = 'index.html' + (en ? '#en' : '#ja');
+  })();
+</script>
+</body>
+</html>

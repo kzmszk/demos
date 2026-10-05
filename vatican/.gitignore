@@ -1,0 +1,3 @@
+# the film itself stays out of git (vatican-assets/film/ has it; the site plays it from R2, see README 紹介動画)
+public/movie/*.mp4
+__pycache__/

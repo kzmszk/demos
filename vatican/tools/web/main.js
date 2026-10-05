@@ -226,29 +226,37 @@ function updateTitle(dt) {
 }
 
 // ---------------------------------------------------------------- frame loop
-let exposure = 1, last = performance.now(), sunOn = 1;
+let exposure = 1, last = performance.now(), sunOn = 1, looping = true;
 addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); csm.updateFrustums(); });
-function frame(t) {
-  const dt = Math.min(0.1, (t - last) / 1000); last = t; shared.time.value = t / 1000;
-  if (mode === 'title') updateTitle(dt);
+// everything a frame does but drawing.  pose (tools/film.mjs) places the camera instead of the modes; snap lets the
+// exposure and the sun arrive at once (a cut in a film)
+function step(dt, pose = null, snap = false) {
+  shared.time.value += dt;
+  if (pose) pose(dt);
+  else if (mode === 'title') updateTitle(dt);
   else if (mode === 'tour') updateTour(dt);
   else { controls.update(dt); fade = Math.max(0, fade - dt * 1.5); }
   camera.updateMatrixWorld();
   const I = world.update(camera.position);
   const tExp = I ? (typeof I.exposure === 'function' ? I.exposure(camera.position) : I.exposure) : 1;
-  exposure += (tExp - exposure) * (1 - Math.exp(-dt * 3));
+  exposure += (tExp - exposure) * (snap ? 1 : 1 - Math.exp(-dt * 3));
   renderer.toneMappingExposure = exposure;
   const wantSun = !I || I.sun ? 1 : 0;
-  sunOn += (wantSun - sunOn) * Math.min(1, dt * 8);
+  sunOn += (wantSun - sunOn) * (snap ? 1 : Math.min(1, dt * 8));
   for (const l of csm.lights) l.intensity = SUN.strength * sunOn;
   scene.fog = I ? null : fogExt;
   if (I && I.bg != null) { scene.background = new THREE.Color(I.bg); } else scene.background = skyTex || SKYCOL;
   $('fade').style.opacity = fade.toFixed(3);
   csm.update();
   if (mode !== 'title') updateCard(); else card.style.opacity = 0;
+  return I;
+}
+function frame(t) {
+  const dt = Math.min(0.1, (t - last) / 1000); last = t;
+  const I = step(dt);
   renderer.render(scene, camera);
   AUDIO.listener(camera, I ? I.zone : null);
-  requestAnimationFrame(frame);
+  if (looping) requestAnimationFrame(frame);
 }
 applyLang(); setMode('title');
 $('go').disabled = true; $('free').disabled = true;
@@ -262,7 +270,9 @@ function loadCredits() {
 }
 
 // ---------------------------------------------------------------- debug / automation hooks
-window.VAT = { THREE, scene, camera, renderer, world, ready: false, audio: AUDIO,
+window.VAT = { THREE, scene, camera, renderer, world, ready: false, audio: AUDIO, step, csm,
+  // a film (tools/film.mjs) drives the frames itself
+  stopLoop() { looping = false; setMode('free'); controls.enabled = false; fade = 0; },
   look(px, py, pz, tx, ty, tz) { setMode('free'); fade = 0; camera.position.set(px, py, pz); camera.lookAt(tx, ty, tz); controls.syncFromCamera(); },
   async at(t) { await ready; const s = segAt(t); if (s.zone) await world.load(s.zone); startTour(t); playing = false; updateTour(0); fade = 0; $('fade').style.opacity = 0; return s.id; },
   async play(t) { await ready; startTour(t); },
