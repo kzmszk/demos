@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "source_release": "V12 editable source archive",
+  "prepared_utc": "2026-10-04T15:56:44.115826+00:00",
+  "base_repository_commit": "6ec6aaf4ecd807808cc409972a8a80f4cd0face2",
+  "branch": "codex/sagrada-source",
+  "scope": "Only sagrada-familia source and licensed regeneration inputs. No active gallery demo manifest, no deployment configuration changes.",
+  "construction_evidence_cutoff": "2026-09-22",
+  "requested_model_date": "2026-10-01",
+  "asset_inventory": {
+    "included": 154,
+    "excluded_from_original_asset_tree": 131,
+    "included_bytes": 224744240,
+    "ledger": "ASSET_PUBLICATION.json"
+  },
+  "excluded_master": {
+    "host": "ABC4090",
+    "path": "/home/kazu/work/codex/2026-10-01/task-6/sagrada_familia_2026/build/Sagrada_Familia_2026.blend",
+    "bytes": 167304659,
+    "sha256": "a0c38f6ee5770d2bebfa93b089c5bd27e3a9006e6e6bbd23dd55e4228fd1a5f9",
+    "reason": "Exceeds GitHub normal file size limit; no LFS introduced or purchased. Editable scene is rebuilt from included source and assets."
+  },
+  "portability_changes": [
+    "Create missing build/log/render directories",
+    "Replace prior-project Godot executable and export-template absolute paths with explicit environment variables",
+    "Track export_presets.cfg.in and generate machine-local export_presets.cfg",
+    "Bundle UI font, font audit and OFL; reuse without fontTools when unchanged",
+    "Bundle Godot license and dependency copyright; remove prior-project copy dependency",
+    "Preserve architectural/evidence/asset ledger meaning while updating obsolete local-only publication status",
+    "Add CPU-only source inventory/syntax validator and rebuild entry point"
+  ],
+  "verification": {
+    "asset_hashes": "154/154 pass",
+    "excluded_asset_absence": "131/131 pass",
+    "python_ast_files": 31,
+    "json_parse_files": 16,
+    "bash_syntax_files": 6,
+    "javascript_syntax_files": 1,
+    "git_diff_check": "pass",
+    "new_files_larger_than_100_MiB": 0,
+    "new_files_outside_sagrada_familia": 0,
+    "known_secret_pattern_scan": "No known private-key/token patterns found by independent final text scan; not a guarantee against every possible secret.",
+    "blender_launched": false,
+    "godot_launched": false,
+    "browser_launched": false,
+    "gpu_jobs_started": false,
+    "regeneration_run_in_this_checkout": false
+  },
+  "automation_inspection": {
+    "github_actions_workflows": 0,
+    "github_repository_webhooks": 0,
+    "github_deployments": 0,
+    "latest_main_check_runs": 0,
+    "latest_main_commit_statuses": 0,
+    "cloudflare_worker_settings_read": "200",
+    "cloudflare_deployment_history_read": "success; no deployment invoked",
+    "cloudflare_builds_trigger_listing": "403 with existing credential; unavailable, no permission expansion",
+    "interpretation": "No GitHub automation found; independent Cloudflare Builds configuration could not be fully inspected. Source-only dedicated branch does not change existing gallery configuration."
+  },
+  "lfs": {
+    "existing_policy_files": "No .gitattributes or .lfsconfig found in remote main",
+    "installed": false,
+    "quota_verified": false,
+    "enabled_by_this_change": false,
+    "purchases_or_billing_changes": false
+  },
+  "reproducibility_limits": [
+    "No fresh Blender/Godot/Web build was run during packaging because Blender/GPU execution was prohibited for this task.",
+    "The editable geometry is script-generated; a rebuilt .blend is not promised byte-identical to the locally preserved master.",
+    "Manually authored relief/mask/aperture JSON is source input, not automatically inferred from the original photographs.",
+    "Omitted research-only images and historic QA logs are not needed for the selected model, but the entire original research environment is not reproduced.",
+    "External Blender and Godot binaries/export templates are not vendored."
+  ]
+}

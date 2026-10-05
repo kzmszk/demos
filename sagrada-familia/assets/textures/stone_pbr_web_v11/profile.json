@@ -1,0 +1,506 @@
+{
+  "schema_version": 1,
+  "name": "web_v11",
+  "opt_in": true,
+  "tile_metres": 2.0,
+  "size_px": [
+    1024,
+    1024
+  ],
+  "purpose": "Original photo-informed stone PBR detail study for actual Chrome A/B; not final approval.",
+  "source_profile": "V10 base-color means preserved for all12 stone types.",
+  "authorship": "Original deterministic procedural mineral fields; no photographs or purchased assets used.",
+  "references": [
+    "assets/reference/qa_tree_vault.jpg",
+    "assets/reference/qa_nativity_2026_08_09_cc0.jpg",
+    "assets/reference/qa_passion_close.jpg"
+  ],
+  "limitations": "Appearance estimates only. No painted cavity shadows or AO. Lighting/contact contrast must be evaluated separately. No giant cloud/noise fields or manufactured masonry joints.",
+  "materials": {
+    "sandstone": {
+      "base": {
+        "file": "stone_pbr_web_v11/sandstone_base.png",
+        "sha256": "e39ade56ff53da17805e345b0c6a2ec506aae4e8e8f5396507bb07de0b2db9fd"
+      },
+      "rough": {
+        "file": "stone_pbr_web_v11/sandstone_rough.png",
+        "sha256": "a6da53a0e44ce0cc8b84a9e440d958af6e6a93242977268642e0d12777968f5c"
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/sandstone_normal.png",
+        "sha256": "e4f09a7e330f0415455d3d52f18a0a7068e03b8ce1ddfe4ea12b291875d88f7a"
+      },
+      "normal_strength": 0.55,
+      "roughness": 0.73
+    },
+    "granite": {
+      "base": {
+        "file": "stone_pbr_web_v11/granite_base.png",
+        "sha256": "f1054bad8adff06efe9385921ce546d1c3b26f1ff730e0ab333e29eb860f56e3"
+      },
+      "rough": {
+        "file": "stone_pbr_web_v11/granite_rough.png",
+        "sha256": "5161d923e5e31c20e14eb604dba145e7ef399fae0f219ac89aa5c0123659a2ba"
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/granite_normal.png",
+        "sha256": "5f573144080f2712cce0928c70be004753f819a792b2b592fe63180b89d2cb03"
+      },
+      "normal_strength": 0.45,
+      "roughness": 0.46
+    },
+    "basalt": {
+      "base": {
+        "file": "stone_pbr_web_v11/basalt_base.png",
+        "sha256": "7622cc0ae48310a7eeefddaf109c848574c0380c7a91f612e4e610f01203c08b"
+      },
+      "rough": {
+        "file": "stone_pbr_web_v11/basalt_rough.png",
+        "sha256": "899bc9e90ad8262e1dc1b21f9ac399d57a0a7e59816a8f3ef84c3f1fc5d50395"
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/basalt_normal.png",
+        "sha256": "a684839970c5f5f1be4b0a839173b6553ae856518f33c530239f2608627caf1a"
+      },
+      "normal_strength": 0.45,
+      "roughness": 0.5
+    },
+    "porphyry": {
+      "base": {
+        "file": "stone_pbr_web_v11/porphyry_base.png",
+        "sha256": "293e8f8d16049a6a84c856be979ebb53b3c0e9679554f33afdc9879cb1cdd9d7"
+      },
+      "rough": {
+        "file": "stone_pbr_web_v11/porphyry_rough.png",
+        "sha256": "d529dc3d7808a6ed4ab143d752dfdcf5c56324f91ec4395a612817d3a83f16e3"
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/porphyry_normal.png",
+        "sha256": "b7a8ebdb8fc67fcb505de7cd918b45994542cc7ebabe7a6be4c9b6b4461fb038"
+      },
+      "normal_strength": 0.45,
+      "roughness": 0.42
+    },
+    "stone": {
+      "base": {
+        "file": "stone_pbr_web_v11/stone_base.png",
+        "sha256": "f5b8623ec5f6486a16ceb188e6278f8c334dc2a1cd4272a1e894f0fc5bd73541"
+      },
+      "rough": {
+        "file": "stone_pbr_web_v11/stone_rough.png",
+        "sha256": "e795f16561b9fc56f9841c8b7eb9b363bd612deaca53aa4d0c85b5b7946110c9"
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/stone_normal.png",
+        "sha256": "393a226185a8195e91eae334a3634fb084d04d5d6a3c69d206d10ce7d5170872"
+      },
+      "normal_strength": 0.6,
+      "roughness": 0.78
+    },
+    "stone_light": {
+      "base": {
+        "file": "stone_pbr_web_v11/stone_light_base.png",
+        "sha256": "2a5272aafe2678327abeb6ce280926be41a9c4114e2c04d4679cf14659794bf1"
+      },
+      "rough": {
+        "file": "stone_pbr_web_v11/stone_light_rough.png",
+        "sha256": "535358e050b90dcfb6d7021069f033f254304ef0ee04c2b4e8c21a75077238bb"
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/stone_light_normal.png",
+        "sha256": "488b07c7289f080b77c7803f26177220f5ad69c351ff110996d25e6b460648dd"
+      },
+      "normal_strength": 0.55,
+      "roughness": 0.74
+    },
+    "stone_dark": {
+      "base": {
+        "file": "stone_pbr_web_v11/stone_dark_base.png",
+        "sha256": "9fd1787b93614b41a8ac1908a91595bae51922570835600bf55d8af2a70d8ce6"
+      },
+      "rough": {
+        "file": "stone_pbr_web_v11/stone_dark_rough.png",
+        "sha256": "bd7552d543e08cbcee8968a0030eee34bdbb3dd8b10956ecd772b9df6fbb1cc3"
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/stone_dark_normal.png",
+        "sha256": "3da94f4fb8cad084f49055af5130a7453b5bf9c0254aad1349ca19520ad91f12"
+      },
+      "normal_strength": 0.6,
+      "roughness": 0.84
+    },
+    "vault": {
+      "base": {
+        "file": "stone_pbr_web_v11/vault_base.png",
+        "sha256": "f50d9ee918bc1605b2b5e3faa194119be5873fedbe49626b9c06a1ae2717a9ef"
+      },
+      "rough": {
+        "file": "stone_pbr_web_v11/vault_rough.png",
+        "sha256": "797951a0467c098ed96b77b074a6c1a2808dae31ea45b2246bd3f21e836494cc"
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/vault_normal.png",
+        "sha256": "5529d1897d1725c474465cffc9c314b04bd4b8255531e283dead1594c8d18d9e"
+      },
+      "normal_strength": 0.48,
+      "roughness": 0.79
+    },
+    "floor": {
+      "base": {
+        "file": "stone_pbr_web_v11/floor_base.png",
+        "sha256": "f94d26cd33fc31d8138b5cbfbf0aab3f5c6fe79b80c7673033e58835761b3ae2"
+      },
+      "rough": {
+        "file": "stone_pbr_web_v11/floor_rough.png",
+        "sha256": "f60741e1f096df1a52428ee7a7abac9a03f24d2df9134da4776d16866ed558f9"
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/floor_normal.png",
+        "sha256": "ed8fff2ee74205a3682d4c4ec7e3b4a0189d6175a6c59c14dce5ce08c4c77079"
+      },
+      "normal_strength": 0.32,
+      "roughness": 0.34
+    },
+    "concrete": {
+      "base": {
+        "file": "stone_pbr_web_v11/concrete_base.png",
+        "sha256": "90412914a11ef4cd0301701f17a65698388b01f1ed9062894a75e265bdb1d7f9"
+      },
+      "rough": {
+        "file": "stone_pbr_web_v11/concrete_rough.png",
+        "sha256": "8b31976a8b402f4dbc6f283b0f789d008eac44755834adab02aacf715adfe727"
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/concrete_normal.png",
+        "sha256": "03774d96f0b898841f1363189e8167a385fd466a5d45b6843fb8396b8575d147"
+      },
+      "normal_strength": 0.55,
+      "roughness": 0.86
+    },
+    "nativity_stone": {
+      "base": {
+        "file": "stone_pbr_web_v11/nativity_stone_base.png",
+        "sha256": "3f811002942d67cb1bba93a1e736328d60d1a309c2b382de62cb060aff4c9cdf"
+      },
+      "rough": {
+        "file": "stone_pbr_web_v11/nativity_stone_rough.png",
+        "sha256": "ce39afabca2d79ef237666b07af166b685e5a293b476d1cac703125e3fcd99b6"
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/nativity_stone_normal.png",
+        "sha256": "1e649948189d7be667ee4a22a53cd70e374c7f4b924eaa999e64b2ed09dd4141"
+      },
+      "normal_strength": 0.65,
+      "roughness": 0.86
+    },
+    "nativity_stone_detail": {
+      "base": {
+        "file": "stone_pbr_web_v11/nativity_stone_detail_base.png",
+        "sha256": "958704ba28fdd8bbf7e2a994304e363253cc628b3099ed9eead34230895c2f87"
+      },
+      "rough": {
+        "file": "stone_pbr_web_v11/nativity_stone_detail_rough.png",
+        "sha256": "78b23a95793ea9336052d7d69462e35a1921253dbacdf6b41f3ef90ab250057d"
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/nativity_stone_detail_normal.png",
+        "sha256": "ba22b521989134c49ce43f58b034aafa5782d9a2940e1d2ac5739902f64d0bc9"
+      },
+      "normal_strength": 0.62,
+      "roughness": 0.82
+    }
+  },
+  "statistics": [
+    {
+      "material": "sandstone",
+      "base_mean_srgb255": [
+        184.486,
+        169.487,
+        144.487
+      ],
+      "baseline_mean_srgb255": [
+        184.487,
+        169.487,
+        144.487
+      ],
+      "maximum_mean_channel_drift": 0.0004,
+      "albedo_std255": 3.586,
+      "albedo_mip16_std255": 0.848,
+      "roughness_mean": 0.73,
+      "roughness_std": 0.035,
+      "normal_strength": 0.55,
+      "effective_normal_tilt_rms_degrees": 3.198
+    },
+    {
+      "material": "granite",
+      "base_mean_srgb255": [
+        172.08,
+        173.114,
+        170.114
+      ],
+      "baseline_mean_srgb255": [
+        172.08,
+        173.114,
+        170.114
+      ],
+      "maximum_mean_channel_drift": 0.0003,
+      "albedo_std255": 5.344,
+      "albedo_mip16_std255": 0.806,
+      "roughness_mean": 0.46,
+      "roughness_std": 0.048,
+      "normal_strength": 0.45,
+      "effective_normal_tilt_rms_degrees": 2.4
+    },
+    {
+      "material": "basalt",
+      "base_mean_srgb255": [
+        100.39,
+        103.399,
+        100.399
+      ],
+      "baseline_mean_srgb255": [
+        100.39,
+        103.399,
+        100.399
+      ],
+      "maximum_mean_channel_drift": 0.0001,
+      "albedo_std255": 2.886,
+      "albedo_mip16_std255": 0.672,
+      "roughness_mean": 0.5,
+      "roughness_std": 0.035,
+      "normal_strength": 0.45,
+      "effective_normal_tilt_rms_degrees": 2.2
+    },
+    {
+      "material": "porphyry",
+      "base_mean_srgb255": [
+        154.458,
+        125.461,
+        117.404
+      ],
+      "baseline_mean_srgb255": [
+        154.458,
+        125.461,
+        117.404
+      ],
+      "maximum_mean_channel_drift": 0.0004,
+      "albedo_std255": 5.401,
+      "albedo_mip16_std255": 0.849,
+      "roughness_mean": 0.42,
+      "roughness_std": 0.045,
+      "normal_strength": 0.45,
+      "effective_normal_tilt_rms_degrees": 2.3
+    },
+    {
+      "material": "stone",
+      "base_mean_srgb255": [
+        179.443,
+        164.448,
+        142.448
+      ],
+      "baseline_mean_srgb255": [
+        179.443,
+        164.447,
+        142.447
+      ],
+      "maximum_mean_channel_drift": 0.0004,
+      "albedo_std255": 3.596,
+      "albedo_mip16_std255": 0.785,
+      "roughness_mean": 0.78,
+      "roughness_std": 0.045,
+      "normal_strength": 0.6,
+      "effective_normal_tilt_rms_degrees": 4.194
+    },
+    {
+      "material": "stone_light",
+      "base_mean_srgb255": [
+        204.552,
+        194.548,
+        174.548
+      ],
+      "baseline_mean_srgb255": [
+        204.552,
+        194.548,
+        174.548
+      ],
+      "maximum_mean_channel_drift": 0.0004,
+      "albedo_std255": 3.587,
+      "albedo_mip16_std255": 0.8,
+      "roughness_mean": 0.74,
+      "roughness_std": 0.04,
+      "normal_strength": 0.55,
+      "effective_normal_tilt_rms_degrees": 3.398
+    },
+    {
+      "material": "stone_dark",
+      "base_mean_srgb255": [
+        138.593,
+        126.585,
+        107.585
+      ],
+      "baseline_mean_srgb255": [
+        138.593,
+        126.585,
+        107.585
+      ],
+      "maximum_mean_channel_drift": 0.0002,
+      "albedo_std255": 5.269,
+      "albedo_mip16_std255": 0.712,
+      "roughness_mean": 0.8399,
+      "roughness_std": 0.0498,
+      "normal_strength": 0.6,
+      "effective_normal_tilt_rms_degrees": 4.293
+    },
+    {
+      "material": "vault",
+      "base_mean_srgb255": [
+        221.243,
+        207.264,
+        181.264
+      ],
+      "baseline_mean_srgb255": [
+        221.243,
+        207.264,
+        181.264
+      ],
+      "maximum_mean_channel_drift": 0.0002,
+      "albedo_std255": 2.492,
+      "albedo_mip16_std255": 0.658,
+      "roughness_mean": 0.79,
+      "roughness_std": 0.03,
+      "normal_strength": 0.48,
+      "effective_normal_tilt_rms_degrees": 2.799
+    },
+    {
+      "material": "floor",
+      "base_mean_srgb255": [
+        184.435,
+        179.431,
+        167.442
+      ],
+      "baseline_mean_srgb255": [
+        184.435,
+        179.431,
+        167.442
+      ],
+      "maximum_mean_channel_drift": 0.0001,
+      "albedo_std255": 2.142,
+      "albedo_mip16_std255": 0.605,
+      "roughness_mean": 0.34,
+      "roughness_std": 0.024,
+      "normal_strength": 0.32,
+      "effective_normal_tilt_rms_degrees": 1.401
+    },
+    {
+      "material": "concrete",
+      "base_mean_srgb255": [
+        176.459,
+        176.463,
+        168.463
+      ],
+      "baseline_mean_srgb255": [
+        176.46,
+        176.464,
+        168.464
+      ],
+      "maximum_mean_channel_drift": 0.0006,
+      "albedo_std255": 3.597,
+      "albedo_mip16_std255": 0.843,
+      "roughness_mean": 0.8598,
+      "roughness_std": 0.0475,
+      "normal_strength": 0.55,
+      "effective_normal_tilt_rms_degrees": 3.696
+    },
+    {
+      "material": "nativity_stone",
+      "base_mean_srgb255": [
+        157.338,
+        139.357,
+        110.367
+      ],
+      "baseline_mean_srgb255": [
+        157.338,
+        139.357,
+        110.367
+      ],
+      "maximum_mean_channel_drift": 0.0001,
+      "albedo_std255": 5.206,
+      "albedo_mip16_std255": 0.725,
+      "roughness_mean": 0.8592,
+      "roughness_std": 0.0582,
+      "normal_strength": 0.65,
+      "effective_normal_tilt_rms_degrees": 4.989
+    },
+    {
+      "material": "nativity_stone_detail",
+      "base_mean_srgb255": [
+        169.716,
+        150.677,
+        120.647
+      ],
+      "baseline_mean_srgb255": [
+        169.716,
+        150.677,
+        120.647
+      ],
+      "maximum_mean_channel_drift": 0.0002,
+      "albedo_std255": 5.279,
+      "albedo_mip16_std255": 0.669,
+      "roughness_mean": 0.8199,
+      "roughness_std": 0.0548,
+      "normal_strength": 0.62,
+      "effective_normal_tilt_rms_degrees": 4.592
+    }
+  ],
+  "protected_v10_sha256": {
+    "assets/textures/sandstone_base.png": "b1e4dfc5c603e8fe093442f80ab43005a186b76fbc8d064900c6029a60f6ba56",
+    "assets/textures/sandstone_rough.png": "3b13a2b10f50e302e723374e89af64e7321e836d01a02da457ee88435a41eb06",
+    "assets/textures/sandstone_normal.png": "c0f341de035ee92f5a8c243668430f5f988ec83466d206364b42c3ac43d6464e",
+    "assets/textures/granite_base.png": "f13658ce9cfa3760bf33051261c573675d5b3ccf481f8fe57193cdd99fc0641f",
+    "assets/textures/granite_rough.png": "e1f05dd993c13f729c64d9e7b5ed14ee679b3f80f202876f0323316ff0d42e1f",
+    "assets/textures/granite_normal.png": "1f61045f400a2de2105901e38bfbc3e7ec710706aae5557db82c6389797ae71f",
+    "assets/textures/basalt_base.png": "5943d3e17e7d2e3d0a3f0ea503b0cb973553f95eae52f1d6d522fca76eb584e1",
+    "assets/textures/basalt_rough.png": "0f9d56ac57b2012d6a0378f5eb0293ff591cbf15c151eadee692cf30d934cabf",
+    "assets/textures/basalt_normal.png": "3c82a615fd7f93f7bb60c98926a820adfad78625cbb1e73b808ac7956d4bed05",
+    "assets/textures/porphyry_base.png": "caa331723952aa91cb30934004f9f0afabb8991f6c7c3730dd3ddfb3b936d88b",
+    "assets/textures/porphyry_rough.png": "dc366689364e124c19476ff8871f57ee9279f7c13525944b00213b9012af8e43",
+    "assets/textures/porphyry_normal.png": "5355193b5e6bf7f514cad77ff1197a358deb56182cc73dd03d6ce4127e0ab2a5",
+    "assets/textures/stone_base.png": "ac05bd85ee413ce07e784c568f41994f9f08aeea049ecf858e8a0f980e7c61f6",
+    "assets/textures/stone_rough.png": "8c728f43c860ce2a78678cd75246ba8ef781413b853545b86f70880bd26c59e5",
+    "assets/textures/stone_normal.png": "f0b5add740e49500a7edc013cc9d8f8d84e1bb3ba6779eeefa9b03e0a3e13d05",
+    "assets/textures/stone_light_base.png": "699ab8448f13ccaefda23dbd0dfe1916eb6f27e33779e7cfc0d9e30676ceb462",
+    "assets/textures/stone_light_rough.png": "1a51e5961f17393e0c6d531e185a193f1277a6c04f8254741d6491e5ca426da4",
+    "assets/textures/stone_light_normal.png": "7e396e48924c45bd1a234c50ca13f30246da4f99754e40858ebfa61c424dd8d1",
+    "assets/textures/stone_dark_base.png": "2887ec61969b2959e4f1302806f650440cf8d28aaa4f0bbe6a582c58c56456a8",
+    "assets/textures/stone_dark_rough.png": "847f714a0c49fbd0e4dad6565cf23bc19f7d07f914a419218b0caca5bccf9a5a",
+    "assets/textures/stone_dark_normal.png": "88fc7f365208d9492e71d36eae5892235f7261774f0368b6b997b1d73a7951c8",
+    "assets/textures/vault_base.png": "c3eb795b3026f4071ddfe7c48df79678d8996a14969b295b7db3309310b9e78b",
+    "assets/textures/vault_rough.png": "80d39929e913678d1b6b746a85adc5b6c18a0912bba184e8f924c364f7e676db",
+    "assets/textures/vault_normal.png": "9fad0c1f09ca370a9ab350aead22db926f00ef10478f9e1198ddd55aaeada7d5",
+    "assets/textures/floor_base.png": "739d8ed963349b33323eb56c4166968848bf276591d302f6dab1fbb04efc46b8",
+    "assets/textures/floor_rough.png": "de804ef31cae0d193cec666500308ad84cfa998e9020b299756af2a53b4ca933",
+    "assets/textures/floor_normal.png": "20fe4a3a79a09e868a820fce2c353c6aa78e64cd785e09a9e7f91b8de88efaee",
+    "assets/textures/concrete_base.png": "0f34e4a03ef5149421a92987ba2deed3fc438b962f67eb68901eaaea6fd995ba",
+    "assets/textures/concrete_rough.png": "d8bcb5f84da20106248e987cec43a4c28c10f29c5431ee6f85a3ebfec581ab89",
+    "assets/textures/concrete_normal.png": "77441d70a8eef9f008b08a2c174e3f98df3488bd1edefbce2cae93aec5ed0f14",
+    "assets/textures/nativity_stone_base.png": "98e60e40524b35b682bfb2af59f7d37126e9bb532c844dc579a71f4e58d94317",
+    "assets/textures/nativity_stone_rough.png": "651d6be00f18fc8c9266cbf31159af40d0392b21995234b355f1ee9fc297fc41",
+    "assets/textures/nativity_stone_normal.png": "2e39a4badcb20de37a741d2ccbde5700203a6ce60b80d23337b14cbd74c68955",
+    "assets/textures/nativity_stone_detail_base.png": "9742cd1a0e681b3dc731b0bdd6a25f9a182f5d86c6ad675b6e4321feb77e4105",
+    "assets/textures/nativity_stone_detail_rough.png": "313963339c45386f9b2dff01dfc5fb7a44f53c89895e8f170577176228f64be2",
+    "assets/textures/nativity_stone_detail_normal.png": "ce4338a338eed22d8d4ac8b7c3fd4935bad05fdb6a480f6409ce7c3268834a94",
+    "assets/textures/glass_west_red_alikhan2022.jpg": "ce8e61fe5a67ef7d54f19e5ed5561248c974f6fa9d3f202fa1f8082a6174cd33",
+    "assets/textures/glass_east_yellowgreen_meskens2016.jpg": "9009a9d8c63fe46a997bbf17be4925ab0e07d092a3d0e6da1a69239c8fc20e98",
+    "assets/textures/glass_west_ribeiro2014.jpg": "0783a0342b7a0cfa46e8375cdfbf7f639ece3c5e99e2e2b8793178313f433da6",
+    "assets/textures/glass_east_palegreen_mortel_meskens_atlas.png": "bfbad84e7e532f982474ef807722a59cf811c340300607c7435d1e0e45f3216f",
+    "assets/textures/glass_west_green_smiley2023.jpg": "4c255c030df0838cac265a027f22f2927c1a30790801c7f6b8bef6866da143d8",
+    "assets/textures/glass_east_palegreen_meskens2016.jpg": "3239ecf50be9e2964b9bfbb37f95c802c3c13237afffdf2d83763cde7dab1b83",
+    "assets/textures/glass_east_ribeiro2014.jpg": "fe75753db6a5d2614c13b29221d824082c2345009041f93b903f2f6edc17c04d",
+    "assets/textures/glass_west_red_rose_mortel.jpg": "0b918447c8382b201d0d3edfea93b053a38eba55c5517ce4508d539bb74cda68",
+    "assets/textures/glass_east_blue_mortel2016.jpg": "4a5452d2d3d62e7807ed8b1c0b1a35f7ff4381799174d354b10eb5e12182cd4d",
+    "assets/textures/window_banks.json": "99c0071c8e45bffe2a02425590e73a5341a8bf7849d81c9e8c7f604052ea08b8",
+    "src/glazing.py": "00a3564d96f4e58c9f384c046f1186fcbdabf8360155b161eee9cb831348fddf"
+  },
+  "protected_v10_unchanged": true,
+  "generation_script": "src/prepare_stone_pbr_web_v11.py"
+}

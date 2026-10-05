@@ -1,0 +1,184 @@
+{
+  "artifact": "Sagrada Familia 2026: interior geometry",
+  "scope_date": "2026-10-01",
+  "geometry_authoring": "Original procedural editable mesh, not photogrammetry or a surveyed as-built model",
+  "primary_source": {
+    "title": "Sagrada Familia Information Booklet 9: Interior of the Basilica",
+    "publisher": "Fundacio Junta Constructora del Temple Expiatori de la Sagrada Familia",
+    "url": "https://sagradafamilia.org/documents/20142/1000561/Booklet_09.pdf/283a74b1-9c07-cedb-6211-cf3cb4db7aad",
+    "retrieved": "2026-10-01",
+    "publication_date": "02/2026 edition verified visually by independent QA; stable architectural evidence, not current work-completion evidence",
+    "pages_visually_inspected": [
+      2,
+      5,
+      7
+    ],
+    "facts": {
+      "heights_m": {
+        "choir": 15,
+        "side_nave": 30,
+        "central_nave": 45,
+        "crossing": 60,
+        "apse": 75
+      },
+      "length_m": 90,
+      "central_nave_width_m": 15,
+      "grid_m": 7.5,
+      "columns": "Intersecting opposite helicoidal forms, elliptical knots, repeated branching. Sandstone at aisles, granite in nave, basalt at crossing perimeter, red porphyry for four central supports.",
+      "vaults": "Hyperboloid skylights; white concrete aisles; central Catalan tiles with green and gold mosaic. Rising radial apse tiers.",
+      "choirs": "Side horseshoe and apse children's gallery; railings feature musical staves.",
+      "apse": "Seven chapels; presbytery bounded by ten columns and raised two metres.",
+      "altar": "Porphyry monolith 2.72m long; suspended crucifix; heptagonal baldachin five metres across and fifty lamps.",
+      "glass": "Cool Nativity-side colour, warm Passion-side colour; increasing transparency upwards. Actual glazing is authored separately."
+    },
+    "rights": "Official PDF and photographs used privately as visual references. No reference photograph is mapped onto, embedded in or redistributed with runtime geometry."
+  },
+  "approximation_register": [
+    {
+      "element": "Column placements",
+      "method": "7.5m grid followed where practical; main rows y+-7.5 and +-15, apse horseshoe radii12.5/18.6",
+      "uncertainty": "Photographic alignment, not surveyed coordinates"
+    },
+    {
+      "element": "Shaft radii and twists",
+      "method": "Radial intersection of two counter-rotating polygon envelopes, with progressive upper rounding",
+      "uncertainty": "Mathematical reconstruction captures principle; not recovered Gaudi fabrication sections"
+    },
+    {
+      "element": "Branches",
+      "method": "Substantial upright continuation trunk, two lower shoulder boughs and compact high fork with eight short secondary supports",
+      "uncertainty": "Branch topology and control points simplified from photographs"
+    },
+    {
+      "element": "Vaults",
+      "method": "Open hyperboloid throats within serrated eight-point canopy cells, warm tile fields and mosaic wedges",
+      "uncertainty": "Cell distribution, decorative wedges and precise curvature approximate"
+    },
+    {
+      "element": "Window frame envelope",
+      "method": "Five 7.5m nave wall bays each side; seven apse bays; separate upper clear clerestory",
+      "uncertainty": "Coordinates and moulding dimensions estimated photographically; glazing module retains own evidence"
+    },
+    {
+      "element": "Medallions",
+      "method": "Original glazed geometric discs with bronze edges",
+      "uncertainty": "Does not reproduce diocesan coats of arms or Fita artwork exactly"
+    },
+    {
+      "element": "Sanctuary furniture",
+      "method": "Dimension-anchored altar and baldachin; simplified original terracotta crucifix, grape/wheat motifs and twin organ banks",
+      "uncertainty": "Fine sculpture, lettering and organ proportions approximate"
+    },
+    {
+      "element": "Choir rail notes",
+      "method": "Original schematic staff and square notes",
+      "uncertainty": "No claim to reproduce an actual hymn"
+    },
+    {
+      "element": "Floor and seating",
+      "method": "Original tiled floor pattern and individual pale timber chair banks",
+      "uncertainty": "Arrangement approximated; visitor routes may differ"
+    },
+    {
+      "element": "Exterior/interior roof transitions",
+      "method": "Continuous backing planes with skylight apertures, faceted vault-step risers, crossing shoulders and apse drum/roof to Mary plinth",
+      "uncertainty": "Original envelope reconstruction; roof structure and construction-level joints not surveyed"
+    },
+    {
+      "element": "Glory internal upper weather closure",
+      "method": "Plain neutral closure at x0, central z28..45.65 and side z22.15..30.45, behind the construction facade",
+      "uncertainty": "The nave is documented enclosed, but this exact current infill pattern is not photographed/surveyed here; no future Glory artwork or towers implied"
+    },
+    {
+      "element": "Transverse clerestory height-step closure",
+      "method": "Stone sill and clear framed panes at x45/x60, y+-7.5..30. The solid base reaches24.5m to meet the low vault skirts; crown remains30m, high nave45m",
+      "uncertainty": "Highest-nave transparent glass is source-grounded; precise transverse frames and enclosure sections are original approximations"
+    }
+  ],
+  "current_status_exclusions": [
+    "No tower interiors, Jesus tower lift, cross observation deck or unfinished Glory tower interiors represented as accessible"
+  ],
+  "runtime": {
+    "walkable_ground_z": 0,
+    "presbytery_top_z": 2,
+    "colliders": "Ground slabs and sanctuary steps explicitly marked walkable_floor; furniture and columns are obstacles",
+    "geometry_budget": "Math-only v3 dry-run estimate: 866121 triangles, 478524 vertices, 4929 editable objects before export batching; exact Blender metrics reported in build/model_stats.json",
+    "flight_note": "Runtime owner confirmed free inspection flight with only Jesus-construction exclusion; upper branch/vault visual meshes intentionally lack individual flight colliders."
+  },
+  "validation": {
+    "syntax": "python3 -m py_compile passed 2026-10-01",
+    "visual": "v1/v2 render QA identified Glory upper weather gap and transverse clerestory missing height-step enclosure. v3 geometry corrected both using supplied ray intersections, and replaced broad vertical riser curtains with tilted folded vault cells. Integrated v3 render review pending.",
+    "geometry_dry_run": "Passed all mesh face index and finite coordinate checks; emitted 90 colliders and 34 window descriptors",
+    "remaining_limitations": [
+      "Repeated branch/cell layout is photo-guided rather than surveyed",
+      "Fine symbolic sculpture, medallion artwork and inscriptions simplified",
+      "Exact Glory interior weather infill and transverse clerestory subdivisions remain uncertain, represented neutrally",
+      "Final basalt/porphyry contrast and reflected coloured light require material/light integration review"
+    ],
+    "qa_ray_closures": [
+      {
+        "view": "04_Tree_canopy",
+        "pixel": [
+          730,
+          15
+        ],
+        "intersection": [
+          0,
+          -3.26,
+          38.12
+        ],
+        "result": "Inside new Glory weather closure"
+      },
+      {
+        "view": "04_Tree_canopy",
+        "pixel": [
+          740,
+          32
+        ],
+        "intersection": [
+          0,
+          -4.58,
+          39.3
+        ],
+        "result": "Inside new Glory weather closure"
+      },
+      {
+        "view": "04_Tree_canopy",
+        "pixel": [
+          75,
+          745
+        ],
+        "intersection": [
+          60,
+          20.76,
+          27.5622
+        ],
+        "result": "Inside new transverse clerestory sill"
+      },
+      {
+        "view": "04_Tree_canopy",
+        "pixel": [
+          50,
+          730
+        ],
+        "intersection": [
+          60,
+          22.7481,
+          27.937
+        ],
+        "result": "Inside new transverse clerestory sill"
+      }
+    ]
+  },
+  "v12_roof_side_returns": {
+    "issue": "Unframed sky leaks between rising axial bays and lower adjacent roofs, confirmed in actual Chrome and Blender rays.",
+    "source": "Existing authored roof/clerestory boundaries and reference photos of the enclosed interior; exact roof section not surveyed.",
+    "added_meshes": 4,
+    "extent": "X37.5..45 or60..67.5; |Y|7.5..7.82; high edge follows existing tilted roof, low edge z30.45; vertical backing offset .24m.",
+    "preservation": "All13004 existing mesh coordinate/topology/UV digests unchanged;732 optical objects unchanged; no transverse clear-glass aperture intersections.",
+    "why_previous_closure_report_did_not_cover_this": "Previous specific rays covered Glory upper envelope and transept clerestory sill from camera04, not the crossing viewpoint.",
+    "geometry_audit": "runtime/qa/ceiling_geometry_v12.json",
+    "ray_audit": "runtime/qa/crossing_rays_v12_final.json",
+    "review": "docs/CEILING_REPAIR_V12.md"
+  }
+}

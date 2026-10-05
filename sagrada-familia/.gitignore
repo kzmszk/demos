@@ -1,0 +1,37 @@
+# Editable source and licensed inputs are versioned; products are rebuilt.
+/build/
+/screenshots/
+/logs/
+/public/
+/dist/
+/site_bundle/
+__pycache__/
+*.pyc
+*.blend
+*.blend1
+*.glb
+*.pck
+*.wasm
+*.gz
+.godot/
+.state/
+*.import
+web/dist/
+web/site_bundle/
+web/qa/
+web/logs/
+web/godot/assets/
+web/godot/export_presets.cfg
+runtime/qa/
+.env
+.env.*
+.dev.vars
+
+# Derived Godot Web copies; edit runtime/ instead.
+web/godot/project.godot
+web/godot/main.tscn
+web/godot/scripts/
+.userdata/
+
+# Optional CPU diagnostic boards, not source inputs.
+assets/textures/**/raw_texture_comparison.png

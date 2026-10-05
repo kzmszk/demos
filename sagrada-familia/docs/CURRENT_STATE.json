@@ -1,0 +1,32 @@
+{
+  "requested_as_of": "2026-10-01",
+  "latest_verified_construction_bulletin": "2026-09-22",
+  "work_stage": "V12 source reconstruction; evidence cutoff retained at 2026-09-22. Source packaging does not claim a newly surveyed construction state.",
+  "facts": [
+    {
+      "part": "Jesus Christ tower",
+      "status": "Exterior completed on 2026-02-20;172.5m including17m high13.5m wide three-dimensional four-arm cross. Interior incomplete and not accessible in this walkthrough.",
+      "source": "https://sagradafamilia.org/en/-/una-creu-que-arriba-al-cel-de-barcelona",
+      "confidence": "official actual milestone"
+    },
+    {
+      "part": "Glory façade",
+      "status": "Under construction; future four apostle towers not modeled as complete.",
+      "source": "https://sagradafamilia.org/es/-/la-sagrada-familia-avanca-en-la-darrera-fase-de-construccio-del-temple-projectat-per-antoni-gaudi",
+      "confidence": "official 2026-09-22 actual state"
+    },
+    {
+      "part": "Assumption chapel",
+      "status": "Unfinished;8m stone tribune vault constructed; planned exterior statues not yet placed per bulletin.",
+      "source": "https://sagradafamilia.org/es/-/la-sagrada-familia-avanca-en-la-darrera-fase-de-construccio-del-temple-projectat-per-antoni-gaudi",
+      "confidence": "official 2026-09-22 actual state"
+    },
+    {
+      "part": "Central crane",
+      "status": "Remains; crane based on central nave roof at54m, reduced from203m to174m in July2026; Jesus bracing removed; serving Glory works. Exact roofXY is estimated from photographs.",
+      "source": "https://sagradafamilia.org/es/-/la-grua-central-de-la-sagrada-familia-inicia-una-nova-etapa-despres-de-completar-l-exterior-de-la-torre-de-jesucrist",
+      "confidence": "official height and status; exact position estimated"
+    }
+  ],
+  "policy": "Plans are not treated as actual completed work. Unverified areas use explicit approximations. No official reference-only photographs in exported runtime."
+}

@@ -1,0 +1,499 @@
+{
+  "schema_version": 1,
+  "name": "stone_finishes_v12",
+  "candidate": "Final V11 construction finish: stronger wall blocks, restrained shaft sections; v12 is an internal stage name.",
+  "source_profile": "web_v11",
+  "tile_metres": 2.0,
+  "size_px": [
+    1024,
+    1024
+  ],
+  "license": "Original procedural artwork; no photographic pixels used.",
+  "reference_only": [
+    {
+      "file": "assets/reference/qa_tree_vault.jpg",
+      "observation": "Cut-stone horizontal courses and staggered vertical joints around left windows; thin horizontal section joints on lower shafts.",
+      "photo_capture_date": "unverified"
+    }
+  ],
+  "dimension_status": "All joint dimensions, colour variation and response are visual estimates, not measurements of the basilica.",
+  "scope": {
+    "wall_names": [
+      "Central_clerestory_pier",
+      "Central_clerestory_sill",
+      "Central_clerestory_top",
+      "Side_wall_low_sill",
+      "Side_wall_structural_pier",
+      "Side_wall_upper_band",
+      "Transept_return_wall"
+    ],
+    "shaft_regex": "^(?:Aisle_Montjuic|Nave_granite|Crossing_porphyry|Crossing_basalt|Transept_granite|Apse_horseshoe|Ambulatory)_.+_double_helicoid$",
+    "window_stone_regex": "^Side_([+-]?1)_([0-4])_stone_light$",
+    "window_stone_face_limits": "Area >=0.06m2, abs(normal.z)<0.25, abs(normal.y)>0.75; rose interior and fine ribs excluded.",
+    "faces": "Vertical faces only; original V=z/2 UV confirmed per face.",
+    "excluded": "Capitals, branches, vaults, roofs, organic carving, apse radial walls, floor, photo-reliefs and all glazing."
+  },
+  "construction": {
+    "wall": {
+      "course_height_m": 0.3333333333333333,
+      "block_length_m": 0.6666666666666666,
+      "joint_width_m": 0.006,
+      "groove_depth_estimate_m": 0.00065,
+      "block_albedo_linear_variation": 0.13,
+      "joint_linear_darkness": 0.27
+    },
+    "shaft": {
+      "section_height_m": 1.0,
+      "joint_width_m": 0.004,
+      "groove_depth_estimate_m": 0.00045,
+      "section_albedo_linear_variation": 0.035,
+      "joint_linear_darkness": 0.18,
+      "vertical_joints": "Omitted: dominant-axis U seams would create false brick-like jumps."
+    }
+  },
+  "materials": {
+    "wall_stone": {
+      "source_key": "stone",
+      "kind": "wall",
+      "source": {
+        "base": {
+          "file": "stone_pbr_web_v11/stone_base.png",
+          "sha256": "f5b8623ec5f6486a16ceb188e6278f8c334dc2a1cd4272a1e894f0fc5bd73541"
+        },
+        "rough": {
+          "file": "stone_pbr_web_v11/stone_rough.png",
+          "sha256": "e795f16561b9fc56f9841c8b7eb9b363bd612deaca53aa4d0c85b5b7946110c9"
+        },
+        "normal": {
+          "file": "stone_pbr_web_v11/stone_normal.png",
+          "sha256": "393a226185a8195e91eae334a3634fb084d04d5d6a3c69d206d10ce7d5170872"
+        }
+      },
+      "normal_strength": 0.6,
+      "statistics": {
+        "mean_rgb_before": [
+          179.4432554244995,
+          164.447678565979,
+          142.447678565979
+        ],
+        "mean_rgb_first_candidate": [
+          179.28588008880615,
+          164.3042755126953,
+          142.24900722503662
+        ],
+        "mean_rgb_after": [
+          179.28588008880615,
+          164.3042755126953,
+          142.24900722503662
+        ],
+        "mean_rgb_first_candidate_drift": 0.0,
+        "albedo_mip16_std255": 4.977237513908369,
+        "joint_coverage_fraction": 0.0233154296875,
+        "roughness_mean": 0.7807446648092831,
+        "roughness_std": 0.0497338390135938
+      },
+      "base": {
+        "file": "stone_finishes_v12/wall_stone_base.png",
+        "sha256": "dc8a605eecc2ba7c595d435a1d0f1406e0dc7f0e4a1234cfacd278876d93f422"
+      },
+      "rough": {
+        "file": "stone_finishes_v12/wall_stone_rough.png",
+        "sha256": "d7706b7508356b31edac32445d96ee79f208a3f1e0e25c1091254c1e45e66c29"
+      },
+      "normal": {
+        "file": "stone_finishes_v12/wall_stone_normal.png",
+        "sha256": "678d17599ff17d5d5381a398f0d41a00e486533a9a4f73032e9dc412bb758bdd"
+      }
+    },
+    "wall_stone_light": {
+      "source_key": "stone_light",
+      "kind": "wall",
+      "source": {
+        "base": {
+          "file": "stone_pbr_web_v11/stone_light_base.png",
+          "sha256": "2a5272aafe2678327abeb6ce280926be41a9c4114e2c04d4679cf14659794bf1"
+        },
+        "rough": {
+          "file": "stone_pbr_web_v11/stone_light_rough.png",
+          "sha256": "535358e050b90dcfb6d7021069f033f254304ef0ee04c2b4e8c21a75077238bb"
+        },
+        "normal": {
+          "file": "stone_pbr_web_v11/stone_light_normal.png",
+          "sha256": "488b07c7289f080b77c7803f26177220f5ad69c351ff110996d25e6b460648dd"
+        }
+      },
+      "normal_strength": 0.55,
+      "statistics": {
+        "mean_rgb_before": [
+          204.55205917358398,
+          194.54792976379395,
+          174.54792976379395
+        ],
+        "mean_rgb_first_candidate": [
+          204.3148307800293,
+          194.32332038879395,
+          174.41578006744385
+        ],
+        "mean_rgb_after": [
+          204.3148307800293,
+          194.32332038879395,
+          174.41578006744385
+        ],
+        "mean_rgb_first_candidate_drift": 0.0,
+        "albedo_mip16_std255": 5.712788497722008,
+        "joint_coverage_fraction": 0.0233154296875,
+        "roughness_mean": 0.741207077923943,
+        "roughness_std": 0.045548663678054754
+      },
+      "base": {
+        "file": "stone_finishes_v12/wall_stone_light_base.png",
+        "sha256": "2f2281fe80866668811b93509cccdba2168cd1b0586418c69fb74ed36e7e8d4a"
+      },
+      "rough": {
+        "file": "stone_finishes_v12/wall_stone_light_rough.png",
+        "sha256": "1a80fe5087a1eda411b197875281c9f4866e1af5c1e62719257e72ffdf44e9b4"
+      },
+      "normal": {
+        "file": "stone_finishes_v12/wall_stone_light_normal.png",
+        "sha256": "c42001f848abe33a01ff1aad39b2887acd06d41752ddc6ca2869d46c55ab948c"
+      }
+    },
+    "shaft_sandstone": {
+      "source_key": "sandstone",
+      "kind": "shaft",
+      "source": {
+        "base": {
+          "file": "stone_pbr_web_v11/sandstone_base.png",
+          "sha256": "e39ade56ff53da17805e345b0c6a2ec506aae4e8e8f5396507bb07de0b2db9fd"
+        },
+        "rough": {
+          "file": "stone_pbr_web_v11/sandstone_rough.png",
+          "sha256": "a6da53a0e44ce0cc8b84a9e440d958af6e6a93242977268642e0d12777968f5c"
+        },
+        "normal": {
+          "file": "stone_pbr_web_v11/sandstone_normal.png",
+          "sha256": "e4f09a7e330f0415455d3d52f18a0a7068e03b8ce1ddfe4ea12b291875d88f7a"
+        }
+      },
+      "normal_strength": 0.55,
+      "statistics": {
+        "mean_rgb_before": [
+          184.48633575439453,
+          169.487060546875,
+          144.487060546875
+        ],
+        "mean_rgb_first_candidate": [
+          184.46326065063477,
+          169.46399402618408,
+          144.46906185150146
+        ],
+        "mean_rgb_after": [
+          184.46326065063477,
+          169.46399402618408,
+          144.46906185150146
+        ],
+        "mean_rgb_first_candidate_drift": 0.0,
+        "albedo_mip16_std255": 2.7887099061283194,
+        "joint_coverage_fraction": 0.00390625,
+        "roughness_mean": 0.730214672462613,
+        "roughness_std": 0.037122440893291815
+      },
+      "base": {
+        "file": "stone_finishes_v12/shaft_sandstone_base.png",
+        "sha256": "4b17d9119d788a26cafe911292bbdf4b9a8da6d521bf7ac6742d1f2483cf4b1c"
+      },
+      "rough": {
+        "file": "stone_finishes_v12/shaft_sandstone_rough.png",
+        "sha256": "ed8847c93b475477bc72f8ebee7f7b6327a60e5edd8239b2ccd0b9721c440819"
+      },
+      "normal": {
+        "file": "stone_finishes_v12/shaft_sandstone_normal.png",
+        "sha256": "8435750f573c9d10ab91f9b535f64e055b147cf1c859314779d9c0f0ab80ca0e"
+      }
+    },
+    "shaft_granite": {
+      "source_key": "granite",
+      "kind": "shaft",
+      "source": {
+        "base": {
+          "file": "stone_pbr_web_v11/granite_base.png",
+          "sha256": "f1054bad8adff06efe9385921ce546d1c3b26f1ff730e0ab333e29eb860f56e3"
+        },
+        "rough": {
+          "file": "stone_pbr_web_v11/granite_rough.png",
+          "sha256": "5161d923e5e31c20e14eb604dba145e7ef399fae0f219ac89aa5c0123659a2ba"
+        },
+        "normal": {
+          "file": "stone_pbr_web_v11/granite_normal.png",
+          "sha256": "5f573144080f2712cce0928c70be004753f819a792b2b592fe63180b89d2cb03"
+        }
+      },
+      "normal_strength": 0.45,
+      "statistics": {
+        "mean_rgb_before": [
+          172.08027267456055,
+          173.11438369750977,
+          170.11438369750977
+        ],
+        "mean_rgb_first_candidate": [
+          172.05274391174316,
+          173.0883274078369,
+          170.08266258239746
+        ],
+        "mean_rgb_after": [
+          172.05274391174316,
+          173.0883274078369,
+          170.08266258239746
+        ],
+        "mean_rgb_first_candidate_drift": 0.0,
+        "albedo_mip16_std255": 3.0072811918006868,
+        "joint_coverage_fraction": 0.00390625,
+        "roughness_mean": 0.4602126439412435,
+        "roughness_std": 0.0494624807102578
+      },
+      "base": {
+        "file": "stone_finishes_v12/shaft_granite_base.png",
+        "sha256": "32ec66c12bb7f1dfd97f131bbbbc1ccd616bb0fe1af0e24917bb7e286adee839"
+      },
+      "rough": {
+        "file": "stone_finishes_v12/shaft_granite_rough.png",
+        "sha256": "48d8635dd26d6d88b2e1a95ebf133326a4ac0cf00f063873ca3efc9d021557b4"
+      },
+      "normal": {
+        "file": "stone_finishes_v12/shaft_granite_normal.png",
+        "sha256": "4837211c4bcd71a310b8a89cbcba58376da2311f211570e8f74a629ae89bb8bc"
+      }
+    },
+    "shaft_basalt": {
+      "source_key": "basalt",
+      "kind": "shaft",
+      "source": {
+        "base": {
+          "file": "stone_pbr_web_v11/basalt_base.png",
+          "sha256": "7622cc0ae48310a7eeefddaf109c848574c0380c7a91f612e4e610f01203c08b"
+        },
+        "rough": {
+          "file": "stone_pbr_web_v11/basalt_rough.png",
+          "sha256": "899bc9e90ad8262e1dc1b21f9ac399d57a0a7e59816a8f3ef84c3f1fc5d50395"
+        },
+        "normal": {
+          "file": "stone_pbr_web_v11/basalt_normal.png",
+          "sha256": "a684839970c5f5f1be4b0a839173b6553ae856518f33c530239f2608627caf1a"
+        }
+      },
+      "normal_strength": 0.45,
+      "statistics": {
+        "mean_rgb_before": [
+          100.38968467712402,
+          103.39900398254395,
+          100.39900398254395
+        ],
+        "mean_rgb_first_candidate": [
+          100.37560749053955,
+          103.38528060913086,
+          100.38492965698242
+        ],
+        "mean_rgb_after": [
+          100.37560749053955,
+          103.38528060913086,
+          100.38492965698242
+        ],
+        "mean_rgb_first_candidate_drift": 0.0,
+        "albedo_mip16_std255": 2.1080162161666425,
+        "joint_coverage_fraction": 0.00390625,
+        "roughness_mean": 0.5002151264863856,
+        "roughness_std": 0.03713301066411273
+      },
+      "base": {
+        "file": "stone_finishes_v12/shaft_basalt_base.png",
+        "sha256": "1f7918200b909e98469ce361af75c8bd807e069459c98893a8d1511a43d243ef"
+      },
+      "rough": {
+        "file": "stone_finishes_v12/shaft_basalt_rough.png",
+        "sha256": "be67476420a3c7d42620d93b2be874717d2f508f86ee414488194fe7d4bf06a4"
+      },
+      "normal": {
+        "file": "stone_finishes_v12/shaft_basalt_normal.png",
+        "sha256": "0df061719f23f429ba3cb19ce4df6ed5983d9dea9e43958ea20bef66771f4a80"
+      }
+    },
+    "shaft_porphyry": {
+      "source_key": "porphyry",
+      "kind": "shaft",
+      "source": {
+        "base": {
+          "file": "stone_pbr_web_v11/porphyry_base.png",
+          "sha256": "293e8f8d16049a6a84c856be979ebb53b3c0e9679554f33afdc9879cb1cdd9d7"
+        },
+        "rough": {
+          "file": "stone_pbr_web_v11/porphyry_rough.png",
+          "sha256": "d529dc3d7808a6ed4ab143d752dfdcf5c56324f91ec4395a612817d3a83f16e3"
+        },
+        "normal": {
+          "file": "stone_pbr_web_v11/porphyry_normal.png",
+          "sha256": "b7a8ebdb8fc67fcb505de7cd918b45994542cc7ebabe7a6be4c9b6b4461fb038"
+        }
+      },
+      "normal_strength": 0.45,
+      "statistics": {
+        "mean_rgb_before": [
+          154.45821285247803,
+          125.46137809753418,
+          117.40373229980469
+        ],
+        "mean_rgb_first_candidate": [
+          154.3082275390625,
+          125.44564914703369,
+          117.38830852508545
+        ],
+        "mean_rgb_after": [
+          154.3082275390625,
+          125.44564914703369,
+          117.38830852508545
+        ],
+        "mean_rgb_first_candidate_drift": 0.0,
+        "albedo_mip16_std255": 2.286588463813043,
+        "joint_coverage_fraction": 0.00390625,
+        "roughness_mean": 0.42021190792906515,
+        "roughness_std": 0.046764739397956764
+      },
+      "base": {
+        "file": "stone_finishes_v12/shaft_porphyry_base.png",
+        "sha256": "1ff9d756f7c964e614c7cca6cee67e13b1ff0ec8d59ea076cb86e79e436fcb39"
+      },
+      "rough": {
+        "file": "stone_finishes_v12/shaft_porphyry_rough.png",
+        "sha256": "356ff35bfb25025a253b24670ad2f38ee3366d9500a4665611753e86c12f5873"
+      },
+      "normal": {
+        "file": "stone_finishes_v12/shaft_porphyry_normal.png",
+        "sha256": "7a305fb4020a9715b861e347a560f08532d32c7bf7ee532c636fa099d7433a40"
+      }
+    }
+  },
+  "protected_source_sha256": {
+    "assets/textures/nativity_stone_detail_normal.png": "ce4338a338eed22d8d4ac8b7c3fd4935bad05fdb6a480f6409ce7c3268834a94",
+    "assets/textures/porphyry_normal.png": "5355193b5e6bf7f514cad77ff1197a358deb56182cc73dd03d6ce4127e0ab2a5",
+    "assets/textures/glass_west_red_alikhan2022.jpg": "ce8e61fe5a67ef7d54f19e5ed5561248c974f6fa9d3f202fa1f8082a6174cd33",
+    "assets/textures/stone_light_rough.png": "1a51e5961f17393e0c6d531e185a193f1277a6c04f8254741d6491e5ca426da4",
+    "assets/textures/glass_east_yellowgreen_meskens2016.jpg": "9009a9d8c63fe46a997bbf17be4925ab0e07d092a3d0e6da1a69239c8fc20e98",
+    "assets/textures/basalt_normal.png": "3c82a615fd7f93f7bb60c98926a820adfad78625cbb1e73b808ac7956d4bed05",
+    "assets/textures/stone_light_base.png": "699ab8448f13ccaefda23dbd0dfe1916eb6f27e33779e7cfc0d9e30676ceb462",
+    "assets/textures/glass_west_ribeiro2014.jpg": "0783a0342b7a0cfa46e8375cdfbf7f639ece3c5e99e2e2b8793178313f433da6",
+    "assets/textures/sandstone_base.png": "b1e4dfc5c603e8fe093442f80ab43005a186b76fbc8d064900c6029a60f6ba56",
+    "assets/textures/nativity_stone_detail_rough.png": "313963339c45386f9b2dff01dfc5fb7a44f53c89895e8f170577176228f64be2",
+    "assets/textures/basalt_base.png": "5943d3e17e7d2e3d0a3f0ea503b0cb973553f95eae52f1d6d522fca76eb584e1",
+    "assets/textures/stone_light_normal.png": "7e396e48924c45bd1a234c50ca13f30246da4f99754e40858ebfa61c424dd8d1",
+    "assets/textures/east_bank_candidates.json": "1bb0b7eb9fac0823b666162ae7a5dc1faba4037b82c92f097def1c7fc15d795c",
+    "assets/textures/glass_east_palegreen_mortel_meskens_atlas.png": "bfbad84e7e532f982474ef807722a59cf811c340300607c7435d1e0e45f3216f",
+    "assets/textures/granite_rough.png": "e1f05dd993c13f729c64d9e7b5ed14ee679b3f80f202876f0323316ff0d42e1f",
+    "assets/textures/east_blue_bank_candidate.json": "af50e81a32b6299aedb21fe09b9a584b027e632a4e4ccc0e4be7ffb70a517509",
+    "assets/textures/stone_base.png": "ac05bd85ee413ce07e784c568f41994f9f08aeea049ecf858e8a0f980e7c61f6",
+    "assets/textures/floor_base.png": "739d8ed963349b33323eb56c4166968848bf276591d302f6dab1fbb04efc46b8",
+    "assets/textures/basalt_rough.png": "0f9d56ac57b2012d6a0378f5eb0293ff591cbf15c151eadee692cf30d934cabf",
+    "assets/textures/floor_rough.png": "de804ef31cae0d193cec666500308ad84cfa998e9020b299756af2a53b4ca933",
+    "assets/textures/vault_normal.png": "9fad0c1f09ca370a9ab350aead22db926f00ef10478f9e1198ddd55aaeada7d5",
+    "assets/textures/granite_base.png": "f13658ce9cfa3760bf33051261c573675d5b3ccf481f8fe57193cdd99fc0641f",
+    "assets/textures/nativity_stone_detail_base.png": "9742cd1a0e681b3dc731b0bdd6a25f9a182f5d86c6ad675b6e4321feb77e4105",
+    "assets/textures/floor_normal.png": "20fe4a3a79a09e868a820fce2c353c6aa78e64cd785e09a9e7f91b8de88efaee",
+    "assets/textures/vault_rough.png": "80d39929e913678d1b6b746a85adc5b6c18a0912bba184e8f924c364f7e676db",
+    "assets/textures/concrete_base.png": "0f34e4a03ef5149421a92987ba2deed3fc438b962f67eb68901eaaea6fd995ba",
+    "assets/textures/window_banks.json": "99c0071c8e45bffe2a02425590e73a5341a8bf7849d81c9e8c7f604052ea08b8",
+    "assets/textures/concrete_normal.png": "77441d70a8eef9f008b08a2c174e3f98df3488bd1edefbce2cae93aec5ed0f14",
+    "assets/textures/porphyry_base.png": "caa331723952aa91cb30934004f9f0afabb8991f6c7c3730dd3ddfb3b936d88b",
+    "assets/textures/nativity_stone_base.png": "98e60e40524b35b682bfb2af59f7d37126e9bb532c844dc579a71f4e58d94317",
+    "assets/textures/stone_dark_rough.png": "847f714a0c49fbd0e4dad6565cf23bc19f7d07f914a419218b0caca5bccf9a5a",
+    "assets/textures/stone_normal.png": "f0b5add740e49500a7edc013cc9d8f8d84e1bb3ba6779eeefa9b03e0a3e13d05",
+    "assets/textures/concrete_rough.png": "d8bcb5f84da20106248e987cec43a4c28c10f29c5431ee6f85a3ebfec581ab89",
+    "assets/textures/stone_rough.png": "8c728f43c860ce2a78678cd75246ba8ef781413b853545b86f70880bd26c59e5",
+    "assets/textures/vault_base.png": "c3eb795b3026f4071ddfe7c48df79678d8996a14969b295b7db3309310b9e78b",
+    "assets/textures/glass_west_green_smiley2023.jpg": "4c255c030df0838cac265a027f22f2927c1a30790801c7f6b8bef6866da143d8",
+    "assets/textures/porphyry_rough.png": "dc366689364e124c19476ff8871f57ee9279f7c13525944b00213b9012af8e43",
+    "assets/textures/stone_dark_normal.png": "88fc7f365208d9492e71d36eae5892235f7261774f0368b6b997b1d73a7951c8",
+    "assets/textures/sandstone_normal.png": "c0f341de035ee92f5a8c243668430f5f988ec83466d206364b42c3ac43d6464e",
+    "assets/textures/nativity_stone_normal.png": "2e39a4badcb20de37a741d2ccbde5700203a6ce60b80d23337b14cbd74c68955",
+    "assets/textures/glass_east_palegreen_meskens2016.jpg": "3239ecf50be9e2964b9bfbb37f95c802c3c13237afffdf2d83763cde7dab1b83",
+    "assets/textures/glass_east_ribeiro2014.jpg": "fe75753db6a5d2614c13b29221d824082c2345009041f93b903f2f6edc17c04d",
+    "assets/textures/glass_west_red_rose_mortel.jpg": "0b918447c8382b201d0d3edfea93b053a38eba55c5517ce4508d539bb74cda68",
+    "assets/textures/stone_dark_base.png": "2887ec61969b2959e4f1302806f650440cf8d28aaa4f0bbe6a582c58c56456a8",
+    "assets/textures/nativity_stone_rough.png": "651d6be00f18fc8c9266cbf31159af40d0392b21995234b355f1ee9fc297fc41",
+    "assets/textures/granite_normal.png": "1f61045f400a2de2105901e38bfbc3e7ec710706aae5557db82c6389797ae71f",
+    "assets/textures/sandstone_rough.png": "3b13a2b10f50e302e723374e89af64e7321e836d01a02da457ee88435a41eb06",
+    "assets/textures/glass_east_blue_mortel2016.jpg": "4a5452d2d3d62e7807ed8b1c0b1a35f7ff4381799174d354b10eb5e12182cd4d",
+    "assets/textures/stone_pbr_web_v11/nativity_stone_detail_normal.png": "ba22b521989134c49ce43f58b034aafa5782d9a2940e1d2ac5739902f64d0bc9",
+    "assets/textures/stone_pbr_web_v11/porphyry_normal.png": "b7a8ebdb8fc67fcb505de7cd918b45994542cc7ebabe7a6be4c9b6b4461fb038",
+    "assets/textures/stone_pbr_web_v11/stone_light_rough.png": "535358e050b90dcfb6d7021069f033f254304ef0ee04c2b4e8c21a75077238bb",
+    "assets/textures/stone_pbr_web_v11/basalt_normal.png": "a684839970c5f5f1be4b0a839173b6553ae856518f33c530239f2608627caf1a",
+    "assets/textures/stone_pbr_web_v11/stone_light_base.png": "2a5272aafe2678327abeb6ce280926be41a9c4114e2c04d4679cf14659794bf1",
+    "assets/textures/stone_pbr_web_v11/README.txt": "41ec53c6ec6cbfec148a0ac61e790e2fa7d5eade1148093eb9c99f986c607ec6",
+    "assets/textures/stone_pbr_web_v11/sandstone_base.png": "e39ade56ff53da17805e345b0c6a2ec506aae4e8e8f5396507bb07de0b2db9fd",
+    "assets/textures/stone_pbr_web_v11/nativity_stone_detail_rough.png": "78b23a95793ea9336052d7d69462e35a1921253dbacdf6b41f3ef90ab250057d",
+    "assets/textures/stone_pbr_web_v11/basalt_base.png": "7622cc0ae48310a7eeefddaf109c848574c0380c7a91f612e4e610f01203c08b",
+    "assets/textures/stone_pbr_web_v11/stone_light_normal.png": "488b07c7289f080b77c7803f26177220f5ad69c351ff110996d25e6b460648dd",
+    "assets/textures/stone_pbr_web_v11/granite_rough.png": "5161d923e5e31c20e14eb604dba145e7ef399fae0f219ac89aa5c0123659a2ba",
+    "assets/textures/stone_pbr_web_v11/stone_base.png": "f5b8623ec5f6486a16ceb188e6278f8c334dc2a1cd4272a1e894f0fc5bd73541",
+    "assets/textures/stone_pbr_web_v11/floor_base.png": "f94d26cd33fc31d8138b5cbfbf0aab3f5c6fe79b80c7673033e58835761b3ae2",
+    "assets/textures/stone_pbr_web_v11/basalt_rough.png": "899bc9e90ad8262e1dc1b21f9ac399d57a0a7e59816a8f3ef84c3f1fc5d50395",
+    "assets/textures/stone_pbr_web_v11/floor_rough.png": "f60741e1f096df1a52428ee7a7abac9a03f24d2df9134da4776d16866ed558f9",
+    "assets/textures/stone_pbr_web_v11/vault_normal.png": "5529d1897d1725c474465cffc9c314b04bd4b8255531e283dead1594c8d18d9e",
+    "assets/textures/stone_pbr_web_v11/granite_base.png": "f1054bad8adff06efe9385921ce546d1c3b26f1ff730e0ab333e29eb860f56e3",
+    "assets/textures/stone_pbr_web_v11/nativity_stone_detail_base.png": "958704ba28fdd8bbf7e2a994304e363253cc628b3099ed9eead34230895c2f87",
+    "assets/textures/stone_pbr_web_v11/raw_texture_comparison.png": "aa1590e9134d201674cbb9bf63e1c2335c0e4b6340b2d257a4bd332f066e5730",
+    "assets/textures/stone_pbr_web_v11/floor_normal.png": "ed8fff2ee74205a3682d4c4ec7e3b4a0189d6175a6c59c14dce5ce08c4c77079",
+    "assets/textures/stone_pbr_web_v11/vault_rough.png": "797951a0467c098ed96b77b074a6c1a2808dae31ea45b2246bd3f21e836494cc",
+    "assets/textures/stone_pbr_web_v11/concrete_base.png": "90412914a11ef4cd0301701f17a65698388b01f1ed9062894a75e265bdb1d7f9",
+    "assets/textures/stone_pbr_web_v11/concrete_normal.png": "03774d96f0b898841f1363189e8167a385fd466a5d45b6843fb8396b8575d147",
+    "assets/textures/stone_pbr_web_v11/porphyry_base.png": "293e8f8d16049a6a84c856be979ebb53b3c0e9679554f33afdc9879cb1cdd9d7",
+    "assets/textures/stone_pbr_web_v11/nativity_stone_base.png": "3f811002942d67cb1bba93a1e736328d60d1a309c2b382de62cb060aff4c9cdf",
+    "assets/textures/stone_pbr_web_v11/stone_dark_rough.png": "bd7552d543e08cbcee8968a0030eee34bdbb3dd8b10956ecd772b9df6fbb1cc3",
+    "assets/textures/stone_pbr_web_v11/stone_normal.png": "393a226185a8195e91eae334a3634fb084d04d5d6a3c69d206d10ce7d5170872",
+    "assets/textures/stone_pbr_web_v11/concrete_rough.png": "8b31976a8b402f4dbc6f283b0f789d008eac44755834adab02aacf715adfe727",
+    "assets/textures/stone_pbr_web_v11/stone_rough.png": "e795f16561b9fc56f9841c8b7eb9b363bd612deaca53aa4d0c85b5b7946110c9",
+    "assets/textures/stone_pbr_web_v11/vault_base.png": "f50d9ee918bc1605b2b5e3faa194119be5873fedbe49626b9c06a1ae2717a9ef",
+    "assets/textures/stone_pbr_web_v11/porphyry_rough.png": "d529dc3d7808a6ed4ab143d752dfdcf5c56324f91ec4395a612817d3a83f16e3",
+    "assets/textures/stone_pbr_web_v11/stone_dark_normal.png": "3da94f4fb8cad084f49055af5130a7453b5bf9c0254aad1349ca19520ad91f12",
+    "assets/textures/stone_pbr_web_v11/sandstone_normal.png": "e4f09a7e330f0415455d3d52f18a0a7068e03b8ce1ddfe4ea12b291875d88f7a",
+    "assets/textures/stone_pbr_web_v11/nativity_stone_normal.png": "1e649948189d7be667ee4a22a53cd70e374c7f4b924eaa999e64b2ed09dd4141",
+    "assets/textures/stone_pbr_web_v11/stone_dark_base.png": "9fd1787b93614b41a8ac1908a91595bae51922570835600bf55d8af2a70d8ce6",
+    "assets/textures/stone_pbr_web_v11/profile.json": "8a9ec7765b0eaeb85c162e2de1caf226e95cf87088596ea9a8dbc81cf09c5313",
+    "assets/textures/stone_pbr_web_v11/nativity_stone_rough.png": "ce39afabca2d79ef237666b07af166b685e5a293b476d1cac703125e3fcd99b6",
+    "assets/textures/stone_pbr_web_v11/granite_normal.png": "5f573144080f2712cce0928c70be004753f819a792b2b592fe63180b89d2cb03",
+    "assets/textures/stone_pbr_web_v11/sandstone_rough.png": "a6da53a0e44ce0cc8b84a9e440d958af6e6a93242977268642e0d12777968f5c",
+    "assets/textures/windows_extra_west/artwork_glass_west_2015_bracons_aisles_inspection.jpg": "e03254fd724344e6aac7401a911f718f89143e490909db4892d9a97441ed861e",
+    "assets/textures/windows_extra_west/artwork_glass_west_2014_ribeiro_3_inspection.jpg": "a1530a790c9cfecd59c7a046cab74fb9bd8d77c02f1855887dcfd5ac44233d71",
+    "assets/textures/windows_extra_west/artwork_glass_candidate_2023_3_inspection.jpg": "150c332f967114eb4454e8359d8fe2ad416e2bac106d67b53a717578707d3986",
+    "assets/textures/windows_extra_west/make_inspection.py": "84a897097b2e60d2097d6d271c784517f84b6aa7438b0fdc918d7859e595f261",
+    "assets/textures/windows_extra_west/artwork_glass_candidate_west_2022_inspection.jpg": "d6e38234187ee127f93538afa140922dfacaa2ec45250eebbe698e28d095986b",
+    "assets/textures/exterior_sculpture/Subirachs_Crucifixion_edge_transition.png": "7a016be94345016a30a0370d3b95f87546add53669215ba7b0d6dc1a62c97c8e",
+    "assets/textures/exterior_sculpture/Busquets_Nativity_Holy_Family_edge_blended.png": "385e4fb2d61924a569320ff9b28135ffe2e37ac362c37c749eb66688f6501184",
+    "assets/textures/exterior_sculpture/Busquets_Nativity_Holy_Family_nativity_warm_render.png": "88a2737024decba0acf7e28ef59735fb11e1aff12c839102a6eb814d6f57385f",
+    "assets/textures/exterior_sculpture/Subirachs_Judas_Kiss_and_Magic_Square.png": "f5b6bb71d9118edd135061b0ec682082acd231485d5e6d73cb3e66bc4ed8f1db",
+    "assets/textures/exterior_sculpture/Sotoo_Harp_Angel_1984_edge_blended.png": "1c0e5416f98df75a45df6fe67dfeed679a2ca836b40e9a7715370e0a7557a775",
+    "assets/textures/exterior_sculpture/Subirachs_Crucifixion_edge_blended.png": "1855850bdd5019f372f9c04a0518e67621ece5c0f08b05ffaaa7e2be433fe1fd",
+    "assets/textures/exterior_sculpture/Sotoo_Harp_Angel_1984.png": "5f75db27a19fdc7dc78e48ca3966db2d66eef41516382b97865e9e7b0d724d2d",
+    "assets/textures/exterior_sculpture/Subirachs_Veronica_and_Soldiers_edge_blended.png": "51f3a5cbf0ef94f6e53be0d843206d351816874f9821bbeb9896c85b0622196f",
+    "assets/textures/exterior_sculpture/Subirachs_Veronica_and_Soldiers.png": "29207a6bbd015141355d111202e7c996c1d2b4e8e4c29d3f988c3aae8670d663",
+    "assets/textures/exterior_sculpture/Busquets_Nativity_Holy_Family.png": "c6c292e28ef551d22a76aeebf37a5e8af8b2069c071178d77e921e67238270af",
+    "assets/textures/exterior_sculpture/Sotoo_Harp_Angel_1984_edge_transition.png": "4cc62feeb9b8a20f465bb1b1bb68a000d1bb82ecba4babddbcb1613c5f2679e7",
+    "assets/textures/exterior_sculpture/reliefs.json": "3b5c198a7dc93254398fc7fc81a1c648826d608cae6acf9f5071f36ed2af3ae8",
+    "assets/textures/exterior_sculpture/Subirachs_Judas_Kiss_and_Magic_Square_edge_transition.png": "10a29414bf91c34f0e3626511d38a14fa36df9e3ca48e2c9d11a8ecc1b3569f3",
+    "assets/textures/exterior_sculpture/Subirachs_Crucifixion.png": "e8bcc03364260309155fa3f34b3d192b8aefddd26de60d7fafae4b82aa37d7f9",
+    "assets/textures/exterior_sculpture/Sotoo_Viola_and_Lute_Angels_edge_transition.png": "802873a0425a8d324d3486d1f321ccab7b7c24b7c2c082aff0761513c26aa341",
+    "assets/textures/exterior_sculpture/Sotoo_Singing_Children_1999_edge_blended.png": "8ae055162829ab1dfe7ab5936bb578dc113265f359e1d5911e501a57ca990c8e",
+    "assets/textures/exterior_sculpture/Sotoo_Singing_Children_1999_edge_transition.png": "c446a587cc8966d2f0e1e60f31e5a203b91f53aefa2cf557f17e33903de5905a",
+    "assets/textures/exterior_sculpture/Sotoo_Singing_Children_1999.png": "2339ceab9e26de3ca8015e145a2e7a3ae143eecaa81ced65f21571a22802b396",
+    "assets/textures/exterior_sculpture/Subirachs_Veronica_and_Soldiers_edge_transition.png": "2ca1bd719e81f80b34f813dc7737fcd1f0a7539d86b1f61a15ff645ada48a070",
+    "assets/textures/exterior_sculpture/grade_nativity_render.py": "fb14849c43cd707721baf372334034d67422b976309bf406aa8c48c0679e1b7a",
+    "assets/textures/exterior_sculpture/Busquets_Nativity_Holy_Family_edge_transition.png": "2fca58833c91ecfe39144e4bc260323435389242398865ed54a999a1c71079b8",
+    "assets/textures/exterior_sculpture/Sotoo_Harp_Angel_1984_nativity_warm_render.png": "3aa883f470ad951ff39107ccece908451c41761f6882ce3e77aa0f2ed9defec0",
+    "assets/textures/exterior_sculpture/Subirachs_Judas_Kiss_and_Magic_Square_edge_blended.png": "3874fa1cb4a85a21badbdc16a46379aa087d611eb7e72c9ca2faa2ae81cb89e4",
+    "assets/textures/exterior_sculpture/Sotoo_Singing_Children_1999_nativity_warm_render.png": "2cff7e2eca8e0030d65eb546d0d9c5ff6e7611f8323473f6d2470264292915be",
+    "assets/textures/exterior_sculpture/Sotoo_Viola_and_Lute_Angels.png": "0fc81346e19615d5b3a37e31402b2be9656e2658975a77f196e85b24b85af856",
+    "assets/textures/exterior_sculpture/Sotoo_Viola_and_Lute_Angels_nativity_warm_render.png": "51879ca8e7e544efcb03d803a194b12496b58f54b7139e41ad73b852eaa18824",
+    "assets/textures/exterior_sculpture/Sotoo_Viola_and_Lute_Angels_edge_blended.png": "b2aae62c8538ad532483d6bbf89c5b03fe63aa98d3a3ac5996cae27ab9982c2a",
+    "src/materials.py": "2866d40c31861ccc40fcb17094b788bc26707a16fb9b63ad044c6ae2b1488fb3",
+    "src/glazing.py": "00a3564d96f4e58c9f384c046f1186fcbdabf8360155b161eee9cb831348fddf"
+  },
+  "protected_sources_unchanged": true,
+  "protected_source_count": 121
+}

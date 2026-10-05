@@ -1,0 +1,110 @@
+{
+  "name": "nativity_part_variation_v12",
+  "authorship": "Original procedural derivatives of original V11 stone PBR; no photographic pixels.",
+  "generator": "src/prepare_nativity_part_variation.py",
+  "purpose": "Headroom permits valid glTF factors <=1 for small positive/negative part variation; maps are never displayed without calibrated factors.",
+  "operation": {
+    "base": "Decode sRGB, multiply linear RGB by1.08, re-encode sRGB to8-bit PNG.",
+    "rough": "Add0.03 to non-color roughness, clamp0..1 and encode8-bit PNG.",
+    "normal": "Original normal image and shader strength reused unchanged."
+  },
+  "approximation": "Restrained photographic interpretation, not measured weathering, quarry albedo or roughness.",
+  "materials": {
+    "nativity_stone": {
+      "source_key": "nativity_stone",
+      "source": {
+        "base": {
+          "file": "stone_pbr_web_v11/nativity_stone_base.png",
+          "sha256": "3f811002942d67cb1bba93a1e736328d60d1a309c2b382de62cb060aff4c9cdf"
+        },
+        "rough": {
+          "file": "stone_pbr_web_v11/nativity_stone_rough.png",
+          "sha256": "ce39afabca2d79ef237666b07af166b685e5a293b476d1cac703125e3fcd99b6"
+        }
+      },
+      "derived": {
+        "base": {
+          "file": "nativity_part_variation_v12/nativity_stone_anchor_base.png",
+          "sha256": "e262260a1c6fb6a2b72f580549a34ef707562d5983c95412f03a354925b518a4",
+          "size_px": [
+            1024,
+            1024
+          ]
+        },
+        "rough": {
+          "file": "nativity_part_variation_v12/nativity_stone_anchor_rough.png",
+          "sha256": "65251d68af25b6782d1594d8dd2052f1c0a2a46fe02104cecbea0bbd73069c60",
+          "size_px": [
+            1024,
+            1024
+          ]
+        }
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/nativity_stone_normal.png",
+        "sha256": "1e649948189d7be667ee4a22a53cd70e374c7f4b924eaa999e64b2ed09dd4141"
+      },
+      "normal_strength": 0.65,
+      "source_linear_rgb_mean": [
+        0.3392902315828598,
+        0.2601322122754882,
+        0.15749491913131247
+      ],
+      "anchor_linear_rgb_mean": [
+        0.3672981720181985,
+        0.28086398711932065,
+        0.16987055869431877
+      ],
+      "source_roughness_mean": 0.8591828065759997,
+      "anchor_roughness_mean": 0.8905553555956074
+    },
+    "nativity_stone_detail": {
+      "source_key": "nativity_stone_detail",
+      "source": {
+        "base": {
+          "file": "stone_pbr_web_v11/nativity_stone_detail_base.png",
+          "sha256": "958704ba28fdd8bbf7e2a994304e363253cc628b3099ed9eead34230895c2f87"
+        },
+        "rough": {
+          "file": "stone_pbr_web_v11/nativity_stone_detail_rough.png",
+          "sha256": "78b23a95793ea9336052d7d69462e35a1921253dbacdf6b41f3ef90ab250057d"
+        }
+      },
+      "derived": {
+        "base": {
+          "file": "nativity_part_variation_v12/nativity_stone_detail_anchor_base.png",
+          "sha256": "0f2c50c364250a7a28ce10d5e6867c0d79187d9f84123e8cb5ec5c4e16cffedf",
+          "size_px": [
+            1024,
+            1024
+          ]
+        },
+        "rough": {
+          "file": "nativity_part_variation_v12/nativity_stone_detail_anchor_rough.png",
+          "sha256": "d20944162e43f9043f022b67a637a7d36793a5a1c74bddc39c234a8311923f2a",
+          "size_px": [
+            1024,
+            1024
+          ]
+        }
+      },
+      "normal": {
+        "file": "stone_pbr_web_v11/nativity_stone_detail_normal.png",
+        "sha256": "ba22b521989134c49ce43f58b034aafa5782d9a2940e1d2ac5739902f64d0bc9"
+      },
+      "normal_strength": 0.62,
+      "source_linear_rgb_mean": [
+        0.40104635498951346,
+        0.3085446868100299,
+        0.19049168577853798
+      ],
+      "anchor_linear_rgb_mean": [
+        0.43308653596404934,
+        0.3325845756142412,
+        0.20516632481992841
+      ],
+      "source_roughness_mean": 0.8199441348805149,
+      "anchor_roughness_mean": 0.8513166839001225
+    }
+  }
+}
