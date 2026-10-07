@@ -6,6 +6,9 @@
   "name": "demos",
   "main": "gallery/worker.js",
   "compatibility_date": "2026-09-01",
+  // the gallery's own domain (zone polynous.io is on Cloudflare); DNS record + certificate are created on deploy. demos.kazumasa.workers.dev keeps working.
+  "routes": [{ "pattern": "demos.polynous.io", "custom_domain": true }],
+  "workers_dev": true,
   "assets": {
     "directory": "./site",
     "binding": "ASSETS",
