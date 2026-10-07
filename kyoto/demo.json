@@ -1,0 +1,99 @@
+{
+  "no": "",
+  "title": "KYOTO",
+  "subtitle": {
+    "ja": "京都駅から清水寺、伏見稲荷、祇園、東福寺、嵐山へ。紅葉と雪の夕暮れを、歩いて、空から",
+    "en": "From Kyoto Station to Kiyomizu-dera, Fushimi Inari, Gion, Tōfuku-ji and Arashiyama: an autumn evening and a snowy one, on foot and from the air"
+  },
+  "summary": {
+    "ja": "京都駅を中心に伏見稲荷から銀閣寺までの約5.8×8.6kmと、金閣寺、嵐山・嵯峨野を3Dで再現し、歩いて、空から巡ります。千本鳥居をくぐり、三十三間堂で千体の千手観音と二十八部衆、風神・雷神の前を歩き、清水の舞台や東福寺の通天橋から紅葉の谷を見下ろし、東寺の五重塔、祇園、永観堂、竹林の小径、渡月橋へ。季節は紅葉の秋と15cmほど雪の積もった冬、時刻は夕暮れ。街はPLATEAU（国土交通省）・OpenStreetMap・国土地理院の標高データから生成し、名所はBlenderで手作りしたモデル。光はBlenderで焼き込み、WebGPUで描画。BGMはバッハ《ゴルトベルク変奏曲》をゆっくり弾くブラウザ内合成のピアノ。日本語と英語に対応。WebGPU対応ブラウザ向け、初回読み込みは約160MB（残りは巡りながら読み込みます）。",
+    "en": "About 5.8 by 8.6 km of Kyoto around the station, from Fushimi Inari to Ginkaku-ji, plus Kinkaku-ji and Arashiyama–Sagano, rebuilt in 3D to walk or fly over: through the thousand torii, past the thousand Kannon of Sanjūsangen-dō with its 28 guardians and the gods of wind and thunder, out on the Kiyomizu stage and Tōfuku-ji's Tsūten-kyō above valleys of maples, to Tō-ji's pagoda, Gion, Eikandō, the bamboo grove and the Togetsu-kyō. An autumn evening and a snowy one (15 cm). The city is generated from PLATEAU (MLIT), OpenStreetMap and GSI elevation data; the landmarks are modelled by hand in Blender. Light baked in Blender, drawn with WebGPU. Bach's Goldberg Variations, played slowly by a piano synthesised in the browser. Japanese and English. Needs a WebGPU browser; the first load is about 160 MB (the rest streams in as you go)."
+  },
+  "date": "2026-10-06",
+  "tags": [
+    "webgpu",
+    "3d",
+    "architecture",
+    "city",
+    "audio"
+  ],
+  "serve": "public",
+  "entry": "index.html",
+  "gpu": "webgpu",
+  "links": [
+    {
+      "label": "日本語",
+      "href": "index.html#ja"
+    },
+    {
+      "label": "English",
+      "href": "index.html#en"
+    },
+    {
+      "label": "紹介動画 · Film",
+      "href": "film.html"
+    }
+  ],
+  "shots": [
+    {
+      "path": "index.html#ja",
+      "wait": 3000,
+      "eval": "new Promise((r) => { const f = () => (window.KYO && KYO.ready ? r() : setTimeout(f, 200)); f(); }).then(() => { KYO.place('kiyomizu'); KYO.ui.help.remove(); }).then(() => KYO.settle(4000)).then(() => KYO.freeze())",
+      "after": 600
+    },
+    {
+      "path": "index.html#ja",
+      "wait": 3000,
+      "eval": "new Promise((r) => { const f = () => (window.KYO && KYO.ready ? r() : setTimeout(f, 200)); f(); }).then(() => { KYO.place('tofukuji_valley'); KYO.ui.help.remove(); }).then(() => KYO.settle(4000)).then(() => KYO.freeze())",
+      "after": 600
+    },
+    {
+      "path": "index.html#ja",
+      "wait": 3000,
+      "eval": "new Promise((r) => { const f = () => (window.KYO && KYO.ready ? r() : setTimeout(f, 200)); f(); }).then(() => { KYO.place('fushimi_torii'); KYO.ui.help.remove(); }).then(() => KYO.settle(4000)).then(() => KYO.freeze())",
+      "after": 600
+    },
+    {
+      "path": "index.html#ja",
+      "wait": 3000,
+      "eval": "new Promise((r) => { const f = () => (window.KYO && KYO.ready ? r() : setTimeout(f, 200)); f(); }).then(() => { KYO.place('sanjusangendo_in'); KYO.ui.help.remove(); }).then(() => KYO.settle(6000)).then(() => KYO.freeze())",
+      "after": 600
+    },
+    {
+      "path": "index.html#ja",
+      "wait": 3000,
+      "eval": "new Promise((r) => { const f = () => (window.KYO && KYO.ready ? r() : setTimeout(f, 200)); f(); }).then(() => { KYO.place('toji'); KYO.ui.help.remove(); }).then(() => KYO.settle(4000)).then(() => KYO.freeze())",
+      "after": 600
+    },
+    {
+      "path": "index.html#ja",
+      "wait": 3000,
+      "eval": "new Promise((r) => { const f = () => (window.KYO && KYO.ready ? r() : setTimeout(f, 200)); f(); }).then(() => { KYO.place('yasaka_pagoda'); KYO.ui.help.remove(); }).then(() => KYO.settle(4000)).then(() => KYO.freeze())",
+      "after": 600
+    },
+    {
+      "path": "index.html#ja",
+      "wait": 3000,
+      "eval": "new Promise((r) => { const f = () => (window.KYO && KYO.ready ? r() : setTimeout(f, 200)); f(); }).then(() => KYO.season('winter')).then(() => { KYO.place('hanamikoji'); KYO.ui.help.remove(); }).then(() => KYO.settle(4000)).then(() => KYO.freeze())",
+      "after": 600
+    },
+    {
+      "path": "index.html#ja",
+      "wait": 3000,
+      "eval": "new Promise((r) => { const f = () => (window.KYO && KYO.ready ? r() : setTimeout(f, 200)); f(); }).then(() => { KYO.place('ginkakuji'); KYO.ui.help.remove(); }).then(() => KYO.settle(4000)).then(() => KYO.freeze())",
+      "after": 600
+    },
+    {
+      "path": "index.html#ja",
+      "wait": 3000,
+      "eval": "new Promise((r) => { const f = () => (window.KYO && KYO.ready ? r() : setTimeout(f, 200)); f(); }).then(() => { KYO.place('bamboo'); KYO.ui.help.remove(); }).then(() => KYO.settle(4000)).then(() => KYO.freeze())",
+      "after": 600
+    },
+    {
+      "path": "index.html#ja",
+      "wait": 3000,
+      "eval": "new Promise((r) => { const f = () => (window.KYO && KYO.ready ? r() : setTimeout(f, 200)); f(); }).then(() => { KYO.place('air'); KYO.ui.help.remove(); }).then(() => KYO.settle(4000)).then(() => KYO.freeze())",
+      "after": 600
+    }
+  ]
+}

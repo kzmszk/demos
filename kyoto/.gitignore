@@ -1,0 +1,6 @@
+# the film stays out of git (kyoto-assets/film/ has it; the site plays it from R2 at /media/movies/kyoto-film/video.mp4)
+public/movie/*.mp4
+__pycache__/
+# the city tiles are generated (build_tiles / bake / pack.py / pack.mjs, from kyoto-assets) and replaced on every rebuild (~0.9 GB):
+# they stay out of git; a deploy takes the local copy (see README "Build")
+public/data/city/

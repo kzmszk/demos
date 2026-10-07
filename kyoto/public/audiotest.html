@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KYOTO — sound test</title>
+<style>
+  :root { color-scheme: light dark; --bg: #f4f1ea; --fg: #1d1b18; --mute: #6d675d; --line: #cfc8ba; --btn: #e6e0d2; --acc: #8c2f1f; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #16140f; --fg: #ece6d8; --mute: #a29a88; --line: #3a362c; --btn: #29261d; --acc: #e08a6a; } }
+  body { margin: 0; padding: 20px 16px 60px; background: var(--bg); color: var(--fg); font: 15px/1.5 system-ui, "Hiragino Sans", "Noto Sans JP", sans-serif; max-width: 920px; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; letter-spacing: .04em; }
+  h2 { font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); margin: 26px 0 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+  button, select { font: inherit; color: inherit; background: var(--btn); border: 1px solid var(--line); border-radius: 4px; padding: 5px 11px; margin: 0 6px 6px 0; cursor: pointer; }
+  button:hover { border-color: var(--acc); }
+  button.on { background: var(--acc); color: #fff; border-color: var(--acc); }
+  label { display: inline-flex; align-items: center; gap: 8px; margin: 0 16px 6px 0; }
+  input[type=range] { width: 160px; }
+  .row { margin: 4px 0; } .mute { color: var(--mute); } .now { font-size: 17px; margin: 8px 0 2px; } .mono { font: 12px/1.5 ui-monospace, Menlo, monospace; white-space: pre-wrap; }
+  #log { height: 160px; overflow: auto; border: 1px solid var(--line); padding: 6px 8px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<h1>KYOTO — sound test</h1>
+<div class="mute">The Goldberg Variations on a physical-model piano, and the natural sounds (footsteps, water, bells, a crow). Nothing loops; everything is a short synthesized grain.</div>
+
+<h2>Music</h2>
+<div class="row"><button id="start">Start the music</button><button id="mute">Mute</button> <button id="prev">&laquo; prev</button><button id="next">next &raquo;</button></div>
+<div class="row"><select id="mv"></select><button id="jump">Jump</button><label>from beat <input id="beat" type="number" value="0" min="0" step="1" style="width:70px"></label></div>
+<div class="now" id="now">—</div>
+<div class="mute mono" id="info"></div>
+
+<h2>The world (what the page's update() is given every frame)</h2>
+<div class="row">
+  <label>mode <select id="mode"><option>walk</option><option>title</option><option>fly</option></select></label>
+  <label>walk speed <input id="speed" type="range" min="0" max="5" step="0.1" value="0"><span id="speedv">0</span> m/s</label>
+</div>
+<div class="row">
+  <label>ground <select id="surf"></select></label>
+  <label>season <select id="season"><option value="0">autumn</option><option value="1">winter (snow)</option></select></label>
+  <label>interior <select id="interior"><option value="">none</option><option value="sanjusangendo">Sanjusangendo</option></select></label>
+</div>
+<div class="row">
+  <label>water <input id="water" type="range" min="0" max="1" step="0.05" value="0"></label>
+  <label>weir <input id="weir" type="range" min="0" max="1" step="0.05" value="0"></label>
+  <label>waterfall <input id="fall" type="range" min="0" max="1" step="0.05" value="0"></label>
+  <label>camera height <input id="camz" type="range" min="1" max="150" step="1" value="2"><span id="camzv">2</span> m</label>
+</div>
+<div class="row">
+  <label><input id="bellson" type="checkbox"> temple bells in range (the nearest rings every 70-150 s)</label>
+  <label>distance <input id="bdist" type="range" min="20" max="800" step="10" value="300"><span id="bdistv">300</span> m</label>
+  <label>azimuth <input id="baz" type="range" min="-3.14" max="3.14" step="0.1" value="0.8"></label>
+</div>
+<div class="row"><button id="bellnow">Ring a bell now (at that distance)</button> <span class="mute">(it arrives dist / 343 s later when "delay" is on)</span> <label><input id="belldelay" type="checkbox"> delay</label></div>
+
+<h2>Grains (one at a time)</h2>
+<div class="row" id="grains"></div>
+
+<h2>Offline tests</h2>
+<div class="row"><button id="runall">Run all (writes WAVs through the test server, if any)</button> <span class="mute" id="testst"></span></div>
+<h2>Log</h2>
+<div id="log" class="mono"></div>
+<script type="module" src="audiotest.js"></script>
+</body>
+</html>

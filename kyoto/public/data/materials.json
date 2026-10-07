@@ -1,0 +1,886 @@
+{
+ "layers": [
+  {
+   "name": "plaster",
+   "src": "Plaster003",
+   "size": 2.0,
+   "neutral": true
+  },
+  {
+   "name": "wood_old",
+   "src": "old_planks_02",
+   "size": 2.0
+  },
+  {
+   "name": "wood_grey",
+   "src": "wood_planks_grey",
+   "size": 1.5
+  },
+  {
+   "name": "wood_fresh",
+   "src": "hinoki_planks",
+   "size": 1.9
+  },
+  {
+   "name": "concrete",
+   "src": "concrete_wall_006",
+   "size": 2.0,
+   "neutral": true
+  },
+  {
+   "name": "tile_facade",
+   "src": "rectangular_facade_tiles_02",
+   "size": 2.1,
+   "neutral": true
+  },
+  {
+   "name": "corrugated",
+   "src": "worn_corrugated_iron",
+   "size": 1.8,
+   "neutral": true
+  },
+  {
+   "name": "asphalt",
+   "src": "Asphalt031",
+   "size": 2.0
+  },
+  {
+   "name": "paving",
+   "src": "PavingStones070",
+   "size": 1.15
+  },
+  {
+   "name": "stone_sett",
+   "src": "PavingStones109",
+   "size": 1.0
+  },
+  {
+   "name": "gravel",
+   "src": "Gravel026",
+   "size": 1.5
+  },
+  {
+   "name": "soil",
+   "src": "Ground055L",
+   "size": 3.0
+  },
+  {
+   "name": "grass",
+   "src": "Grass004",
+   "size": 1.4
+  },
+  {
+   "name": "withered",
+   "src": "withered_grass",
+   "size": 2.0
+  },
+  {
+   "name": "moss",
+   "src": "Moss002",
+   "size": 1.0
+  },
+  {
+   "name": "leaves",
+   "src": "ScatteredLeaves009",
+   "size": 1.7
+  },
+  {
+   "name": "forest",
+   "src": "forest_floor",
+   "size": 2.1
+  },
+  {
+   "name": "stone_wall",
+   "src": "japanese_stone_wall",
+   "size": 1.9
+  },
+  {
+   "name": "pebbles",
+   "src": "ganges_river_pebbles",
+   "size": 2.2
+  },
+  {
+   "name": "roof_tiles",
+   "src": "grey_roof_tiles",
+   "size": 3.0
+  },
+  {
+   "name": "metal",
+   "src": "Metal034",
+   "size": 1.0
+  },
+  {
+   "name": "bark_cedar",
+   "src": "japanese_cedar_bark",
+   "size": 1.0
+  },
+  {
+   "name": "bark_sakura",
+   "src": "sakura_bark",
+   "size": 1.6
+  },
+  {
+   "name": "bamboo",
+   "src": "Bamboo001A",
+   "size": 1.3
+  },
+  {
+   "name": "tatami",
+   "src": "tatami_mat",
+   "size": 1.8
+  },
+  {
+   "name": "snow",
+   "src": "Snow006",
+   "size": 2.5
+  }
+ ],
+ "mats": [
+  {
+   "id": 0,
+   "name": "wall_plaster",
+   "layer": 0,
+   "kind": "wall",
+   "albedo": [
+    0.62,
+    0.6,
+    0.55
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 1,
+   "name": "wall_earth",
+   "layer": 0,
+   "kind": "wall",
+   "albedo": [
+    0.45,
+    0.36,
+    0.25
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 2,
+   "name": "wall_board",
+   "layer": 2,
+   "kind": "wall",
+   "albedo": [
+    0.06,
+    0.05,
+    0.04
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 3,
+   "name": "wall_siding",
+   "layer": 4,
+   "kind": "wall",
+   "albedo": [
+    0.55,
+    0.52,
+    0.47
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 4,
+   "name": "wall_tile",
+   "layer": 5,
+   "kind": "wall",
+   "albedo": [
+    0.45,
+    0.38,
+    0.3
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 5,
+   "name": "wall_concrete",
+   "layer": 4,
+   "kind": "wall",
+   "albedo": [
+    0.45,
+    0.44,
+    0.42
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 6,
+   "name": "wall_metal",
+   "layer": 6,
+   "kind": "wall",
+   "albedo": [
+    0.35,
+    0.36,
+    0.36
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 7,
+   "name": "machiya_front",
+   "layer": 1,
+   "kind": "machiya",
+   "albedo": [
+    0.12,
+    0.08,
+    0.05
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 8,
+   "name": "glass_curtain",
+   "layer": 4,
+   "kind": "wall",
+   "albedo": [
+    0.05,
+    0.06,
+    0.07
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 9,
+   "name": "temple_wall",
+   "layer": 0,
+   "kind": "wall",
+   "albedo": [
+    0.66,
+    0.64,
+    0.6
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 10,
+   "name": "kawara",
+   "layer": 19,
+   "kind": "kawara",
+   "albedo": [
+    0.12,
+    0.12,
+    0.13
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 11,
+   "name": "hongawara",
+   "layer": 19,
+   "kind": "kawara",
+   "albedo": [
+    0.11,
+    0.11,
+    0.12
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 12,
+   "name": "roof_metal",
+   "layer": 20,
+   "kind": "roofmetal",
+   "albedo": [
+    0.2,
+    0.2,
+    0.2
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 13,
+   "name": "roof_flat",
+   "layer": 4,
+   "kind": "roofflat",
+   "albedo": [
+    0.35,
+    0.34,
+    0.32
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 14,
+   "name": "copper",
+   "layer": 20,
+   "kind": "copper",
+   "albedo": [
+    0.18,
+    0.36,
+    0.3
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 15,
+   "name": "hiwada",
+   "layer": 1,
+   "kind": "hiwada",
+   "albedo": [
+    0.1,
+    0.06,
+    0.04
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 16,
+   "name": "ridge",
+   "layer": 19,
+   "kind": "ridge",
+   "albedo": [
+    0.11,
+    0.11,
+    0.12
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 17,
+   "name": "eave_wood",
+   "layer": 1,
+   "kind": "wood",
+   "albedo": [
+    0.09,
+    0.06,
+    0.04
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 18,
+   "name": "ground",
+   "layer": 7,
+   "kind": "ground",
+   "albedo": [
+    0.12,
+    0.12,
+    0.12
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 19,
+   "name": "curb",
+   "layer": 4,
+   "kind": "stone",
+   "albedo": [
+    0.4,
+    0.39,
+    0.37
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 20,
+   "name": "paint",
+   "layer": -1,
+   "kind": "paint",
+   "albedo": [
+    0.7,
+    0.7,
+    0.68
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 21,
+   "name": "stone",
+   "layer": 17,
+   "kind": "stone",
+   "albedo": [
+    0.32,
+    0.31,
+    0.29
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 22,
+   "name": "water",
+   "layer": -1,
+   "kind": "water",
+   "albedo": [
+    0.02,
+    0.03,
+    0.03
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 23,
+   "name": "wood_dark",
+   "layer": 1,
+   "kind": "wood",
+   "albedo": [
+    0.07,
+    0.05,
+    0.035
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 24,
+   "name": "wood_natural",
+   "layer": 3,
+   "kind": "wood",
+   "albedo": [
+    0.35,
+    0.25,
+    0.16
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 25,
+   "name": "vermilion",
+   "layer": 3,
+   "kind": "paint",
+   "albedo": [
+    0.55,
+    0.1,
+    0.04
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 26,
+   "name": "black_lacquer",
+   "layer": 3,
+   "kind": "paint",
+   "albedo": [
+    0.02,
+    0.02,
+    0.02
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 27,
+   "name": "white_paint",
+   "layer": 3,
+   "kind": "paint",
+   "albedo": [
+    0.7,
+    0.68,
+    0.62
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 28,
+   "name": "bamboo",
+   "layer": 23,
+   "kind": "wood",
+   "albedo": [
+    0.3,
+    0.25,
+    0.12
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 29,
+   "name": "metal_dark",
+   "layer": 20,
+   "kind": "metal",
+   "albedo": [
+    0.05,
+    0.05,
+    0.05
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 30,
+   "name": "metal_grey",
+   "layer": 20,
+   "kind": "metal",
+   "albedo": [
+    0.4,
+    0.4,
+    0.4
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 31,
+   "name": "glass",
+   "layer": -1,
+   "kind": "glass",
+   "albedo": [
+    0.02,
+    0.02,
+    0.02
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 32,
+   "name": "lamp",
+   "layer": -1,
+   "kind": "emissive",
+   "albedo": [
+    1.0,
+    0.72,
+    0.42
+   ],
+   "emit": 30.0
+  },
+  {
+   "id": 33,
+   "name": "lantern_paper",
+   "layer": -1,
+   "kind": "emissive",
+   "albedo": [
+    1.0,
+    0.55,
+    0.25
+   ],
+   "emit": 8.0
+  },
+  {
+   "id": 34,
+   "name": "gold",
+   "layer": -1,
+   "kind": "gold",
+   "albedo": [
+    0.9,
+    0.62,
+    0.25
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 35,
+   "name": "bronze",
+   "layer": 20,
+   "kind": "metal",
+   "albedo": [
+    0.12,
+    0.09,
+    0.06
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 36,
+   "name": "cloth",
+   "layer": -1,
+   "kind": "cloth",
+   "albedo": [
+    0.2,
+    0.1,
+    0.08
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 37,
+   "name": "tatami",
+   "layer": 24,
+   "kind": "floor",
+   "albedo": [
+    0.38,
+    0.35,
+    0.2
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 38,
+   "name": "snowcap",
+   "layer": 25,
+   "kind": "snow",
+   "albedo": [
+    0.85,
+    0.87,
+    0.9
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 39,
+   "name": "rail",
+   "layer": 20,
+   "kind": "metal",
+   "albedo": [
+    0.1,
+    0.09,
+    0.08
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 40,
+   "name": "hedge",
+   "layer": 12,
+   "kind": "hedge",
+   "albedo": [
+    0.05,
+    0.09,
+    0.03
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 41,
+   "name": "sand_raked",
+   "layer": 10,
+   "kind": "ground",
+   "albedo": [
+    0.6,
+    0.58,
+    0.54
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 42,
+   "name": "moss_mound",
+   "layer": 14,
+   "kind": "ground",
+   "albedo": [
+    0.07,
+    0.12,
+    0.04
+   ],
+   "emit": 0.0
+  },
+  {
+   "id": 43,
+   "name": "screen",
+   "layer": -1,
+   "kind": "emissive",
+   "albedo": [
+    0.8,
+    0.92,
+    1.0
+   ],
+   "emit": 12.0
+  },
+  {
+   "id": 44,
+   "name": "sig_red",
+   "layer": -1,
+   "kind": "emissive",
+   "albedo": [
+    1.0,
+    0.1,
+    0.04
+   ],
+   "emit": 10.0
+  },
+  {
+   "id": 45,
+   "name": "sig_green",
+   "layer": -1,
+   "kind": "emissive",
+   "albedo": [
+    0.1,
+    1.0,
+    0.65
+   ],
+   "emit": 10.0
+  },
+  {
+   "id": 46,
+   "name": "wire",
+   "layer": 20,
+   "kind": "metal",
+   "albedo": [
+    0.02,
+    0.02,
+    0.02
+   ],
+   "emit": 0.0
+  }
+ ],
+ "surf": [
+  {
+   "id": 0,
+   "name": "none",
+   "albedo": [
+    0.2,
+    0.17,
+    0.13
+   ]
+  },
+  {
+   "id": 1,
+   "name": "asphalt",
+   "albedo": [
+    0.075,
+    0.075,
+    0.075
+   ]
+  },
+  {
+   "id": 2,
+   "name": "asphalt_lane",
+   "albedo": [
+    0.1,
+    0.1,
+    0.095
+   ]
+  },
+  {
+   "id": 3,
+   "name": "sidewalk",
+   "albedo": [
+    0.3,
+    0.28,
+    0.25
+   ]
+  },
+  {
+   "id": 4,
+   "name": "stone_sett",
+   "albedo": [
+    0.28,
+    0.27,
+    0.25
+   ]
+  },
+  {
+   "id": 5,
+   "name": "gravel",
+   "albedo": [
+    0.45,
+    0.43,
+    0.4
+   ]
+  },
+  {
+   "id": 6,
+   "name": "soil",
+   "albedo": [
+    0.3,
+    0.24,
+    0.17
+   ]
+  },
+  {
+   "id": 7,
+   "name": "grass",
+   "albedo": [
+    0.12,
+    0.16,
+    0.06
+   ]
+  },
+  {
+   "id": 8,
+   "name": "moss",
+   "albedo": [
+    0.08,
+    0.13,
+    0.04
+   ]
+  },
+  {
+   "id": 9,
+   "name": "forest",
+   "albedo": [
+    0.13,
+    0.09,
+    0.05
+   ]
+  },
+  {
+   "id": 10,
+   "name": "riverbed",
+   "albedo": [
+    0.2,
+    0.19,
+    0.16
+   ]
+  },
+  {
+   "id": 11,
+   "name": "ballast",
+   "albedo": [
+    0.22,
+    0.21,
+    0.2
+   ]
+  },
+  {
+   "id": 12,
+   "name": "concrete",
+   "albedo": [
+    0.38,
+    0.37,
+    0.35
+   ]
+  },
+  {
+   "id": 13,
+   "name": "sand",
+   "albedo": [
+    0.55,
+    0.53,
+    0.48
+   ]
+  },
+  {
+   "id": 14,
+   "name": "graves",
+   "albedo": [
+    0.32,
+    0.31,
+    0.3
+   ]
+  },
+  {
+   "id": 15,
+   "name": "farm",
+   "albedo": [
+    0.15,
+    0.12,
+    0.08
+   ]
+  },
+  {
+   "id": 16,
+   "name": "tactile",
+   "albedo": [
+    0.55,
+    0.45,
+    0.05
+   ]
+  },
+  {
+   "id": 17,
+   "name": "stone_slab",
+   "albedo": [
+    0.35,
+    0.34,
+    0.32
+   ]
+  },
+  {
+   "id": 18,
+   "name": "wood_deck",
+   "albedo": [
+    0.2,
+    0.14,
+    0.09
+   ]
+  },
+  {
+   "id": 19,
+   "name": "masa",
+   "albedo": [
+    0.42,
+    0.36,
+    0.27
+   ]
+  }
+ ]
+}
