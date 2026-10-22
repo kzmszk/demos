@@ -1,0 +1,85 @@
+{
+  "sources": [
+    {
+      "file": "photos/myrtles-ornament.webp",
+      "caption": {
+        "ja": "木彫の扉・漆喰装飾・幾何学タイル",
+        "en": "Carved wood, stucco and geometric tilework"
+      },
+      "originalTitle": "Stucco, wooden door, mosaics, wall Alhambra, Granada, Spain.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Stucco,_wooden_door,_mosaics,_wall_Alhambra,_Granada,_Spain.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/6/62/Stucco%2C_wooden_door%2C_mosaics%2C_wall_Alhambra%2C_Granada%2C_Spain.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Jebulon",
+      "license": "CC0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "retrieved": "2026-10-22",
+      "width": 1920,
+      "height": 1497
+    },
+    {
+      "file": "photos/mexuar-tiles.webp",
+      "caption": {
+        "ja": "壁面の幾何学タイル",
+        "en": "Geometric tilework on the walls"
+      },
+      "originalTitle": "Granada - Alhambra - Palacios nazaríes - Sala del Mexuar - Azulejos.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra_-_Palacios_nazar%C3%ADes_-_Sala_del_Mexuar_-_Azulejos.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/6/64/Granada_-_Alhambra_-_Palacios_nazar%C3%ADes_-_Sala_del_Mexuar_-_Azulejos.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Benjamin Smith",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "retrieved": "2026-10-22",
+      "width": 1920,
+      "height": 1281
+    },
+    {
+      "file": "photos/kings-painting.webp",
+      "caption": {
+        "ja": "天井に描かれたナスル朝の王たち",
+        "en": "Nasrid rulers depicted on the ceiling"
+      },
+      "originalTitle": "Alhambra - Granada. Palacios Nazaríes. Los diez primeros sultanes Nazaríes..jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Alhambra_-_Granada._Palacios_Nazar%C3%ADes._Los_diez_primeros_sultanes_Nazar%C3%ADes..jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/92/Alhambra_-_Granada._Palacios_Nazar%C3%ADes._Los_diez_primeros_sultanes_Nazar%C3%ADes..jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Valina Tsikalá",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "retrieved": "2026-10-22",
+      "width": 1920,
+      "height": 1436
+    },
+    {
+      "file": "photos/lindaraja-windows.webp",
+      "caption": {
+        "ja": "庭園を望む窓と壁面装飾",
+        "en": "Decorated windows overlooking the garden"
+      },
+      "originalTitle": "Mirador de Daraxa, Sala de los Ajimeces. La Alhambra.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Mirador_de_Daraxa,_Sala_de_los_Ajimeces._La_Alhambra.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/24/Mirador_de_Daraxa%2C_Sala_de_los_Ajimeces._La_Alhambra.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "José Luis Filpo Cabana",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "retrieved": "2026-10-22",
+      "width": 1920,
+      "height": 1280
+    },
+    {
+      "file": "photos/lindaraja-ceiling.webp",
+      "caption": {
+        "ja": "色ガラスの天井",
+        "en": "The coloured-glass ceiling"
+      },
+      "originalTitle": "Techo del Mirador de Lindaraja (la Alhambra).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Techo_del_Mirador_de_Lindaraja_(la_Alhambra).jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/10/Techo_del_Mirador_de_Lindaraja_%28la_Alhambra%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "José Luis Filpo Cabana",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "retrieved": "2026-10-22",
+      "width": 1920,
+      "height": 1440
+    }
+  ],
+  "changes": "Local reference WebP photographs cropped and resampled in runtime material atlases. Mexuar and Lindaraja tile patterns repeat. Kings painting mapped once onto a curved ceiling; Lindaraja glass uses emissive shading. Each derivative retains the original source licence. See texture-credits.html."
+}

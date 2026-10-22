@@ -1,0 +1,490 @@
+{
+  "version": 1,
+  "retrieved": "2026-10-22",
+  "changes": "photos/*.webp: resized to fit 1920 × 1920 and converted to WebP. textures/*.jpg: Wikimedia Commons resized JPEG renditions. Runtime material processing is documented in texture-credits.html.",
+  "places": {
+    "lions": [
+      {
+        "file": "photos/lions-court.webp",
+        "caption": {
+          "ja": "中庭を囲む大理石の柱廊",
+          "en": "The marble colonnades around the courtyard"
+        },
+        "originalTitle": "Granada - Alhambra - Palacios nazaríes - Patio de los Leones - 1.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra_-_Palacios_nazar%C3%ADes_-_Patio_de_los_Leones_-_1.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Granada_-_Alhambra_-_Palacios_nazar%C3%ADes_-_Patio_de_los_Leones_-_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Benjamin Smith",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1281
+      },
+      {
+        "file": "photos/lions-fountain.webp",
+        "caption": {
+          "ja": "12頭のライオンと噴水",
+          "en": "The fountain and its twelve lions"
+        },
+        "originalTitle": "Fountain patio de los Leones Alhambra Granada Spain.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Fountain_patio_de_los_Leones_Alhambra_Granada_Spain.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Fountain_patio_de_los_Leones_Alhambra_Granada_Spain.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Jebulon",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1360
+      }
+    ],
+    "myrtles": [
+      {
+        "file": "photos/myrtles-court.webp",
+        "caption": {
+          "ja": "水盤に映るコマレスの塔",
+          "en": "The Comares Tower reflected in the pool"
+        },
+        "originalTitle": "Patio de los Arrayanes Alhambra 02 2014.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Patio_de_los_Arrayanes_Alhambra_02_2014.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/55/Patio_de_los_Arrayanes_Alhambra_02_2014.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Tuxyso / Wikimedia Commons",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1286
+      },
+      {
+        "file": "photos/myrtles-ornament.webp",
+        "caption": {
+          "ja": "木彫の扉・漆喰装飾・幾何学タイル",
+          "en": "Carved wood, stucco and geometric tilework"
+        },
+        "originalTitle": "Stucco, wooden door, mosaics, wall Alhambra, Granada, Spain.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Stucco,_wooden_door,_mosaics,_wall_Alhambra,_Granada,_Spain.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/6/62/Stucco%2C_wooden_door%2C_mosaics%2C_wall_Alhambra%2C_Granada%2C_Spain.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Jebulon",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1497
+      }
+    ],
+    "ambassadors": [
+      {
+        "file": "photos/ambassadors-hall.webp",
+        "caption": {
+          "ja": "窓と壁面を覆う装飾",
+          "en": "The hall and its richly decorated walls"
+        },
+        "originalTitle": "Hall of Ambassadors - Alhambra (5).JPG",
+        "source": "https://commons.wikimedia.org/wiki/File:Hall_of_Ambassadors_-_Alhambra_(5).JPG",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/3/30/Hall_of_Ambassadors_-_Alhambra_%285%29.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "© José Luiz Bernardes Ribeiro",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1249
+      },
+      {
+        "file": "photos/ambassadors-stucco.webp",
+        "caption": {
+          "ja": "アーチ上部の漆喰装飾",
+          "en": "Stucco decoration above an arch"
+        },
+        "originalTitle": "Hall of Ambassadors - Alhambra (3).JPG",
+        "source": "https://commons.wikimedia.org/wiki/File:Hall_of_Ambassadors_-_Alhambra_(3).JPG",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/7/73/Hall_of_Ambassadors_-_Alhambra_%283%29.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "© José Luiz Bernardes Ribeiro",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1253
+      },
+      {
+        "file": "textures/comares_tiles-2.jpg",
+        "caption": {
+          "ja": "腰壁の上に重なる文字帯と植物文様",
+          "en": "Epigraphy and carved foliage above the dado"
+        },
+        "originalTitle": "File:Granada-Alhambra12.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Granada-Alhambra12.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Granada-Alhambra12.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Nikater",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+        "width": 1920,
+        "height": 1513,
+        "retrieved": "2026-10-22",
+        "changes": "Wikimedia Commons resized JPEG rendition. Runtime cropping, repetition and bump shading; CC0 stucco additionally desaturated and tone-adjusted."
+      },
+      {
+        "file": "textures/comares_tiles-3.jpg",
+        "caption": {
+          "ja": "白・黒・黄土色の幾何学タイルの細部",
+          "en": "White, black and ochre geometric tilework"
+        },
+        "originalTitle": "File:From the Salón de los Embajadores (513966741).jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:From_the_Sal%C3%B3n_de_los_Embajadores_(513966741).jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/cc/From_the_Sal%C3%B3n_de_los_Embajadores_%28513966741%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Maureen from Buffalo, USA",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+        "width": 1920,
+        "height": 1277,
+        "retrieved": "2026-10-22",
+        "changes": "Wikimedia Commons resized JPEG rendition. Runtime cropping, repetition and bump shading; CC0 stucco additionally desaturated and tone-adjusted."
+      },
+      {
+        "file": "textures/comares_ceiling-4.jpg",
+        "caption": {
+          "ja": "星形が幾重にも連なる木組み天井の細部",
+          "en": "Interlocking stars in the cedar ceiling"
+        },
+        "originalTitle": "File:Salón de Embajadores - 009.JPG",
+        "source": "https://commons.wikimedia.org/wiki/File:Sal%C3%B3n_de_Embajadores_-_009.JPG",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Sal%C3%B3n_de_Embajadores_-_009.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Shesmax",
+        "license": "CC BY-SA 3.0 es",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/es/deed.en",
+        "width": 1920,
+        "height": 1280,
+        "retrieved": "2026-10-22",
+        "changes": "Wikimedia Commons resized JPEG rendition. Runtime cropping, repetition and bump shading; CC0 stucco additionally desaturated and tone-adjusted."
+      }
+    ],
+    "sisters": [
+      {
+        "file": "photos/sisters-ceiling.webp",
+        "caption": {
+          "ja": "八角形のムカルナス天井",
+          "en": "The octagonal muqarnas vault"
+        },
+        "originalTitle": "Alhambra Hall of Two Sisters DSCF7585.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Alhambra_Hall_of_Two_Sisters_DSCF7585.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c0/Alhambra_Hall_of_Two_Sisters_DSCF7585.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "R Prazeres",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1440
+      },
+      {
+        "file": "photos/sisters-hall.webp",
+        "caption": {
+          "ja": "室内の壁面と南側のアーチ",
+          "en": "The walls and southern archway"
+        },
+        "originalTitle": "Alhambra Hall of Two Sisters DSCF6969.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Alhambra_Hall_of_Two_Sisters_DSCF6969.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Alhambra_Hall_of_Two_Sisters_DSCF6969.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "R Prazeres",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1440
+      },
+      {
+        "file": "textures/sisters_tiles-5.jpg",
+        "caption": {
+          "ja": "色の異なる帯が交差する組紐状のタイル",
+          "en": "Interlaced coloured ribbons in the tile dado"
+        },
+        "originalTitle": "File:Alhambra wall 11 (7005868951).jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Alhambra_wall_11_(7005868951).jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Alhambra_wall_11_%287005868951%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "michael clarke stuff",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+        "width": 1920,
+        "height": 1440,
+        "retrieved": "2026-10-22",
+        "changes": "Wikimedia Commons resized JPEG rendition. Runtime cropping, repetition and bump shading; CC0 stucco additionally desaturated and tone-adjusted."
+      },
+      {
+        "file": "textures/sisters_tiles-7.jpg",
+        "caption": {
+          "ja": "色彩の残る碑文と精密な漆喰の浮彫",
+          "en": "Polychrome inscriptions and carved plaster relief"
+        },
+        "originalTitle": "File:Sala de Dos Hermanas - 013.JPG",
+        "source": "https://commons.wikimedia.org/wiki/File:Sala_de_Dos_Hermanas_-_013.JPG",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/54/Sala_de_Dos_Hermanas_-_013.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Shesmax",
+        "license": "CC BY-SA 3.0 es",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/es/deed.en",
+        "width": 1920,
+        "height": 1280,
+        "retrieved": "2026-10-22",
+        "changes": "Wikimedia Commons resized JPEG rendition. Runtime cropping, repetition and bump shading; CC0 stucco additionally desaturated and tone-adjusted."
+      }
+    ],
+    "abencerrajes": [
+      {
+        "file": "photos/abencerrajes-ceiling.webp",
+        "caption": {
+          "ja": "星形のムカルナス天井",
+          "en": "The star-shaped muqarnas vault"
+        },
+        "originalTitle": "Granada - Alhambra - Palacios nazaríes - Sala de los Abencerrajes - 2.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra_-_Palacios_nazar%C3%ADes_-_Sala_de_los_Abencerrajes_-_2.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Granada_-_Alhambra_-_Palacios_nazar%C3%ADes_-_Sala_de_los_Abencerrajes_-_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Benjamin Smith",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1281
+      },
+      {
+        "file": "photos/abencerrajes-fountain.webp",
+        "caption": {
+          "ja": "室内中央の噴水",
+          "en": "The fountain at the centre of the hall"
+        },
+        "originalTitle": "Fuente en la Sala de los Abencerrajes. La Alhambra, Granada..JPG",
+        "source": "https://commons.wikimedia.org/wiki/File:Fuente_en_la_Sala_de_los_Abencerrajes._La_Alhambra,_Granada..JPG",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Fuente_en_la_Sala_de_los_Abencerrajes._La_Alhambra%2C_Granada..JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Roberto Chamoso G",
+        "license": "CC BY-SA 3.0 es",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/es/deed.en",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1440
+      }
+    ],
+    "mexuar": [
+      {
+        "file": "photos/mexuar-hall.webp",
+        "caption": {
+          "ja": "柱頭の漆喰装飾と木組み天井",
+          "en": "Carved stucco capitals and the wooden ceiling"
+        },
+        "originalTitle": "Alhambra, Mexuar 04 (4394741832).jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Alhambra,_Mexuar_04_(4394741832).jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Alhambra%2C_Mexuar_04_%284394741832%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "michael clarke stuff",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1440
+      },
+      {
+        "file": "photos/mexuar-tiles.webp",
+        "caption": {
+          "ja": "壁面の幾何学タイル",
+          "en": "Geometric tilework on the walls"
+        },
+        "originalTitle": "Granada - Alhambra - Palacios nazaríes - Sala del Mexuar - Azulejos.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra_-_Palacios_nazar%C3%ADes_-_Sala_del_Mexuar_-_Azulejos.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/6/64/Granada_-_Alhambra_-_Palacios_nazar%C3%ADes_-_Sala_del_Mexuar_-_Azulejos.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Benjamin Smith",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1281
+      }
+    ],
+    "kings": [
+      {
+        "file": "photos/kings-ceiling.webp",
+        "caption": {
+          "ja": "ムカルナスの天井装飾",
+          "en": "Muqarnas ceiling decoration"
+        },
+        "originalTitle": "Granada - Alhambra - Palacios nazaríes - Sala de los Reyes - 1.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra_-_Palacios_nazar%C3%ADes_-_Sala_de_los_Reyes_-_1.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/3/32/Granada_-_Alhambra_-_Palacios_nazar%C3%ADes_-_Sala_de_los_Reyes_-_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Benjamin Smith",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1281
+      },
+      {
+        "file": "photos/kings-painting.webp",
+        "caption": {
+          "ja": "天井に描かれたナスル朝の王たち",
+          "en": "Nasrid rulers depicted on the ceiling"
+        },
+        "originalTitle": "Alhambra - Granada. Palacios Nazaríes. Los diez primeros sultanes Nazaríes..jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Alhambra_-_Granada._Palacios_Nazar%C3%ADes._Los_diez_primeros_sultanes_Nazar%C3%ADes..jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/92/Alhambra_-_Granada._Palacios_Nazar%C3%ADes._Los_diez_primeros_sultanes_Nazar%C3%ADes..jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Valina Tsikalá",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1436
+      }
+    ],
+    "lindaraja": [
+      {
+        "file": "photos/lindaraja-windows.webp",
+        "caption": {
+          "ja": "庭園を望む窓と壁面装飾",
+          "en": "Decorated windows overlooking the garden"
+        },
+        "originalTitle": "Mirador de Daraxa, Sala de los Ajimeces. La Alhambra.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Mirador_de_Daraxa,_Sala_de_los_Ajimeces._La_Alhambra.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/24/Mirador_de_Daraxa%2C_Sala_de_los_Ajimeces._La_Alhambra.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "José Luis Filpo Cabana",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1280
+      },
+      {
+        "file": "photos/lindaraja-ceiling.webp",
+        "caption": {
+          "ja": "色ガラスの天井",
+          "en": "The coloured-glass ceiling"
+        },
+        "originalTitle": "Techo del Mirador de Lindaraja (la Alhambra).jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Techo_del_Mirador_de_Lindaraja_(la_Alhambra).jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/10/Techo_del_Mirador_de_Lindaraja_%28la_Alhambra%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "José Luis Filpo Cabana",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1440
+      }
+    ],
+    "alcazaba": [
+      {
+        "file": "photos/alcazaba-quarter.webp",
+        "caption": {
+          "ja": "ベラの塔から見た兵営跡",
+          "en": "The military quarter seen from the Tower of the Candle"
+        },
+        "originalTitle": "Barrio Castrense, Alhambra 2025.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Barrio_Castrense,_Alhambra_2025.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/58/Barrio_Castrense%2C_Alhambra_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Wikiolo",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1280
+      }
+    ],
+    "vela": [
+      {
+        "file": "photos/vela-tower.webp",
+        "caption": {
+          "ja": "ベラの塔とアルカサバの城壁",
+          "en": "The Tower of the Candle and the Alcazaba walls"
+        },
+        "originalTitle": "Alcazaba remparts Alhambra Grenade.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Alcazaba_remparts_Alhambra_Grenade.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5a/Alcazaba_remparts_Alhambra_Grenade.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Jebulon",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1278
+      }
+    ],
+    "partal": [
+      {
+        "file": "photos/partal-palace.webp",
+        "caption": {
+          "ja": "パルタル宮の柱廊と水盤",
+          "en": "The portico and reflecting pool of the Partal"
+        },
+        "originalTitle": "Alhambra - Estanque de El Partal.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Alhambra_-_Estanque_de_El_Partal.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Alhambra_-_Estanque_de_El_Partal.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Dodo",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1251
+      }
+    ],
+    "generalife": [
+      {
+        "file": "photos/generalife-garden.webp",
+        "caption": {
+          "ja": "水路の中庭と庭園",
+          "en": "The Court of the Water Channel and its gardens"
+        },
+        "originalTitle": "Granada, Generalife, Patio de la Acequia (3).jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Granada,_Generalife,_Patio_de_la_Acequia_(3).jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Granada%2C_Generalife%2C_Patio_de_la_Acequia_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Palickap",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1440
+      }
+    ],
+    "carlos": [
+      {
+        "file": "photos/carlos-courtyard.webp",
+        "caption": {
+          "ja": "円形の中庭と二層の柱廊",
+          "en": "The circular courtyard and its two levels of columns"
+        },
+        "originalTitle": "Granada - Alhambra - Palacio de Carlos V.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra_-_Palacio_de_Carlos_V.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c0/Granada_-_Alhambra_-_Palacio_de_Carlos_V.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Benjamin Smith",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 1065
+      }
+    ],
+    "justice": [
+      {
+        "file": "photos/justice-gate.webp",
+        "caption": {
+          "ja": "裁きの門の外観",
+          "en": "The exterior of the Gate of Justice"
+        },
+        "originalTitle": "Puerta de la Justicia, Alhambra, Granada.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Puerta_de_la_Justicia,_Alhambra,_Granada.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Puerta_de_la_Justicia%2C_Alhambra%2C_Granada.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Mnt250",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+        "retrieved": "2026-10-22",
+        "width": 1440,
+        "height": 1920
+      }
+    ],
+    "overview": [
+      {
+        "file": "photos/overview-panorama.webp",
+        "caption": {
+          "ja": "サン・ニコラス展望台からの全景",
+          "en": "Panorama from the Mirador de San Nicolás"
+        },
+        "originalTitle": "Alhambra evening panorama Mirador San Nicolas sRGB-1.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Alhambra_evening_panorama_Mirador_San_Nicolas_sRGB-1.jpg",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Alhambra_evening_panorama_Mirador_San_Nicolas_sRGB-1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "author": "Slaunger",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+        "retrieved": "2026-10-22",
+        "width": 1920,
+        "height": 408
+      }
+    ]
+  }
+}

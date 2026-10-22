@@ -1,3 +1,6 @@
+import {extendedMaterials} from './extended-materials.js';
+import {landscapeDetails, palaceDetails} from './landscape-detail.js';
+import {detailMaterials,interiorShading} from './detail-materials.js';
 import * as THREE from 'three';
 import { CSM } from 'three/addons/csm/CSM.js';
 import { Sky } from 'three/addons/objects/Sky.js';
@@ -8,6 +11,7 @@ import { Navigation, EYE, terrainHeight } from './navigation.js';
 import { nasrid, gardens, charlesV } from './palaces.js';
 import { fortress, exterior } from './exterior.js';
 import { PLACES, BY_ID, TOUR } from './places.js';
+import { createReferences } from './references.js';
 
 const $=id=>document.getElementById(id),query=new URLSearchParams(location.search);
 let lang=location.hash==='#en'?'en':'ja',mode='walk',place=BY_ID[query.get('place')]||BY_ID.lions;
@@ -15,14 +19,14 @@ const touch=matchMedia('(pointer: coarse)').matches;
 const low=query.get('q')==='low'||(query.get('q')!=='high'&&touch);
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.body.dataset.touch=String(touch);document.body.dataset.mode=mode;
-let renderer,scene,camera,csm,nav,world,sky,sun,materialsMap,waterObjects=[],reflector;
+let renderer,scene,camera,csm,nav,world,sky,sun,materialsMap,waterObjects=[],reflectors=[],hemi;
 let yaw=0,pitch=0,orbitTarget=new THREE.Vector3(80,0,30),orb=new THREE.Spherical(520,1.08,-.8);
-let tour=false,tourTime=0,tourIndex=0,day=0,now=0,last=performance.now(),mapFrame=0,audio=null;
+let tour=false,tourTime=0,tourIndex=0,day=1,now=0,last=performance.now(),mapFrame=0,audio=null;
 const keys=new Set(),stick={x:0,y:0},alt={value:0};let pointer=null;
 const clamp=THREE.MathUtils.clamp;
-let toastTimer;
+let toastTimer,references;
 function toast(ja,en){$('toast').textContent=lang==='ja'?ja:en;$('toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),2600);}
-function caption(p){place=p;$('placeNumber').textContent=p.no;$('placeTitle').textContent=p[lang];$('placeSpanish').textContent=p.es;$('placeDescription').textContent=p.desc[lang];for(const button of document.querySelectorAll('.place')){const active=button.dataset.id===p.id;button.classList.toggle('active',active);button.setAttribute('aria-current',active?'location':'false');}}
+function caption(p){place=p;$('placeNumber').textContent=p.no;$('placeTitle').textContent=p[lang];$('referenceOpen').setAttribute('aria-label',lang==='ja'?`${p.ja}の実際の写真を見る`:`View real photographs of ${p.en}`);$('placeSpanish').textContent=p.es;$('placeDescription').textContent=p.desc[lang];for(const button of document.querySelectorAll('.place')){const active=button.dataset.id===p.id;button.classList.toggle('active',active);button.setAttribute('aria-current',active?'location':'false');}}
 function localize(){
   document.documentElement.lang=lang;document.title=lang==='ja'?'ALHAMBRA · 水と光の宮殿':'ALHAMBRA · A palace of water and light';
   for(const e of document.querySelectorAll('[data-ja]'))e.textContent=e.dataset[lang];
@@ -35,7 +39,7 @@ function localize(){
   const groupNames={nasrid:['ナスル朝宮殿','Nasrid palaces'],fortress:['アルカサバ','The Alcazaba'],gardens:['水と庭園','Water & gardens'],grounds:['宮殿と敷地','Palace & grounds']};
   $('placeList').replaceChildren();let group='';
   for(const p of PLACES){if(p.group!==group){group=p.group;const label=document.createElement('div');label.className='place-group';label.textContent=groupNames[group][lang==='ja'?0:1];$('placeList').append(label);}const button=document.createElement('button');button.className='place';button.dataset.id=p.id;button.innerHTML=`<span class="num">${p.no}</span><span>${p[lang]}</span>`;button.addEventListener('click',()=>{stopTour();go(p.id);closePlaces();});$('placeList').append(button);}
-  caption(place);updateButtons();drawMap();
+  caption(place);references?.localize();updateButtons();drawMap();
 }
 function closePlaces(){document.body.classList.remove('places-open');$('placesToggle').setAttribute('aria-expanded','false');}
 function updateButtons(){
@@ -65,11 +69,11 @@ function go(id,fromTour=false){
 function startTour(){tour=true;tourTime=0;tourIndex=Math.max(0,TOUR.indexOf(place.id));go(TOUR[tourIndex],true);updateButtons();toast('各空間を順にご案内します。操作すると停止します。','Each room in turn. Interact with the view to pause.');}
 function stopTour(){if(!tour)return;tour=false;updateButtons();}
 function setLight(){
-  const az=day?[-.8,.45,.5]:[-.7,.95,.5];sun=new THREE.Vector3(...az).normalize();
-  csm.lightDirection.copy(sun).negate();csm.lightIntensity=day?3.0:3.3;
-  for(const l of csm.lights){l.color.set(day?0xffd3a0:0xffefdc);l.intensity=csm.lightIntensity;}
-  sky.material.uniforms.sunPosition.value.copy(sun);sky.material.uniforms.turbidity.value=day?6:3;
-  scene.fog.color.set(day?0xd4bf9e:0xcbd4ce);renderer.toneMappingExposure=day?1.02:1.07;updateButtons();
+  const az=day?[-.8,.32,.5]:[-.7,.95,.5];sun=new THREE.Vector3(...az).normalize();
+  csm.lightDirection.copy(sun).negate();csm.lightIntensity=day?3.5:3.3;
+  for(const l of csm.lights){l.color.set(day?0xffdab0:0xffefdc);l.intensity=csm.lightIntensity;}
+  sky.material.uniforms.sunPosition.value.copy(sun);sky.material.uniforms.turbidity.value=day?3.5:3;
+  hemi.intensity=day?.88:1.45;hemi.color.set(day?0xb8d0ee:0xd7e9f1);hemi.groundColor.set(day?0x8d7a62:0xb4a58a);scene.fog.color.set(day?0xd8cabc:0xcbd4ce);renderer.toneMappingExposure=day?1.08:1.07;updateButtons();
 }
 function drawMap(){
   if(!camera)return;const canvas=$('map'),g=canvas.getContext('2d'),W=canvas.width,H=canvas.height;
@@ -85,12 +89,15 @@ function drawMap(){
   g.fillStyle='#6e7b69';g.font='14px system-ui';g.fillText('N ↑',W-40,22);g.strokeStyle='#7f8973';g.lineWidth=2;g.beginPath();g.moveTo(20,H-18);g.lineTo(20+100/780*W,H-18);g.stroke();g.font='12px system-ui';g.fillText('100 m',20,H-24);
 }
 function wire(){
+  const pauseInput=()=>{stopTour();keys.clear();stick.x=stick.y=0;alt.value=0;pointer=null;$('joystick').firstElementChild.style.transform='';};
+  references=createReferences({getPlace:()=>place,getLanguage:()=>lang,onOpen:pauseInput});
+  $('referenceOpen').onclick=()=>references.open();
   $('walk').onclick=()=>setMode('walk');$('fly').onclick=()=>setMode('fly');$('orbit').onclick=()=>setMode('orbit');
   $('language').onclick=()=>{lang=lang==='ja'?'en':'ja';history.replaceState(null,'',`${location.pathname}${location.search}#${lang}`);localize();};
   $('tour').onclick=()=>tour?stopTour():startTour();$('light').onclick=()=>{day=1-day;setLight();};
   $('quality').onclick=()=>{const u=new URL(location.href);u.searchParams.set('q',low?'high':'low');location.assign(u);};
   const hide=()=>{document.body.classList.toggle('hide-ui');$('restoreUI').focus();};$('uiToggle').onclick=hide;$('restoreUI').onclick=hide;
-  $('helpButton').onclick=()=>{keys.clear();stopTour();$('help').showModal();};$('help').querySelector('.close').onclick=()=>$('help').close();
+  $('helpButton').onclick=()=>{pauseInput();$('help').showModal();};$('help').querySelector('.close').onclick=()=>$('help').close();
   $('placesToggle').onclick=()=>{const visible=document.body.classList.toggle('places-open');$('placesToggle').setAttribute('aria-expanded',String(visible));};
   $('mapToggle').onclick=()=>{const expanded=document.body.classList.toggle('map-expanded');$('mapToggle').setAttribute('aria-expanded',String(expanded));};
   $('map').onclick=e=>{const r=e.currentTarget.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*780-305,z=(e.clientY-r.top)/r.height*500-140;const p=PLACES.filter(p=>p.id!=='overview').sort((a,b)=>Math.hypot(a.p[0]-x,a.p[2]-z)-Math.hypot(b.p[0]-x,b.p[2]-z))[0];if(Math.hypot(p.p[0]-x,p.p[2]-z)<60)go(p.id);};
@@ -100,7 +107,7 @@ function wire(){
   for(const ev of ['pointerup','pointercancel','lostpointercapture'])c.addEventListener(ev,()=>{pointer=null;});
   c.addEventListener('wheel',e=>{e.preventDefault();if(mode==='orbit'){stopTour();orb.radius=clamp(orb.radius*Math.exp(e.deltaY*.001),30,1200);}}, {passive:false});
   window.addEventListener('keydown',e=>{
-    if($('help').open||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
+    if($('help').open||$('references').open||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
     const key=e.key.toLowerCase();if(['w','a','s','d','q','e','shift','arrowup','arrowdown','arrowleft','arrowright'].includes(key)){e.preventDefault();stopTour();keys.add(key);}
     if(e.repeat)return;if(key==='m')$('mapToggle').click();if(key==='h')hide();if(key==='escape'){stopTour();closePlaces();document.body.classList.remove('map-expanded');$('mapToggle').setAttribute('aria-expanded','false');}
   });
@@ -134,7 +141,8 @@ function update(dt){
     const dx=(-Math.sin(yaw)*forward+Math.cos(yaw)*right)*speed,dz=(-Math.cos(yaw)*forward-Math.sin(yaw)*right)*speed;
     if(mode==='walk'){if(dx||dz)nav.move(camera.position,dx,dz);}else{camera.position.x=clamp(camera.position.x+dx,-900,900);camera.position.z=clamp(camera.position.z+dz,-900,900);camera.position.y+=((keys.has('e')?1:0)-(keys.has('q')?1:0)+alt.value)*speed;camera.position.y=clamp(camera.position.y,terrainHeight(camera.position.x,camera.position.z)+.7,850);}
   }
-  if(reflector){const d=Math.hypot(camera.position.x-1.5,camera.position.z);reflector.visible=!low&&d<95&&camera.position.y<60;}
+  const nearest=reflectors.reduce((a,r)=>camera.position.distanceToSquared(r.position)<camera.position.distanceToSquared(a.position)?r:a,reflectors[0]);
+  for(const r of reflectors)r.visible=r===nearest&&camera.position.distanceTo(r.position)<90&&camera.position.y<r.position.y+55;
   for(const o of waterObjects){if(o.material.userData.shader)o.material.userData.shader.uniforms.uTime.value=now;}
   if(++mapFrame%5===0)drawMap();
   csm.update();renderer.render(scene,camera);
@@ -143,26 +151,26 @@ async function init(){
   renderer=new THREE.WebGLRenderer({canvas:$('scene'),antialias:!low,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,low?1:1.6));renderer.setSize(innerWidth,innerHeight);renderer.toneMapping=THREE.AgXToneMapping;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
   scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0xcbd4ce,.00038);camera=new THREE.PerspectiveCamera(63,innerWidth/innerHeight,.08,6500);camera.position.fromArray(place.p);camera.lookAt(...place.t);
   sky=new Sky();sky.scale.setScalar(4800);sky.material.uniforms.rayleigh.value=.9;sky.material.uniforms.mieCoefficient.value=.003;scene.add(sky);
-  const hemi=new THREE.HemisphereLight(0xd7e9f1,0xb4a58a,1.45);scene.add(hemi);
-  nav=new Navigation();materialsMap=materials();
+  hemi=new THREE.HemisphereLight(0xd7e9f1,0xb4a58a,1.45);scene.add(hemi);
+  nav=new Navigation();materialsMap=materials();await detailMaterials(materialsMap);await extendedMaterials(materialsMap);
   $('loadingText').textContent=lang==='ja'?'柱廊と庭園をつないでいます':'Connecting the colonnades and gardens';
   await new Promise(r=>setTimeout(r,0));
   const response=await fetch('data/context.json');if(!response.ok)throw new Error('The local map data could not be loaded');const context=await response.json();
   const root=new THREE.Group();scene.add(root);const b=new Builder(root,materialsMap,nav),water=[],lights=[];
-  exterior(b,context,low);fortress(b);nasrid(b,water,lights);gardens(b,water);charlesV(b);b.finish();world={root,stats:b.stats,context};
+  exterior(b,context,low);fortress(b);nasrid(b,water,lights);gardens(b,water);charlesV(b);landscapeDetails(b);palaceDetails(b);b.finish();world={root,stats:b.stats,context};
   csm=new CSM({camera,parent:scene,cascades:low?2:3,maxFar:low?160:280,mode:'practical',shadowMapSize:low?1024:2048,lightDirection:new THREE.Vector3(-1,-1,-1),lightIntensity:3.3,lightMargin:180});
-  for(const l of csm.lights){l.shadow.bias=-.00004;l.shadow.normalBias=.015;}
-  for(const m of Object.values(materialsMap))if(m.isMeshStandardMaterial)csm.setupMaterial(m);
+  for(const l of csm.lights){l.shadow.bias=-.00008;l.shadow.normalBias=.06;}
+  for(const m of Object.values(materialsMap))if(m.isMeshStandardMaterial){csm.setupMaterial(m);interiorShading(m);}
   for(const w of water){
     const m=materialsMap.water.clone();m.opacity=w.reflect?.28:.7;
     m.onBeforeCompile=shader=>{shader.uniforms.uTime={value:0};shader.fragmentShader='uniform float uTime;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <normal_fragment_begin>','#include <normal_fragment_begin>\n normal.x += sin(gl_FragCoord.x * .05 + uTime*.6) * .025; normal.z += cos(gl_FragCoord.y * .06 - uTime*.4) * .025; normal = normalize(normal);');m.userData.shader=shader;};
     const mesh=new THREE.Mesh(new THREE.PlaneGeometry(w.w,w.d),m);mesh.rotation.x=-Math.PI/2;mesh.position.set(w.x,w.y+.015,w.z);mesh.receiveShadow=true;scene.add(mesh);waterObjects.push(mesh);
-    if(w.reflect&&!low){reflector=new Reflector(new THREE.PlaneGeometry(w.w,w.d),{textureWidth:1024,textureHeight:512,color:0x87ada4,clipBias:.002});reflector.rotation.x=-Math.PI/2;reflector.position.set(w.x,w.y,w.z);scene.add(reflector);}
+    if(w.reflect){const reflector=new Reflector(new THREE.PlaneGeometry(w.w,w.d),{textureWidth:low?512:1024,textureHeight:low?512:1024,color:0xb2baba,clipBias:.002});reflector.rotation.x=-Math.PI/2;reflector.position.set(w.x,w.y,w.z);scene.add(reflector);reflectors.push(reflector);reflector.visible=false;}
   }
   setLight();wire();localize();go(place.id);await renderer.compileAsync(scene,camera);
   $('loading').classList.add('done');setTimeout(()=>$('loading').remove(),1000);
   window.ALH.ready=true;
-  function loop(t){const dt=Math.min(.05,(t-last)/1000);last=t;if(!document.hidden)update(dt);requestAnimationFrame(loop);}requestAnimationFrame(loop);
+  function loop(t){const dt=Math.min(.05,(t-last)/1000);last=t;if(!document.hidden&&!$('references').open)update(dt);requestAnimationFrame(loop);}requestAnimationFrame(loop);
 }
 window.ALH={ready:false,go,look(x,y,z,tx,ty,tz){stopTour();mode='fly';camera.position.set(x,y,z);camera.lookAt(tx,ty,tz);orientation();updateButtons();},
   info(){return {ready:this.ready,mode,place:place.id,position:camera?.position.toArray(),yaw,pitch,drawCalls:renderer?.info.render.calls,triangles:renderer?.info.render.triangles,geometries:renderer?.info.memory.geometries,stats:world?.stats,blocks:nav?.blocks.length,surfaces:nav?.surfaces.length,blocked:nav?nav.blocked(camera.position.x,camera.position.z,camera.position.y-EYE):null};},

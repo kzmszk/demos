@@ -49,7 +49,7 @@ export function fortress(b){
   tower(b,-137,-17,13,13,24);tower(b,-143,41,11,10,19);tower(b,-211,-10,10,11,15);
   // Archaeological house walls, left deliberately roofless.
   for(const [x,z,w,d] of [[-197,18,11,8],[-184,12,10,9],[-170,6,9,8],[-157,0,9,8],[-201,35,10,8],[-187,35,10,8],[-173,35,10,8],[-159,35,10,8]]){
-    const h=1.05;b.wall(x,z-d/2,w,h,.5,0,'brick',0,0,null);b.wall(x,z+d/2,w,h,.5,1.5,'brick',0,0,null);b.wall(x-w/2,z,d,h,.5,0,'brick',Math.PI/2,0,null);b.wall(x+w/2,z,d,h,.5,0,'brick',Math.PI/2,0,null);b.wall(x,z,Math.max(2,w*.45),h,.45,0,'brick',Math.PI/2,0,null);b.floor(x,z,w,d,.02,'paving');
+    const h=1.05;b.wall(x,z-d/2,w,h,.5,0,'rubble',0,0,null);b.wall(x,z+d/2,w,h,.5,1.5,'rubble',0,0,null);b.wall(x-w/2,z,d,h,.5,0,'rubble',Math.PI/2,0,null);b.wall(x+w/2,z,d,h,.5,0,'rubble',Math.PI/2,0,null);b.wall(x,z,Math.max(2,w*.45),h,.45,0,'rubble',Math.PI/2,0,null);b.floor(x,z,w,d,.02,'paving');
   }
   b.box(-176,0,25,12,.1,2,'paving');
   // The Adarves garden, along the southern defensive wall.
