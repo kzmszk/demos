@@ -25,6 +25,16 @@ export async function extendedMaterials(M){
  // (José Luis Filpo Cabana's view from below). Per-cell colour, no photo patch repeated on every cell.
  for(const [name,col] of [['abenCell',0xf4ecdc],['abenCellShade',0xe0d3bb],['abenCellBlue',0x93a2c8]]){const m=new THREE.MeshStandardMaterial({color:col,roughness:.94,vertexColors:true,side:THREE.DoubleSide});m.name=name;m.userData={scale:1,interiorAmbient:.9};M[name]=m;}
  M.abenPlaster=M.abenCell.clone();M.abenPlaster.name='abenPlaster';M.abenPlaster.vertexColors=false;M.abenPlaster.color.set(0xd9ccb4);
+ // Two Sisters vault: warm ivory plaster, deeper ochre in the recessed cells, faint green-turquoise paint
+ // traces (R Prazeres' view of the vault from below, already in the reference gallery).
+ for(const [name,col] of [['sisCell',0xf2e6d0],['sisCellShade',0xd6c2a0],['sisCellGreen',0xa9bfae]]){const m=M.abenCell.clone();m.name=name;m.color.set(col);M[name]=m;}
+ M.sisPlaster=M.abenPlaster.clone();M.sisPlaster.name='sisPlaster';M.sisPlaster.color.set(0xd8c7a8);M.sisRecess=M.sisPlaster.clone();M.sisRecess.name='sisRecess';M.sisRecess.color.set(0xa48b68);
+ M.sisStucco=M.fineStucco.clone();M.sisStucco.name='sisStucco';M.sisStucco.color.set(0xf6e7cc);M.sisStucco.userData={...M.fineStucco.userData,interiorAmbient:.6};
+ // Two Sisters sebka: the carved lattice of the lower wall panels (R Prazeres' hall photograph), ~2 m
+ // per crop, mirrored at the edges. Strong bump: the lattice stands proud of its ground by a few cm.
+ const sebka=await load('sisters-sebka');const sm=make(M,'sisSebka',atlas(sebka,[0,0,1,1]),2.0,2.12,{relief:.045,rough:.9,ambient:.6});
+ sm.map.wrapS=sm.map.wrapT=sm.bumpMap.wrapS=sm.bumpMap.wrapT=THREE.MirroredRepeatWrapping;
+ M.sisTrim=M.sisStucco.clone();M.sisTrim.name='sisTrim';M.sisTrim.color.set(0xfff0d4);M.sisTrim.map=M.sisStucco.map.clone();M.sisTrim.map.repeat.set(4,4);M.sisTrim.userData={...M.sisStucco.userData,interiorAmbient:.75};
  // Other Nasrid surfaces use the photographed courtyard foliage as an analogue;
  // retain the two room-specific reconstructions and their original material scale.
  M.plaster=M.fineStucco.clone();M.plaster.name='plaster';M.plaster.userData.interiorAmbient=.65;

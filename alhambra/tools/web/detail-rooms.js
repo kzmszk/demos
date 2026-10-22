@@ -1,10 +1,11 @@
 import * as THREE from 'three';
 
 const PI=Math.PI;
+let trim='sLime'; // frame/fillet material; rooms may switch it while they build
 function frame(cx,cz,r,a){const x=cx+Math.sin(a)*r,z=cz+Math.cos(a)*r;return {a,x,z,at:(u,v=0)=>[x+u*Math.cos(a)+v*Math.sin(a),z-u*Math.sin(a)+v*Math.cos(a)]};}
 function box(b,f,u,y,v,w,h,d,mat,block=false){const [x,z]=f.at(u,v);b.box(x,y,z,w,h,d,mat,f.a,block);}
-function band(b,f,y,w,mat,h=.35,v=-.34){box(b,f,0,y,v,w,h,.028,mat);for(const dy of [-.025,h])box(b,f,0,y+dy,v-.022,w,.028,.065,'sLime');}
-function panel(b,f,u,y,w,h,mat,v=-.34){box(b,f,u,y,v,w,h,.025,mat);for(const s of [-1,1]){box(b,f,u+s*(w/2+.035),y,v-.035,.045,h,.065,'sLime');box(b,f,u,y+(s<0?-.045:h),v-.035,w+.12,.045,.065,'sLime');}}
+function band(b,f,y,w,mat,h=.35,v=-.34){box(b,f,0,y,v,w,h,.028,mat);for(const dy of [-.025,h])box(b,f,0,y+dy,v-.022,w,.028,.065,trim);}
+function panel(b,f,u,y,w,h,mat,v=-.34){box(b,f,u,y,v,w,h,.025,mat);for(const s of [-1,1]){box(b,f,u+s*(w/2+.035),y,v-.035,.045,h,.065,trim);box(b,f,u,y+(s<0?-.045:h),v-.035,w+.12,.045,.065,trim);}}
 function screenMaterial(b){if(b.m.lattice)return;
  const c=document.createElement('canvas');c.width=c.height=512;const g=c.getContext('2d');g.fillStyle='white';g.fillRect(0,0,512,512);g.fillStyle='black';
  for(let y=16;y<512;y+=32)for(let x=16;x<512;x+=32){g.beginPath();for(let i=0;i<16;i++){const a=i*PI/8,r=i%2?7.5:11.5;const u=x+Math.cos(a)*r,v=y+Math.sin(a)*r;i?g.lineTo(u,v):g.moveTo(u,v);}g.closePath();g.fill();g.fillRect(x+14.5,y-2.5,3.5,5);}
@@ -15,9 +16,9 @@ function window(b,f,u,y,w,h,v=.05){screenMaterial(b);const [x,z]=f.at(u,v),sprin
  const shape=new THREE.Shape();shape.moveTo(-w/2,0);shape.lineTo(w/2,0);shape.lineTo(w/2,spring);shape.absarc(0,spring,w/2,0,PI,false);shape.lineTo(-w/2,0);
  const geo=new THREE.ShapeGeometry(shape,16),uv=geo.attributes.uv,pos=geo.attributes.position;for(let i=0;i<uv.count;i++)uv.setXY(i,pos.getX(i)/w+.5,pos.getY(i)/h);
  b.unique(geo,'lattice',[x,y,z],f.a);
- for(const s of [-1,1])box(b,f,u+s*(w/2+.07),y,v,.12,h,.24,'sLime');
- box(b,f,u,y-.10,v,w+.26,.1,.30,'sLime');
- const points=[];for(let i=0;i<=20;i++){const a=i*PI/20;const p=f.at(u+Math.cos(a)*(w/2+.055),v-.035);points.push([p[0],y+spring+Math.sin(a)*(w/2+.055),p[1]]);}for(let i=1;i<points.length;i++)b.line(points[i-1],points[i],.045,'sLime');
+ for(const s of [-1,1])box(b,f,u+s*(w/2+.07),y,v,.12,h,.24,trim);
+ box(b,f,u,y-.10,v,w+.26,.1,.30,trim);
+ const points=[];for(let i=0;i<=20;i++){const a=i*PI/20;const p=f.at(u+Math.cos(a)*(w/2+.055),v-.035);points.push([p[0],y+spring+Math.sin(a)*(w/2+.055),p[1]]);}for(let i=1;i<points.length;i++)b.line(points[i-1],points[i],.045,trim);
 }
 function portalLight(b,f,y,power=12){const [x,z]=f.at(0,-.75);const l=new THREE.PointLight(0xe3ebff,power,16,1.6);l.position.set(x,y,z);b.root.add(l);}
 function sunPatch(b,cx,cz,r,y){
@@ -69,44 +70,57 @@ export function nicheGeometry(){const v=[],uv=[],colors=[];const p=(i,j)=>{const
  for(let j=0;j<4;j++)for(let i=0;i<8;i++)for(const q of [p(i,j),p(i,j+1),p(i+1,j),p(i+1,j),p(i,j+1),p(i+1,j+1)]){v.push(...q);uv.push(q[0],q[1]);const shade=.98-.60*Math.pow(q[2]/.60,.7);colors.push(shade,shade*.98,shade*.94);}
  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(v,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));g.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));g.computeVertexNormals();return g;
 }
+// About one cell in four is a deeper recess and one in fourteen keeps green-turquoise paint.
+const sisTint=(i,j,k)=>{const h=Math.abs(Math.sin(i*12.9898+j*78.233+k*37.719)*43758.5453)%1;return h<.07?'sisCellGreen':h<.32?'sisCellShade':'sisCell';};
 function vault(b,cx,cz){const cell=b.geometry('sisters-concave-niche',nicheGeometry),levels=18;
  for(let j=0;j<levels;j++){const t=j/levels,r=4.05*(1-t*.96),y=8.65+4.9*(1-(1-t)**1.3),per=Math.max(2,Math.round(16*(1-t))),w=2*r*Math.tan(PI/8)/per;
   for(let side=0;side<8;side++){const f=frame(cx,cz,r,side*PI/4);
    // Backing terraces cover every gap, with small vertical risers instead of long cones.
-   box(b,f,0,y+.60,.10,2*r*Math.tan(PI/8)+.10,.24,.70,'niche');
-   for(let k=0;k<per;k++){const u=(k+.5-per/2)*w,p=f.at(u);b.add(cell,'nicheCell',[p[0],y,p[1]],[w*1.12,.86,.52],f.a);b.stats.muqarnas++;
-    const q=f.at(u+w*.48,-.13);b.add(cell,'nicheCell',[q[0],y+.22,q[1]],[w*.86,.48,.40],f.a);b.stats.muqarnas++;
-    for(const s of [-1,1]){const z=f.at(u+s*w*.46,-.025);b.line([z[0],y,z[1]],[z[0],y+.20,z[1]],.012,'sLime');}
+   box(b,f,0,y+.60,.10,2*r*Math.tan(PI/8)+.10,.24,.70,'sisPlaster');
+   // Odd tiers sit half a cell over, so the cells interlock as in the real vault instead of forming rings.
+   const odd=j%2&&per>2;for(let k=0;k<per-(odd?1:0);k++){const u=(k+(odd?1:.5)-per/2)*w,p=f.at(u);b.add(cell,sisTint(side,j,k),[p[0],y,p[1]],[w*1.12,.86,.52],f.a);b.stats.muqarnas++;
+    const q=f.at(u+w*.48,-.13);b.add(cell,sisTint(side,j,k+31),[q[0],y+.22,q[1]],[w*.86,.48,.40],f.a);b.stats.muqarnas++;
+    for(const s of [-1,1]){const z=f.at(u+s*w*.46,-.025);b.line([z[0],y,z[1]],[z[0],y+.20,z[1]],.012,'sisPlaster');}
    }
   }
  }
- for(const [radius,y,size] of [[3.55,8.95,.46],[2.65,10.55,.35],[1.55,12.0,.26]])for(let sector=0;sector<8;sector++){const a=sector*PI/4,px=cx+Math.sin(a)*radius,pz=cz+Math.cos(a)*radius;for(let k=0;k<8;k++){const q=k*PI/4;b.add(cell,'nicheCell',[px+Math.sin(q)*size,y,pz+Math.cos(q)*size],[size*.88,.60,size*.7],q);b.stats.muqarnas++;}b.cylinder(px,y+.52,pz,size*.7,.08,'niche',size*.7,8);}
- b.cylinder(cx,13.45,cz,.45,.18,'fineStucco',.45,16);
+ for(const [radius,y,size] of [[3.55,8.95,.46],[2.65,10.55,.35],[1.55,12.0,.26]])for(let sector=0;sector<8;sector++){const a=sector*PI/4,px=cx+Math.sin(a)*radius,pz=cz+Math.cos(a)*radius;for(let k=0;k<8;k++){const q=k*PI/4;b.add(cell,k%2?'sisCellShade':'sisCell',[px+Math.sin(q)*size,y,pz+Math.cos(q)*size],[size*.88,.60,size*.7],q);b.stats.muqarnas++;}b.cylinder(px,y+.52,pz,size*.7,.08,'sisRecess',size*.7,8);}
+ b.cylinder(cx,13.45,cz,.45,.18,'sisPlaster',.45,16);
 }
-export function detailedSisters(b){const cx=38,cz=1.3,r=4.15;
+export function detailedSisters(b){const cx=38,cz=1.3,r=4.15;trim='sisTrim';
  b.floor(cx,cz,8.3,8.3);
  for(let side=0;side<4;side++){
   const f=frame(cx,cz,r,side*PI/2),door=side%2?2.5:2.8,[x,z]=f.at(0);
-  b.wall(x,z,8.3,7.1,.65,door,'fineStucco',f.a,0,null);
-  for(const s of [-1,1]){const u=s*(door/4+2.075),w=(8.3-door)/2-.12;panel(b,f,u,.06,w,1.40,'sTile');panel(b,f,u,1.72,w,1.10,'sCarving');panel(b,f,u,3.45,w,1.5,'fineStucco');}
+  b.wall(x,z,8.3,7.1,.65,door,'sisSebka',f.a,0,null);
+  for(const s of [-1,1]){const u=s*(door/4+2.075),w=(8.3-door)/2-.12;panel(b,f,u,.06,w,1.40,'sTile');panel(b,f,u,1.72,w,1.10,'sisSebka');panel(b,f,u,3.45,w,1.5,'sisSebka');}
   // Continuous inscription and carved strapwork mark the horizontal wall registers.
   for(const sign of [-1,1]){const u=sign*(door/4+2.075),w=(8.3-door)/2-.12;panel(b,f,u,1.47,w,.19,'sBorder');panel(b,f,u,2.94,w,.43,'sEpigraphy');}band(b,f,5.18,8.25,'sRibbon',.17);band(b,f,6.58,8.25,'sEpigraphy',.36);
   panel(b,f,0,3.7,2.3,1.32,'sCarving');
   window(b,f,0,5.45,1.2,1.02,-.38);
-  // Corner squinches translate the square chamber into the octagonal drum.
-  for(const s of [-1,1])for(let j=0;j<6;j++)for(let k=0;k<7-j;k++){const p=f.at(s*(3.65-k*.23),-.06-j*.12);b.add(b.geometry('sisters-concave-niche',nicheGeometry),'nicheCell',[p[0],5.8+j*.21,p[1]],[.28,.32,.28],f.a);b.stats.muqarnas++;}
+  // Hanging muqarnas: a fan spilling from each corner over both walls and a lobed curtain over the
+  // central window, as in the hall photograph; pendants hang from the lower tiers.
+  const fan=(c,half,base,tiers,seed)=>{for(let j=0;j<tiers;j++){const span=half*(1-j/(tiers+2)),n=Math.max(3,Math.round(span/.12));for(let k=0;k<=n;k++){
+   const t=k/n,u=c+(t*2-1)*span,drop=Math.cos((t*2-1)*PI/2)**.8,y=base+j*.2+(1-drop)*(tiers-j)*.06+(k%2)*.07,p=f.at(u,-.36-j*.11-drop*.08);
+   if(Math.abs(u)>4.12)continue;
+   b.add(b.geometry('sisters-concave-niche',nicheGeometry),sisTint(seed,j,k),[p[0],y,p[1]],[.22,.30,.22],f.a);b.stats.muqarnas++;
+   if(j<3&&k%2===0){const q=f.at(u,-.44-j*.11);b.cone(q[0],y-.17,q[1],.026,.17,'sisTrim',5);}
+  }}};
+  for(const s of [-1,1])fan(s*4.15,2.3,4.95,9,side*3+(s+1)/2);
+  fan(0,1.55,5.05,6,side*3+2);
+  // Pilaster bands framing the corners and the door, carved in relief.
+  for(const u of [-4.02,4.02,-(door/2+.18),door/2+.18])box(b,f,u,.0,-.36,.16,4.7,.06,'sisSebka');
  }
- const transition=new THREE.Shape();transition.moveTo(-4.5,-4.5);transition.lineTo(4.5,-4.5);transition.lineTo(4.5,4.5);transition.lineTo(-4.5,4.5);transition.closePath();const hole=new THREE.Path();for(let i=0;i<8;i++){const a=(i+.5)*PI/4,x=Math.sin(a)*4.02/Math.cos(PI/8),y=Math.cos(a)*4.02/Math.cos(PI/8);i?hole.lineTo(x,y):hole.moveTo(x,y);}hole.closePath();transition.holes.push(hole);const tg=new THREE.ExtrudeGeometry(transition,{depth:.24,bevelEnabled:false});tg.rotateX(PI/2);b.add(tg,'fineStucco',[cx,7.2,cz]);
+ const transition=new THREE.Shape();transition.moveTo(-4.5,-4.5);transition.lineTo(4.5,-4.5);transition.lineTo(4.5,4.5);transition.lineTo(-4.5,4.5);transition.closePath();const hole=new THREE.Path();for(let i=0;i<8;i++){const a=(i+.5)*PI/4,x=Math.sin(a)*4.02/Math.cos(PI/8),y=Math.cos(a)*4.02/Math.cos(PI/8);i?hole.lineTo(x,y):hole.moveTo(x,y);}hole.closePath();transition.holes.push(hole);const tg=new THREE.ExtrudeGeometry(transition,{depth:.24,bevelEnabled:false});tg.rotateX(PI/2);b.add(tg,'sisStucco',[cx,7.2,cz]);
  // Sixteen real apertures in an octagonal clerestory.
  for(let side=0;side<8;side++){
   const f=frame(cx,cz,3.98,side*PI/4),width=2*3.98*Math.tan(PI/8);
   box(b,f,0,7.10,0,width+.12,.35,.45,'sCarving');
-  for(const u of [-.78,.78]){const [x,z]=f.at(u);b.arch(x,z,.84,.82,.42,1.35,.4,'fineStucco',f.a,7.48,false);window(b,f,u,7.48,.79,1.2);}
-  for(const [u,w] of [[0,.70],[-1.45,.52],[1.45,.52]])box(b,f,u,7.45,0,w,1.40,.45,'fineStucco');
+  for(const u of [-.78,.78]){const [x,z]=f.at(u);b.arch(x,z,.84,.82,.42,1.35,.4,'sisStucco',f.a,7.48,false);window(b,f,u,7.48,.79,1.2);}
+  for(const [u,w] of [[0,.70],[-1.45,.52],[1.45,.52]])box(b,f,u,7.45,0,w,1.40,.45,'sisStucco');
   band(b,f,8.82,width,'sRibbon',.14,-.26);portalLight(b,f,8,2.4);
  }
- for(let side=0;side<8;side++){const f=frame(cx,cz,4.32,side*PI/4),w=2*4.32*Math.tan(PI/8);box(b,f,0,6.45,0,w+.08,1,.22,'redwall');box(b,f,0,8.82,0,w+.08,5.28,.22,'redwall');for(const [u,pw] of [[0,.70],[-1.58,.76],[1.58,.76]])box(b,f,u,7.45,0,pw,1.37,.22,'redwall');for(const u of [-.78,.78]){const [x,z]=f.at(u);b.arch(x,z,.84,.82,.42,1.37,.22,'redwall',f.a,7.45,false);}}
- vault(b,cx,cz);b.roof(cx,cz,10.5,10.5,14.1,2.4);sunPatch(b,cx,cz,r,8);
+ for(let side=0;side<8;side++){const f=frame(cx,cz,4.32,side*PI/4),w=2*4.32*Math.tan(PI/8);box(b,f,0,6.45,0,w+.08,1,.22,'sisStucco');box(b,f,0,8.82,0,w+.08,5.28,.22,'sisStucco');for(const [u,pw] of [[0,.70],[-1.58,.76],[1.58,.76]])box(b,f,u,7.45,0,pw,1.37,.22,'sisStucco');for(const u of [-.78,.78]){const [x,z]=f.at(u);b.arch(x,z,.84,.82,.42,1.37,.22,'sisStucco',f.a,7.45,false);}}
+ trim='sLime';vault(b,cx,cz);b.roof(cx,cz,10.5,10.5,14.1,2.4);sunPatch(b,cx,cz,r,8);
 }
 
 // Abencerrajes has an eight-pointed star, distinct from the Sisters' octagon.
