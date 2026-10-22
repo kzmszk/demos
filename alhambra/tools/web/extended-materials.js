@@ -16,9 +16,15 @@ export async function extendedMaterials(M){
  // photograph by tools/abencerrajes_tiles.py (4 x 2 square pattern units of about 28 cm, lighting falloff
  // flattened). The border is the blue fillet and narrow frieze above the field.
  const load=async f=>{const i=new Image();i.src=`textures/${f}.jpg`;await i.decode();return i;};
- const [dado,dadoBorder]=await Promise.all([load('abencerrajes-dado'),load('abencerrajes-border')]);
+ const [dado,dadoBorder,stucco]=await Promise.all([load('abencerrajes-dado'),load('abencerrajes-border'),load('abencerrajes-stucco')]);
  make(M,'abenTile',atlas(dado,[0,0,1,1]),1.12,.56,{rough:.34,relief:.0015,ambient:.65});
  make(M,'abenTileBorder',atlas(dadoBorder,[0,0,1,1]),.56,.18,{rough:.38,relief:.001,ambient:.65});
+ // Upper walls: the room's rosette / blue-cross stucco lattice (Jebulon, public domain), two units of ~78 cm.
+ make(M,'abenStucco',atlas(stucco,[0,0,1,1]),1.56,1.56,{relief:.022,rough:.9,ambient:.72});
+ // Vault cells: chalk-white plaster lit by the drum windows, with faded blue paint on some cells
+ // (José Luis Filpo Cabana's view from below). Per-cell colour, no photo patch repeated on every cell.
+ for(const [name,col] of [['abenCell',0xf4ecdc],['abenCellShade',0xe0d3bb],['abenCellBlue',0x93a2c8]]){const m=new THREE.MeshStandardMaterial({color:col,roughness:.94,vertexColors:true,side:THREE.DoubleSide});m.name=name;m.userData={scale:1,interiorAmbient:.9};M[name]=m;}
+ M.abenPlaster=M.abenCell.clone();M.abenPlaster.name='abenPlaster';M.abenPlaster.vertexColors=false;M.abenPlaster.color.set(0xd9ccb4);
  // Other Nasrid surfaces use the photographed courtyard foliage as an analogue;
  // retain the two room-specific reconstructions and their original material scale.
  M.plaster=M.fineStucco.clone();M.plaster.name='plaster';M.plaster.userData.interiorAmbient=.65;

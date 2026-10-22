@@ -113,15 +113,17 @@ export function detailedSisters(b){const cx=38,cz=1.3,r=4.15;
 // The geometry follows the photographed silhouette; individual cells are an
 // interpretive reconstruction, not a measured conservation model.
 export function detailedAbencerrajes(b){
+ // About one cell in nine keeps faded blue paint and one in four sits in deeper shade, as in the photographs.
+ const tint=(i,j,k)=>{const h=Math.abs(Math.sin(i*12.9898+j*78.233+k*37.719)*43758.5453)%1;return h<.08?'abenCellBlue':h<.36?'abenCellShade':'abenCell';};
  const cx=38,cz=34.5,cell=b.geometry('sisters-concave-niche',nicheGeometry);
  const points=Array.from({length:16},(_,i)=>{const a=i*PI/8,r=i%2?2.8:3.55;return [Math.sin(a)*r,Math.cos(a)*r];});
  const edge=(i,scale=1)=>{const p=points[i],q=points[(i+1)%16],dx=q[0]-p[0],dz=q[1]-p[1];return {a:Math.atan2(-dz,dx),w:Math.hypot(dx,dz)*scale,x:cx+(p[0]+q[0])*.5*scale,z:cz+(p[1]+q[1])*.5*scale};};
- const shape=new THREE.Shape();shape.moveTo(-4.15,-3.65);shape.lineTo(4.15,-3.65);shape.lineTo(4.15,3.65);shape.lineTo(-4.15,3.65);shape.closePath();const hole=new THREE.Path();points.forEach((p,i)=>i?hole.lineTo(...p):hole.moveTo(...p));hole.closePath();shape.holes.push(hole);const g=new THREE.ExtrudeGeometry(shape,{depth:.16,bevelEnabled:false});g.rotateX(PI/2);b.add(g,'fineStucco',[cx,6.75,cz]);
+ const shape=new THREE.Shape();shape.moveTo(-4.15,-3.65);shape.lineTo(4.15,-3.65);shape.lineTo(4.15,3.65);shape.lineTo(-4.15,3.65);shape.closePath();const hole=new THREE.Path();points.forEach((p,i)=>i?hole.lineTo(...p):hole.moveTo(...p));hole.closePath();shape.holes.push(hole);const g=new THREE.ExtrudeGeometry(shape,{depth:.16,bevelEnabled:false});g.rotateX(PI/2);b.add(g,'abenStucco',[cx,6.75,cz]);
  for(let i=0;i<16;i++){
   const e=edge(i),f={...e,at:(u,v=0)=>[e.x+Math.cos(e.a)*u+Math.sin(e.a)*v,e.z-Math.sin(e.a)*u+Math.cos(e.a)*v]};
   box(b,f,0,6.7,0,e.w+.08,.3,.35,'sCarving');
-  for(const sign of [-1,1])box(b,f,sign*(e.w+.64)/4,7,0,(e.w-.64)/2,1.35,.35,'fineStucco');
-  b.arch(e.x,e.z,.64,.70,.32,1.35,.35,'fineStucco',e.a,7,false);window(b,f,0,7.02,.60,.99);
+  for(const sign of [-1,1])box(b,f,sign*(e.w+.64)/4,7,0,(e.w-.64)/2,1.35,.35,'abenStucco');
+  b.arch(e.x,e.z,.64,.70,.32,1.35,.35,'abenStucco',e.a,7,false);window(b,f,0,7.02,.60,.99);
   band(b,f,8.2,e.w+.06,'sRibbon',.16,-.22);
   if(i%4===0)portalLight(b,f,7.5,3);
  }
@@ -129,12 +131,12 @@ export function detailedAbencerrajes(b){
   const t=j/16,scale=1-.96*t,y=8.22+3.65*(1-(1-t)**1.25);
   for(let i=0;i<16;i++){
    const e=edge(i,scale),per=Math.max(2,Math.round(e.w/.21)),w=e.w/per;
-   b.box(e.x+Math.sin(e.a)*(.32*scale+.10),y+.60,e.z+Math.cos(e.a)*(.32*scale+.10),e.w+.08,.16,.30*scale+.10,'fineStucco',e.a);
-   for(let k=0;k<per;k++){const u=(k+.5-per/2)*w,x=e.x+Math.cos(e.a)*u,z=e.z-Math.sin(e.a)*u;b.add(cell,'nicheCell',[x,y,z],[w*1.16,.92-t*.25,.46*scale+.10],e.a);b.add(cell,'nicheCell',[x-Math.sin(e.a)*.12,y+.21,z-Math.cos(e.a)*.12],[w*.80,.54-t*.14,.30*scale+.07],e.a);b.stats.muqarnas+=2;}
+   b.box(e.x+Math.sin(e.a)*(.32*scale+.10),y+.60,e.z+Math.cos(e.a)*(.32*scale+.10),e.w+.08,.16,.30*scale+.10,'abenPlaster',e.a);
+   for(let k=0;k<per;k++){const u=(k+.5-per/2)*w,x=e.x+Math.cos(e.a)*u,z=e.z-Math.sin(e.a)*u;b.add(cell,tint(i,j,k),[x,y,z],[w*1.16,.74-t*.2,.46*scale+.10],e.a);b.add(cell,tint(i,j,k+7),[x-Math.sin(e.a)*.12,y+.17,z-Math.cos(e.a)*.12],[w*.80,.44-t*.12,.30*scale+.07],e.a);b.stats.muqarnas+=2;}
   }
  }
- for(let i=0;i<8;i++){const a=i*PI/4,x=cx+Math.sin(a)*2.7,z=cz+Math.cos(a)*2.7;for(let k=0;k<8;k++){const q=k*PI/4;b.add(cell,'nicheCell',[x+Math.sin(q)*.32,8.05,z+Math.cos(q)*.32],[.35,.65,.3],q);b.stats.muqarnas++;}}
- b.cylinder(cx,11.85,cz,.32,.12,'fineStucco',.32,8);
- for(let i=0;i<16;i++){const e=edge(i);b.box(e.x+Math.sin(e.a)*.3,8.3,e.z+Math.cos(e.a)*.3,e.w+.55,3.8,.25,'redwall',e.a);}
+ for(let i=0;i<8;i++){const a=i*PI/4,x=cx+Math.sin(a)*2.7,z=cz+Math.cos(a)*2.7;for(let k=0;k<8;k++){const q=k*PI/4;b.add(cell,tint(i,k,99),[x+Math.sin(q)*.32,8.05,z+Math.cos(q)*.32],[.35,.55,.3],q);b.stats.muqarnas++;}}
+ b.cylinder(cx,11.85,cz,.32,.12,'abenPlaster',.32,8);
+ for(let i=0;i<16;i++){const e=edge(i);b.box(e.x+Math.sin(e.a)*.3,8.3,e.z+Math.cos(e.a)*.3,e.w+.55,3.8,.25,'abenStucco',e.a);}
  sunPatch(b,cx,cz,3.6,7.2);
 }

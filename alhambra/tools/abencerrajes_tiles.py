@@ -1,7 +1,8 @@
 """Derive the Abencerrajes dado textures from R Prazeres' photograph (CC BY-SA 4.0).
 
-Usage: python3 abencerrajes_tiles.py tools/research/abencerrajes-DSCF8810.jpg public/textures
-Source: https://commons.wikimedia.org/wiki/File:Alhambra_Hall_of_the_Abencerrajes_DSCF8810.jpg
+Usage: python3 abencerrajes_tiles.py tools/research/abencerrajes-DSCF8810.jpg public/textures [tools/research/abencerrajes-stucco-wall.jpg]
+Sources: https://commons.wikimedia.org/wiki/File:Alhambra_Hall_of_the_Abencerrajes_DSCF8810.jpg (dado)
+         https://commons.wikimedia.org/wiki/File:Stucco_wall_abencerrages_room.jpg (Jebulon, public domain; upper stucco)
 Crops 4 x 2 pattern units of the field and a four-tile run of the border, resamples the
 foreshortened units to square, divides out the photo's broad lighting falloff (wrapped
 blur, so the repeat stays seamless) and lifts the glazed white ground.
@@ -36,3 +37,13 @@ border = im.crop((1456, 452, 1872, 552)).resize((1024, 246), Image.LANCZOS)  # f
 border = flatten(border, 40, 1.45)
 border = ImageEnhance.Color(border).enhance(1.2)
 border.save(f'{out}/abencerrajes-border.jpg', quality=88)
+
+if len(sys.argv) > 3:
+    # Upper wall stucco: 2 x 2 units of the rosette / blue-cross lattice (652 x 590 px each),
+    # resampled to square units, lighting flattened and lifted towards the cream of the carved plaster.
+    wall = Image.open(sys.argv[3]).convert('RGB')
+    stucco = wall.crop((1960, 700, 3264, 1880)).resize((1024, 1024), Image.LANCZOS)
+    stucco = flatten(stucco, 110, 1.75)
+    stucco = ImageEnhance.Color(stucco).enhance(.85)
+    stucco = ImageEnhance.Contrast(stucco).enhance(1.15)
+    stucco.save(f'{out}/abencerrajes-stucco.jpg', quality=86)

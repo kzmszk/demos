@@ -100,6 +100,39 @@
       "width": 1942,
       "height": 1708,
       "changes": "Cropped to 4 x 2 pattern units and a four-tile border run, resampled to square units, broad lighting falloff divided out, saturation and contrast raised (tools/abencerrajes_tiles.py). Repeated on the Abencerrajes dado. Licensed CC BY-SA 4.0 like the source."
+    },
+    {
+      "file": "textures/abencerrajes-stucco.jpg",
+      "caption": {
+        "ja": "アベンセラッヘスの間の上部壁の漆喰装飾",
+        "en": "Abencerrajes upper-wall carved stucco"
+      },
+      "originalTitle": "Stucco wall abencerrages room.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Stucco_wall_abencerrages_room.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Stucco_wall_abencerrages_room.jpg",
+      "author": "Jebulon",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Stucco_wall_abencerrages_room.jpg",
+      "retrieved": "2026-10-23",
+      "width": 4592,
+      "height": 3056,
+      "changes": "Cropped to 2 x 2 lattice units, resampled to square, lighting falloff divided out, contrast raised (tools/abencerrajes_tiles.py)."
+    },
+    {
+      "file": null,
+      "caption": {
+        "ja": "ムカルナス天井の色（白い漆喰と青い彩色）の参照",
+        "en": "Colour reference for the muqarnas vault (white plaster, faded blue paint)"
+      },
+      "originalTitle": "Sala de los Abencerrajes, la Alhambra. Bóveda.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sala_de_los_Abencerrajes,_la_Alhambra._B%C3%B3veda.jpg",
+      "author": "José Luis Filpo Cabana",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "retrieved": "2026-10-23",
+      "width": 3581,
+      "height": 2387,
+      "changes": "Reference only; no pixels are bundled. Cell colours and the proportion of blue cells were chosen by eye from it."
     }
   ],
   "changes": "Local reference WebP photographs cropped and resampled in runtime material atlases. Mexuar and Lindaraja tile patterns repeat. Kings painting mapped once onto a curved ceiling; Lindaraja glass uses emissive shading. Each derivative retains the original source licence. See texture-credits.html."

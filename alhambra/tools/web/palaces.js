@@ -89,9 +89,9 @@ export function nasrid(b,water,lights){
   b.column(38,-12.2,2.6,.10);b.arch(37.1,-12.2,1.65,2.6,1.0,4.8,.4);b.arch(38.9,-12.2,1.65,2.6,1.0,4.8,.4);
   b.box(38,0,-12.2,4.6,.8,.45,'lindarajaTile',0,true);
   b.zone='abencerrajes';
-  room(b,38,34.5,8.2,7.2,6.7,{n:2.6,e:2.4,w:2.4,ceiling:false,tile:'abenTile'});
+  room(b,38,34.5,8.2,7.2,6.7,{n:2.6,e:2.4,w:2.4,ceiling:false,tile:'abenTile',wallMaterial:'abenStucco'});
   b.floor(38,29.6,4,3.6);b.box(38,5.5,29.6,4,.2,3.6,'wood');
-  for(const dx of [-1,1]){b.wall(38+dx*2,29.8,3.8,5.7,.5,0,'plaster',Math.PI/2,0,'abenTile');room(b,38+dx*6.1,34.5,4,7.2,5.4,{[dx<0?'e':'w']:2.4,tile:'abenTile'});}
+  for(const dx of [-1,1]){b.wall(38+dx*2,29.8,3.8,5.7,.5,0,'abenStucco',Math.PI/2,0,'abenTile');room(b,38+dx*6.1,34.5,4,7.2,5.4,{[dx<0?'e':'w']:2.4,tile:'abenTile',wallMaterial:'abenStucco'});}
   detailedAbencerrajes(b);
 
   b.roof(38,34.5,10,9.6,12.1,2.6);bassin(b,38,34.5,.85);
