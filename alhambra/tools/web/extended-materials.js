@@ -12,6 +12,13 @@ export async function extendedMaterials(M){
  make(M,'carvedDoor',atlas(images[2],[.17,.44,.50,.52]),1.7,2.5,{rough:.83,relief:.012,ambient:.6});
  make(M,'kingsPainting',atlas(images[3],[.015,.245,.97,.64]),1,1,{rough:.94,relief:0,ambient:.80});
  const glass=make(M,'lindarajaGlass',atlas(images[4],[.31,.425,.37,.34]),1,1,{rough:.4,relief:0,ambient:.85});glass.emissive.set(0xffffff);glass.emissiveMap=glass.map;glass.emissiveIntensity=.26;
+ // Abencerrajes dado: 16th-century Sevillian cuerda-seca azulejos, derived from R Prazeres' frontal
+ // photograph by tools/abencerrajes_tiles.py (4 x 2 square pattern units of about 28 cm, lighting falloff
+ // flattened). The border is the blue fillet and narrow frieze above the field.
+ const load=async f=>{const i=new Image();i.src=`textures/${f}.jpg`;await i.decode();return i;};
+ const [dado,dadoBorder]=await Promise.all([load('abencerrajes-dado'),load('abencerrajes-border')]);
+ make(M,'abenTile',atlas(dado,[0,0,1,1]),1.12,.56,{rough:.34,relief:.0015,ambient:.65});
+ make(M,'abenTileBorder',atlas(dadoBorder,[0,0,1,1]),.56,.18,{rough:.38,relief:.001,ambient:.65});
  // Other Nasrid surfaces use the photographed courtyard foliage as an analogue;
  // retain the two room-specific reconstructions and their original material scale.
  M.plaster=M.fineStucco.clone();M.plaster.name='plaster';M.plaster.userData.interiorAmbient=.65;

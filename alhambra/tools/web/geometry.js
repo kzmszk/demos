@@ -51,7 +51,7 @@ export class Builder {
     const world=(u,v=0)=>[x+u*Math.cos(rot)+v*Math.sin(rot),z-u*Math.sin(rot)+v*Math.cos(rot)];
     const panel=(cx,ww)=>{
       const [px,pz]=world(cx);this.box(px,y,pz,ww,h,depth,mat,rot,true);
-      if(tile){for(const sign of [-1,1]){const [tx,tz]=world(cx,sign*(depth/2+.018));this.box(tx,y+.1,tz,ww,1.35,.025,tile,rot);this.box(tx,y+1.49,tz,ww,.18,.05,'frieze',rot);this.box(tx,y+h-.6,tz,ww,.32,.04,'frieze',rot);}}
+      if(tile){for(const sign of [-1,1]){const [tx,tz]=world(cx,sign*(depth/2+.018));this.box(tx,y+.1,tz,ww,1.35,.025,tile,rot);this.box(tx,y+1.49,tz,ww,.18,.05,this.m[tile+'Border']?tile+'Border':'frieze',rot);this.box(tx,y+h-.6,tz,ww,.32,.04,'frieze',rot);}}
     };
     if(door){panel(-(w+door)/4,(w-door)/2);panel((w+door)/4,(w-door)/2);if(h>3)this.arch(x,z,door,2.25,door*.52,h,depth,mat,rot,y,false);}
     else panel(0,w);

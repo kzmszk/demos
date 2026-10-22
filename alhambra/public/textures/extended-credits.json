@@ -79,6 +79,27 @@
       "retrieved": "2026-10-22",
       "width": 1920,
       "height": 1440
+    },
+    {
+      "file": "textures/abencerrajes-dado.jpg",
+      "derived": [
+        "textures/abencerrajes-dado.jpg",
+        "textures/abencerrajes-border.jpg"
+      ],
+      "caption": {
+        "ja": "アベンセラッヘスの間の腰壁タイル（16世紀セビーリャ製の色絵タイル）",
+        "en": "Abencerrajes dado: 16th-century Sevillian cuerda-seca tiles"
+      },
+      "originalTitle": "Alhambra Hall of the Abencerrajes DSCF8810.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Alhambra_Hall_of_the_Abencerrajes_DSCF8810.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Alhambra_Hall_of_the_Abencerrajes_DSCF8810.jpg",
+      "author": "R Prazeres",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "retrieved": "2026-10-23",
+      "width": 1942,
+      "height": 1708,
+      "changes": "Cropped to 4 x 2 pattern units and a four-tile border run, resampled to square units, broad lighting falloff divided out, saturation and contrast raised (tools/abencerrajes_tiles.py). Repeated on the Abencerrajes dado. Licensed CC BY-SA 4.0 like the source."
     }
   ],
   "changes": "Local reference WebP photographs cropped and resampled in runtime material atlases. Mexuar and Lindaraja tile patterns repeat. Kings painting mapped once onto a curved ceiling; Lindaraja glass uses emissive shading. Each derivative retains the original source licence. See texture-credits.html."
