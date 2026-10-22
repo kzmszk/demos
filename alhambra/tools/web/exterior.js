@@ -141,16 +141,49 @@ export function exterior(b,ctx,low=false){
     const x=120+i*6,z=80+i*2.5;if(i>9&&i<18)continue;b.cone(x,0,z,1.25,8+rand()*3,'cypress');
   }
   // Distant, low-contrast Sierra foothills; never presented as measured topography.
-  const hillMat=new THREE.MeshStandardMaterial({color:0x7c8c7a,roughness:1});
+  // Unlit and pre-hazed so the low evening sun and the fog cannot turn them into pale dunes.
+  const hillMat=new THREE.MeshBasicMaterial({vertexColors:true,fog:false});hillMat.name='foothills';b.m.foothills=hillMat;
+  const hillLow=new THREE.Color(0x8d958c),hillTop=new THREE.Color(0x6c776f),hillColors=[];
   const hills=new THREE.PlaneGeometry(5200,3000,104,60);hills.rotateX(-Math.PI/2);
   const hp=hills.attributes.position;
   for(let i=0;i<hp.count;i++){
     const x=hp.getX(i),z=hp.getZ(i),ridge=Math.exp(-(((z+80)/730)**2));
     const envelope=Math.max(0,1-(x/2600)**6);
     const shape=300+100*Math.sin(x*.0021)+70*Math.cos(x*.0062)+35*Math.sin(x*.014+z*.004);
-    hp.setY(i,-76+ridge*envelope*shape);
+    const lift=ridge*envelope*shape*.8;hp.setY(i,-76+lift);
+    const c=hillLow.clone().lerp(hillTop,THREE.MathUtils.smoothstep(lift,40,300)+.08*Math.sin(x*.011+z*.007));hillColors.push(c.r,c.g,c.b);
   }
-  hills.computeVertexNormals();const distant=new THREE.Mesh(hills,hillMat);distant.position.set(2500,-60,2200);b.root.add(distant);
-  const horizon=new THREE.Mesh(new THREE.PlaneGeometry(12000,12000),hillMat);horizon.rotation.x=-Math.PI/2;horizon.position.y=-77;b.root.add(horizon);
+  hills.setAttribute('color',new THREE.Float32BufferAttribute(hillColors,3));hills.computeVertexNormals();const distant=new THREE.Mesh(hills,hillMat);distant.position.set(2500,-60,2200);b.root.add(distant);
+  // The far plain sits just under the terrain edge (-45 m) so the modelled ground has no visible cliff.
+  const plainMat=new THREE.MeshStandardMaterial({color:0x5f6847,roughness:1});
+  const horizon=new THREE.Mesh(new THREE.PlaneGeometry(12000,12000),plainMat);horizon.rotation.x=-Math.PI/2;horizon.position.y=-45.6;horizon.receiveShadow=true;b.root.add(horizon);
+  sierra(b);
   return groundMat;
+}
+
+// Sierra Nevada skyline to the south-east (x east, z south). A hazy silhouette with snow above the
+// snowline, scaled so its angular height matches the ~3,400 m range about 35 km away; not topography.
+function sierra(b){
+  const R=5200,from=-.15,to=1.75,cols=420,rows=10,pos=[],col=[],idx=[];
+  const haze=new THREE.Color(0x9aa7b6),rock=new THREE.Color(0x6f7c8c),snow=new THREE.Color(0xf4f2ee),c=new THREE.Color();
+  const ridge=(a,f,o)=>1-Math.abs(Math.sin(a*f+o));
+  const profile=a=>{
+    const peaks=Math.exp(-(((a-.62)/.3)**2))+Math.exp(-(((a-1.08)/.22)**2))*.72;
+    const jag=ridge(a,9,.4)*.55+ridge(a,23,1.7)*.3+ridge(a,61,.2)*.15;
+    const fade=Math.max(0,Math.min(1,(a-from)/.35,(to-a)/.35));
+    return (110+300*peaks+260*jag*(.25+peaks))*fade;
+  };
+  for(let i=0;i<=cols;i++){
+    const a=from+(to-from)*i/cols,top=profile(a);
+    for(let j=0;j<=rows;j++){
+      const v=j/rows,h=top*v,depth=R+(1-v)*260;
+      pos.push(Math.cos(a)*depth,-46+h,Math.sin(a)*depth);
+      const snowy=THREE.MathUtils.smoothstep(h,360,410)*THREE.MathUtils.smoothstep(top,400,470);
+      c.copy(haze).lerp(rock,v*.7).lerp(snow,snowy*.95);col.push(c.r,c.g,c.b);
+    }
+  }
+  for(let i=0;i<cols;i++)for(let j=0;j<rows;j++){const a=i*(rows+1)+j,b2=a+rows+1;idx.push(a,b2,a+1,a+1,b2,b2+1);}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('color',new THREE.Float32BufferAttribute(col,3));g.setIndex(idx);
+  const m=new THREE.MeshBasicMaterial({vertexColors:true,fog:false,side:THREE.DoubleSide});m.name='sierra';b.m.sierra=m;
+  const mesh=new THREE.Mesh(g,m);mesh.renderOrder=-1;b.root.add(mesh);
 }

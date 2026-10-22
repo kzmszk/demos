@@ -73,7 +73,7 @@ export function nasrid(b,water,lights){
   b.wall(16,9,3,5.8,.65,0,'plaster',Math.PI/2);b.wall(16,21,15,5.8,.65,0,'plaster',Math.PI/2);b.arch(16,12,3,2.25,1.5,5.8,.65,'plaster',Math.PI/2);
   b.wall(19,7.5,6,5.8,.65,2.2);b.wall(19,28.5,6,5.8,.65,0);b.box(19,5.8,18,6,.18,21,'wood');b.roof(19,18,7,22,6,2);
   room(b,59,18,6,27,6.1,{w:4,s:2.4});
-  for(const zz of [9,18,27]){b.arch(59,zz,5.6,3.4,1.8,6.1,.5,'plaster');for(const sx of [-1,1])b.column(59+sx*2.8,zz,3.4,.18);}
+  for(const zz of [9,18,27]){b.arch(59,zz,5.6,3.4,1.8,6.1,.5,'plaster');for(const sx of [-1,1])b.column(59+sx*2.45,zz,3.4,.18);}
   // Side access from Comares to the Hall of Muqarnas.
   b.floor(13.4,12,7,6);b.wall(13.4,9,7,5.5,.5,0);b.wall(13.4,15,7,5.5,.5,0);b.box(13.4,5.5,12,7,.2,6,'wood');
   b.zone='sisters';
@@ -127,7 +127,7 @@ export function nasrid(b,water,lights){
   bassin(b,-18.3,-15,.7);b.floor(-16.5,-4.6,7.7,12);b.box(-16.5,5.8,-4.6,8,.2,12,'wood');
   b.wall(-20.5,1,11,5.8,.6,3,'plaster',Math.PI/2);
   // Small light sources represent diffuse sky reflected into the rooms, not visible fixtures.
-  for(const p of [[38,6,34.5,8],[-29,4,-7,7],[59,4,18,9]]){
+  for(const p of [[38,6,34.5,8],[-29,4,-7,7],[59,4,22.6,9]]){
     const l=new THREE.PointLight(0xffe7bf,p[3]*2.5,24,1.5);l.position.set(...p.slice(0,3));lights.push(l);b.root.add(l);
   }
 }

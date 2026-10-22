@@ -22,7 +22,7 @@ export class Builder {
   }
   floor(x,z,w,d,y=0,mat='marble',rot=0){this.box(x,y-.18,z,w,.18,d,mat,rot);this.nav.floor(x+this.offset[0],z+this.offset[2],w,d,y+this.offset[1],rot);}
   cylinder(x,y,z,r,h,mat='marble',top=r,segments=16){const key=`cyl:${segments}:${top/r}`;const g=this.geometry(key,()=>new THREE.CylinderGeometry(top/r,1,1,segments));this.add(g,mat,[x,y+h/2,z],[r,h,r]);}
-  sphere(x,y,z,sx,sy,sz,mat='marble',rot=0){const plant=['tree','hedge','flower','whiteFlower'].includes(mat);const g=this.geometry(plant?'foliage':'sphere',()=>plant?new THREE.IcosahedronGeometry(1,1):new THREE.SphereGeometry(1,14,9));this.add(g,mat,[x,y,z],[sx,sy,sz],rot);}
+  sphere(x,y,z,sx,sy,sz,mat='marble',rot=0){const plant=['tree','hedge'].includes(mat),bud=['flower','whiteFlower','gold'].includes(mat)&&sx<.1;const g=bud?this.geometry('bud',()=>new THREE.IcosahedronGeometry(1,0)):this.geometry(plant?'foliage':'sphere',()=>plant?new THREE.IcosahedronGeometry(1,1):new THREE.SphereGeometry(1,14,9));this.add(g,mat,[x,y,z],[sx,sy,sz],rot);}
   flowers(x,y,z,mat='flower'){
     this.sphere(x,y-.15,z,.4,.4,.4,'hedge');
     for(let i=0;i<9;i++){const a=i*2.399,dx=Math.cos(a)*.3,dz=Math.sin(a)*.3,yy=y+.08+Math.sin(i*2)*.15;for(let k=0;k<5;k++){const t=k*Math.PI*.4;this.sphere(x+dx+Math.cos(t)*.055,yy,z+dz+Math.sin(t)*.055,.05,.028,.05,mat);}this.sphere(x+dx,yy+.02,z+dz,.025,.025,.025,'gold');}
@@ -78,7 +78,7 @@ export class Builder {
         for(const transform of transforms)this.merged.get(k).list.push(g.clone().applyMatrix4(transform));
         continue;
       }
-      const mesh=new THREE.InstancedMesh(g,m,transforms.length);transforms.forEach((t,i)=>mesh.setMatrixAt(i,t));mesh.computeBoundingSphere();mesh.castShadow=!['jet','water','shadow'].includes(mat);mesh.receiveShadow=true;this.root.add(mesh);
+      const mesh=new THREE.InstancedMesh(g,m,transforms.length);transforms.forEach((t,i)=>mesh.setMatrixAt(i,t));mesh.computeBoundingSphere();mesh.castShadow=!['jet','water','shadow','flower','whiteFlower','gold'].includes(mat);mesh.receiveShadow=true;this.root.add(mesh);
     }
     for(const {m,list} of this.merged.values()){
       // Normalize indexing; ExtrudeGeometry and simple primitives use different representations.

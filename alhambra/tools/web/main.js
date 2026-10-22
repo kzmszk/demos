@@ -73,11 +73,13 @@ function go(id,fromTour=false){
 function startTour(){tour=true;tourTime=0;tourStart=performance.now();tourOrigin=tourIndex=Math.max(0,TOUR.indexOf(place.id));closePlaces();go(TOUR[tourIndex],true);updateButtons();toast('全15地点を1分で巡ります。操作すると停止します。','All 15 highlights in one minute. Interact to stop.');}
 function stopTour(){if(!tour)return;tour=false;updateButtons();}
 function setLight(){
-  const az=day?[-.8,.32,.5]:[-.7,.95,.5];sun=new THREE.Vector3(...az).normalize();
-  csm.lightDirection.copy(sun).negate();csm.lightIntensity=day?3.5:3.3;
-  for(const l of csm.lights){l.color.set(day?0xffdab0:0xffefdc);l.intensity=csm.lightIntensity;}
-  sky.material.uniforms.sunPosition.value.copy(sun);sky.material.uniforms.turbidity.value=day?3.5:3;
-  hemi.intensity=day?.88:1.45;hemi.color.set(day?0xb8d0ee:0xd7e9f1);hemi.groundColor.set(day?0x8d7a62:0xb4a58a);scene.fog.color.set(day?0xd8cabc:0xcbd4ce);renderer.toneMappingExposure=day?1.08:1.07;updateButtons();
+  // Evening: a low west-south-west sun (about 12 degrees) with a warmer, denser sky; afternoon is high and neutral.
+  const az=day?[-.86,.21,.42]:[-.7,.95,.5];sun=new THREE.Vector3(...az).normalize();
+  csm.lightDirection.copy(sun).negate();csm.lightIntensity=day?3.7:3.3;
+  for(const l of csm.lights){l.color.set(day?0xffc58e:0xffefdc);l.intensity=csm.lightIntensity;}
+  const u=sky.material.uniforms;u.sunPosition.value.copy(sun);u.turbidity.value=day?5:3;u.rayleigh.value=day?1.6:.9;u.mieCoefficient.value=day?.006:.003;u.mieDirectionalG.value=day?.86:.8;
+  hemi.intensity=day?.82:1.45;hemi.color.set(day?0xb3bfdc:0xd7e9f1);hemi.groundColor.set(day?0x8f765c:0xb4a58a);scene.fog.color.set(day?0xdcd4ca:0xcfd6d4);renderer.toneMappingExposure=day?1.1:1.07;
+  materialsMap.sierra?.color.set(day?0xf2d6c2:0xe6ecf2);materialsMap.foothills?.color.set(day?0xf0dccb:0xe8ecec);updateButtons();
 }
 function drawMap(){
   if(!camera)return;const canvas=$('map'),g=canvas.getContext('2d'),W=canvas.width,H=canvas.height;
@@ -171,7 +173,7 @@ function update(dt){
 }
 async function init(){
   renderer=new THREE.WebGLRenderer({canvas:$('scene'),antialias:!low,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,low?1:1.6));renderer.setSize(innerWidth,innerHeight);renderer.toneMapping=THREE.AgXToneMapping;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
-  scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0xcbd4ce,.00038);camera=new THREE.PerspectiveCamera(63,innerWidth/innerHeight,.08,6500);camera.position.fromArray(place.p);camera.lookAt(...place.t);
+  scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0xcbd4ce,.0005);camera=new THREE.PerspectiveCamera(63,innerWidth/innerHeight,.08,6500);camera.position.fromArray(place.p);camera.lookAt(...place.t);
   sky=new Sky();sky.scale.setScalar(4800);sky.material.uniforms.rayleigh.value=.9;sky.material.uniforms.mieCoefficient.value=.003;scene.add(sky);
   hemi=new THREE.HemisphereLight(0xd7e9f1,0xb4a58a,1.45);scene.add(hemi);
   nav=new Navigation();materialsMap=materials();await detailMaterials(materialsMap);await extendedMaterials(materialsMap);
@@ -215,6 +217,8 @@ window.ALH={ready:false,go,
     const end=shot.points.at(-1);return {id,travel:Math.hypot(end[0]-p.p[0],end[2]-p.p[2]),blocked,offGround};
   });},look(x,y,z,tx,ty,tz){stopTour();mode='fly';camera.position.set(x,y,z);camera.lookAt(tx,ty,tz);orientation();updateButtons();},
   info(){return {ready:this.ready,mode,place:place.id,position:camera?.position.toArray(),yaw,pitch,drawCalls:renderer?.info.render.calls,triangles:renderer?.info.render.triangles,geometries:renderer?.info.memory.geometries,stats:world?.stats,blocks:nav?.blocks.length,surfaces:nav?.surfaces.length,blocked:nav?nav.blocked(camera.position.x,camera.position.z,camera.position.y-EYE):null};},
+  heavy(){const rows=[];scene.traverse(o=>{if(!o.isMesh)return;const g=o.geometry,t=(g.index?g.index.count:g.attributes.position.count)/3,n=o.isInstancedMesh?o.count:1;rows.push([o.name||g.type,Array.isArray(o.material)?'multi':o.material.name||o.material.type,Math.round(t),n,Math.round(t*n),o.castShadow]);});return rows.sort((a,b)=>b[4]-a[4]).slice(0,25);},
+  pick(x,y){camera.updateMatrixWorld();const r=new THREE.Raycaster();r.setFromCamera(new THREE.Vector2(x*2-1,1-y*2),camera);return r.intersectObjects(scene.children,true).slice(0,3).map(h=>[h.object.material.name,h.object.geometry.type,+h.distance.toFixed(2),h.point.toArray().map(v=>+v.toFixed(2))]);},
   move(dx,dz){stopTour();nav.move(camera.position,dx,dz);return camera.position.toArray();},
   placeCheck(){return PLACES.filter(p=>p.mode!=='orbit').map(p=>({id:p.id,blocked:nav.blocked(p.p[0],p.p[2],p.p[1]-EYE),ground:nav.height(p.p[0],p.p[2],p.p[1]-EYE),feet:p.p[1]-EYE}));},
 };
