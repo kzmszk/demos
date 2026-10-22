@@ -18,7 +18,7 @@ function hedge(b,x,y,z,w,d,seed){
  for(let i=0;i<Math.ceil(d/.8);i++)leaves(b,x,y+.48,z-d/2+(i+.5)*d/Math.ceil(d/.8),w*.58,.18,.55,60,seed+i,.065);
 }
 export function landscapeDetails(b){
- b.zone='myrtles';for(const s of [-1,1])hedge(b,1.5+s*4.65,0,0,1.1,30.3,145+s);
+ b.zone='myrtles';for(const s of [-1,1])hedge(b,1.5+s*5.1,.4,0,2.35,32.8,145+s);
  b.zone='partal';
  for(const s of [-1,1]){b.box(102+s*7.55,0,0,.38,.18,26.4,'terracotta');b.box(102+s*9,0,0,1,.5,27,'hedge');hedge(b,102+s*9,0,0,1,27,48+s);}
  for(const [x,z,h] of [[87,-15,8],[120,-12,10],[123,15,8]]){b.cone(x,0,z,1.05,h,'cypress',16);for(let j=0;j<14;j++)leaves(b,x,.6+j*h/15,z,1.1*(1-j/16),.4,1.1*(1-j/16),110,230+j,.12);}

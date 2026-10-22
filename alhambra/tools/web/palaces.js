@@ -1,4 +1,5 @@
 import {detailedComares,detailedSisters,detailedAbencerrajes} from './detail-rooms.js';
+import {myrtlesSide} from './myrtles.js';
 import {generalifeNorth} from './generalife.js';
 import * as THREE from 'three';
 
@@ -97,21 +98,18 @@ export function nasrid(b,water,lights){
   b.zone='myrtles';
   b.floor(1.5,0,23.5,39);
   // The reflecting pool and its two myrtle hedges.
-  b.box(1.5,-.08,0,7.4,.08,30.8,'dark');water.push({x:1.5,z:0,w:7.1,d:30.5,y:.015,reflect:true});
-  b.nav.box(1.5,0,7.6,30.8,-1,.4);
+  b.box(1.5,-.08,0,7.4,.08,34.3,'dark');water.push({x:1.5,z:0,w:7.1,d:34,y:.015,reflect:true});
+  b.nav.box(1.5,0,7.6,34.3,-1,.4);
   for(const s of [-1,1]){
-    b.box(1.5+s*4.65,0,0,1.1,.6,30.3,'hedge',0,true);b.box(1.5+s*3.7,0,0,.2,.12,31.2,'marble');
-    const doorZ=s>0?12:0,sideX=1.5+s*11.75;
-    for(const [a,c] of [[-19,doorZ-1.5],[doorZ+1.5,19]])b.wall(sideX,(a+c)/2,c-a,8.4,.75,0,'ivory',Math.PI/2,0,null);
-    b.arch(sideX,doorZ,3,2.25,1.5,8.4,.75,'plaster',Math.PI/2);
-    b.roof(1.5+s*12.9,0,4.0,39,8.4,1.8);
+    b.box(1.5+s*5.1,0,0,2.35,1,32.8,'hedge',0,true);b.box(1.5+s*3.7,0,0,.2,.12,34.5,'marble');
+    myrtlesSide(b,s);
   }
   // Porticoes with seven bays, the centre wider than its neighbours.
   const xs=[-10.05,-7.1,-4.2,-1.7,4.7,7.2,10.1,13.05];
   for(const zz of [-18.3,18.3]){
     for(const xx of xs)b.column(xx,zz,2.95,.145);
     for(let i=0;i<7;i++)b.arch((xs[i]+xs[i+1])/2,zz,xs[i+1]-xs[i]-.12,2.95,i===3?1.9:1.2,5.3,.46);
-    b.roof(1.5,zz,25.3,4.8,5.4,1.5);bassin(b,1.5,zz>0?16.6:-16.6,.62);
+    b.roof(1.5,zz,25.3,4.8,5.4,1.5);bassin(b,1.5,zz>0?18.9:-18.9,.62);
   }
   // Southern upper loggia.
   b.floor(1.5,21.3,25,5,5.6,'marble');for(let i=0;i<=9;i++)b.column(-10+i*2.55,19.2,2.35,.14,5.6);

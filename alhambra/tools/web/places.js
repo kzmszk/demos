@@ -19,7 +19,7 @@ export const PLACES = [
 ];
 // Views placed after registering P-000158's scale bar against the OSM footprints.
 const views={
-  lions:[[27,1.65,25],[40,3.2,16]],myrtles:[[-7,1.65,15],[1.5,7,-25]],
+  lions:[[27,1.65,25],[40,3.2,16]],myrtles:[[1.5,1.65,17.8],[1.5,5,-22]],
   ambassadors:[[1.5,1.65,-30],[1.5,7,-39]],sisters:[[38,1.65,4.4],[38,7.3,.4]],
   abencerrajes:[[38,1.65,31.5],[38,8.5,36]],mexuar:[[-29,1.65,3],[-29,3.7,-12]],
   kings:[[59,1.65,28],[59,3.5,8]],lindaraja:[[38,1.65,-9],[38,2,-24]],
