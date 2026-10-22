@@ -1,0 +1,70 @@
+{
+  "title": "ALHAMBRA",
+  "subtitle": {
+    "ja": "水と光、幾何学の宮殿。グラナダの丘を歩く",
+    "en": "A palace of water, light and geometry. Walk the hill of Granada."
+  },
+  "summary": {
+    "ja": "ナスル朝宮殿の柱廊と幾何学装飾、ライオンの噴水、二姉妹の間のムカルナス、アルカサバの城壁と塔。パルタルからヘネラリフェの庭園まで、一つにつながった3D空間を歩き、空から眺めます。公式資料を参照した手続き的な解釈復元です。",
+    "en": "Explore the Nasrid colonnades, geometric tilework, the Lion Fountain, muqarnas vaults and the Alcazaba. Walk or fly from the Partal gardens to the Generalife in a continuous 3D reconstruction informed by official references."
+  },
+  "date": "2026-10-22",
+  "tags": [
+    "webgl",
+    "3d",
+    "architecture",
+    "walk",
+    "gardens"
+  ],
+  "serve": "public",
+  "entry": "index.html",
+  "gpu": true,
+  "links": [
+    {
+      "label": "日本語",
+      "href": "index.html#ja"
+    },
+    {
+      "label": "English",
+      "href": "index.html#en"
+    }
+  ],
+  "shots": [
+    {
+      "path": "index.html",
+      "wait": 5500,
+      "eval": "ALH.go('lions')",
+      "after": 700
+    },
+    {
+      "path": "index.html",
+      "wait": 5500,
+      "eval": "ALH.go('myrtles')",
+      "after": 700
+    },
+    {
+      "path": "index.html",
+      "wait": 5500,
+      "eval": "ALH.go('sisters')",
+      "after": 700
+    },
+    {
+      "path": "index.html",
+      "wait": 5500,
+      "eval": "ALH.go('overview')",
+      "after": 700
+    },
+    {
+      "path": "index.html",
+      "wait": 5500,
+      "eval": "ALH.go('alcazaba')",
+      "after": 700
+    },
+    {
+      "path": "index.html",
+      "wait": 5500,
+      "eval": "ALH.go('generalife')",
+      "after": 700
+    }
+  ]
+}

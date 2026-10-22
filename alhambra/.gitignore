@@ -1,0 +1,6 @@
+tools/node_modules/
+tools/research/*.pdf
+tools/research/*.png
+tools/research/*.jpg
+tools/research/*raw*.json
+__pycache__/

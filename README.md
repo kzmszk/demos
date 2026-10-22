@@ -67,6 +67,7 @@ npm run deploy       # ビルドして Cloudflare に公開
 - 公開先は `https://demos.<アカウントのサブドメイン>.workers.dev` です。名前は `wrangler.jsonc` の `name` で変えられます。
 - 独自ドメインを使う場合は、Cloudflare のダッシュボードで Worker に Custom Domain を追加します。
 - サグラダ・ファミリアは公開済みWeb版を使い、Blender/Godotの再生成は行いません。生成物の検証・復元とモデル更新は [sagrada-familia/README.md](sagrada-familia/README.md) を参照してください。
+- アルハンブラ宮殿は `/alhambra/` で公開します。ナスル朝宮殿・アルカサバ・庭園の徒歩体験、実測図の出典、再ビルド手順は [alhambra/README.md](alhambra/README.md) を参照してください。
 
 ## Worker（`gallery/worker.js`）
 
