@@ -59,12 +59,14 @@ demos/
 npm install          # 初回のみ（wrangler）
 npm run shoot        # 表紙を撮り直す（全作品。特定の作品だけなら npm run shoot -- raster）
 npm run dev          # ビルドして http://127.0.0.1:8787 で Workers と同じ環境で確認
+npm run build        # ギャラリー生成。サグラダの配布物がなければ公開版から復元（初回約325 MB）
 npm run deploy       # ビルドして Cloudflare に公開
 ```
 
 - 初めて公開するときは、先に `npx wrangler login` で Cloudflare にログインしてください。
 - 公開先は `https://demos.<アカウントのサブドメイン>.workers.dev` です。名前は `wrangler.jsonc` の `name` で変えられます。
 - 独自ドメインを使う場合は、Cloudflare のダッシュボードで Worker に Custom Domain を追加します。
+- サグラダ・ファミリアは公開済みWeb版を使い、Blender/Godotの再生成は行いません。生成物の検証・復元とモデル更新は [sagrada-familia/README.md](sagrada-familia/README.md) を参照してください。
 
 ## Worker（`gallery/worker.js`）
 

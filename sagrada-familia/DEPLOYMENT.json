@@ -1,0 +1,66 @@
+{
+  "status": "PUBLISHED_AND_VERIFIED",
+  "worker": "demos",
+  "public_url": "https://demos.kazumasa.workers.dev/sagrada-familia/",
+  "gallery_url": "https://demos.kazumasa.workers.dev/",
+  "version_id": "b38995a0-913e-485a-8aed-1da364de9961",
+  "completed_utc": "2026-10-02T14:43:10.186092+00:00",
+  "source_package_id": "3bdfbd54d95a902bb0d2",
+  "distribution": {
+    "site_files": 186,
+    "site_bytes": 595047733,
+    "max_file_bytes": 20971520,
+    "sagrada_files": 31,
+    "sagrada_bytes": 324885439,
+    "covers": 2,
+    "cover_bytes": 2193387
+  },
+  "measurements": {
+    "environment": "Chrome 154 / RTX 4090 / 1280x720 / DPR 1; Sagrada quality 2",
+    "sagrada_first_observed_ready_seconds": 34.297,
+    "sagrada_reload_ready_seconds": 8.932,
+    "sagrada_steady_fps": 59.278469874169105,
+    "sagrada_after_reload_fps": 60.14078410760012,
+    "scope": "One measured desktop environment and tested camera phases, not a guarantee across devices or all views."
+  },
+  "limitations": [
+    "Desktop Chrome was verified; mobile, Safari and Firefox remain unverified.",
+    "Initial Sagrada transfer is about325MB.",
+    "Architectural/sculptural details and lighting include documented approximations; official evidence cutoff2026-09-22.",
+    "Only favicon.ico404 was observed, with no model/engine/chunk error."
+  ],
+  "remaining_blockers": [],
+  "validation": {
+    "source_record": "/home/kazu/work/codex/2026-10-01/task-6/sagrada_familia_2026/integration/deployment_v12/DEPLOYMENT_RESULT.json",
+    "sagrada_controls": "16/16",
+    "notre_dame_smoke": "8/8",
+    "gallery_entries": "12/12",
+    "small_file_sha256": "157/157",
+    "private_paths_404": "14/14",
+    "existing_worker_tests": "11/11",
+    "harness_notes_preserved": true
+  },
+  "configuration_changed": false,
+  "git_push_performed": false,
+  "repository_verification": {
+    "verified_at": "2026-10-22T10:02:45.809Z",
+    "public_url": "https://demos.polynous.io/sagrada-familia/",
+    "workers_dev_url": "https://demos.kazumasa.workers.dev/sagrada-familia/",
+    "package": "3bdfbd54d95a902bb0d2",
+    "files": 31,
+    "total_bytes": 324885439,
+    "public_files_sha256": "31/31 match SOURCE.json",
+    "entry_html_sha256": "538384841b7cc5d3658646fa023e0b08f59451ff16c5e6bb3914c0f253ec20c4",
+    "workers_dev_entry_matches": true,
+    "published_gallery_includes_sagrada": true,
+    "blender_godot_invoked": false,
+    "deployment_performed": false,
+    "restoration_test": "All recorded public files restored into an empty temporary directory and verified; temporary copy removed afterwards.",
+    "saved_source_package_import": "31/31 output file records match the existing published SOURCE.json",
+    "gallery_build": "pass; 15 works",
+    "tests": {
+      "web_distribution": "6/6 pass",
+      "existing_worker": "11/11 pass"
+    }
+  }
+}

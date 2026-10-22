@@ -1,0 +1,33 @@
+{
+  "no": "",
+  "title": "SAGRADA FAMÍLIA",
+  "subtitle": {
+    "ja": "2026年の大聖堂を、歩いて、飛んで見学する",
+    "en": "Walk and fly through a study of the basilica in 2026"
+  },
+  "summary": {
+    "ja": "2026年9月22日までの公式工事情報と写真に基づき、2026年10月1日の姿を目指した3D再構成。樹木状の柱と色光、生誕・受難のファサード、建設中の栄光のファサードを歩行・飛行で巡ります。PC・WebGL 2向け、初回読み込みは約325MB。細部・彫刻の奥行き・光には推定を含みます。資料と出典を作品内に収録。",
+    "en": "A 3D reconstruction aiming to show the basilica on 1 October 2026, based on official reports and photographs verified through 22 September 2026. Walk and fly among branching columns and stained-glass light, the Nativity and Passion façades, and the unfinished Glory façade. Desktop WebGL 2; initial download about 325 MB. Details, sculptural depth and lighting include interpretation. Sources and licenses are included."
+  },
+  "date": "2026-10-02",
+  "tags": [
+    "architecture",
+    "webgl",
+    "walkthrough",
+    "3d"
+  ],
+  "serve": "public",
+  "prebuild": "node restore-web.mjs",
+  "entry": "index.html",
+  "shots": [],
+  "links": [
+    {
+      "label": "見学する",
+      "href": "index.html"
+    },
+    {
+      "label": "資料と出典",
+      "href": "assets/3bdfbd54d95a902bb0d2/credits.html"
+    }
+  ]
+}

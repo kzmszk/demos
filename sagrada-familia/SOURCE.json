@@ -1,0 +1,174 @@
+{
+  "application": "demos-sagrada-familia",
+  "source_package_id": "3bdfbd54d95a902bb0d2",
+  "source_bundle": "/home/kazu/work/codex/2026-10-01/task-6/sagrada_familia_2026/web/site_bundle",
+  "source_manifest_sha256": "bab3787ee1f62d0a3781a99474ea023452e46515f305f01d0c3fcd11e5786be6",
+  "source_browser_validated": true,
+  "imported_at": "2026-10-02T14:22:32.782Z",
+  "local_adaptations": [
+    "DEMOS gallery return link",
+    "QA UI enabled only on loopback hostname",
+    "Godot 4.7.2 third-party copyright notice linked from Credits",
+    "Outdated local-only publication status updated; artwork rights notices retained"
+  ],
+  "file_count": 31,
+  "total_bytes": 324885439,
+  "max_file_bytes": 20971520,
+  "files": [
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/credits.html",
+      "bytes": 651897,
+      "sha256": "1aaee2ac6127410d0285a5e69903809b9300e058b87fb4500111890e14199e99"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/font_license.txt",
+      "bytes": 14854,
+      "sha256": "e9eed7ce08955879118c59186a1e141ee17b453a579445280ef848891c1724a4"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/godot_license.txt",
+      "bytes": 1149,
+      "sha256": "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.audio.position.worklet.js",
+      "bytes": 2973,
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.audio.position.worklet.js.gz",
+      "bytes": 1167,
+      "sha256": "c155860d0404d82b700cf8d909bab65ff26958cc14689a42c2b52d775b346af1"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.audio.worklet.js",
+      "bytes": 7298,
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.audio.worklet.js.gz",
+      "bytes": 2204,
+      "sha256": "3864d90788fdb625d9062adbdc2a07121edd49426f2b2928d829bf82539726bf"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.js",
+      "bytes": 279815,
+      "sha256": "33c94cb3175f3333b82e2a3be5e8e86f77986f0aa2042b1631f6367a4e5bb6ba"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.js.gz",
+      "bytes": 68740,
+      "sha256": "86cf70d97047579311910aa54e5490d60a583444fd9e327ac49a35d49388dcdc"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part00",
+      "bytes": 20971520,
+      "sha256": "75138185fd6b1ebedd1723b255ae4f70ee139ff678aad130c475095f1e93d949"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part01",
+      "bytes": 20971520,
+      "sha256": "b6882df51e534e2a82e74ce9d59d02429f617289e8d02bfdfae7c6255f0357f8"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part02",
+      "bytes": 20971520,
+      "sha256": "28fb6fdd8b39600dbd260b7a96388b3dabe2142903634ec8b85b524871f8e90b"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part03",
+      "bytes": 20971520,
+      "sha256": "6fe63daf3ac30fdcfe4116d51ea19af80f5ec8b3bbd773489de5472b18ae04e3"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part04",
+      "bytes": 20971520,
+      "sha256": "f659fa4585c1451c01f684635c9bb873bf544c3c711ab2d4c52bdbf9daa4eda8"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part05",
+      "bytes": 20971520,
+      "sha256": "b2e29b3724d778824daa6b6506704baefdebaea4df386d28f37a27895230fd8f"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part06",
+      "bytes": 20971520,
+      "sha256": "ab5447fef9de29a56dc801132da551ca2d0aa77d449b6efd2190df5878431945"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part07",
+      "bytes": 20971520,
+      "sha256": "48cafd37b12931be75bf18fa4f85aa73a9f23c2d9c5abd7ed4daecae330d6c2e"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part08",
+      "bytes": 20971520,
+      "sha256": "73e0bb5ab4e1aad7659830c88dd5b44837b56082071ef9c5f2ec7d9abd3fc544"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part09",
+      "bytes": 20971520,
+      "sha256": "6144e50c23fbaca096d45230e55cb617d9e8bba8fd53a10b492d39af45047166"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part10",
+      "bytes": 20971520,
+      "sha256": "2a7821415639918b96362580cf7607d3bd8416127e912802b1fe79c40cbbd6a2"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part11",
+      "bytes": 20971520,
+      "sha256": "8d06de79e001df5329e2fbfbb08ef0fa52117572abe0fc0676eb39a8fac0e894"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part12",
+      "bytes": 20971520,
+      "sha256": "e9b678baf6ad18bce60ffd7241e06679abab26405b34754a4fbab8f20eeccc4b"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part13",
+      "bytes": 20971520,
+      "sha256": "f7a4c3af77c31e5565da6113a56be3218e9529160ccc968e589a51e7ddf28873"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.pck.41be926693322446.part14",
+      "bytes": 19780232,
+      "sha256": "692ae276f92a49b772127d93b29a620dc589cd8c4e1081af383959d7980346f2"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.png",
+      "bytes": 21443,
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/index.wasm.ff249a1a801983bb.gz",
+      "bytes": 10114291,
+      "sha256": "ff249a1a801983bb405f2a9976ded5dc6a614230f7c3561302db435f66f9ebee"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/sagrada_familia_ui.woff2",
+      "bytes": 212064,
+      "sha256": "344d6d7c50ce16bbc14d5d9dcd7453627481951f58fbe888cec90e0e9bc8c204"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/static_assets.json",
+      "bytes": 3300,
+      "sha256": "2528532e18e477a9a2d7b1df9789823e26caf70a23c2a28ae6ab07305c142873"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/static_loader.js",
+      "bytes": 5702,
+      "sha256": "3ad8c4636e9526f1b41c02ffed5a7c4e3a9327a0ac70776fc4b25a7ca1eabbde"
+    },
+    {
+      "path": "index.html",
+      "bytes": 16922,
+      "sha256": "538384841b7cc5d3658646fa023e0b08f59451ff16c5e6bb3914c0f253ec20c4"
+    },
+    {
+      "path": "assets/3bdfbd54d95a902bb0d2/legal/Godot-COPYRIGHT.txt",
+      "bytes": 100108,
+      "sha256": "cb1980c88089573bcacd7221d777c689bb8bbd778799f24c27fca0fe5f774d6d"
+    }
+  ]
+}

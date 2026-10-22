@@ -2,9 +2,29 @@
 
 2026年10月1日の姿を目指して制作した、サグラダ・ファミリアの独立した3D再構成です。**工事状況の最新確認資料は2026年9月22日**です。完成予定を完成実績として扱わず、栄光のファサードと被昇天礼拝堂は未完成、イエス塔は外装完成・内部工事中として扱います。測量モデルや全周3Dスキャンではありません。
 
-[公開済みウォークスルー](https://demos.kazumasa.workers.dev/sagrada-familia/) · [資料基準](docs/CURRENT_STATE.json) · [推定と制約](docs/MODEL_LIMITS.md) · [素材ライセンス一覧](docs/ASSET_LICENSE_NOTICES.md)
+[公開済みウォークスルー](https://demos.polynous.io/sagrada-familia/) · [資料基準](docs/CURRENT_STATE.json) · [推定と制約](docs/MODEL_LIMITS.md) · [素材ライセンス一覧](docs/ASSET_LICENSE_NOTICES.md)
 
-このフォルダにはBlenderの生成コード、編集用の窓輪郭・彫刻レリーフデータ、素材、Godotの歩行／飛行コード、Webのローダーとビルドツールを保存しています。**クローン直後は生成済みモデルを含みません。** 下記の手順で編集可能な `.blend` と実行用GLBを作り、必要に応じてWeb版を生成します。
+このフォルダにはBlenderの生成コード、編集用の窓輪郭・彫刻レリーフデータ、素材、Godotの歩行／飛行コード、Webのローダーとビルドツールを保存しています。**通常のギャラリービルドにBlender/Godotの再実行は不要です。** 公開済みWeb版はハッシュを検証して復元できます。モデルを変更するときだけ、下記の手順で編集可能な `.blend` と実行用GLBを作り直します。
+
+## 公開済みWeb版を使う（通常のビルド）
+
+リポジトリのルートで次を実行します。
+
+```bash
+npm run build
+npm test
+```
+
+`demo.json` の `prebuild` が `restore-web.mjs` を実行します。`public/` があれば [SOURCE.json](SOURCE.json) に記録した全ファイルのサイズ・SHA-256とファイル一覧を照合するだけです。存在しない場合は、公開中の `https://demos.polynous.io/sagrada-familia/` から約325 MBをダウンロードし、全件一致した後に配置します。次回からはオフラインでビルドできます。Blender/Godotは起動しません。
+
+```bash
+# ダウンロードせず、現在の public/ を検証するだけ
+node sagrada-familia/restore-web.mjs --check
+# public/ がない場合に復元する
+node sagrada-familia/restore-web.mjs
+```
+
+公開版の更新などで記録したファイルを取得できなくなった場合は、保存済みの検証済みパッケージを `import-web.mjs` で取り込みます。ハッシュ不一致を無視して別の版へ置き換えることはありません。[Web版の操作・取り込み・公開履歴](README.web-2026-10-02.md)を参照してください。
 
 ## 構成
 
@@ -18,7 +38,7 @@
 | `docs/` | 工事状況・写真照合・近似・出典・素材の公開／除外台帳 |
 | `tools/validate_source.py` | Blenderを起動しない依存ファイル・構文・任意SHA検証 |
 
-## Blender原本を再生成する
+## モデルを変更するとき：Blender原本を再生成する
 
 Linux、Python 3.11以降、**Blender 5.2.1**（公式配布に含まれるPython/NumPy）を使用します。ソフトウェアや追加サービスは自動インストールしません。素材は同梱済みなので、最初のモデル生成にPillow/SciPyの追加インストールは不要です。
 
@@ -66,12 +86,18 @@ python3 web/open_local.py
 
 ## 大容量原本・保存対象・再現の範囲
 
-既存の編集可能なV12原本はABC4090上に保存しています。
+既存の編集可能なV12原本、書き出したGLB、検証済みWebパッケージはABC4090上に保存しています。2026年10月22日に各実ファイルの存在を確認しました。
 
 ```text
 /home/kazu/work/codex/2026-10-01/task-6/sagrada_familia_2026/build/Sagrada_Familia_2026.blend
 167,304,659 bytes
 SHA-256: a0c38f6ee5770d2bebfa93b089c5bd27e3a9006e6e6bbd23dd55e4228fd1a5f9
+
+/home/kazu/work/codex/2026-10-01/task-6/sagrada_familia_2026/build/sagrada_familia.glb
+319,558,244 bytes
+
+/home/kazu/work/codex/2026-10-01/task-6/sagrada_familia_2026/web/site_bundle/
+package_id: 3bdfbd54d95a902bb0d2（ブラウザ検証済み）
 ```
 
 原本は[GitHubの通常ファイル上限100 MiB](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github)を超えるため、このリポジトリには含めません。既存リポジトリにLFS方針はなく、今回LFS導入・容量購入・課金設定変更は行っていません。アカウントのLFS残量は未確認です。GLB・PCK・WASM・Web配布物・キャッシュ・ログ・認証設定もGit対象外です。
@@ -88,4 +114,6 @@ SHA-256: a0c38f6ee5770d2bebfa93b089c5bd27e3a9006e6e6bbd23dd55e4228fd1a5f9
 
 ## DEMOSとの関係
 
-このブランチは制作ソースの保存用です。ギャラリーが自動検出するトップレベル `demo.json` を置かず、ルートの配備設定も変更していません。既存の公開作品や他のデモをこの追加だけで再構築・配備することはありません。Web配布物は `web/site_bundle/` に生成され、将来の明示的なギャラリー統合で利用できます。生成配布物と素材の出典ページは一緒に扱ってください。
+`demo.json` により、公開済みWeb版をギャラリーへ組み込みます。配信対象は `public/` のみで、制作ソース、元写真、QAログは配信しません。生成済み配布物はGit対象外とし、復元に使う `SOURCE.json`、取り込み・復元スクリプト、カバー画像を保存しています。
+
+`npm run build` は公開済みWeb版の検証／復元とギャラリー生成までです。モデル再生成やCloudflareへのデプロイは実行しません。Web版を更新した場合は、取り込みで更新される `SOURCE.json` もコミットし、出典ページと配布物をまとめて扱ってください。`docs/SOURCE_RELEASE.json` と `DEPLOYMENT.json` はそれぞれソース保存時・初回公開時の履歴です。

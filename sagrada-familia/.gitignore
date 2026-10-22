@@ -5,6 +5,8 @@
 /public/
 /dist/
 /site_bundle/
+/.import-*/
+/.restore-web-*/
 __pycache__/
 *.pyc
 *.blend
