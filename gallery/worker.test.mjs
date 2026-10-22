@@ -191,3 +191,19 @@ test('everything else is a static asset', async () => {
   const r = await worker.fetch(get('/auto_movie/'), env());
   assert.equal(await r.text(), 'asset');
 });
+
+test('the bundled Alhambra film supports phone byte ranges without an R2 object',async()=>{
+  const e=env({ASSETS:{fetch:async req=>{
+    assert.equal(new URL(req.url).pathname,'/alhambra/movie/alhambra.mp4');
+    assert.equal(req.headers.get('range'),null);
+    return new Response(req.method==='HEAD'?null:DATA,{headers:{'Content-Length':String(DATA.length),ETag:'"film"'}});
+  }}});
+  const play=(headers={},method='GET')=>worker.fetch(new Request(ORIGIN+'/media/movies/alhambra-film/video.mp4',{headers,method}),e);
+  for(const [range,a,b] of [['bytes=0-1',0,2],['bytes=500-',500,1000],['bytes=-10',990,1000]]){
+    const r=await play({Range:range});assert.equal(r.status,206);assert.equal(r.headers.get('content-range'),`bytes ${a}-${b-1}/1000`);assert.deepEqual(new Uint8Array(await r.arrayBuffer()),DATA.slice(a,b));
+  }
+  assert.equal((await play({Range:'bytes=1000-'})).status,416);
+  assert.equal((await play({Range:'bytes=0-1','If-Range':'"old"'})).status,200);
+  const head=await play({},'HEAD');assert.equal(head.headers.get('content-length'),'1000');assert.equal(await head.text(),'');
+  assert.equal((await play({},'POST')).status,405);
+});

@@ -1,0 +1,20 @@
+[
+  {
+    "tag": "study",
+    "bpm": 132,
+    "seconds": 37.64,
+    "notes": 347,
+    "peakDBFS": -1.3100309751286456,
+    "rmsDBFS": -19.607718479988556,
+    "file": "/home/kazu/work/demos/alhambra/public/audio/asturias-study.mp3"
+  },
+  {
+    "tag": "brisk",
+    "bpm": 152,
+    "seconds": 33.154,
+    "notes": 347,
+    "peakDBFS": -1.3100309751286456,
+    "rmsDBFS": -19.41961966971618,
+    "file": "/home/kazu/work/demos/alhambra/public/audio/asturias-brisk.mp3"
+  }
+]

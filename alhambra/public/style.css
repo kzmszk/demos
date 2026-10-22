@@ -48,3 +48,22 @@
 }
 
 .hide-ui .vignette{display:none}
+
+/* Compact music controls, independent of water ambience. */
+#musicPanel{position:fixed;z-index:30;right:34px;top:86px;width:280px;max-width:calc(100vw - 24px);padding:24px;background:#f6f2e8f5;border:1px solid #fff9;box-shadow:0 12px 45px #102b2426;backdrop-filter:blur(14px)}
+#musicPanel[hidden]{display:none}#musicPanel h2{font-family:var(--serif);font-size:23px;font-weight:400;margin:12px 0 8px}#musicPanel p{font-size:10px;color:#6b7568;margin:0 0 18px}
+#musicClose{position:absolute;right:8px;top:7px;width:36px;height:36px;font-size:24px}
+#musicPlay{width:100%;min-height:42px;border:1px solid var(--line);background:#e6dfcc60;text-align:center}#musicPlay[aria-pressed=true]{background:#29483d;color:#fff8e6}
+.music-volume{display:flex;align-items:center;gap:10px;margin:18px 0}.music-volume label{font-size:11px}.music-volume input{min-width:0;flex:1;accent-color:#986b35;height:28px}.music-volume output{font-size:10px;width:32px;text-align:right}
+#musicPanel>a{font-size:10px;text-decoration:underline;text-underline-offset:3px;color:#7f5c2d}#musicToggle.playing{color:#915d27;background:#d7c79f70;border-radius:50%}
+.hide-ui #musicPanel{display:none}
+@media(max-width:760px){#musicPanel{right:12px;top:76px}.header-actions{gap:3px}.header-actions button{width:29px}}
+@media(max-width:480px){.brand{left:60px;transform:none;gap:0}.brand .ornament{display:none}.brand h1{font-size:17px;letter-spacing:.12em}.brand p{font-size:6px;letter-spacing:.2em}.header-actions #helpButton{margin-left:2px}}
+
+/* Highlights stay collapsed until requested, on every screen size. */
+#explorer{display:none;top:166px;max-height:calc(100dvh - 270px);z-index:5}
+.places-open #explorer{display:block}
+#placesToggle{display:block;position:fixed;top:112px;left:30px;z-index:6;background:#f5f0e6ed;padding:11px 14px;font-size:12px;backdrop-filter:blur(8px)}
+body:not(.places-open) #caption{left:30px}
+.hide-ui #placesToggle,.hide-ui #explorer{display:none}
+@media(max-width:760px){#placesToggle{top:88px;left:16px;font-size:10px}#explorer{top:134px;max-height:calc(100dvh - 260px)}body:not(.places-open) #caption{left:20px}}

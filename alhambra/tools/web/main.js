@@ -11,27 +11,31 @@ import { Navigation, EYE, terrainHeight } from './navigation.js';
 import { nasrid, gardens, charlesV } from './palaces.js';
 import { fortress, exterior } from './exterior.js';
 import { PLACES, BY_ID, TOUR } from './places.js';
+import { buildTourShots, sampleTourShot } from './tour.js';
+import { createMusic } from './music.js';
 import { createReferences } from './references.js';
 
 const $=id=>document.getElementById(id),query=new URLSearchParams(location.search);
 let lang=location.hash==='#en'?'en':'ja',mode='walk',place=BY_ID[query.get('place')]||BY_ID.lions;
 const touch=matchMedia('(pointer: coarse)').matches;
 const low=query.get('q')==='low'||(query.get('q')!=='high'&&touch);
+const filming=query.get('film')==='1';
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.body.dataset.touch=String(touch);document.body.dataset.mode=mode;
 let renderer,scene,camera,csm,nav,world,sky,sun,materialsMap,waterObjects=[],reflectors=[],hemi;
 let yaw=0,pitch=0,orbitTarget=new THREE.Vector3(80,0,30),orb=new THREE.Spherical(520,1.08,-.8);
-let tour=false,tourTime=0,tourIndex=0,day=1,now=0,last=performance.now(),mapFrame=0,audio=null;
+let tour=false,tourTime=0,tourIndex=0,tourStart=0,tourOrigin=0,day=1,now=0,last=performance.now(),mapFrame=0,audio=null;
 const keys=new Set(),stick={x:0,y:0},alt={value:0};let pointer=null;
 const clamp=THREE.MathUtils.clamp;
-let toastTimer,references;
+let toastTimer,references,tourShots;
+const music=createMusic({getLanguage:()=>lang,toast});
 function toast(ja,en){$('toast').textContent=lang==='ja'?ja:en;$('toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),2600);}
 function caption(p){place=p;$('placeNumber').textContent=p.no;$('placeTitle').textContent=p[lang];$('referenceOpen').setAttribute('aria-label',lang==='ja'?`${p.ja}の実際の写真を見る`:`View real photographs of ${p.en}`);$('placeSpanish').textContent=p.es;$('placeDescription').textContent=p.desc[lang];for(const button of document.querySelectorAll('.place')){const active=button.dataset.id===p.id;button.classList.toggle('active',active);button.setAttribute('aria-current',active?'location':'false');}}
 function localize(){
   document.documentElement.lang=lang;document.title=lang==='ja'?'ALHAMBRA · 水と光の宮殿':'ALHAMBRA · A palace of water and light';
   for(const e of document.querySelectorAll('[data-ja]'))e.textContent=e.dataset[lang];
   $('language').textContent=lang==='ja'?'EN':'JA';$('language').setAttribute('aria-label',lang==='ja'?'Switch to English':'日本語に切り替える');
-  const labels={scene:['アルハンブラ宮殿の3D風景','3D view of the Alhambra'],sound:['水の環境音','Water ambience'],helpButton:['操作方法','Controls'],mapToggle:['地図を拡大','Expand map'],map:['現在地と宮殿全体の案内図','Map of the grounds and your location'],uiToggle:['UIを隠す','Hide interface'],restoreUI:['UIを表示','Show interface'],rise:['上昇','Ascend'],descend:['下降','Descend']};
+  const labels={musicToggle:['音楽','Music'],musicClose:['音楽パネルを閉じる','Close music panel'],scene:['アルハンブラ宮殿の3D風景','3D view of the Alhambra'],sound:['水の環境音','Water ambience'],helpButton:['操作方法','Controls'],mapToggle:['地図を拡大','Expand map'],map:['現在地と宮殿全体の案内図','Map of the grounds and your location'],uiToggle:['UIを隠す','Hide interface'],restoreUI:['UIを表示','Show interface'],rise:['上昇','Ascend'],descend:['下降','Descend']};
   for(const [id,names] of Object.entries(labels))$(id).setAttribute('aria-label',names[lang==='ja'?0:1]);
   document.querySelector('.back').setAttribute('aria-label',lang==='ja'?'ギャラリーに戻る':'Return to gallery');
   document.querySelector('.modes').setAttribute('aria-label',lang==='ja'?'移動方法':'Travel mode');
@@ -39,7 +43,7 @@ function localize(){
   const groupNames={nasrid:['ナスル朝宮殿','Nasrid palaces'],fortress:['アルカサバ','The Alcazaba'],gardens:['水と庭園','Water & gardens'],grounds:['宮殿と敷地','Palace & grounds']};
   $('placeList').replaceChildren();let group='';
   for(const p of PLACES){if(p.group!==group){group=p.group;const label=document.createElement('div');label.className='place-group';label.textContent=groupNames[group][lang==='ja'?0:1];$('placeList').append(label);}const button=document.createElement('button');button.className='place';button.dataset.id=p.id;button.innerHTML=`<span class="num">${p.no}</span><span>${p[lang]}</span>`;button.addEventListener('click',()=>{stopTour();go(p.id);closePlaces();});$('placeList').append(button);}
-  caption(place);references?.localize();updateButtons();drawMap();
+  caption(place);references?.localize();music.localize();updateButtons();drawMap();
 }
 function closePlaces(){document.body.classList.remove('places-open');$('placesToggle').setAttribute('aria-expanded','false');}
 function updateButtons(){
@@ -66,7 +70,7 @@ function go(id,fromTour=false){
   keys.clear();stick.x=stick.y=0;updateButtons();
   const u=new URL(location.href);u.searchParams.set('place',p.id);u.hash=lang;history.replaceState(null,'',u);drawMap();return true;
 }
-function startTour(){tour=true;tourTime=0;tourIndex=Math.max(0,TOUR.indexOf(place.id));go(TOUR[tourIndex],true);updateButtons();toast('各空間を順にご案内します。操作すると停止します。','Each room in turn. Interact with the view to pause.');}
+function startTour(){tour=true;tourTime=0;tourStart=performance.now();tourOrigin=tourIndex=Math.max(0,TOUR.indexOf(place.id));closePlaces();go(TOUR[tourIndex],true);updateButtons();toast('全15地点を1分で巡ります。操作すると停止します。','All 15 highlights in one minute. Interact to stop.');}
 function stopTour(){if(!tour)return;tour=false;updateButtons();}
 function setLight(){
   const az=day?[-.8,.32,.5]:[-.7,.95,.5];sun=new THREE.Vector3(...az).normalize();
@@ -131,7 +135,25 @@ function resize(){if(!renderer)return;camera.aspect=innerWidth/innerHeight;camer
 function fatal(message){$('loading')?.classList.add('done');const div=document.createElement('div');div.className='fatal';const p=document.createElement('p');p.textContent=message;div.append(p);const a=document.createElement('a');const u=new URL(location.href);u.searchParams.set('q','low');a.href=u;a.textContent=lang==='ja'?'軽量モードで再読み込み':'Reload in light mode';div.append(a);document.body.append(div);}
 function update(dt){
   now+=dt;
-  if(tour){tourTime+=dt;const p=BY_ID[TOUR[tourIndex]];if(tourTime>14){tourTime=0;tourIndex=(tourIndex+1)%TOUR.length;go(TOUR[tourIndex],true);}else if(mode!=='orbit'&&!reduced){camera.lookAt(p.t[0]+Math.sin(tourTime*.15)*.7,p.t[1]+Math.sin(tourTime*.18)*.35,p.t[2]);orientation();}$('tourProgress').firstElementChild.style.width=`${tourTime/14*100}%`;}
+  if(tour){
+    tourTime=(performance.now()-tourStart)/1000;
+    const step=Math.min(TOUR.length-1,Math.floor(tourTime/4));
+    const index=(tourOrigin+step)%TOUR.length;
+    if(index!==tourIndex){tourIndex=index;go(TOUR[tourIndex],true);}
+    const p=BY_ID[TOUR[tourIndex]],phase=Math.min(1,(tourTime-step*4)/4);
+    if(!reduced){
+      if(mode==='orbit'){
+        camera.position.fromArray(p.p);
+        orb.setFromVector3(camera.position.clone().sub(orbitTarget));
+        orb.theta+=phase*.5;orb.radius*=1-phase*.16;orb.phi-=Math.sin(phase*Math.PI/2)*.08;
+      }else{
+        const shot=sampleTourShot(tourShots[p.id],p,phase);
+        camera.position.fromArray(shot.position);camera.lookAt(...shot.target);orientation();
+      }
+    }
+    $('tourProgress').firstElementChild.style.width=`${Math.min(100,tourTime/60*100)}%`;
+    if(tourTime>=60)stopTour();
+  }
   if(mode==='orbit'){camera.position.setFromSpherical(orb).add(orbitTarget);camera.lookAt(orbitTarget);orientation();}
   else {
     let forward=(keys.has('w')||keys.has('arrowup')?1:0)-(keys.has('s')||keys.has('arrowdown')?1:0)-stick.y;
@@ -167,12 +189,31 @@ async function init(){
     const mesh=new THREE.Mesh(new THREE.PlaneGeometry(w.w,w.d),m);mesh.rotation.x=-Math.PI/2;mesh.position.set(w.x,w.y+.015,w.z);mesh.receiveShadow=true;scene.add(mesh);waterObjects.push(mesh);
     if(w.reflect){const reflector=new Reflector(new THREE.PlaneGeometry(w.w,w.d),{textureWidth:low?512:1024,textureHeight:low?512:1024,color:0xb2baba,clipBias:.002});reflector.rotation.x=-Math.PI/2;reflector.position.set(w.x,w.y,w.z);scene.add(reflector);reflectors.push(reflector);reflector.visible=false;}
   }
+  tourShots=buildTourShots(PLACES,nav);
   setLight();wire();localize();go(place.id);await renderer.compileAsync(scene,camera);
-  $('loading').classList.add('done');setTimeout(()=>$('loading').remove(),1000);
+  $('loading').classList.add('done');setTimeout(()=>$('loading')?.remove(),1000);
   window.ALH.ready=true;
-  function loop(t){const dt=Math.min(.05,(t-last)/1000);last=t;if(!document.hidden&&!$('references').open)update(dt);requestAnimationFrame(loop);}requestAnimationFrame(loop);
+  function loop(t){const dt=Math.min(.05,(t-last)/1000);last=t;if(!filming&&!document.hidden&&!$('references').open)update(dt);requestAnimationFrame(loop);}requestAnimationFrame(loop);
 }
-window.ALH={ready:false,go,look(x,y,z,tx,ty,tz){stopTour();mode='fly';camera.position.set(x,y,z);camera.lookAt(tx,ty,tz);orientation();updateButtons();},
+window.ALH={ready:false,go,
+  filmFrame(id,phase,time){
+    if(!filming)throw new Error('Film capture requires ?film=1');
+    const p=BY_ID[id];if(place.id!==id)go(id);stopTour();
+    if(p.mode==='orbit'){
+      camera.position.fromArray(p.p);orb.setFromVector3(camera.position.clone().sub(orbitTarget));
+      orb.theta+=phase*.5;orb.radius*=1-phase*.16;orb.phi-=Math.sin(phase*Math.PI/2)*.08;
+    }else{
+      const shot=sampleTourShot(tourShots[id],p,phase);
+      camera.position.fromArray(shot.position);camera.lookAt(...shot.target);orientation();
+    }
+    now=time;update(0);
+    return {ja:p.ja,en:p.en};
+  },
+  tourCheck(){return Object.entries(tourShots).map(([id,shot])=>{
+    const p=BY_ID[id];let blocked=0,offGround=0;
+    for(let i=0;i<=400;i++){const {position:[x,y,z]}=sampleTourShot(shot,p,i/400);if(nav.blocked(x,z,y-EYE))blocked++;if(Math.abs(nav.height(x,z,y-EYE)-(y-EYE))>.1)offGround++;}
+    const end=shot.points.at(-1);return {id,travel:Math.hypot(end[0]-p.p[0],end[2]-p.p[2]),blocked,offGround};
+  });},look(x,y,z,tx,ty,tz){stopTour();mode='fly';camera.position.set(x,y,z);camera.lookAt(tx,ty,tz);orientation();updateButtons();},
   info(){return {ready:this.ready,mode,place:place.id,position:camera?.position.toArray(),yaw,pitch,drawCalls:renderer?.info.render.calls,triangles:renderer?.info.render.triangles,geometries:renderer?.info.memory.geometries,stats:world?.stats,blocks:nav?.blocks.length,surfaces:nav?.surfaces.length,blocked:nav?nav.blocked(camera.position.x,camera.position.z,camera.position.y-EYE):null};},
   move(dx,dz){stopTour();nav.move(camera.position,dx,dz);return camera.position.toArray();},
   placeCheck(){return PLACES.filter(p=>p.mode!=='orbit').map(p=>({id:p.id,blocked:nav.blocked(p.p[0],p.p[2],p.p[1]-EYE),ground:nav.height(p.p[0],p.p[2],p.p[1]-EYE),feet:p.p[1]-EYE}));},

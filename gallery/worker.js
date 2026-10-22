@@ -183,11 +183,32 @@ function wantedRange(header, size) {
   return end < offset ? 'bad' : { offset, length: end - offset + 1 };
 }
 
+// This small film ships with the static deployment; no separate R2 upload is needed.
+// ASSETS may return a full body for Range, so explicitly slice it for phone seeking.
+async function staticFilm(request, env) {
+  const url=new URL('/alhambra/movie/alhambra.mp4',request.url);
+  const input=new Headers(request.headers);input.delete('range');input.delete('if-range');
+  const asset=await env.ASSETS.fetch(new Request(url,{method:request.method,headers:input}));
+  if(asset.status!==200)return asset;
+  const headers=new Headers(asset.headers);headers.set('Content-Type','video/mp4');headers.set('Accept-Ranges','bytes');
+  const asked=request.headers.get('range'),condition=request.headers.get('if-range');
+  const match=!condition||condition===headers.get('etag')||condition===headers.get('last-modified');
+  if(request.method==='HEAD'||!asked||!match)return new Response(asset.body,{headers});
+  const data=await asset.arrayBuffer(),want=wantedRange(asked,data.byteLength);
+  headers.delete('content-encoding');
+  if(want==='bad'){headers.set('Content-Range',`bytes */${data.byteLength}`);headers.delete('content-length');return new Response(null,{status:416,headers});}
+  if(!want){headers.set('Content-Length',String(data.byteLength));return new Response(data,{headers});}
+  headers.set('Content-Range',`bytes ${want.offset}-${want.offset+want.length-1}/${data.byteLength}`);
+  headers.set('Content-Length',String(want.length));
+  return new Response(data.slice(want.offset,want.offset+want.length),{status:206,headers});
+}
+
 async function media(request, env) {
   if (request.method !== 'GET' && request.method !== 'HEAD') fail(405, 'method');
   const url = new URL(request.url);
   let key;
   try { key = decodeURIComponent(url.pathname.slice('/media/'.length)); } catch { fail(404, 'not_found'); }
+  if (key === 'movies/alhambra-film/video.mp4') return staticFilm(request, env);
   if (!MEDIA_KEY.test(key) || !env.MEDIA) fail(404, 'not_found');
   const name = key.split('/').pop();
   const head = request.method === 'HEAD';

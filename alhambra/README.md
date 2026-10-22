@@ -31,7 +31,7 @@ python3 -m http.server 8421 --directory .
 - 全景ではドラッグで回転、ホイールで距離を変更。
 - 場所メニューに15地点。URLの `?place=sisters#ja` などで直接到着。
 - 画面下の場所タイトル（「実際の写真」）をクリックすると、その場所の参考写真を表示。全15地点・28枚。複数枚ある場所では左右のボタン／矢印キーで切り替え、Esc・×・背景クリックで閉じる。同じ3D視点から見学を続けられる。
-- 自動案内は約14秒ごとに見学地点を切り替える。徒歩操作・ドラッグ・Escで停止。
+- 自動案内は全15地点を各4秒、約1分で巡って終了する。各地点では専用の移動経路に沿って約2.7〜10m前進・横移動・回り込みを行い、同時に見上げる対象を変える。全景は旋回しながら接近する（動きを減らす設定時は固定）。経路は徒歩と同じ衝突判定で検証する。徒歩操作・ドラッグ・Escで停止。
 - M：地図拡大、H：UIの表示切替。午後／夕暮れ、音声オン／オフ、日本語／英語。
 - タッチ端末は左下のスティックで移動、画面スワイプで視点。`?q=low` は軽量プロファイル。
 
@@ -93,3 +93,24 @@ The default is now evening (low warm sunlight, cool sky fill, long architectural
 ### Court of the Myrtles proportions
 
 The pool is 34 × 7.1 m and the myrtle hedges approximately 2.35 m wide × 1 m high, following the Patronato's [Patio de los Arrayanes](https://www.alhambra-patronato.es/patio-de-los-arrayanes). The previous pool was only 30.5 m long. The default view now stands on the south centre axis; the court itself has not been stretched. Side doors, their carved surrounds and paired upper lattice windows follow the bundled photograph, with approximate positions. Additional side chambers remain closed; existing east/west routes are preserved.
+
+## BGM
+
+右上の「♫」からアストゥリアスのギター向け簡略編曲（約5分37秒）を再生・一時停止できます。音量を保存し、曲末から自動リピートします。水の環境音は「≋」で独立して切り替えます。起動時に音楽の再生を試み、ブラウザーの自動再生制限がある場合は最初のクリック・キー操作で開始します。一時停止後は操作しても再開しません。場所リストは「見どころ」で開き、場所を選ぶと閉じます。制作・再生成手順は `tools/music/README.md`、公開クレジットは `public/credits.html#music` にあります。
+
+## 紹介動画
+
+ギャラリーの「紹介動画 · Film」から `public/film.html` を開きます。`public/movie/alhambra.mp4` は60秒、1280×720、24fps、H.264 / AAC、約13.3 MB。スマホのインライン再生と先頭からの逐次読み込みに対応します。映像は全15地点を4秒ずつ、アプリの移動経路で収録し、アストゥリアスの簡略ギター編曲をBGMにしています。
+
+再生成（Chrome・ffmpeg使用、追加パッケージ不要）:
+
+```sh
+node alhambra/tools/build_web.mjs
+node alhambra/tools/film/render.mjs scout /tmp/alhambra-film
+node alhambra/tools/film/render.mjs render /tmp/alhambra-film
+node gallery/build.mjs --skip-prebuild
+```
+
+中間フレームは `/tmp/alhambra-film`、公開MP4とポスターは `public/movie/` に保存します。`?film=1` のときだけ描画時計を固定し、各フレームを指定時刻で描きます。通常のアプリの自動案内には影響しません。
+
+Workersでは `/media/movies/alhambra-film/video.mp4` が同梱静的ファイルを配信し、Safari等の途中再生に必要なHTTP Range（206）に対応します。R2への別アップロードは不要です。単純な静的プレビューではMP4直リンクへフォールバックします（途中再生の可否はプレビューサーバーのRange対応に依存）。
