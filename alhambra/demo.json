@@ -36,39 +36,51 @@
   "shots": [
     {
       "path": "index.html",
-      "wait": 5500,
-      "eval": "ALH.go('lions')",
-      "after": 700
-    },
-    {
-      "path": "index.html",
-      "wait": 5500,
-      "eval": "ALH.go('myrtles')",
-      "after": 700
-    },
-    {
-      "path": "index.html",
-      "wait": 5500,
-      "eval": "ALH.go('sisters')",
-      "after": 700
-    },
-    {
-      "path": "index.html",
-      "wait": 5500,
+      "wait": 8000,
       "eval": "ALH.go('overview')",
-      "after": 700
+      "after": 1500
     },
     {
       "path": "index.html",
-      "wait": 5500,
+      "wait": 8000,
+      "eval": "ALH.go('justice')",
+      "after": 1500
+    },
+    {
+      "path": "index.html",
+      "wait": 8000,
       "eval": "ALH.go('alcazaba')",
-      "after": 700
+      "after": 1500
     },
     {
       "path": "index.html",
-      "wait": 5500,
+      "wait": 8000,
+      "eval": "ALH.go('carlos')",
+      "after": 1500
+    },
+    {
+      "path": "index.html",
+      "wait": 8000,
+      "eval": "ALH.go('lions')",
+      "after": 1500
+    },
+    {
+      "path": "index.html",
+      "wait": 8000,
+      "eval": "ALH.go('sisters')",
+      "after": 1500
+    },
+    {
+      "path": "index.html",
+      "wait": 8000,
+      "eval": "ALH.go('partal')",
+      "after": 1500
+    },
+    {
+      "path": "index.html",
+      "wait": 8000,
       "eval": "ALH.go('generalife')",
-      "after": 700
+      "after": 1500
     }
   ]
 }
