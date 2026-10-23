@@ -32,6 +32,10 @@ export async function detailMaterials(M){
  const foliage=atlas(images[5],[.01,.01,.98,.98]),fg=foliage.getContext('2d'),fd=fg.getImageData(0,0,foliage.width,foliage.height);for(let i=0;i<fd.data.length;i+=4){const l=fd.data[i]*.30+fd.data[i+1]*.59+fd.data[i+2]*.11;fd.data[i]=Math.min(255,(l-140)*1.35+165);fd.data[i+1]=Math.min(255,(l-140)*1.32+160);fd.data[i+2]=Math.min(255,(l-140)*1.25+149);}fg.putImageData(fd,0,0);make(M,'fineStucco',foliage,1.85,1.85,{relief:.018,ambient:.38});
  make(M,'terracotta',floor(),3.2,3.2,{relief:.007,rough:.86,ambient:.6});
  for(const [name,color,ambient] of [['sLime',0xe0d9ca,.38],['cLime',0xc8b79a,.38],['niche',0xd6c9b4,.40],['recess',0x76644d,.40],['screen',0x90816a,.55]]){const m=new THREE.MeshStandardMaterial({color,roughness:.92,side:THREE.DoubleSide});m.name=name;m.userData={scale:1,interiorAmbient:ambient};M[name]=m;}
+ // Hall of the Ambassadors: golden, deeper relief (bump scaled up), warmer indirect light.
+ const warm=(src,name,col,relief,ambient)=>{const m=M[src].clone();m.name=name;m.color.set(col);if(m.bumpMap)m.bumpScale=(M[src].bumpScale||.02)*relief;m.roughness=Math.min(1,m.roughness*.92);m.userData={...M[src].userData,interiorAmbient:ambient};M[name]=m;};
+ warm('fineStucco','ambStucco',0xffdca6,3.2,.78);warm('cCarving','ambCarving',0xffe0a6,3.0,.78);warm('cEpigraphy','ambEpigraphy',0xffdeaa,2.6,.78);
+ warm('cLime','ambLime',0xe9c08a,1,.6);warm('sBorder','ambBorder',0xf0d6a8,1,.6);
  M.nicheCell=M.fineStucco.clone();M.nicheCell.name='nicheCell';M.nicheCell.vertexColors=true;M.nicheCell.map=M.fineStucco.map.clone();M.nicheCell.map.repeat.set(.23,.23);M.nicheCell.map.offset.set(.10,.10);M.nicheCell.bumpMap=null;M.nicheCell.color.set(0xeee7d8);
 }
 // Preserve CSM's hook. Attenuate indirect light only, keeping the sun and the

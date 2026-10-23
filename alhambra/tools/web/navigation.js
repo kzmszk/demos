@@ -22,7 +22,23 @@ export function modelHeight(x,z) {
   return Math.max(plateau, -45+77*g);
 }
 export class Navigation {
-  constructor(){ this.blocks=[]; this.surfaces=[]; this.limit=950; }
+  constructor(){ this.blocks=[]; this.surfaces=[]; this.limit=1900; this.foot=null; }
+  // City building footprints (old town): a 16 m grid of polygon indices.
+  setFootprints(polys){
+    const C=16,grid=new Map();
+    polys.forEach((p,i)=>{let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9;for(let k=0;k<p.length;k+=2){x0=Math.min(x0,p[k]);x1=Math.max(x1,p[k]);z0=Math.min(z0,p[k+1]);z1=Math.max(z1,p[k+1]);}
+      for(let gx=Math.floor((x0-1)/C);gx<=Math.floor((x1+1)/C);gx++)for(let gz=Math.floor((z0-1)/C);gz<=Math.floor((z1+1)/C);gz++){const key=gx*100000+gz;if(!grid.has(key))grid.set(key,[]);grid.get(key).push(i);}});
+    this.foot={polys,grid,C};
+  }
+  inFootprint(x,z,r){
+    const f=this.foot;if(!f)return false;const list=f.grid.get(Math.floor(x/f.C)*100000+Math.floor(z/f.C));if(!list)return false;
+    for(const i of list){const p=f.polys[i],n=p.length;let inside=false;
+      for(let a=0,b=n-2;a<n;b=a,a+=2){const ax=p[a],az=p[a+1],bx=p[b],bz=p[b+1];
+        if(((az>z)!==(bz>z))&&x<(bx-ax)*(z-az)/(bz-az)+ax)inside=!inside;
+        const dx=bx-ax,dz=bz-az,t=Math.max(0,Math.min(1,((x-ax)*dx+(z-az)*dz)/(dx*dx+dz*dz||1)));if(Math.hypot(ax+dx*t-x,az+dz*t-z)<r)return true;}
+      if(inside)return true;}
+    return false;
+  }
   box(x,z,w,d,bottom=0,top=5,angle=0){this.blocks.push({x,z,w:w/2,d:d/2,bottom,top,c:Math.cos(angle),s:Math.sin(angle)});}
   floor(x,z,w,d,y=0,angle=0){this.surfaces.push({x,z,w:w/2,d:d/2,y,c:Math.cos(angle),s:Math.sin(angle)});}
   ramp(x,z,w,d,y0,y1,angle=0){this.surfaces.push({x,z,w:w/2,d:d/2,y:y0,y1,c:Math.cos(angle),s:Math.sin(angle)});}
@@ -34,6 +50,7 @@ export class Navigation {
   }
   blocked(x,z,feet,r=.23){
     if(Math.abs(x)>this.limit || Math.abs(z)>this.limit) return true;
+    if(this.foot&&this.inFootprint(x,z,r))return true;
     for(const b of this.blocks){if(feet+1.4<b.bottom || feet>=b.top-.12) continue;const [u,v]=this.local(b,x,z);if(Math.abs(u)<b.w+r&&Math.abs(v)<b.d+r)return true;}
     return false;
   }

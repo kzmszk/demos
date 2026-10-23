@@ -15,7 +15,8 @@ import dem, osm
 from frame import E0, PUBLIC, ASSETS
 
 # x0, x1, z0, z1, spacing. Each ring has a hole = the extent of the previous ring.
-RINGS = [(-700, 600, -460, 400, 5), (-3000, 2400, -2400, 2200, 20), (-12000, 30000, -12000, 20000, 120), (-30000, 42000, -30000, 36000, 400)]
+RINGS = [(-1200, 660, -1000, 500, 5),  # ring 0 spans the walkable old town too
+          (-3000, 2400, -2400, 2200, 20), (-12000, 30000, -12000, 20000, 120), (-30000, 42000, -30000, 36000, 400)]
 
 def perimeter():
     ctx = json.load(open(f'{PUBLIC}/data/context.json'))

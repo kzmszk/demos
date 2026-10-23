@@ -113,6 +113,12 @@ Facades are drawn in the shader from a canvas atlas of 10 styles, one storey at 
 
 The outdoor monuments now live in `tools/web/heroes/`: `alcazaba.js`, `carlos.js`, `partal.js`, `gates.js` (Justicia, Vino, Aljibes), `walls.js` (enclosure and towers), `grounds.js` (Calle Real, Santa María, Parador, Secano) and `generalife.js`. Each module exports `materials(M)` and `build(b, ctx)`. A failing module is logged and skipped.
 
+Start-up is staged. The palaces and the monument of the arrival place are built behind the loading screen, so the first view takes ≈ 4.7 s here instead of 13 s. The other monuments (nearest first), the city and the trees then load and compile while the visitor looks around. `ALH.shown` marks the first view and `ALH.ready` the complete scene. Procedural textures write their speckle in one pixel pass, and the shared materials use GPU bump maps instead of CPU-computed normal maps.
+
+The old town is walkable. Terrain ring 0 (5 m) now covers x −1200…660 and z −1000…500. `public/data/citynav.bin` holds the building footprints for collision, about 11,600 polygons in a 16 m grid (`Navigation.setFootprints`). Four old-town places are added: Mirador de San Nicolás, Paseo de los Tristes, Plaza Nueva and Plaza de Bib-Rambla. Their heights are resolved on the terrain, and generic trees are kept out of their sight lines. The guided tour and the film keep the original 15 places. Dragging now moves the view with the hand.
+
+The Hall of the Ambassadors uses golden, higher-relief variants of the shared stucco materials (`amb*`, via `Builder.remap`) and warm window light.
+
 Rendering load: shadow maps are re-rendered only when the camera or the light moves. The pixel ratio adapts between 1.0 and 1.6 (0.7–1.0 on phones) to keep frames under ~24 ms; `?pr=1` disables this. `ALH.bench()` times frames with `gl.finish`, and `?timing=1` logs the start-up phases. The texture credits of the hero modules are collected by `python3 tools/hero_credits.py`. Known gap: the Generalife model stands about 35 m south of its OSM position, inherited from the first version.
 
 ### Evening light, horizon and load (2026-10-23)

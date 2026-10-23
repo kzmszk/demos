@@ -142,5 +142,5 @@ export async function loadCity(url,scene,low){
       mesh.matrixAutoUpdate=false;mesh.updateMatrix();group.add(mesh);triangles+=e.ni/3;
     }
   }
-  scene.add(group);return {group,triangles};
+  scene?.add(group);return {group,triangles};
 }

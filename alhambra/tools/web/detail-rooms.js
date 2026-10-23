@@ -20,13 +20,17 @@ function window(b,f,u,y,w,h,v=.05){screenMaterial(b);const [x,z]=f.at(u,v),sprin
  box(b,f,u,y-.10,v,w+.26,.1,.30,trim);
  const points=[];for(let i=0;i<=20;i++){const a=i*PI/20;const p=f.at(u+Math.cos(a)*(w/2+.055),v-.035);points.push([p[0],y+spring+Math.sin(a)*(w/2+.055),p[1]]);}for(let i=1;i<points.length;i++)b.line(points[i-1],points[i],.045,trim);
 }
-function portalLight(b,f,y,power=12){const [x,z]=f.at(0,-.75);const l=new THREE.PointLight(0xe3ebff,power,16,1.6);l.position.set(x,y,z);b.root.add(l);}
+function portalLight(b,f,y,power=12,color=0xe3ebff){const [x,z]=f.at(0,-.75);const l=new THREE.PointLight(color,power,16,1.6);l.position.set(x,y,z);b.root.add(l);}
 function sunPatch(b,cx,cz,r,y){
  // A narrow, room-local shadow camera resolves the actual perforated screens.
  // Static geometry: update once rather than rendering the palace a second time each frame.
  const l=new THREE.SpotLight(0xffe4b8,220,30,.54,.30,1.5);l.position.set(cx-r-2,y+2,cz-2);l.target.position.set(cx+2,.1,cz+1);l.castShadow=true;l.shadow.mapSize.set(1024,1024);l.shadow.bias=-.00015;l.shadow.normalBias=.018;l.shadow.camera.near=.3;l.shadow.camera.far=30;l.shadow.autoUpdate=false;l.shadow.needsUpdate=true;b.root.add(l,l.target);
 }
-export function detailedComares(b){const cx=1.5,cz=-34.8,r=5.75;
+// The Hall of the Ambassadors reads golden in the photographs: warm, deeply carved stucco lit by the
+// low sun through the window bays. Its surfaces use warm, higher-relief variants of the shared materials.
+const AMB={fineStucco:'ambStucco',cCarving:'ambCarving',cEpigraphy:'ambEpigraphy',cLime:'ambLime',sBorder:'ambBorder',sLime:'ambLime'};
+export function detailedComares(b){b.remap=AMB;trim='ambLime';try{comares(b);}finally{b.remap=null;trim='sLime';}}
+function comares(b){const cx=1.5,cz=-34.8,r=5.75;
  b.floor(cx,cz,11.5,11.5,0,'terracotta');
  for(let side=0;side<4;side++){
   const f=frame(cx,cz,r,side*PI/2);
@@ -47,7 +51,7 @@ export function detailedComares(b){const cx=1.5,cz=-34.8,r=5.75;
   for(let k=0;k<6;k++)box(b,f,(k-2.5)*2.05,8.9,0,k===0||k===5?.64:1.01,2.5,.6,'fineStucco');
   band(b,f,11.15,11.55,'cedar',.35,-.44);
   for(let k=0;k<72;k++)box(b,f,-5.6+k*.158,10.95,-.42,.075,.18,.13,'cLime');
-  portalLight(b,f,9.4,6);
+  portalLight(b,f,9.4,6,0xffcf8a);
  }
  // Hip ceiling in three inclinations, with world-scale UVs for the cedar inlay.
  const radii=[5.80,5.32,2.6,.5],ys=[11.5,12.5,16.65,17.75];

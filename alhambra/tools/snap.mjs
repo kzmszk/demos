@@ -41,7 +41,7 @@ await send('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceSc
 if(touch)await send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:1});
 await send('Page.navigate', { url: `${base}/index.html?${query}` });
 const t0 = Date.now();
-for (;;) { await sleep(300); const r = await ev('window.ALH && window.ALH.ready'); if (r) break; if (Date.now() - t0 > 60000) throw new Error('Timeout waiting for scene'); }
+let shownAt=0;for (;;) { await sleep(300); if(!shownAt&&await ev('!!(window.ALH && window.ALH.shown)')){shownAt=Date.now()-t0;console.log('first view after',shownAt,'ms');} const r = await ev('window.ALH && window.ALH.ready'); if (r) break; if (Date.now() - t0 > 60000) throw new Error('Timeout waiting for scene'); }
 console.log('ready after', Date.now() - t0, 'ms');
 const arrivals=await ev('ALH.placeCheck()');
 console.log('arrival checks', JSON.stringify(arrivals));

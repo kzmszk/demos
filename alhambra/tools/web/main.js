@@ -53,7 +53,7 @@ function localize(){
   document.querySelector('.back').setAttribute('aria-label',lang==='ja'?'ギャラリーに戻る':'Return to gallery');
   document.querySelector('.modes').setAttribute('aria-label',lang==='ja'?'移動方法':'Travel mode');
   document.querySelector('#help .close').setAttribute('aria-label',lang==='ja'?'閉じる':'Close');
-  const groupNames={nasrid:['ナスル朝宮殿','Nasrid palaces'],fortress:['アルカサバ','The Alcazaba'],gardens:['水と庭園','Water & gardens'],grounds:['宮殿と敷地','Palace & grounds']};
+  const groupNames={nasrid:['ナスル朝宮殿','Nasrid palaces'],fortress:['アルカサバ','The Alcazaba'],gardens:['水と庭園','Water & gardens'],grounds:['宮殿と敷地','Palace & grounds'],city:['グラナダ旧市街','Old Granada']};
   $('placeList').replaceChildren();let group='';
   for(const p of PLACES){if(p.group!==group){group=p.group;const label=document.createElement('div');label.className='place-group';label.textContent=groupNames[group][lang==='ja'?0:1];$('placeList').append(label);}const button=document.createElement('button');button.className='place';button.dataset.id=p.id;button.innerHTML=`<span class="num">${p.no}</span><span>${p[lang]}</span>`;button.addEventListener('click',()=>{stopTour();go(p.id);closePlaces();});$('placeList').append(button);}
   caption(place);references?.localize();music.localize();updateButtons();drawMap();
@@ -123,7 +123,7 @@ function wire(){
   $('map').onclick=e=>{const r=e.currentTarget.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*780-305,z=(e.clientY-r.top)/r.height*500-140;const p=PLACES.filter(p=>p.id!=='overview').sort((a,b)=>Math.hypot(a.p[0]-x,a.p[2]-z)-Math.hypot(b.p[0]-x,b.p[2]-z))[0];if(Math.hypot(p.p[0]-x,p.p[2]-z)<60)go(p.id);};
   const c=$('scene');
   c.addEventListener('pointerdown',e=>{if(e.button!==0)return;stopTour();c.focus();pointer={id:e.pointerId,x:e.clientX,y:e.clientY};c.setPointerCapture(e.pointerId);});
-  c.addEventListener('pointermove',e=>{if(!pointer||e.pointerId!==pointer.id)return;const dx=e.clientX-pointer.x,dy=e.clientY-pointer.y;pointer.x=e.clientX;pointer.y=e.clientY;if(mode==='orbit'){orb.theta-=dx*.004;orb.phi=clamp(orb.phi+dy*.004,.12,1.55);}else{yaw-=dx*.003;pitch=clamp(pitch-dy*.003,-1.48,1.48);camera.rotation.set(pitch,yaw,0,'YXZ');}});
+  c.addEventListener('pointermove',e=>{if(!pointer||e.pointerId!==pointer.id)return;const dx=e.clientX-pointer.x,dy=e.clientY-pointer.y;pointer.x=e.clientX;pointer.y=e.clientY;if(mode==='orbit'){orb.theta-=dx*.004;orb.phi=clamp(orb.phi+dy*.004,.12,1.55);}else{yaw+=dx*.003;pitch=clamp(pitch+dy*.003,-1.48,1.48);/* drag the scene: the view follows the hand */camera.rotation.set(pitch,yaw,0,'YXZ');}});
   for(const ev of ['pointerup','pointercancel','lostpointercapture'])c.addEventListener(ev,()=>{pointer=null;});
   c.addEventListener('wheel',e=>{e.preventDefault();if(mode==='orbit'){stopTour();orb.radius=clamp(orb.radius*Math.exp(e.deltaY*.001),30,1200);}}, {passive:false});
   window.addEventListener('keydown',e=>{
@@ -202,33 +202,64 @@ async function init(){
   skyCube=new THREE.WebGLCubeRenderTarget(256,{type:THREE.HalfFloatType});skyCubeCamera=new THREE.CubeCamera(10,420000,skyCube);skyCubeCamera.position.set(0,8,0);camera.position.fromArray(place.p);camera.lookAt(...place.t);
   sky=new Sky();sky.scale.setScalar(560000);sky.renderOrder=-10;sky.material.uniforms.rayleigh.value=.9;sky.material.uniforms.mieCoefficient.value=.003;farScene.add(sky);
   hemi=new THREE.HemisphereLight(0xd7e9f1,0xb4a58a,1.45);scene.add(hemi);
-  nav=new Navigation();materialsMap=materials();await detailMaterials(materialsMap);await extendedMaterials(materialsMap);mark('base materials');for(const h of HEROES){try{await h.materials(materialsMap);}catch(e){console.error('hero materials failed',e);}mark('materials '+(h.name||HEROES.indexOf(h)));}
+  nav=new Navigation();materialsMap=materials();mark('canvas materials');await detailMaterials(materialsMap);mark('detail materials');await extendedMaterials(materialsMap);mark('base materials');
   $('loadingText').textContent=lang==='ja'?'柱廊と庭園をつないでいます':'Connecting the colonnades and gardens';
   await new Promise(r=>setTimeout(r,0));
-  const response=await fetch('data/context.json');if(!response.ok)throw new Error('The local map data could not be loaded');const context=await response.json();
-  const terrain=await loadTerrain('data/terrain.bin');setTerrainSampler(terrainSampler(terrain));buildTerrain(terrain,scene,farScene,low);mark('terrain');await buildRivers('data/rivers.json',scene);await loadCity('data/city.bin',scene,low);
-  const root=new THREE.Group();scene.add(root);const b=new Builder(root,materialsMap,nav),water=[],lights=[];
-  context.low=low;exterior(b,context,low);
-  // A failing hero module is reported but does not take the whole site down.
-  const safe=(name,f)=>{try{f();}catch(e){console.error(`hero ${name} failed`,e);b.offset=[0,0,0];}};
-  safe('walls',()=>walls.build(b,context));safe('alcazaba',()=>alcazaba.build(b,context));safe('gates',()=>gates.build(b,context));nasrid(b,water,lights);gardens(b,water);
-  safe('partal',()=>partal.build(b,water,context));safe('carlos',()=>carlos.build(b,context));safe('grounds',()=>grounds.build(b,context));safe('generalife',()=>generalife.build(b,water,context));landscapeDetails(b);palaceDetails(b);b.finish();world={root,stats:b.stats,context};
+  const response=await fetch('data/context.json');if(!response.ok)throw new Error('The local map data could not be loaded');const context=await response.json();context.low=low;
+  const terrain=await loadTerrain('data/terrain.bin');setTerrainSampler(terrainSampler(terrain));buildTerrain(terrain,scene,farScene,low);mark('terrain');await buildRivers('data/rivers.json',scene);
+  {let buf=await (await fetch('data/citynav.bin')).arrayBuffer();const h=new Uint8Array(buf,0,2);if(h[0]===0x1f&&h[1]===0x8b)buf=await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+   const dv=new DataView(buf),n=dv.getUint32(0,true),polys=[];let o=4;for(let i=0;i<n;i++){const k=dv.getUint32(o,true);o+=4;polys.push(new Float32Array(buf.slice(o,o+k*8)));o+=k*8;}nav.setFootprints(polys);}
+  for(const p of PLACES)if(p.ground){p.p[1]+=terrainHeight(p.p[0],p.p[2]);p.t[1]+=terrainHeight(p.t[0],p.t[2]);}
+  if(place.ground){camera.position.fromArray(place.p);camera.lookAt(...place.t);}
+  // Stage 1: the palaces (and the monument of the arrival place) behind the loading screen.
+  // Stage 2: the other monuments nearest first, then the city and the trees, while the visitor looks around.
+  const root=new THREE.Group();scene.add(root);const water=[],lights=[];
+  const b=new Builder(root,materialsMap,nav);
+  exterior(b,context,low);nasrid(b,water,lights);gardens(b,water);landscapeDetails(b);palaceDetails(b);b.finish();world={root,stats:b.stats,context};
   csm=new CSM({camera,parent:scene,cascades:low?2:3,maxFar:low?160:280,mode:'practical',shadowMapSize:low?1024:2048,lightDirection:new THREE.Vector3(-1,-1,-1),lightIntensity:3.3,lightMargin:180});
   for(const l of csm.lights){l.shadow.bias=-.00008;l.shadow.normalBias=.06;}
-  for(const m of Object.values(materialsMap))if(m.isMeshStandardMaterial){csm.setupMaterial(m);interiorShading(m);}
-  for(const w of water){
+  const prepared=new Set();
+  const prepare=()=>{for(const m of Object.values(materialsMap))if(m.isMeshStandardMaterial&&!prepared.has(m)){prepared.add(m);csm.setupMaterial(m);interiorShading(m);}};
+  const addWater=list=>{for(const w of list){
     const m=materialsMap.water.clone();m.opacity=w.reflect?.28:.7;
     m.onBeforeCompile=shader=>{shader.uniforms.uTime={value:0};shader.fragmentShader='uniform float uTime;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <normal_fragment_begin>','#include <normal_fragment_begin>\n normal.x += sin(gl_FragCoord.x * .05 + uTime*.6) * .025; normal.z += cos(gl_FragCoord.y * .06 - uTime*.4) * .025; normal = normalize(normal);');m.userData.shader=shader;};
     const mesh=new THREE.Mesh(new THREE.PlaneGeometry(w.w,w.d),m);mesh.rotation.x=-Math.PI/2;mesh.position.set(w.x,w.y+.015,w.z);mesh.receiveShadow=true;scene.add(mesh);waterObjects.push(mesh);
     if(w.reflect){const reflector=new Reflector(new THREE.PlaneGeometry(w.w,w.d),{textureWidth:low?512:1024,textureHeight:low?512:1024,color:0xb2baba,clipBias:.002});reflector.rotation.x=-Math.PI/2;reflector.position.set(w.x,w.y,w.z);{const draw=reflector.onBeforeRender;reflector.onBeforeRender=(r,s,c,...rest)=>{const bg=s.background;s.background=skyCube.texture;draw.call(reflector,r,s,c,...rest);s.background=bg;};}scene.add(reflector);reflectors.push(reflector);reflector.visible=false;}
+  }list.length=0;};
+  // A failing hero module is reported but does not take the whole site down.
+  const heroBuild={walls:bb=>walls.build(bb,context),alcazaba:bb=>alcazaba.build(bb,context),gates:bb=>gates.build(bb,context),partal:bb=>partal.build(bb,water,context),carlos:bb=>carlos.build(bb,context),grounds:bb=>grounds.build(bb,context),generalife:bb=>generalife.build(bb,water,context)};
+  const heroModule={walls,alcazaba,gates,partal,carlos,grounds,generalife};
+  const heroAt={walls:[60,180],alcazaba:[-185,20],gates:[-80,90],carlos:[-22,52],partal:[110,10],grounds:[150,140],generalife:[370,-50]};
+  const firstHeroes={alcazaba:['alcazaba','walls'],vela:['alcazaba','walls'],carlos:['carlos'],partal:['partal'],justice:['walls','gates'],generalife:['generalife'],overview:['walls']}[place.id]||[];
+  const matsDone=new Set();
+  async function loadHero(name,parent,compile){
+    const g=new THREE.Group();g.name='hero:'+name;
+    try{for(const dep of name==='walls'?['gates','walls']:[name])if(!matsDone.has(dep)){matsDone.add(dep);await heroModule[dep].materials(materialsMap);}const bb=new Builder(g,materialsMap,nav);heroBuild[name](bb);bb.finish();}catch(e){console.error(`hero ${name} failed`,e);return;}
+    prepare();if(compile)await renderer.compileAsync(g,camera,scene);parent.add(g);addWater(water);mark('hero '+name);
   }
-  tourShots=buildTourShots(PLACES,nav);
-  mark('build');// Generic trees on the Generalife hill give way to the modelled gardens, walls and buildings.
-  const onModel=(x,z)=>x>300&&x<460&&z>-160&&z<220&&(nav.blocked(x,z,terrainHeight(x,z),2)||nav.surfaces.some(f=>{const [u,v]=nav.local(f,x,z);return Math.abs(u)<=f.w+2&&Math.abs(v)<=f.d+2;}));
-  trees=await loadTrees('data/trees.bin',renderer,scene,terrainHeight,low,onModel);
-  mark('trees');setLight();wire();localize();go(place.id);await renderer.compileAsync(scene,camera);mark('compile');
+  for(const h of firstHeroes)await loadHero(h,scene,false);
+  prepare();addWater(water);
+  tourShots=buildTourShots(PLACES,nav);mark('stage 1 build');
+  setLight();wire();localize();go(place.id);await renderer.compileAsync(scene,camera);mark('compile');
+  const rest=Object.keys(heroAt).filter(h=>!firstHeroes.includes(h)).sort((a,c)=>Math.hypot(heroAt[a][0]-place.p[0],heroAt[a][1]-place.p[2])-Math.hypot(heroAt[c][0]-place.p[0],heroAt[c][1]-place.p[2]));
+  // gates.js stands its feet on the ground registered by walls.js
+  if(rest.includes('gates')&&rest.includes('walls')&&rest.indexOf('walls')>rest.indexOf('gates')){rest.splice(rest.indexOf('walls'),1);rest.splice(rest.indexOf('gates'),0,'walls');}
+  async function stage2(){
+    await new Promise(r=>setTimeout(r,600));
+    for(const h of rest){await new Promise(r=>setTimeout(r,30));await loadHero(h,scene,true);shadowDirty=true;}
+    tourShots=buildTourShots(PLACES,nav);
+    const city=await loadCity('data/city.bin',null,low);await renderer.compileAsync(city.group,camera,scene);scene.add(city.group);mark('city');
+    // Generic trees on the Generalife hill give way to the modelled gardens, walls and buildings.
+    const onModel=(x,z)=>x>300&&x<460&&z>-160&&z<220&&(nav.blocked(x,z,terrainHeight(x,z),2)||nav.surfaces.some(f=>{const [u,v]=nav.local(f,x,z);return Math.abs(u)<=f.w+2&&Math.abs(v)<=f.d+2;}));
+    // Keep the sight lines of the old-town viewpoints open (no generic tree right in front of the visitor).
+    const views=PLACES.filter(p=>p.ground).map(p=>{const dx=p.t[0]-p.p[0],dz=p.t[2]-p.p[2],l=Math.hypot(dx,dz);return [p.p[0],p.p[2],dx/l,dz/l];});
+    const inView=(x,z)=>views.some(([px,pz,dx,dz])=>{const u=(x-px)*dx+(z-pz)*dz,v=Math.abs((x-px)*dz-(z-pz)*dx);return u>-4&&u<90&&v<6+u*.35;});
+    trees=await loadTrees('data/trees.bin',renderer,scene,terrainHeight,low,(x,z)=>onModel(x,z)||inView(x,z));mark('trees');
+    shadowDirty=true;window.ALH.ready=true;
+  }
+  window.ALH.shown=true;
   $('loading').classList.add('done');setTimeout(()=>$('loading')?.remove(),1000);
-  window.ALH.ready=true;
+  stage2().catch(e=>console.error('stage 2 failed',e));
   // Dynamic resolution: keep slower GPUs (laptops, phones) near 45-60 fps by trading pixel density.
   const maxPR=Math.min(devicePixelRatio,low?1:1.6),minPR=Math.min(maxPR,low?.7:1);let pr=maxPR,acc=0,frames=0;
   function adapt(ms){if(filming||query.has('pr'))return;acc+=ms;if(++frames<40)return;const avg=acc/frames;acc=frames=0;
@@ -258,6 +289,7 @@ window.ALH={ready:false,go,
   heavy(){const rows=[];scene.traverse(o=>{if(!o.isMesh)return;const g=o.geometry,t=(g.index?g.index.count:g.attributes.position.count)/3,n=o.isInstancedMesh?o.count:1;rows.push([o.name||g.type,Array.isArray(o.material)?'multi':o.material.name||o.material.type,Math.round(t),n,Math.round(t*n),o.castShadow]);});return rows.sort((a,b)=>b[4]-a[4]).slice(0,25);},
   pick(x,y){camera.updateMatrixWorld();const r=new THREE.Raycaster();r.setFromCamera(new THREE.Vector2(x*2-1,1-y*2),camera);return r.intersectObjects(scene.children,true).slice(0,3).map(h=>[h.object.material.name,h.object.geometry.type,+h.distance.toFixed(2),h.point.toArray().map(v=>+v.toFixed(2))]);},
   debug(){return {scene,farScene,camera,renderer};},
+  THREE,ground:(x,z)=>nav.height(x,z),blockedAt:(x,z,g)=>nav.blocked(x,z,g),blockedAtR:(x,z,g,r)=>nav.blocked(x,z,g,r),
   bench(n=30){const gl=renderer.getContext();render();gl.finish();const t=performance.now();for(let i=0;i<n;i++){csm.update();renderer.shadowMap.needsUpdate=true;render();}gl.finish();return +((performance.now()-t)/n).toFixed(2);},
   fps(ms=3000){return new Promise(res=>{let n=0,worst=0,prev=performance.now();const t0=prev;const f=t=>{n++;worst=Math.max(worst,t-prev);prev=t;if(t-t0<ms)requestAnimationFrame(f);else res({fps:+(n/((t-t0)/1000)).toFixed(1),worstMs:+worst.toFixed(1),calls:renderer.info.render.calls,tris:renderer.info.render.triangles});};requestAnimationFrame(f);});},
   far(){let n=0,t=0;farScene.traverse(o=>{if(o.isMesh){n++;t+=o.geometry.index?o.geometry.index.count/3:0;}});return {meshes:n,tris:t,ground:[terrainHeight(20800,13400),terrainHeight(24700,13800),terrainHeight(-260,24)]};},

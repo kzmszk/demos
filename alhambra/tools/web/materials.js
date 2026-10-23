@@ -4,7 +4,12 @@ export function random(seed=42){return ()=>{seed=(Math.imul(1664525,seed)+101390
 function canvas(size=1024){const c=document.createElement('canvas');c.width=c.height=size;return [c,c.getContext('2d',{willReadFrequently:true})];}
 function polygon(ctx,pts,fill,stroke='#d4c6a5',width=2){ctx.beginPath();pts.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}}
 function star(cx,cy,r,n=8,inner=.46,rot=-Math.PI/2){return Array.from({length:n*2},(_,i)=>{const a=rot+i*Math.PI/n,rr=i%2?r*inner:r;return [cx+Math.cos(a)*rr,cy+Math.sin(a)*rr];});}
-function noise(ctx,size,seed,amount=8,n=65000){const rand=random(seed);for(let i=0;i<n;i++){const v=rand()>.5?255:0;ctx.fillStyle=`rgba(${v},${v},${v},${rand()*amount/100})`;ctx.fillRect(rand()*size,rand()*size,1+rand()*3,1+rand()*3);}}
+function noise(ctx,size,seed,amount=8,n=65000){
+  // Speckle in one pass over the pixels (was tens of thousands of fillRect calls).
+  const rand=random(seed),img=ctx.getImageData(0,0,size,size),d=img.data;
+  for(let i=0;i<n;i++){const v=rand()>.5?255:0,a=rand()*amount/100,x0=rand()*size|0,y0=rand()*size|0,w=1+rand()*3|0,h=1+rand()*3|0;
+    for(let y=y0;y<Math.min(size,y0+h);y++)for(let x=x0;x<Math.min(size,x0+w);x++){const k=(y*size+x)*4;d[k]+=(v-d[k])*a;d[k+1]+=(v-d[k+1])*a;d[k+2]+=(v-d[k+2])*a;}}
+  ctx.putImageData(img,0,0);}
 function tex(c,srgb=true){const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.colorSpace=srgb?THREE.SRGBColorSpace:THREE.NoColorSpace;t.anisotropy=8;return t;}
 function normal(c,strength=3){const w=c.width,h=c.height,ctx=c.getContext('2d'),src=ctx.getImageData(0,0,w,h).data;const [out,oc]=canvas(w);const data=oc.createImageData(w,h);const val=(x,y)=>src[(((y+h)%h)*w+(x+w)%w)*4];for(let y=0;y<h;y++)for(let x=0;x<w;x++){const dx=(val(x-1,y)-val(x+1,y))*strength/255,dy=(val(x,y-1)-val(x,y+1))*strength/255,l=Math.hypot(dx,dy,1),k=(y*w+x)*4;data.data[k]=(dx/l*.5+.5)*255;data.data[k+1]=(dy/l*.5+.5)*255;data.data[k+2]=(1/l*.5+.5)*255;data.data[k+3]=255;}oc.putImageData(data,0,0);return tex(out,false);}
 
@@ -53,7 +58,7 @@ function frieze(){const [c,g]=canvas();g.fillStyle='#bdab88';g.fillRect(0,0,1024
 export function materials(){
   const M={};const make=(name,color,roughness=0.85,texture=null,scale=1,relief=.15)=>{
     const m=new THREE.MeshStandardMaterial({color,roughness,metalness:0});m.name=name;m.userData.scale=scale;
-    if(texture){m.map=tex(texture);if(relief){m.normalMap=normal(texture,3);m.normalScale.set(relief,relief);}}
+    if(texture){m.map=tex(texture);if(relief){m.bumpMap=m.map;m.bumpScale=relief*.05;}} // GPU bump from the colour: no CPU normal-map pass at start-up
     M[name]=m;return m;
   };
   make('plaster',0xfff4dd,.92,plaster(),1.25,.55);

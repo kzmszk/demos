@@ -6,15 +6,18 @@ export class Builder {
   constructor(root,mats,nav){this.root=root;this.m=mats;this.nav=nav;this.merged=new Map();this.instances=new Map();this.cache=new Map();this.offset=[0,0,0];this.zone='core';this.stats={columns:0,muqarnas:0,lions:0};}
   geometry(key,fn){if(!this.cache.has(key))this.cache.set(key,fn());return this.cache.get(key);}
   add(g,mat,pos=[0,0,0],scale=[1,1,1],rot=0){
+    if(this.remap&&this.remap[mat])mat=this.remap[mat];
     const key=this.zone+'|'+g.uuid+'|'+mat;
     if(!this.instances.has(key))this.instances.set(key,{g,m:this.m[mat],mat,transforms:[]});
     dummy.position.set(pos[0]+this.offset[0],pos[1]+this.offset[1],pos[2]+this.offset[2]);dummy.scale.set(...scale);dummy.rotation.set(0,rot,0);dummy.updateMatrix();this.instances.get(key).transforms.push(dummy.matrix.clone());
   }
   unique(g,mat,pos=[0,0,0],rot=0){
+    if(this.remap&&this.remap[mat])mat=this.remap[mat];
     dummy.position.set(pos[0]+this.offset[0],pos[1]+this.offset[1],pos[2]+this.offset[2]);dummy.scale.set(1,1,1);dummy.rotation.set(0,rot,0);dummy.updateMatrix();g.applyMatrix4(dummy.matrix);g.clearGroups();
     const k=this.zone+'|'+mat;if(!this.merged.has(k))this.merged.set(k,{m:this.m[mat],list:[]});this.merged.get(k).list.push(g);
   }
   box(x,y,z,w,h,d,mat='ivory',rot=0,block=false){
+    if(this.remap&&this.remap[mat])mat=this.remap[mat];
     const unit=this.m[mat].userData.scale||1;const key=`box:${w.toFixed(3)}:${h.toFixed(3)}:${d.toFixed(3)}:${unit}`;
     const g=this.geometry(key,()=>{const g=new THREE.BoxGeometry(w,h,d),uv=g.attributes.uv;for(let i=0;i<24;i++){const face=Math.floor(i/4),sx=(face<2?d:w)/unit,sy=(face===2||face===3?d:h)/unit;uv.setXY(i,uv.getX(i)*sx,uv.getY(i)*sy);}return g;});
     this.add(g,mat,[x,y+h/2,z],[1,1,1],rot);

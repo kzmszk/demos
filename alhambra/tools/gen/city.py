@@ -391,8 +391,26 @@ def terrace(pcs):
                 out.append({**pc, 'g': q, 'id': pc['id'] * 7 + k})
     return out
 
+NAV_EXT = (-1200, 660, -1000, 500)
+
+def write_nav(pcs):
+    """Building footprints in the walkable old town, for collision (float32 xz rings)."""
+    x0, x1, z0, z1 = NAV_EXT; parts = []; n = 0
+    for pc in pcs:
+        g = pc['g']; c = g.centroid
+        if not (x0 < c.x < x1 and z0 < c.y < z1) or pc['h'] < 2: continue
+        g = g.buffer(-.15).simplify(.3)
+        for q in ([g] if g.geom_type == 'Polygon' else list(getattr(g, 'geoms', []))):
+            if q.geom_type != 'Polygon' or q.area < 4: continue
+            pts = np.array(q.exterior.coords[:-1], '<f4')
+            parts.append(struct.pack('<I', len(pts)) + pts.tobytes()); n += 1
+    raw = struct.pack('<I', n) + b''.join(parts)
+    open(f'{PUBLIC}/data/citynav.bin', 'wb').write(gzip.compress(raw, 9))
+    print('nav footprints', n, os.path.getsize(f'{PUBLIC}/data/citynav.bin'))
+
 def main():
     pcs = terrace(pieces())
+    write_nav(pcs)
     print('pieces', len(pcs), flush=True)
     # per-piece style/tint shared by all pieces of a building
     by_b = {}
