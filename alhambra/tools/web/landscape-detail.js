@@ -4,34 +4,21 @@ import {random} from './materials.js';
 
 // Folded, pointed leaves give real silhouettes and cast broken shadows. The
 // same six-triangle geometry is instanced, including in light quality mode.
-function leaves(b,x,y,z,rx,ry,rz,count,seed,size=.12){
+export function leaves(b,x,y,z,rx,ry,rz,count,seed,size=.12){
  const r=random(seed),geo=b.geometry('garden-leaf',()=>{
   const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute([0,0,-1,-.46,.08,0,0,.23,0, 0,0,-1,0,.23,0,.46,.08,0, -.46,.08,0,0,0,1,0,.23,0, 0,.23,0,0,0,1,.46,.08,0],3));g.setAttribute('uv',new THREE.Float32BufferAttribute([.5,0,0,.5,.5,.5,.5,0,.5,.5,1,.5,0,.5,.5,1,.5,.5,.5,.5,.5,1,1,.5],2));g.computeVertexNormals();return g;
  });
  for(let i=0;i<count;i++){const a=r()*Math.PI*2,v=r()*2-1,k=Math.sqrt(1-v*v),rad=.75+r()*.25;const scale=size*(.6+r()*.8);b.add(geo,i%5===0?'leafLight':i%4===0?'leafDark':'leaf',[x+Math.sin(a)*k*rx*rad,y+v*ry*rad,z+Math.cos(a)*k*rz*rad],[scale,scale*(1+r()*3),scale],r()*6.28);}
 }
-function tree(b,x,y,z,r=1.8,h=4,seed=4){
+export function tree(b,x,y,z,r=1.8,h=4,seed=4){
  b.cylinder(x,y,z,.095,h*.68,'trunk',.06,9);
  const rand=random(seed);for(let i=0;i<6;i++){const a=i*2.399,xx=x+Math.cos(a)*r*.6,zz=z+Math.sin(a)*r*.6,yy=y+h*(.65+rand()*.25);b.line([x,y+h*.42,z],[xx,yy,zz],.035,'trunk');leaves(b,xx,yy,zz,r*.6,h*.22,r*.6,460,seed+i,.085);}
 }
-function hedge(b,x,y,z,w,d,seed){
+export function hedge(b,x,y,z,w,d,seed){
  for(let i=0;i<Math.ceil(d/.8);i++)leaves(b,x,y+.48,z-d/2+(i+.5)*d/Math.ceil(d/.8),w*.58,.18,.55,60,seed+i,.065);
 }
 export function landscapeDetails(b){
  b.zone='myrtles';for(const s of [-1,1])hedge(b,1.5+s*5.1,.4,0,2.35,32.8,145+s);
- b.zone='partal';
- for(const s of [-1,1]){b.box(102+s*7.55,0,0,.38,.18,26.4,'terracotta');b.box(102+s*9,0,0,1,.5,27,'hedge');hedge(b,102+s*9,0,0,1,27,48+s);}
- for(const [x,z,h] of [[87,-15,8],[120,-12,10],[123,15,8]]){b.cone(x,0,z,1.05,h,'cypress',16);for(let j=0;j<14;j++)leaves(b,x,.6+j*h/15,z,1.1*(1-j/16),.4,1.1*(1-j/16),110,230+j,.12);}
- for(const x of [78,122,145,164,184])for(const z of [28,49,69])tree(b,x,0,z,2.0,4.5,x+z);
- b.zone='generalife';b.offset=[370,32,-52];
- for(const s of [-1,1]){
-  b.box(s*1.15,.04,0,.22,.14,41.4,'terracotta');
-  for(const zz of [-18,-6,6,18]){const d=Math.abs(zz)===18?5:10;hedge(b,s*3.35,0,zz,3,d,400+zz+s);}
-  for(const z of [-16,-7,4,15])tree(b,s*3.8,0,z,.85,3.1,680+z+s);
- }
- // Climbing foliage follows the east retaining wall rather than filling the paths.
- for(let z=-22;z<23;z+=.85){leaves(b,6.65,3.8+.25*Math.sin(z),z,.45,.55,.75,85,1100+Math.round(z*10),.085);if(Math.round(z)%3===0)b.flowers(6.5,4.25,z,'flower');}
- b.offset=[0,0,0];
 }
 export function palaceDetails(b){
  b.zone='kings';
@@ -57,11 +44,4 @@ export function palaceDetails(b){
  // Carved doors remain outside the traversable entrances.
  b.zone='mexuar';for(const s of [-1,1])b.box(-29+s*2.5,0,-20.17,1.7,2.5,.045,'carvedDoor');
  for(let x=-33.5;x<-24;x+=.65)b.box(x,5.35,-7,.10,.16,26,'wood');
- b.zone='charles';
- for(let i=0;i<32;i++){const a=(i+.5)*Math.PI/16,r=15.4,x=-40+Math.sin(a)*r,z=65+Math.cos(a)*r,w=2*r*Math.tan(Math.PI/32);
-  for(const y of [4.92,5.18,6.08,10.92,11.18,12.08])b.box(x,y,z,w+.16,.12,1.42,'ivory',a);
-  b.box(x,6.35,z,w-.40,.78,.25,'ivory',a);b.box(x,7.13,z,w,.14,.43,'ivory',a);
-  // Radial beams in both covered galleries.
-  for(const y of [5.0,11.0])for(const d of [-.7,0,.7]){const aa=a+d/15.4;b.box(-40+Math.sin(aa)*17.8,y,65+Math.cos(aa)*17.8,.12,.18,4.6,'wood',aa);}
- }
 }

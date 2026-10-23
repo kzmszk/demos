@@ -7,7 +7,14 @@ export function insidePolygon(x,z,poly) {
   }
   return inside;
 }
+// The real ground (terrain.js) once loaded; until then (and in node tests) the procedural model.
+let ground=null;
+export function setTerrainSampler(f){ground=f;}
 export function terrainHeight(x,z) {
+  if(ground)return ground(x,z);
+  return modelHeight(x,z);
+}
+export function modelHeight(x,z) {
   const center=20+Math.max(0,x)*.43;
   const cliff = Math.max(0,Math.abs(z-center)-(x<0?75:85))/1.65 + Math.max(0,-x-260)/3;
   const plateau = -Math.min(66,cliff);

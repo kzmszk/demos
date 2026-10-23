@@ -1,0 +1,1732 @@
+[
+ {
+  "file": "cobble.jpg",
+  "originalTitle": "Procedural texture: Granada \"empedrado\" river-pebble paving (cobble)",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "3 m repeat of rounded river pebbles in lime/earth joints, voronoi cells on blue-noise points; palette of grey, ochre, cream and a few pink stones taken from the Calle Real and church-square photographs. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"cobble-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "pebbleFine.jpg",
+  "originalTitle": "Procedural texture: fine pebble edging",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "3 m repeat of small pebbles; used for the edging courses of gravel paths and the church precinct. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"pebbleFine-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "gravel.jpg",
+  "originalTitle": "Procedural texture: compacted garden gravel",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "3 m repeat; pale ochre grains, darker and reddish speckle, larger pebbles, dusty worn patches. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"gravel-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "grass.jpg",
+  "originalTitle": "Procedural texture: lawn",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "4 m repeat; mown grass with clover flecks and bare patches. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"grass-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "grassDry.jpg",
+  "originalTitle": "Procedural texture: dry summer grass",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "4 m repeat; parched grass over soil (the Secano and wall gardens). Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"grassDry-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "soil.jpg",
+  "originalTitle": "Procedural texture: tilled earth",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "3 m repeat; clods, small stones. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"soil-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "crop.jpg",
+  "originalTitle": "Procedural texture: kitchen-garden rows",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "4 m repeat; furrows with rows of young plants. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"crop-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "paveSlab.jpg",
+  "originalTitle": "Procedural texture: stone paving slabs",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "2.4 m repeat of 60 x 30 cm grey-beige limestone slabs with joints. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"paveSlab-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "hedge.jpg",
+  "originalTitle": "Procedural texture: clipped evergreen foliage",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "1 m repeat; overlapping leaf ellipses in several greens, used for clipped hedges and cypress walls. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"hedge-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "brickA.jpg",
+  "originalTitle": "Procedural texture: handmade brick with lime mortar",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "2 m repeat; 28.5 x 6.3 cm bricks in running bond, colour variation per brick, over-burnt and pale bricks, efflorescence and soot. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"brickA-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "brickC.jpg",
+  "originalTitle": "Procedural texture: pale buff brick",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "2 m repeat; warm buff brick with light mortar, used for the bell tower and arches of Santa María. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"brickC-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "stoneA.jpg",
+  "originalTitle": "Procedural texture: ashlar sandstone",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "2.4 m repeat; coursed ashlar blocks in beige/ochre with pitted surface and dirt. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"stoneA-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "churchWall.jpg",
+  "originalTitle": "Procedural texture: brick courses with river-pebble panels",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "2.4 m repeat; the cajones of pebble set in lime between brick courses seen on Santa María de la Alhambra. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"churchWall-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "renderBrick.jpg",
+  "originalTitle": "Procedural texture: lime render over brick",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "2 m repeat; warm tan plaster with ghosting brick courses and patches where the render has fallen (Parador walls). Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"renderBrick-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "plasterA.jpg",
+  "originalTitle": "Procedural texture: lime plaster",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "2.4 m repeat; neutral mottled plaster, tinted per material (whitewash, cream, ochre, rose, salmon) at run time. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"plasterA-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "plasterB.jpg",
+  "originalTitle": "Procedural texture: lime plaster with exposed brick patches",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "2.4 m repeat; as plasterA with chipped render showing brick. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"plasterB-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "roofTile.jpg",
+  "originalTitle": "Procedural texture: Arab (canal) roof tiles",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "1.6 m repeat; 8 columns of cover/pan tiles in terracotta, overlapping courses, lichen and soot. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"roofTile-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "wood.jpg",
+  "originalTitle": "Procedural texture: timber planks",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "1 m repeat; six planks, grain, nail heads. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"wood-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "louver.jpg",
+  "originalTitle": "Procedural texture: louvered shutter",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/grounds (tex_ground.py, tex_walls.py, tex_extra.py, texlib.py); no photographic pixels are included.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "1 m; grey-scale slatted shutter tinted per material. Created from filtered noise, Voronoi cells and hand-written layout rules. The colours and the structure of the surfaces were chosen by looking at the Wikimedia Commons photographs listed in \"references\"; they are not redistributed. The matching \"louver-h.jpg\" is the grey-scale height map generated together with it (bump map).",
+  "references": [
+   {
+    "title": "File:Calle Real de la Alhambra, Granada.jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_de_la_Alhambra,_Granada.jpg"
+   },
+   {
+    "title": "File:Alhambra, Calle Real de la Alhambra, Granada, Spain - panoramio.jpg",
+    "author": "tamara semina",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Alhambra,_Calle_Real_de_la_Alhambra,_Granada,_Spain_-_panoramio.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 2.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_2.jpg"
+   },
+   {
+    "title": "File:Calle Real Alta - Grenade (ES61) - 2023-04-27 - 3.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_3.jpg"
+   },
+   {
+    "title": "File:Santa Maria de la Alhambra Granada.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_de_la_Alhambra_Granada.jpg"
+   },
+   {
+    "title": "File:Santa Maria Alhambra 01.JPG",
+    "author": "Superchilum",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Santa_Maria_Alhambra_01.JPG"
+   },
+   {
+    "title": "File:Church of Santa María de la Alhambra.JPG",
+    "author": "José Luiz",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Church_of_Santa_María_de_la_Alhambra.JPG"
+   },
+   {
+    "title": "File:Convento San Francisco parador Alhambra Granada Spain.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_San_Francisco_parador_Alhambra_Granada_Spain.jpg"
+   },
+   {
+    "title": "File:Baños de la Mezquita de la Alhambra.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Baños_de_la_Mezquita_de_la_Alhambra.jpg"
+   },
+   {
+    "title": "File:Porte Accès Alhambra Calle Real Alta - Grenade (ES61) - 2023-04-27 - 1.jpg",
+    "author": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Porte_Accès_Alhambra_Calle_Real_Alta_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg"
+   },
+   {
+    "title": "File:Convento de San Francisco de la Alhambra I.jpg",
+    "author": "Rumomo",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Convento_de_San_Francisco_de_la_Alhambra_I.jpg"
+   },
+   {
+    "title": "File:Granada - Alhambra, torres del Convento de San Francisco y la Iglesia de Santa María.jpg",
+    "author": "Zarateman",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra,_torres_del_Convento_de_San_Francisco_y_la_Iglesia_de_Santa_María.jpg"
+   }
+  ]
+ },
+ {
+  "file": "grille.png",
+  "originalTitle": "Procedural alpha texture: wrought-iron window grille (reja)",
+  "source": "Drawn with PIL in work/grounds/tex_extra.py",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Iron bars, rings and scrolls on a transparent background, 0.5 m repeat; shapes after the grilles and balconies in the Calle Real photographs."
+ },
+ {
+  "file": "railing.png",
+  "originalTitle": "Procedural alpha texture: wrought-iron balcony railing",
+  "source": "Drawn with PIL in work/grounds/tex_extra.py",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Iron bars, rings and scrolls on a transparent background, 0.5 m repeat; shapes after the grilles and balconies in the Calle Real photographs."
+ }
+]

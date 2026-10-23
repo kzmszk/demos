@@ -1,6 +1,6 @@
 import {detailedComares,detailedSisters,detailedAbencerrajes} from './detail-rooms.js';
 import {myrtlesSide} from './myrtles.js';
-import {generalifeNorth} from './generalife.js';
+import { plant, CYPRESS } from './trees.js';
 import * as THREE from 'three';
 
 export function room(b,x,z,w,d,h=6,{n=0,s=0,e=0,w:west=0,tile='tile',ceiling=true,wallMaterial='plaster'}={}){
@@ -8,14 +8,14 @@ export function room(b,x,z,w,d,h=6,{n=0,s=0,e=0,w:west=0,tile='tile',ceiling=tru
   b.wall(x-w/2,z,d,h,.65,west,wallMaterial,Math.PI/2,0,tile);b.wall(x+w/2,z,d,h,.65,e,wallMaterial,Math.PI/2,0,tile);
   if(ceiling){b.box(x,h,z,w,.18,d,'wood');b.roof(x,z,w+1,d+1,h+.2,2);}
 }
-function arcade(b,x,z,len,n,rot=0,h=2.8,r=.12,depth=3.0,columns=true){
+export function arcade(b,x,z,len,n,rot=0,h=2.8,r=.12,depth=3.0,columns=true){
   const step=len/n;
   const at=u=>[x+u*Math.cos(rot),z-u*Math.sin(rot)];
   for(let i=0;i<=n;i++){const [px,pz]=at(-len/2+i*step);if(columns)b.column(px,pz,h,r);}
   for(let i=0;i<n;i++){const [px,pz]=at(-len/2+(i+.5)*step);b.arch(px,pz,step-.10,h,step*.48,h+1.85,.42,'plaster',rot);}
   b.box(x,h+1.85,z,len+.25,.12,.72,'wood',rot);
 }
-function bassin(b,x,z,r=.7){b.cylinder(x,0,z,r,.12,'marble');b.cylinder(x,.12,z,r*.83,.16,'marble');b.cylinder(x,.28,z,r*.7,.015,'water');b.cylinder(x,.28,z,.06,.18,'ivory');b.jet(x,.45,z,0,.15,.2);b.nav.box(x+b.offset[0],z+b.offset[2],r*1.8,r*1.8,b.offset[1],b.offset[1]+.6);}
+export function bassin(b,x,z,r=.7){b.cylinder(x,0,z,r,.12,'marble');b.cylinder(x,.12,z,r*.83,.16,'marble');b.cylinder(x,.28,z,r*.7,.015,'water');b.cylinder(x,.28,z,.06,.18,'ivory');b.jet(x,.45,z,0,.15,.2);b.nav.box(x+b.offset[0],z+b.offset[2],r*1.8,r*1.8,b.offset[1],b.offset[1]+.6);}
 
 
 function lion(b,cx,cz,a){
@@ -133,68 +133,7 @@ export function nasrid(b,water,lights){
 }
 
 export function gardens(b,water){
-  b.zone='partal';
-  b.floor(98,18,60,85,0,'paving');
-  b.box(102,0,0,15,.09,26,'dark');water.push({x:102,z:0,w:14.4,d:25.4,y:.10,reflect:true});b.nav.box(102,0,15,26,-1,.5);
-  room(b,101,-20,24,7,5.2,{s:3.2,ceiling:false});
-  const px=[90.5,94.5,98.5,103.5,107.5,111.5];for(const xx of px)b.column(xx,-14.7,2.95,.16);for(let i=0;i<5;i++)b.arch((px[i]+px[i+1])/2,-14.7,px[i+1]-px[i]-.15,2.95,i===2?1.85:1.45,5.05,.45,'plaster');b.roof(101,-18,25.3,8.2,5.2,2.5);
-  b.wall(104,-26,9,13,.8,0,'redwall',0,0,null);b.wall(99.5,-22.5,7,13,.8,0,'redwall',Math.PI/2,0,null);b.wall(108.5,-22.5,7,13,.8,0,'redwall',Math.PI/2,0,null);b.wall(104,-19,9,13,.8,2.4,'redwall',0,0,null);b.roof(104,-22.5,11,9,13,2.2);
-  for(const x of [78,122,145,164,184])for(const z of [28,49,69]){
-    b.floor(x,z,14,15,0,'earth');for(const s of [-1,1]){b.box(x+s*7,0,z,.65,.65,15,'hedge',0,true);b.box(x,0,z+s*7.5,14,.65,.65,'hedge',0,true);}
-    b.sphere(x,2.1,z,2,1.6,2,'tree');b.cylinder(x,0,z,.17,2,'trunk');
-    for(let i=0;i<10;i++){const a=i*Math.PI/5;b.flowers(x+Math.cos(a)*4,.5,z+Math.sin(a)*4,i%3?'flower':'whiteFlower');}
-  }
   // Lindaraja garden beneath the belvedere; raised borders and a central basin.
-  b.floor(38,-24,23,23,0,'paving');for(const x of [31,45])for(const z of [-17,-31]){b.box(x,0,z,5,.55,5,'hedge',0,true);b.cone(x,.55,z,1,9,'cypress');b.cylinder(x,.55,z,.15,2,'trunk');}bassin(b,38,-24,1.2);
-  b.zone='generalife';b.offset=[370,32,-52];
-  b.floor(0,0,30,65,0,'paving');b.floor(0,0,13,49,0,'paving');
-  b.box(0,0,0,2.3,.1,41,'dark');water.push({x:370,z:-52,w:2.0,d:41,y:32.11,reflect:true});b.nav.box(370,-52,2.3,41,31,32.5);
-  for(const s of [-1,1]){
-    for(const zz of [-18,-6,6,18]){const end=Math.abs(zz)===18;b.box(s*3.35,0,zz,3,.45,end?5:10,'hedge',0,true);for(let i=0;i<13;i++)b.flowers(s*(2.2+(i%3)*.85),.68,zz+(end?-1.6+Math.floor(i/3)*.8:-4+Math.floor(i/3)*1.8),i%3===0?'whiteFlower':'flower');}
-    for(let zz=-20;zz<=20;zz+=2.7)b.jet(s*1.12,.24,zz,-s*1.6,.25,1.05);
-    if(s<0){
-      b.box(-7,0,0,.55,.65,49,'whiteLime',0,true);
-      for(let zz=-24;zz<=24;zz+=4)b.box(-7,.65,zz,.55,3.55,.40,'whiteLime',0,true);
-      for(let zz=-22;zz<=22;zz+=4){b.arch(-7,zz,3.6,2.7,1.1,4.8,.55,'whiteLime',Math.PI/2,0,false);b.arch(-6.70,zz,3.6,2.7,1.1,4.05,.035,'archBrick',Math.PI/2,0,false);}
-      b.roof(-8.3,0,3.7,51,4.8,1.3);
-    }else {b.wall(7,12.25,24.5,4.1,.55,0,'archBrick',Math.PI/2,0,null);b.wall(7,-12.25,24.5,4.1,.55,0,'whiteLime',Math.PI/2,0,null);b.roof(8.2,-12.25,3.2,25,4.1,.7);}
-  }
-  for(const zz of [-25,25]){room(b,0,zz,17,6,zz<0?4.9:6.2,{n:4,s:4,tile:'tileRibbon',ceiling:false});arcade(b,0,zz+(zz<0?3:-3),13,5,0,3,.12);b.roof(0,zz,19,8,zz<0?5.0:6.2,zz<0?.9:2);}
-  room(b,0,-32,8,8,8,{s:3,n:3.5,wallMaterial:'whiteLime'});generalifeNorth(b);
-  b.offset=[0,0,0];
-  // Terraced lower gardens. Walk surfaces are joined by a broad, climbable stair.
-  b.floor(370,-10,8,26,32,'paving');
-  for(let row=0;row<5;row++){
-    const zz=10+row*19,level=32-row*1.7;
-    for(const xx of [349.5,390.5])b.floor(xx,zz,31,19,level,'paving');
-    b.floor(370,zz,10,14,level,'paving');
-    if(row<4){
-      for(let step=0;step<10;step++)b.box(370,level-(step+1)*.17-.15,zz+7+(step+.5)*.5,10,.15,.52,'paving');
-      b.nav.ramp(370,zz+9.5,10,5,level,level-1.7);
-    }
-    for(const xx of [346,394]){b.box(xx,level,zz,15,.7,13,'hedge',0,true);b.box(xx,level+.71,zz,12,.03,10,'earth');for(const sx of [-1,1])b.cone(xx+sx*5,level+.75,zz,1,6,'cypress');}
-    for(const xx of [335,405])b.cone(xx,level,zz,1.2,9,'cypress');
-  }
-  for(let i=0;i<8;i++)b.box(370,25.2-(i+1)*.15-.15,94+i*2,10,.15,2.02,'paving');
-  b.nav.ramp(370,101,10,16,25.2,24);b.floor(370,112,12,6,24,'paving');
+  b.floor(38,-24,23,23,0,'paving');for(const x of [31,45])for(const z of [-17,-31]){b.box(x,0,z,5,.55,5,'hedge',0,true);plant(x,.55,z,CYPRESS,9);}bassin(b,38,-24,1.2);
 }
 
-export function charlesV(b){
-  b.zone='charles';const x=-40,z=65,R=15.4; b.floor(x,z,63,63,0,'paving');
-  for(const sign of [-1,1]){b.wall(x+sign*31.5,z,63,15.5,2.5,5.5,'brick',Math.PI/2,0,null);b.wall(x,z+sign*31.5,63,15.5,2.5,5.5,'brick',0,0,null);}
-  // Square exterior, circular open courtyard, two orders of columns.
-  const n=32;for(let i=0;i<n;i++){
-    const a=i*Math.PI*2/n,px=x+Math.sin(a)*R,pz=z+Math.cos(a)*R;
-    b.column(px,pz,5.0,.28,0,'ivory');b.column(px,pz,4.7,.25,6.3,'ivory');
-    const an=a+Math.PI/n,seg=2*R*Math.tan(Math.PI/n);
-    b.box(x+Math.sin(an)*R,5,z+Math.cos(an)*R,seg+.1,1.2,1.2,'ivory',an);
-    b.box(x+Math.sin(an)*R,11,z+Math.cos(an)*R,seg+.1,1.2,1.2,'ivory',an);
-    b.wall(x+Math.sin(a)*20,z+Math.cos(a)*20,4.2,12.3,1.2,i%8===0?3.0:0,'brick',a,0,null);
-  }
-  const ring=(inner,outer,y,mat)=>{const shape=new THREE.Shape();shape.moveTo(-31.5,-31.5);shape.lineTo(31.5,-31.5);shape.lineTo(31.5,31.5);shape.lineTo(-31.5,31.5);shape.closePath();const hole=new THREE.Path();hole.absarc(0,0,inner,0,Math.PI*2,true);shape.holes.push(hole);const g=new THREE.ShapeGeometry(shape,64);g.rotateX(-Math.PI/2);b.unique(g,mat,[x,y,z]);};
-  ring(16,31,6.25,'paving');ring(20.8,31,15.5,'roof');
-  for(const s of [-1,1])for(let i=0;i<12;i++){
-    const u=-27+i*4.9;b.box(x+u,6.5,z+s*32,1.8,3,.2,'dark');b.box(x+s*32,6.5,z+u,.2,3,1.8,'dark');
-    b.box(x+u,10.3,z+s*32,1.7,2,.2,'dark');b.box(x+s*32,10.3,z+u,.2,2,1.7,'dark');
-  }
-}

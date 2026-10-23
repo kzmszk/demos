@@ -29,7 +29,7 @@ python3 -m http.server 8421 --directory .
 - WASD / 矢印：移動。Shift：速く移動。風景をドラッグ：見回す。
 - 徒歩は壁・柱・水盤を避け、床と階段に沿って移動。飛行は自由移動、Q/Eで下降・上昇。
 - 全景ではドラッグで回転、ホイールで距離を変更。
-- 場所メニューに15地点。URLの `?place=sisters#ja` などで直接到着。
+- 下部ナビの「見どころ」（徒歩・飛行の右）で場所リストを開く。15地点。全景は「15 アルハンブラ全景」から。URLの `?place=sisters#ja` などで直接到着。
 - 画面下の場所タイトル（「実際の写真」）をクリックすると、その場所の参考写真を表示。全15地点・28枚。複数枚ある場所では左右のボタン／矢印キーで切り替え、Esc・×・背景クリックで閉じる。同じ3D視点から見学を続けられる。
 - 自動案内は全15地点を各4秒、約1分で巡って終了する。各地点では専用の移動経路に沿って約2.7〜10m前進・横移動・回り込みを行い、同時に見上げる対象を変える。全景は旋回しながら接近する（動きを減らす設定時は固定）。経路は徒歩と同じ衝突判定で検証する。徒歩操作・ドラッグ・Escで停止。
 - M：地図拡大、H：UIの表示切替。午後／夕暮れ、音声オン／オフ、日本語／英語。
@@ -89,6 +89,31 @@ npm run build
 The default is now evening (low warm sunlight, cool sky fill, long architectural and foliage shadows); the existing light button still switches to afternoon. This is an artistic light setup, not a date-specific solar simulation. Low quality retains detailed ornaments and one nearby 512 px water reflection; high quality uses 1024 px. Only the nearest of the Myrtles, Partal and Generalife pools reflects the scene at a time.
 
 `extended-materials.js` reuses locally bundled reference images for Mexuar tilework, Lindaraja tiles/glazing, carved timber and the central Kings painting. Generic Nasrid stucco and inscriptions use the previously documented photo materials as analogues, not exact transcriptions. `landscape-detail.js` adds instanced foliage, exposed portico joists, pavilion timber, and Charles V gallery cornices/railings. Abencerrajes now has its own eight-point star drum and concave muqarnas reconstruction. Source licences and limitations are recorded in `public/texture-credits.html` and `public/textures/extended-credits.json`. No new runtime service or installation is required; all assets remain local static Worker assets.
+
+### Real terrain, the city and trees (2026-10-23)
+
+The ground, the city and the trees are generated offline by `tools/gen/` (Python 3 with numpy, scipy, shapely 2, pyproj and Pillow; the environment variable `ALHAMBRA_ASSETS` points to the raw data folder, by default `/home/kazu/work/alhambra-assets`):
+
+| Step | Input | Output |
+| --- | --- | --- |
+| `dem.py` | IGN MDT05/MDT25/MDT200 tiles from the WCS `servicios.idee.es/wcs-inspire/mdt` (CC BY 4.0) in `dem/near5`, `dem/mid25`, `dem/far200` | sampler in the local frame (cached `cache/dem.npz`) |
+| `osm.py` | Overpass extract `osm/granada.json` (ODbL) | parsed geometry (cached `cache/osm.pkl`) |
+| `terrain.py` | DEM + OSM landcover | `public/data/terrain.bin` (4 nested grids: 5 m, 20 m, 120 m, 400 m, out to the Sierra Nevada), `ground0.jpg` / `ground1.jpg` (landcover colours), `rivers.json` |
+| `city.py` | OSM buildings, parts (cadastre levels), walls | `public/data/city.bin` (≈ 26,000 volumes, ≈ 0.7 M triangles: walls with storey UVs, tiled hip/gable roofs with eaves, terraces, inferred bell towers, the Albaicín walls) |
+| `trees.py` | OSM trees, rows, woods, parks, orchards + the gaps of the Albaicín | `public/data/trees.bin` (≈ 100,000 trees in 11 species) |
+
+```bash
+cd alhambra/tools/gen
+python terrain.py && python city.py && python trees.py
+```
+
+The plateau keeps its modelled level (y = 0 = 774 m). The DEM is blended into it within 4–14 m outside the enclosure and around the Generalife model. The viewer draws the two inner grids, the city and the trees in the main pass. The Vega and the Sierra Nevada (out to ≈ 40 km) are drawn in a separate far pass with their own depth range, and the sky is drawn there too. A 256 px cube of that far pass is the background for the water reflections. Haze is exponential, not squared, so the mountains stay visible.
+
+Facades are drawn in the shader from a canvas atlas of 10 styles, one storey at a time, so the ground floors (doors, rejas, zócalo) never repeat upstairs. Bays are scaled per wall to whole windows. Trees (`tools/web/trees.js`) use leaf-card crowns with volumetric normals in two template LODs, re-binned around the camera. Every tree also has a camera-facing impostor, rendered at load time from its own template. The hand-built gardens add their trees with `plant(x, y, z, species, height)`.
+
+The outdoor monuments now live in `tools/web/heroes/`: `alcazaba.js`, `carlos.js`, `partal.js`, `gates.js` (Justicia, Vino, Aljibes), `walls.js` (enclosure and towers), `grounds.js` (Calle Real, Santa María, Parador, Secano) and `generalife.js`. Each module exports `materials(M)` and `build(b, ctx)`. A failing module is logged and skipped.
+
+Rendering load: shadow maps are re-rendered only when the camera or the light moves. The pixel ratio adapts between 1.0 and 1.6 (0.7–1.0 on phones) to keep frames under ~24 ms; `?pr=1` disables this. `ALH.bench()` times frames with `gl.finish`, and `?timing=1` logs the start-up phases. The texture credits of the hero modules are collected by `python3 tools/hero_credits.py`. Known gap: the Generalife model stands about 35 m south of its OSM position, inherited from the first version.
 
 ### Evening light, horizon and load (2026-10-23)
 

@@ -72,6 +72,7 @@ export class Builder {
     for(let j=-d/2+1.2;j<d/2;j+=1.3)for(const s of [-1,1])this.box(x+s*w/2,top,z+j,.65,.9,.65,mat);
   }
   finish(){
+    for(const map of [this.instances,this.merged])for(const [key,{m,mat}] of [...map])if(!m){console.error(`Unknown material "${mat??key.split('|')[1]}" in zone ${key.split('|')[0]}`);map.delete(key);}
     for(const [key,{g,m,transforms,mat}] of this.instances){
       if(transforms.length<24){
         const k=key.split('|')[0]+'|'+mat;if(!this.merged.has(k))this.merged.set(k,{m,list:[]});
@@ -80,10 +81,20 @@ export class Builder {
       }
       const mesh=new THREE.InstancedMesh(g,m,transforms.length);transforms.forEach((t,i)=>mesh.setMatrixAt(i,t));mesh.computeBoundingSphere();mesh.castShadow=!['jet','water','shadow','flower','whiteFlower','gold'].includes(mat);mesh.receiveShadow=true;this.root.add(mesh);
     }
-    for(const {m,list} of this.merged.values()){
+    // Regroup the merged pieces by material and a 160 m cell (not by zone): far fewer draw calls and
+    // shadow casters, while the cells still let distant parts be culled. Pieces whose attributes
+    // differ are kept apart so they can be merged.
+    const CELL=160,groups=new Map(),c=new THREE.Vector3();
+    for(const {m,list} of this.merged.values())for(const g of list){
+      if(!g.boundingBox)g.computeBoundingBox();g.boundingBox.getCenter(c);
+      const sig=Object.keys(g.attributes).sort().join(',');
+      const k=m.uuid+'|'+Math.floor(c.x/CELL)+'|'+Math.floor(c.z/CELL)+'|'+sig;
+      if(!groups.has(k))groups.set(k,{m,list:[]});groups.get(k).list.push(g);
+    }
+    for(const {m,list} of groups.values()){
       // Normalize indexing; ExtrudeGeometry and simple primitives use different representations.
       const normalized=list.map(g=>g.index?g.toNonIndexed():g);const merged=mergeGeometries(normalized,false);
-      if(!merged)throw new Error('Incompatible architectural geometry');const mesh=new THREE.Mesh(merged,m);mesh.castShadow=m.name!=='jet';mesh.receiveShadow=true;this.root.add(mesh);
+      if(!merged){console.error('Incompatible geometry for',m.name);continue;}const mesh=new THREE.Mesh(merged,m);mesh.castShadow=m.name!=='jet';mesh.receiveShadow=true;this.root.add(mesh);
       for(const g of new Set([...list,...normalized]))g.dispose();
     }
     this.merged.clear();this.instances.clear();

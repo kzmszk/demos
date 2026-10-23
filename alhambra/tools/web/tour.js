@@ -13,7 +13,7 @@ const SHOTS={
   vela:       {via:[1.5,1],to:[3,0],look:[-160,4,70]},
   partal:     {via:[0,-3],to:[0,-7],look:[101,6,-18]},
   generalife: {via:[0,-4],to:[0,-9],look:[370,36,-75]},
-  carlos:     {via:[3,-1],to:[5,-4],look:[-40,8,52]},
+  carlos:     {via:[3,-1],to:[5,-4],look:[-18,8,41]},
   justice:    {via:[0,-3],to:[1,-7],look:[-55,9,123]},
 };
 export function buildTourShots(places,nav){

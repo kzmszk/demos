@@ -1,0 +1,22 @@
+[
+ {
+  "file": "stucco-stars.jpg",
+  "originalTitle": "Royal Chamber (Generalife) - DSC07789.JPG",
+  "source": "https://commons.wikimedia.org/wiki/File:Royal_Chamber_(Generalife)_-_DSC07789.JPG",
+  "author": "Daderot",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "retrieved": "2026-10-23",
+  "changes": "Cropped one period (about 1984 px of 5472) of the star-and-rosette lattice field from the Royal Chamber wall, converted to luminance, background lighting flattened and re-tinted to warm plaster; made seamless horizontally by cross-fading the period joint and resized to 1024 x 1024 (non-square period, mapped at ~1.8 m x 1.86 m)."
+ },
+ {
+  "file": "frieze-kufic.jpg",
+  "originalTitle": "Royal Chamber (Generalife) - DSC07789.JPG",
+  "source": "https://commons.wikimedia.org/wiki/File:Royal_Chamber_(Generalife)_-_DSC07789.JPG",
+  "author": "Daderot",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "retrieved": "2026-10-23",
+  "changes": "Cropped the carved Kufic inscription band at the top of the same photograph, converted to luminance, lighting flattened, re-tinted to warm plaster, made seamless horizontally by cross-fading and resized to 2048 px wide."
+ }
+]

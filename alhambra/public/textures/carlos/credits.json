@@ -1,0 +1,12 @@
+[
+  {
+    "file": "portal-reliefs.jpg",
+    "originalTitle": "Portada principal del Palacio de Carlos V (Granada).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Portada_principal_del_Palacio_de_Carlos_V_(Granada).jpg",
+    "author": "Jl FilpoC",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "retrieved": "2026-10-23",
+    "changes": "Cropped the five roundels (St George riders, hero with lion, arms of Charles V, hero with bear) and four pedestal reliefs of the west portal from the frontal photograph, flattened the lighting (division by a wide Gaussian blur), sharpened, and packed them into a 2048 x 1024 atlas (tools: /home/kazu/work/alhambra-assets/work/carlos/scripts/make_reliefs.py). Used as colour and bump map on flat discs and panels."
+  }
+]

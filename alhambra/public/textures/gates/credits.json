@@ -1,0 +1,152 @@
+[
+ {
+  "file": "tapial-a.jpg",
+  "originalTitle": "Procedural texture: rammed-earth (tapial) wall with formwork lifts, putlog holes, lime crust and rain streaks, variant A",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/gates/tex (tapial.py, masonry.py, lib.py); no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Created from noise, Voronoi cells and hand-written rules; not derived from any source image."
+ },
+ {
+  "file": "tapial-b.jpg",
+  "originalTitle": "Procedural texture: rammed-earth (tapial) wall, limed variant B",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/gates/tex (tapial.py, masonry.py, lib.py); no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Created from noise, Voronoi cells and hand-written rules; not derived from any source image."
+ },
+ {
+  "file": "tapial-c.jpg",
+  "originalTitle": "Procedural texture: rammed-earth (tapial) wall, weathered variant C",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/gates/tex (tapial.py, masonry.py, lib.py); no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Created from noise, Voronoi cells and hand-written rules; not derived from any source image."
+ },
+ {
+  "file": "brick-a.jpg",
+  "originalTitle": "Procedural texture: Granada brick (ladrillo) courses 29 x 6.2 cm with lime mortar, variant A",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/gates/tex (tapial.py, masonry.py, lib.py); no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Created from noise, Voronoi cells and hand-written rules; not derived from any source image."
+ },
+ {
+  "file": "brick-b.jpg",
+  "originalTitle": "Procedural texture: Granada brick courses, variant B",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/gates/tex (tapial.py, masonry.py, lib.py); no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Created from noise, Voronoi cells and hand-written rules; not derived from any source image."
+ },
+ {
+  "file": "ashlar.jpg",
+  "originalTitle": "Procedural texture: warm sandstone ashlar blocks with pitting",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/gates/tex (tapial.py, masonry.py, lib.py); no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Created from noise, Voronoi cells and hand-written rules; not derived from any source image."
+ },
+ {
+  "file": "ashlar-grey.jpg",
+  "originalTitle": "Procedural texture: grey limestone ashlar blocks with pitting",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/gates/tex (tapial.py, masonry.py, lib.py); no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Created from noise, Voronoi cells and hand-written rules; not derived from any source image."
+ },
+ {
+  "file": "rubble.jpg",
+  "originalTitle": "Procedural texture: mampostería: rounded rubble in rough courses with brick levelling bands",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/gates/tex (tapial.py, masonry.py, lib.py); no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Created from noise, Voronoi cells and hand-written rules; not derived from any source image."
+ },
+ {
+  "file": "cobble.jpg",
+  "originalTitle": "Procedural texture: Granada empedrado: river-pebble paving with lighter and darker bands",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/gates/tex (tapial.py, masonry.py, lib.py); no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Created from noise, Voronoi cells and hand-written rules; not derived from any source image."
+ },
+ {
+  "file": "gravel.jpg",
+  "originalTitle": "Procedural texture: compacted ochre gravel",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/gates/tex (tapial.py, masonry.py, lib.py); no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Created from noise, Voronoi cells and hand-written rules; not derived from any source image."
+ },
+ {
+  "file": "limewash.jpg",
+  "originalTitle": "Procedural texture: lime-washed render with fine crazing",
+  "source": "Generated for this project by Python scripts (numpy/scipy/PIL) in work/gates/tex (tapial.py, masonry.py, lib.py); no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Created from noise, Voronoi cells and hand-written rules; not derived from any source image."
+ },
+ {
+  "file": "justicia-porch.jpg",
+  "originalTitle": "Puerta de la Justicia, o Bab al-Shari'a (la Alhambra).jpg",
+  "source": "https://commons.wikimedia.org/wiki/File:Puerta_de_la_Justicia,_o_Bab_al-Shari%27a_(la_Alhambra).jpg",
+  "author": "José Luis Filpo Cabana",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "retrieved": "2026-10-23",
+  "changes": "Cropped to the back wall of the horseshoe porch (second door, glazed-tile lunette with the Virgin and Child, inscription band); the foliage-covered right part was replaced by a mirrored copy of the clean left part; resized to 1024 px wide and re-encoded as JPEG."
+ },
+ {
+  "file": "justicia-hand.jpg",
+  "originalTitle": "Granada. Planta, alzado y detalles de la Puerta de la Ley, vulgo de la Justicia, en los Reales Alcázares de la Alhambra - Teófilo Rufflé.jpg",
+  "source": "https://commons.wikimedia.org/wiki/File:Granada._Planta,_alzado_y_detalles_de_la_Puerta_de_la_Ley,_vulgo_de_la_Justicia,_en_los_Reales_Alc%C3%A1zares_de_la_Alhambra_-_Te%C3%B3filo_Ruffl%C3%A9.jpg",
+  "author": "Teófilo Rufflé, after a drawing by Francisco Antonio Contreras (chromolithograph)",
+  "license": "Public domain",
+  "licenseUrl": "https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain",
+  "retrieved": "2026-10-23",
+  "changes": "Cropped the plate of the hand carved on the keystone; converted to a tone map and recoloured as stone (line drawing re-rendered as a carved plaque)."
+ },
+ {
+  "file": "vino-east.jpg",
+  "originalTitle": "Puerta del Vino Alhambra Granada Spain.jpg",
+  "source": "https://commons.wikimedia.org/wiki/File:Puerta_del_Vino_Alhambra_Granada_Spain.jpg",
+  "author": "Jebulon",
+  "license": "CC0 1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23",
+  "changes": "Cropped to the east (inner) façade of the Puerta del Vino, mapped at its real scale (7.9 x 10.3 m); resized to 1024 px wide and re-encoded as JPEG."
+ },
+ {
+  "file": "pilar-front.jpg",
+  "originalTitle": "Fontaine Pilar Carlos V - Grenade (ES61) - 2023-04-27 - 1.jpg",
+  "source": "https://commons.wikimedia.org/wiki/File:Fontaine_Pilar_Carlos_V_-_Grenade_(ES61)_-_2023-04-27_-_1.jpg",
+  "author": "Chabe01",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "retrieved": "2026-10-23",
+  "changes": "Cropped to the fountain wall (frontal view), mapped on a 14.8 x 6.35 m panel; resized to 1600 px wide and re-encoded as JPEG."
+ }
+]
