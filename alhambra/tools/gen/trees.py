@@ -119,7 +119,7 @@ def main():
     # drop: outside extent, inside the enclosure/hero zones, on obstacles, too dense
     ok = (P[:, 0] > x0) & (P[:, 0] < x1) & (P[:, 1] > z0) & (P[:, 1] < z1)
     # the Generalife's hill keeps its trees; the viewer drops those standing on modelled floors/walls
-    hero_nogen = hero.difference(sbox(316, -142, 442, 208))
+    hero_nogen = hero.difference(sbox(316, -142, 442, 208)).union(sbox(-725, -115, -555, 45))
     ok &= ~shapely.contains_xy(hero_nogen, P[:, 0], P[:, 1])
     # keep crowns off the enclosure walls and towers (and off the Partal's north face)
     ok &= ~shapely.contains_xy(per.buffer(7), P[:, 0], P[:, 1])

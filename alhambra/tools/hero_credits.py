@@ -3,7 +3,7 @@ public/texture-credits.html (between <!-- heroes --> markers)."""
 import html, json, os, re
 ROOT = os.path.join(os.path.dirname(__file__), '..', 'public')
 NAMES = {'alcazaba': 'アルカサバ / Alcazaba', 'carlos': 'カルロス5世宮殿 / Palace of Charles V', 'partal': 'パルタル / El Partal',
-         'gates': '門と城壁 / Gates and walls', 'grounds': '敷地 / Grounds', 'generalife': 'ヘネラリフェ / Generalife'}
+         'gates': '門と城壁 / Gates and walls', 'grounds': '敷地 / Grounds', 'generalife': 'ヘネラリフェ / Generalife', 'mexuar': 'メスアール / Mexuar', 'calderia': 'カルデレリア・ヌエバ通り / Calderería Nueva'}
 e = html.escape
 rows = []
 for mod, label in NAMES.items():

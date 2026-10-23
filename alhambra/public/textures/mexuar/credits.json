@@ -1,0 +1,62 @@
+[
+  {
+    "file": "mex-dado.jpg",
+    "originalTitle": "Granada - Alhambra - Palacios nazaríes - Sala del Mexuar - Azulejos.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra_-_Palacios_nazar%C3%ADes_-_Sala_del_Mexuar_-_Azulejos.jpg",
+    "author": "Benjamin Smith (Benjism89)",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "retrieved": "2026-10-23",
+    "changes": "Cropped one lattice period (left half mirrored to make it seamless), lighting flattened, colour lifted, central emblem replaced by a painted star hub."
+  },
+  {
+    "file": "mex-dado-border.jpg",
+    "originalTitle": "same",
+    "source": "https://commons.wikimedia.org/wiki/File:Granada_-_Alhambra_-_Palacios_nazar%C3%ADes_-_Sala_del_Mexuar_-_Azulejos.jpg",
+    "author": "Benjamin Smith (Benjism89)",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "retrieved": "2026-10-23",
+    "changes": "Cropped the interlace border strip, mirrored to tile, lighting flattened."
+  },
+  {
+    "file": "mex-stucco.jpg",
+    "originalTitle": "Alhambra, Mexuar 04 (4394741832).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Alhambra,_Mexuar_04_(4394741832).jpg",
+    "author": "michael clarke stuff",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "retrieved": "2026-10-23",
+    "changes": "Cropped the star-and-rosette stucco lattice, affine-rectified, lighting flattened, desaturated, made tileable by cross-blending."
+  },
+  {
+    "file": "mex-muq.jpg",
+    "originalTitle": "Alhambra, Mexuar 04 (4394741832).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Alhambra,_Mexuar_04_(4394741832).jpg",
+    "author": "michael clarke stuff",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "retrieved": "2026-10-23",
+    "changes": "Cropped the muqarnas corbel, lighting flattened, desaturated, made tileable by cross-blending."
+  },
+  {
+    "file": "mex-lattice.jpg",
+    "originalTitle": "Granada, Alhambra, Sala del Mexuar (3).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Granada,_Alhambra,_Sala_del_Mexuar_(3).jpg",
+    "author": "Palickap",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "retrieved": "2026-10-23",
+    "changes": "Cropped the carved lattice band, mirrored to tile horizontally, lighting flattened, desaturated."
+  },
+  {
+    "file": "mex-inscr.jpg",
+    "originalTitle": "Granada, Alhambra, Sala del Mexuar (3).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Granada,_Alhambra,_Sala_del_Mexuar_(3).jpg",
+    "author": "Palickap",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "retrieved": "2026-10-23",
+    "changes": "Cropped the inscription and fine-lattice bands, mirrored to tile horizontally, lighting flattened, desaturated."
+  }
+]

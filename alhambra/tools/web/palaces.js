@@ -118,10 +118,7 @@ export function nasrid(b,water,lights){
   b.zone='comares';
   room(b,1.5,-23.5,24,5.2,6.1,{s:3,n:3,e:2.4,w:2.4});
   detailedComares(b);
-  b.zone='mexuar';
-  room(b,-29,-7,10,27,5.6,{s:2.7,n:2.3,e:3,tile:'mexuarTile'});
-  for(const xx of [-31.5,-26.5])for(const zz of [-10,-3]){b.column(xx,zz,3.6,.21);}
-  for(const zz of [-10,-3])b.box(-29,3.6,zz,6,.55,.6,'wood');for(const xx of [-31.5,-26.5])b.box(xx,3.6,-6.5,.5,.5,7,'wood');
+  b.zone='cuartoDorado'; // the Mexuar hall itself is heroes/mexuar.js
   b.floor(-18.3,-15,10.3,11);b.wall(-18.3,-20.5,11,6,.6,3,'plaster');b.wall(-18.3,-9.5,11,7,.6,2.6,'plaster');
   b.wall(-23.5,-15,11,6,.5,3,'plaster',Math.PI/2);b.wall(-13.1,-15,11,6,.5,3,'plaster',Math.PI/2);
   bassin(b,-18.3,-15,.7);b.floor(-16.5,-4.6,7.7,12);b.box(-16.5,5.8,-4.6,8,.2,12,'wood');

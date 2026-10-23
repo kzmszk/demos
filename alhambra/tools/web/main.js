@@ -20,6 +20,8 @@ import * as gates from './heroes/gates.js';
 import * as walls from './heroes/walls.js';
 import * as grounds from './heroes/grounds.js';
 import * as generalife from './heroes/generalife.js';
+import * as mexuar from './heroes/mexuar.js';
+import * as calderia from './heroes/calderia.js';
 const HEROES=[alcazaba,carlos,partal,gates,walls,grounds,generalife];
 import { PLACES, BY_ID, TOUR } from './places.js';
 import { buildTourShots, sampleTourShot } from './tour.js';
@@ -209,13 +211,15 @@ async function init(){
   const terrain=await loadTerrain('data/terrain.bin');setTerrainSampler(terrainSampler(terrain));buildTerrain(terrain,scene,farScene,low);mark('terrain');await buildRivers('data/rivers.json',scene);
   {let buf=await (await fetch('data/citynav.bin')).arrayBuffer();const h=new Uint8Array(buf,0,2);if(h[0]===0x1f&&h[1]===0x8b)buf=await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
    const dv=new DataView(buf),n=dv.getUint32(0,true),polys=[];let o=4;for(let i=0;i<n;i++){const k=dv.getUint32(o,true);o+=4;polys.push(new Float32Array(buf.slice(o,o+k*8)));o+=k*8;}nav.setFootprints(polys);}
-  for(const p of PLACES)if(p.ground){p.p[1]+=terrainHeight(p.p[0],p.p[2]);p.t[1]+=terrainHeight(p.t[0],p.t[2]);}
+  for(const p of PLACES)if(p.ground){p.eye=p.p[1];p.p[1]+=terrainHeight(p.p[0],p.p[2]);p.t[1]+=terrainHeight(p.t[0],p.t[2]);}
+  // modelled lanes (steps, paving) may stand a little above the terrain: re-seat the old-town places
+  const reseat=()=>{for(const p of PLACES)if(p.ground){const g=terrainHeight(p.p[0],p.p[2]);p.p[1]=nav.height(p.p[0],p.p[2],g+1.5)+p.eye;}};
   if(place.ground){camera.position.fromArray(place.p);camera.lookAt(...place.t);}
   // Stage 1: the palaces (and the monument of the arrival place) behind the loading screen.
   // Stage 2: the other monuments nearest first, then the city and the trees, while the visitor looks around.
   const root=new THREE.Group();scene.add(root);const water=[],lights=[];
   const b=new Builder(root,materialsMap,nav);
-  exterior(b,context,low);nasrid(b,water,lights);gardens(b,water);landscapeDetails(b);palaceDetails(b);b.finish();world={root,stats:b.stats,context};
+  exterior(b,context,low);await mexuar.materials(materialsMap);nasrid(b,water,lights);try{mexuar.build(b,context);}catch(e){console.error('hero mexuar failed',e);}gardens(b,water);landscapeDetails(b);palaceDetails(b);b.finish();world={root,stats:b.stats,context};
   csm=new CSM({camera,parent:scene,cascades:low?2:3,maxFar:low?160:280,mode:'practical',shadowMapSize:low?1024:2048,lightDirection:new THREE.Vector3(-1,-1,-1),lightIntensity:3.3,lightMargin:180});
   for(const l of csm.lights){l.shadow.bias=-.00008;l.shadow.normalBias=.06;}
   const prepared=new Set();
@@ -227,10 +231,10 @@ async function init(){
     if(w.reflect){const reflector=new Reflector(new THREE.PlaneGeometry(w.w,w.d),{textureWidth:low?512:1024,textureHeight:low?512:1024,color:0xb2baba,clipBias:.002});reflector.rotation.x=-Math.PI/2;reflector.position.set(w.x,w.y,w.z);{const draw=reflector.onBeforeRender;reflector.onBeforeRender=(r,s,c,...rest)=>{const bg=s.background;s.background=skyCube.texture;draw.call(reflector,r,s,c,...rest);s.background=bg;};}scene.add(reflector);reflectors.push(reflector);reflector.visible=false;}
   }list.length=0;};
   // A failing hero module is reported but does not take the whole site down.
-  const heroBuild={walls:bb=>walls.build(bb,context),alcazaba:bb=>alcazaba.build(bb,context),gates:bb=>gates.build(bb,context),partal:bb=>partal.build(bb,water,context),carlos:bb=>carlos.build(bb,context),grounds:bb=>grounds.build(bb,context),generalife:bb=>generalife.build(bb,water,context)};
-  const heroModule={walls,alcazaba,gates,partal,carlos,grounds,generalife};
-  const heroAt={walls:[60,180],alcazaba:[-185,20],gates:[-80,90],carlos:[-22,52],partal:[110,10],grounds:[150,140],generalife:[370,-50]};
-  const firstHeroes={alcazaba:['alcazaba','walls'],vela:['alcazaba','walls'],carlos:['carlos'],partal:['partal'],justice:['walls','gates'],generalife:['generalife'],overview:['walls']}[place.id]||[];
+  const heroBuild={walls:bb=>walls.build(bb,context),alcazaba:bb=>alcazaba.build(bb,context),gates:bb=>gates.build(bb,context),partal:bb=>partal.build(bb,water,context),carlos:bb=>carlos.build(bb,context),grounds:bb=>grounds.build(bb,context),generalife:bb=>generalife.build(bb,water,context),calderia:bb=>calderia.build(bb,context)};
+  const heroModule={walls,alcazaba,gates,partal,carlos,grounds,generalife,calderia};
+  const heroAt={walls:[60,180],alcazaba:[-185,20],gates:[-80,90],carlos:[-22,52],partal:[110,10],grounds:[150,140],generalife:[370,-50],calderia:[-640,-40]};
+  const firstHeroes={alcazaba:['alcazaba','walls'],vela:['alcazaba','walls'],carlos:['carlos'],partal:['partal'],justice:['walls','gates'],generalife:['generalife'],calderia:['calderia'],overview:['walls']}[place.id]||[];
   const matsDone=new Set();
   async function loadHero(name,parent,compile){
     const g=new THREE.Group();g.name='hero:'+name;
@@ -238,6 +242,7 @@ async function init(){
     prepare();if(compile)await renderer.compileAsync(g,camera,scene);parent.add(g);addWater(water);mark('hero '+name);
   }
   for(const h of firstHeroes)await loadHero(h,scene,false);
+  reseat();if(place.ground){camera.position.fromArray(place.p);camera.lookAt(...place.t);}
   prepare();addWater(water);
   tourShots=buildTourShots(PLACES,nav);mark('stage 1 build');
   setLight();wire();localize();go(place.id);await renderer.compileAsync(scene,camera);mark('compile');
@@ -255,7 +260,7 @@ async function init(){
     const views=PLACES.filter(p=>p.ground).map(p=>{const dx=p.t[0]-p.p[0],dz=p.t[2]-p.p[2],l=Math.hypot(dx,dz);return [p.p[0],p.p[2],dx/l,dz/l];});
     const inView=(x,z)=>views.some(([px,pz,dx,dz])=>{const u=(x-px)*dx+(z-pz)*dz,v=Math.abs((x-px)*dz-(z-pz)*dx);return u>-4&&u<90&&v<6+u*.35;});
     trees=await loadTrees('data/trees.bin',renderer,scene,terrainHeight,low,(x,z)=>onModel(x,z)||inView(x,z));mark('trees');
-    shadowDirty=true;window.ALH.ready=true;
+    reseat();shadowDirty=true;window.ALH.ready=true;
   }
   window.ALH.shown=true;
   $('loading').classList.add('done');setTimeout(()=>$('loading')?.remove(),1000);

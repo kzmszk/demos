@@ -16,10 +16,7 @@ export const PLACES = [
   { id:'carlos', no:'13', group:'grounds', ja:'カルロス5世宮殿', en:'Palace of Charles V', es:'Palacio de Carlos V', p:[3,1.65,77], t:[3,6,55], floor:0, desc:{ja:'方形の建物の中に円形の中庭。二層の古典的な列柱と、ナスル朝宮殿との建築の違いを見比べます。',en:'A circular courtyard within a square Renaissance palace. Two tiers of classical columns offer a striking comparison with the Nasrid palaces.'}},
   { id:'justice', no:'14', group:'grounds', ja:'裁きの門', en:'Gate of Justice', es:'Puerta de la Justicia', p:[-24,1.65,148], t:[-20,7,130], floor:0, desc:{ja:'大きな馬蹄形アーチが迎える城門。赤い城壁と塔、宮殿の外を囲む緑を眺めます。',en:'A monumental horseshoe gateway in the red walls, surrounded by the woodland below the palace.'}},
   { id:'overview', no:'15', group:'grounds', ja:'アルハンブラ全景', en:'The whole Alhambra', es:'La colina de la Sabika', p:[-300,275,400], t:[145,0,-20], mode:'orbit', desc:{ja:'サビカの丘を囲む城壁、アルカサバ、宮殿と庭園、その向こうのヘネラリフェ。ドラッグで回転し、全体のつながりを確かめます。',en:'The walls of the Sabika hill, the Alcazaba, palaces, gardens and the Generalife beyond. Drag to orbit and discover how the complex fits together.'}},
-  { id:'sannicolas', no:'16', group:'city', ground:true, ja:'サン・ニコラス展望台', en:'Mirador de San Nicolás', es:'Mirador de San Nicolás', p:[0,0,0], t:[0,0,0], desc:{ja:'アルバイシンの丘の広場から、谷越しにアルハンブラとシエラ・ネバダを望みます。白い家並みの路地を歩いて下れます。',en:'From the square on the Albaicín hill, the Alhambra across the valley with the Sierra Nevada behind. Walk down through the lanes of white houses.'}},
-  { id:'tristes', no:'17', group:'city', ground:true, ja:'パセオ・デ・ロス・トリステス', en:'Paseo de los Tristes', es:'Paseo de los Tristes', p:[0,0,0], t:[0,0,0], desc:{ja:'ダロ川沿いの広場。見上げるとコマレスの塔と城壁がそびえます。川沿いのカレラ・デル・ダロを歩けます。',en:'A square on the river Darro beneath the Comares tower and the walls. Walk along the Carrera del Darro.'}},
-  { id:'plazanueva', no:'18', group:'city', ground:true, ja:'ヌエバ広場', en:'Plaza Nueva', es:'Plaza Nueva', p:[0,0,0], t:[0,0,0], desc:{ja:'旧市街の玄関口。ダロ川の谷とアルバイシン、アルハンブラへ登る坂道の起点です。',en:'The gateway of the old town, where the Darro valley, the Albaicín and the climb to the Alhambra begin.'}},
-  { id:'bibrambla', no:'19', group:'city', ground:true, ja:'ビブ・ランブラ広場', en:'Plaza de Bib-Rambla', es:'Plaza de Bib-Rambla', p:[0,0,0], t:[0,0,0], desc:{ja:'大聖堂のそばの広場。中心街の通りを歩けます。建物はOpenStreetMapの外形からの推定です。',en:'A square beside the cathedral in the city centre. The buildings are generated from OpenStreetMap footprints.'}},
+  { id:'calderia', no:'16', group:'city', ground:true, ja:'カルデレリア・ヌエバ通り', en:'Calle Calderería Nueva', es:'Calle Calderería Nueva', p:[0,0,0], t:[0,0,0], desc:{ja:'アルバイシンの麓、ティーハウスや雑貨店、バルが並ぶ細い坂道。入り組んだ路地を歩けます。',en:'A narrow stepped lane below the Albaicín, lined with tea houses, bazaars and bars. Wander the tangled lanes.'}},
 ];
 // Views placed after registering P-000158's scale bar against the OSM footprints.
 const views={
@@ -32,8 +29,7 @@ const views={
   carlos:[[-23.1,1.65,65.7],[-18.3,6.3,41.2]],justice:[[-31.8,-10.51,137],[-52,-3,128.5]],
   overview:[[-350,280,400],[80,0,20]],
   // Old town: [x, eye above ground, z], [x, height above ground, z]; heights resolved on the terrain.
-  sannicolas:[[-276,1.65,-436],[0,10,-30]],tristes:[[28,1.65,-197],[2,32,-40]],
-  plazanueva:[[-566,1.65,51],[-420,12,-60]],bibrambla:[[-880,1.65,240],[-838,30,83]]
+  calderia:[[-652.6,1.65,-64.8],[-615,2.6,-74.5]]
 };
 for(const p of PLACES){[p.p,p.t]=views[p.id];}
 export const TOUR = ['lions','myrtles','ambassadors','sisters','abencerrajes','mexuar','kings','lindaraja','alcazaba','vela','partal','generalife','carlos','justice','overview'];

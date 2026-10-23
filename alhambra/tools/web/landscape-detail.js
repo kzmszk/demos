@@ -42,6 +42,4 @@ export function palaceDetails(b){
   for(let i=0;i<45;i++)b.box(-10.4+i*.54,5.05,zz,.10,.18,4.1,'wood');
  }
  // Carved doors remain outside the traversable entrances.
- b.zone='mexuar';for(const s of [-1,1])b.box(-29+s*2.5,0,-20.17,1.7,2.5,.045,'carvedDoor');
- for(let x=-33.5;x<-24;x+=.65)b.box(x,5.35,-7,.10,.16,26,'wood');
 }

@@ -1,12 +1,12 @@
 {
   "title": "ALHAMBRA",
   "subtitle": {
-    "ja": "水と光、幾何学の宮殿。グラナダの丘を歩く",
-    "en": "A palace of water, light and geometry. Walk the hill of Granada."
+    "ja": "ナスル朝の宮殿から城塞、庭園、アルバイシンの路地へ。グラナダの丘を、歩いて、空から",
+    "en": "From the Nasrid palaces to the fortress, the gardens and the lanes below the Albaicín: the hill of Granada, on foot and from the air"
   },
   "summary": {
-    "ja": "ナスル朝宮殿の柱廊と幾何学装飾、ライオンの噴水、二姉妹の間のムカルナス、アルカサバの城壁と塔。パルタルからヘネラリフェの庭園まで、一つにつながった3D空間を歩き、空から眺めます。公式資料を参照した手続き的な解釈復元です。",
-    "en": "Explore the Nasrid colonnades, geometric tilework, the Lion Fountain, muqarnas vaults and the Alcazaba. Walk or fly from the Partal gardens to the Generalife in a continuous 3D reconstruction informed by official references."
+    "ja": "アルハンブラ宮殿の全域と、谷を挟んだグラナダ旧市街を3Dで再現し、歩いて、空から巡ります。ライオンの中庭の124本の柱と12頭のライオン、二姉妹の間とアベンセラッヘスの間の星形ムカルナス天井、黄金色に輝く大使の間、メスアールの彩色木製天井。11の塔が並ぶアルカサバではベラの塔の屋上まで階段で登れ、裁きの門の折れ曲がった通路をくぐり、ルネサンスのカルロス5世宮殿の円形中庭、水鏡に映るパルタルの柱廊、噴水が交差するヘネラリフェのアセキアの中庭と水の階段へ。城壁の外には、スペイン国土地理院の5m標高データとOpenStreetMapから生成した約2万6千棟の街並みと10万本の樹木、ダロ川、雪をいただくシエラ・ネバダが広がり、ティーハウスやバザールが並ぶカルデレリア・ヌエバ通りの細い坂道も歩けます。装飾は各室の実写写真から起こした材質と手作りの形状、15地点には実際の写真と出典つき。夕暮れと午後の光、アルベニス《アストゥリアス》のギター編曲、1分の自動案内と紹介動画。日本語と英語に対応。WebGL 2で動作し、宮殿から先に表示して残りは見学中に読み込みます。",
+    "en": "The whole Alhambra and the old town of Granada across the valley, rebuilt in 3D to walk or fly over: the 124 columns and twelve lions of the Court of the Lions, the star-shaped muqarnas vaults of the Two Sisters and the Abencerrajes, the golden Hall of the Ambassadors and the painted wooden ceiling of the Mexuar. Climb the Torre de la Vela above the eleven towers of the Alcazaba, pass through the bent vaulted passage of the Gate of Justice, stand in the round Renaissance courtyard of Charles V, by the Partal's arcade mirrored in its pool, and among the crossing jets of the Generalife and its Water Stair. Beyond the walls spread some 26,000 buildings and 100,000 trees generated from OpenStreetMap and the IGN 5 m elevation model, the river Darro and the snow-capped Sierra Nevada, and you can wander up the narrow stepped Calle Calderería Nueva among its tea houses and bazaars. Ornament from photographs of each room and hand-built geometry; fifteen places with real photographs and sources. Evening and afternoon light, a guitar arrangement of Albéniz's Asturias, a one-minute guided visit and film. Japanese and English. Runs on WebGL 2; the palaces appear first and the rest loads while you explore."
   },
   "date": "2026-10-22",
   "tags": [
@@ -14,7 +14,9 @@
     "3d",
     "architecture",
     "walk",
-    "gardens"
+    "gardens",
+    "openstreetmap",
+    "terrain"
   ],
   "serve": "public",
   "entry": "index.html",
@@ -73,6 +75,12 @@
     {
       "path": "index.html",
       "wait": 8000,
+      "eval": "ALH.go('mexuar')",
+      "after": 1500
+    },
+    {
+      "path": "index.html",
+      "wait": 8000,
       "eval": "ALH.go('partal')",
       "after": 1500
     },
@@ -80,6 +88,12 @@
       "path": "index.html",
       "wait": 8000,
       "eval": "ALH.go('generalife')",
+      "after": 1500
+    },
+    {
+      "path": "index.html",
+      "wait": 8000,
+      "eval": "ALH.go('calderia')",
       "after": 1500
     }
   ]

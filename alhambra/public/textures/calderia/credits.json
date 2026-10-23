@@ -1,0 +1,62 @@
+[
+ {
+  "file": "",
+  "originalTitle": "Procedural canvas texture: lime-render wall with stains, trowel marks and hairline cracks",
+  "changes": "Drawn from noise, soft blotches and streaks; tinted per building by vertex colour.",
+  "source": "Generated at start-up by canvas code in tools/web/heroes/calderia.js; no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23"
+ },
+ {
+  "file": "",
+  "originalTitle": "Procedural canvas texture: sandstone ashlar, brick, Arab roof tiles and timber",
+  "changes": "Drawn from rules (courses, bricks, tile channels, planks) plus speckle noise.",
+  "source": "Generated at start-up by canvas code in tools/web/heroes/calderia.js; no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23"
+ },
+ {
+  "file": "",
+  "originalTitle": "Procedural canvas texture: Granada pebble mosaic (empedrado) with white pebble bands, granite setts, asphalt",
+  "changes": "Drawn as thousands of jittered pebbles; the central white band and wall-side bands follow the layout of the real paving.",
+  "source": "Generated at start-up by canvas code in tools/web/heroes/calderia.js; no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23"
+ },
+ {
+  "file": "",
+  "originalTitle": "Procedural canvas texture: merchandise atlas (rugs, kilims, scarves, leather, ceramic tiles, mosaic lantern glass)",
+  "changes": "Invented patterns drawn with canvas strokes; not copied from any photograph.",
+  "source": "Generated at start-up by canvas code in tools/web/heroes/calderia.js; no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23"
+ },
+ {
+  "file": "",
+  "originalTitle": "Procedural canvas texture: shop-sign atlas (names from OpenStreetMap POIs, azulejo street plaques, chalkboards)",
+  "changes": "Lettering rendered with system fonts onto flat colour boards.",
+  "source": "Generated at start-up by canvas code in tools/web/heroes/calderia.js; no photograph is used.",
+  "author": "Generated for this project (Claude Code, Anthropic)",
+  "license": "CC0 1.0 (generated; no third-party material)",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-23"
+ },
+ {
+  "file": "layout.json",
+  "originalTitle": "OpenStreetMap extract of the Albaicín / Calle Elvira quarter of Granada (building footprints, levels, lanes, shops, bars and cafés)",
+  "source": "https://www.openstreetmap.org (Overpass API, queried 2026-10-23); prepared by work/calderia/prep.py",
+  "author": "OpenStreetMap contributors",
+  "license": "ODbL 1.0",
+  "licenseUrl": "https://opendatacommons.org/licenses/odbl/1-0/",
+  "retrieved": "2026-10-23",
+  "changes": "Clipped to the box x -725..-555, z -115..45 (plus a margin), converted to the local frame, simplified, with party walls and street-facing edges computed and roof plans derived; the POI list keeps only names and amenity/shop/tourism tags."
+ }
+]

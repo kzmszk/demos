@@ -24,7 +24,8 @@ OVERHANG = .32
 def hero_zone():
     per = terrain.perimeter()
     # everything inside the enclosure is hand-built (tools/web/heroes/*), as is the Generalife
-    zones = [per.buffer(2), Point(-56, 125).buffer(26), sbox(316, -142, 442, 208)]
+    zones = [per.buffer(2), Point(-56, 125).buffer(26), sbox(316, -142, 442, 208),
+             sbox(-725, -115, -555, 45)]  # Calderería lanes: tools/web/heroes/calderia.js
     return unary_union(zones)
 
 def historic(x, z):
