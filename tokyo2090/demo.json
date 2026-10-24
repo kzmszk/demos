@@ -25,6 +25,10 @@
     {
       "label": "イメージボード · Boards",
       "href": "boards/"
+    },
+    {
+      "label": "紹介動画 · Film",
+      "href": "film.html"
     }
   ],
   "shots": [

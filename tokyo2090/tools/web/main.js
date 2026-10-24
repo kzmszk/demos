@@ -69,6 +69,8 @@ const T2090 = window.T2090 = { camera, scene, renderer, keys, ready: false, get 
   landAt(x, y) { const f = flight.current; const t = roof.top(x, y); if (t === -Infinity) return false; f.land(new THREE.Vector3(x, t, -y)); return true; },
   look(yaw, pitch) { look.yaw = yaw; look.pitch = pitch; },
   primary: () => primary(), jumpTo: (...a) => jumpTo(...a), togglePlaces: (on) => togglePlaces(on),
+  // the film (tools/film_page.js): stop the animation loop and step frames yourself
+  film: { stop() { filming = true; }, set thermals(v) { filmThermals = v; }, set lift(v) { filmLift = v; }, frame: (dt, pose, snap) => frame(dt, pose, snap), get look() { return look; }, get heroes() { return heroes; }, get saki() { return saki; }, get audio() { return audio; }, createAudio, THREE, get labels() { return labels; } },
   touch, get stick() { return stick; }, get tbtn() { return tbtn; },
   fps: 0 };
 
@@ -361,21 +363,33 @@ const HINTS = {
   street: [K('W A S D', '歩く'), K('Shift', '走る'), K('Space', '壁を登る（壁に向かって歩き続けても）')].join('　'),
   climb: [K('Space', '壁を蹴って飛ぶ')].join('　'),
 };
+let filming = false, filmThermals = null, filmLift = 0;
 function loop(now) {
-  const dt = Math.min(0.05, (now - last) / 1000); T2090.fps = T2090.fps * 0.95 + 0.05 / Math.max(1e-3, (now - last) / 1000); last = now; clock += dt;
+  if (filming) return;
+  const dt = Math.min(0.05, (now - last) / 1000); T2090.fps = T2090.fps * 0.95 + 0.05 / Math.max(1e-3, (now - last) / 1000); last = now;
+  const f = frame(dt);
+  updateHud(f, dt);
+}
+// one frame of the game. pose (the film, tools/film_page.js): instead of the controls and the glider's own step,
+// pose(f, look, dt) puts the glider (and so the eyes) where the shot wants it; snap: the eyes' easing arrives at once
+function frame(dt, pose = null, snap = false) {
+  clock += dt;
   // adaptive quality: a phone that cannot hold 40 fps drops to a 1.0 pixel ratio and shorter tree distances (a steady
   // frame rate matters more than detail when you are looking at her from a metre away)
   if (clock > 8 && !adapted && T2090.fps < 40) { adapted = true; renderer.setPixelRatio(1); LOD.fullTrees = 350; LOD.hideTrees = 1200; LOD.hideCars = 600; LOD.nearProps = Math.min(LOD.nearProps, 60); if (undergrowth && T2090.terrainMat) T2090.terrainMat.uniforms.detQ.value = 0; if (city) city.fullRadius = 600; }
   const f = flight.current;
-  readInput(f, dt); if (f.hand) autopilot.step(f, dt); f.step(dt);
-  if (f.state === 'rest') f.walk(dt, walkIn.x, walkIn.y, walkIn.run); else if (f.state === 'climb') f.climbStep(dt);
-  if (f.state === 'crash' && f.stateTime > 1.0) { f.placeOnFoot(f.restPos.x, -f.restPos.z, f.heading); wasFlying = true; }
+  if (pose) pose(f, look, dt);
+  else {
+    readInput(f, dt); if (f.hand) autopilot.step(f, dt); f.step(dt);
+    if (f.state === 'rest') f.walk(dt, walkIn.x, walkIn.y, walkIn.run); else if (f.state === 'climb') f.climbStep(dt);
+    if (f.state === 'crash' && f.stateTime > 1.0) { f.placeOnFoot(f.restPos.x, -f.restPos.z, f.heading); wasFlying = true; }
+  }
   // just down: on a roof look half-right at her on the edge; in the street, ahead with her at your right
-  if (f.state === 'rest' && wasFlying) { if (f.climbed) { f.climbed = false; look.yaw = 0; look.pitch = -0.15; } else if (f.street) { look.yaw = -0.35; look.pitch = -0.06; } else { look.yaw = -0.8; look.pitch = -0.5; } }
+  if (!pose && f.state === 'rest' && wasFlying) { if (f.climbed) { f.climbed = false; look.yaw = 0; look.pitch = -0.15; } else if (f.street) { look.yaw = -0.35; look.pitch = -0.06; } else { look.yaw = -0.8; look.pitch = -0.5; } }
   wasFlying = f.state !== 'rest';
   // camera: in flight the eyes look along the velocity, tilted by the angle of attack and the bank
   if (f.state === 'rest' || f.state === 'climb') {
-    camera.position.copy(f.p);
+    camera.position.copy(f.p); camera.position.y += filmLift;
     camera.rotation.set(look.pitch, -f.heading + look.yaw, 0);
   } else {
     let pitchAng = Math.asin(THREE.MathUtils.clamp(f.v.length() > 1 ? f.v.y / f.v.length() : 0, -1, 1));
@@ -384,12 +398,12 @@ function loop(now) {
     const gaze = f.handBlend * (0.8 + 0.3 * f.closeBlend);             // toward her face at his left; look.yaw moves freely from there
     // holding hands, the eyes do not follow every dip of the glide: her position is fixed to the eye, so a nodding
     // camera read as her face shaking; the pitch is smoothed hard and she is placed in the same smoothed frame
-    camPitch += (pitchAng - camPitch) * Math.min(1, dt * (f.hand ? 0.8 : 5));
-    camera.rotation.set(camPitch * 0.85 - 0.08 + f.aoaVis * 0.012 + ((document.pointerLockElement || touch) ? look.pitch * 0.5 : 0) + gaze * 0.06 + f.closeBlend * 0.05, -f.heading + gaze + ((document.pointerLockElement || touch) ? look.yaw * (f.hand ? 1.0 : 0.4) : 0), -f.roll * 0.55 * (1 - f.handBlend));
+    camPitch = snap ? pitchAng : camPitch + (pitchAng - camPitch) * Math.min(1, dt * (f.hand ? 0.8 : 5));
+    camera.rotation.set(camPitch * 0.85 - 0.08 + f.aoaVis * 0.012 + ((document.pointerLockElement || touch || filming) ? look.pitch * 0.5 : 0) + gaze * 0.06 + f.closeBlend * 0.05, -f.heading + gaze + ((document.pointerLockElement || touch || filming) ? look.yaw * (f.hand ? 1.0 : 0.4) : 0), -f.roll * 0.55 * (1 - f.handBlend));
     f.camPitch = camPitch;
   }
   camera.updateMatrixWorld();
-  updateAim(f); updateStreet(f, dt); body.update(f, dt); saki.update(f, dt, clock); props?.update(clock, camera.position); story.update(f, dt); clouds.update(clock, camera.position); thermals.update(dt, clock, !(f.state === 'climb' || (f.state === 'rest' && f.street)));
+  if (pose) { ring.visible = ring2.visible = false; } else { updateAim(f); updateStreet(f, dt); } body.update(f, dt); saki.update(f, dt, clock); props?.update(clock, camera.position); story.update(f, dt); clouds.update(clock, camera.position); thermals.update(dt, clock, filmThermals ?? !(f.state === 'climb' || (f.state === 'rest' && f.street)));
   undergrowth.update(camera.position, dt, clock, f.p.y - ground(f.p.x, -f.p.z) < 40);
   city?.update(camera.position); heroes.update(camera.position);
   shared.camPos.value = camera.position; sunRig.update(camera, (f.state === 'rest' || f.state === 'climb') && f.feet - ground(f.p.x, -f.p.z) < 30 ? 'near' : 'far');
@@ -398,6 +412,9 @@ function loop(now) {
   // footsteps: one per stride half (the walker counts the distance)
   if (f.state === 'rest' && f.walkSpeed > 0.3 && f.hopZ === 0) { const len = f.walkSpeed > 2.5 ? 1.15 : 0.72; const n = Math.floor(f.stride / len); if (n !== stepN) { stepN = n; audio?.step(f.walkSpeed > 2.5); } }
   if (audio) { audio.setFlying(f.state !== 'rest' && f.state !== 'climb'); audio.setSpeed(f.state === 'rest' || f.state === 'climb' ? 0 : f.speed); }
+  return f;
+}
+function updateHud(f, dt) {
   hudT += dt; if (hudT < 0.2) { requestAnimationFrame(loop); return; } hudT = 0;        // the HUD text five times a second
   hud.alt.textContent = (f.p.y - ground(f.p.x, -f.p.z)).toFixed(0) + ' m';
   hud.spd.textContent = (f.speed * 3.6).toFixed(0) + ' km/h';

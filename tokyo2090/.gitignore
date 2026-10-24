@@ -6,3 +6,4 @@ boards/*.v[0-9].png
 public/hero/*/previews/
 __pycache__/
 *.pyc
+public/movie/*.mp4
