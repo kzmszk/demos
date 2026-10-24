@@ -1,0 +1,65 @@
+{
+  "style": "Cinematic concept art for a video game, used as an image board. Setting: Tokyo in the year 2090, sixty years after humanity collapsed; the city has been untouched since the 2020s. Real Tokyo landmarks exactly as they stood in the 2020s, now ruined after sixty years: spalling concrete, rust streaks, fallen glass curtain walls, exposed rebar, a few tall towers with their upper floors collapsed. Vegetation has taken over: vines on facades, trees growing from rooftops and through split asphalt, grass in the streets, birds. No electricity, no lights, no people except the two protagonists. The climate has warmed: Tokyo in 2090 is hot, so the survivors wear very little. The two protagonists are eighteen. The player (male) is seen only first-person: bare tanned forearms and hands, a bare chest crossed by the thin leather harness that holds his cape, short loose trousers, and leather sandals on bare feet; while gliding only his hands and forearms are in view, never his own feet or legs (they trail behind him). Saki (female) has short self-cut black hair; she wears only a cropped sleeveless top that covers her chest and a short wrap around her hips, so her midriff, shoulders, arms and legs are bare and wind-tanned; hand-made leather sandals, no boots; and a long faded-vermilion cape attached by a leather harness that stretches between her arms and ankles like a wingsuit; she glides with it and can climb on updrafts. Her look carries a faint, natural sensuality - lean, healthy, unselfconscious - never posed or pin-up, always tasteful. The cape is the only saturated colour in the picture. Mood: a quiet end of the world, and the exhilaration of free flight. Light: warm low sun with soft haze, muted greens and rust. Composition: extreme scale contrast (huge ruined towers, tiny fliers), generous empty sky, restrained and editorial. Painterly-photoreal, no comic outlines, no text, no logos, no watermark, no UI unless asked.",
+  "boards": [
+    {
+      "id": "01-shibuya-key",
+      "aspect": "landscape",
+      "prompt": "Key visual. First-person view from about 150 m above Shibuya, diving toward the scramble crossing. Saki glides ahead and below with her vermilion cape fully spread, looking back over her shoulder. The player's hands and cape edges frame the bottom corners. Shibuya Scramble Square's top floors are sheared off, the SHIBUYA 109 cylinder is wrapped in vines, Hachiko square is a field of rusted cars with zelkova trees pushing up through the crossing. Golden hour, long shadows, haze toward Shinjuku."
+    },
+    {
+      "id": "02-shinjuku-tocho",
+      "aspect": "landscape",
+      "prompt": "Gliding between the twin towers of the Tokyo Metropolitan Government Building in Shinjuku. The north tower's upper third has collapsed into a jagged crown of rebar; the Mode Gakuen Cocoon Tower's lattice is cracked and overgrown; the NTT Docomo Yoyogi clock tower stands in the haze beyond. Saki banks below the player, small against the towers, her cape catching the light. Seen from the player's eyes, his left hand gripping the cape rod at the frame edge. Late afternoon."
+    },
+    {
+      "id": "03-roppongi",
+      "aspect": "landscape",
+      "prompt": "Wide shot over Roppongi. Roppongi Hills Mori Tower has a huge bite taken out of its side, floors hanging open; Tokyo Tower stands rusted, its red and white paint faded to brown and grey; the Azabudai Hills main tower is the tallest, intact but black with soot streaks and vines. Two tiny gliders with capes ride a thermal between them. Low sun from the west, the city a sea of green canopy with ruins poking through."
+    },
+    {
+      "id": "04-jump",
+      "aspect": "landscape",
+      "prompt": "First person. The player stands at the very edge of a tall rooftop in Shibuya, toes over the parapet, looking down at the overgrown city 200 m below. His cape's edge flutters at the sides of the frame. Saki is already airborne, a little ahead and below, cape spread, looking back at him, waiting. The moment before the dive. Wind, morning light, long haze."
+    },
+    {
+      "id": "05-saki-sheet",
+      "aspect": "landscape",
+      "prompt": "Character design sheet of Saki on a plain warm-grey background, for the game's art team. Three figures side by side: standing front view with the cape hanging loose from the harness like a long coat; a three-quarter view with the cape half-opened, showing the thin rods along the arms and the loops at the ankles; and a flying pose with the cape fully spread like a wingsuit, seen from slightly below. Eighteen years old, short black hair cut by herself, pretty and calm with a characterful face, lean, tanned by wind. She wears a cropped sleeveless top over her chest and a short wrap around her hips, both sun-faded and hand-mended, a leather harness for the cape, leather sandals; bare midriff, arms and legs, tanned by wind and sun; lean and healthy, a faint natural sensuality, tasteful, not posed. The cape is faded vermilion, sun-bleached at the edges, mended with mismatched thread. Painterly-photoreal, soft studio light. No text or labels."
+    },
+    {
+      "id": "06-rooftop-rest",
+      "aspect": "landscape",
+      "prompt": "The two of them resting on the roof edge of Shibuya Hikarie at dusk, legs hanging over the drop, capes folded beside them. Seen from the player's eyes, his own knees and hands in the lower frame. Saki sits beside him, looking at him with a small smile, wind in her hair; telepathy is shown only by her steady eyes on him and a barely visible warmth in the air between them, like heat haze; nothing glows, no lightning, no particles. Below, the Shibuya valley is a dark forest with ruined towers; the sky is apricot and violet; no city lights anywhere."
+    },
+    {
+      "id": "07-street-cars",
+      "aspect": "landscape",
+      "prompt": "Ground level on Meiji-dori near Shibuya. Rows of abandoned cars and a city bus, rusted through, tires flat, moss on the roofs, a zelkova tree grown up through a taxi. Faded shop signs, a collapsed pedestrian bridge, grass and ferns in the asphalt cracks. High above, the small shadow of a cape glider crosses the sunlit facade of a ruined tower. Dappled afternoon light."
+    },
+    {
+      "id": "08-hud",
+      "aspect": "landscape",
+      "prompt": "In-game screen concept. First-person flight over Shibuya toward Shinjuku, the player's hands and cape edges at the frame corners, Saki ahead. A minimal HUD drawn as thin pale lines only: a small altitude and speed tick mark at the lower left, a soft glowing landing ring on one rooftop ahead that the player is pointing at, and a faint line of light near Saki where her telepathic words would appear, rendered as abstract thin glyph strokes rather than readable text. The HUD must be barely there; the world is the picture."
+    },
+    {
+      "id": "09-dawn-fog",
+      "aspect": "landscape",
+      "prompt": "Dawn. The Shibuya valley is filled with low fog; only the ruined towers rise out of it like islands: Scramble Square without its crown, Hikarie, the Cerulean Tower, and far off the Shinjuku skyline. The two gliders skim just above the fog, their capes lit pink by the first sun, long shadows cast on the mist. Cold blue shadows, warm highlights, almost no detail in the fog."
+    },
+    {
+      "id": "10-storm-front",
+      "aspect": "landscape",
+      "prompt": "A storm front rolling in over Shinjuku from the west at dusk. The ruined skyscrapers of Nishi-Shinjuku stand dark against towering clouds, rain curtains already over the Park Tower. Saki flies close beside the player, both leaning into a strong wind, capes straining; the rooftop of the Sumitomo Building below is lit by the last gap of sun. Dramatic but restrained, mostly grey, one warm slash of light."
+    },
+    {
+      "id": "11-updraft",
+      "aspect": "landscape",
+      "prompt": "Climbing an updraft along the glass facade of a ruined Shinjuku tower, very close. The player's eyes a few metres from the cracked mirrored glass, which reflects his vermilion cape edge and Saki rising beside him; broken panels reveal dark overgrown floors with vines; a flock of birds circles in the same thermal. Strong sense of speed and lift, late afternoon sun flaring through the broken panes."
+    },
+    {
+      "id": "12-title-panorama",
+      "aspect": "landscape",
+      "prompt": "Title board. A very wide panorama of Tokyo at sunset from above Yoyogi Park, which has become a dense forest: Shibuya's ruined towers on the left, the broken Shinjuku skyline on the right, Tokyo Tower and Azabudai far behind in the haze. Two tiny gliders with capes drift in the huge empty sky, which takes up two thirds of the frame, leaving room for a title. No text."
+    }
+  ]
+}

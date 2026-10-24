@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOKYO 2090 — image boards</title>
+<style>
+  :root { color-scheme: dark; --bg: #0c0d0c; --fg: #d9d6cf; --dim: #6f6c66; --accent: #d8502e; }
+  html, body { margin: 0; background: var(--bg); color: var(--fg); font: 13px/1.6 -apple-system, "Helvetica Neue", Helvetica, "Hiragino Sans", "Noto Sans JP", sans-serif; }
+  header { padding: 56px 24px 24px; display: flex; align-items: baseline; gap: 24px; flex-wrap: wrap; }
+  h1 { margin: 0; font-size: clamp(40px, 9vw, 120px); font-weight: 800; letter-spacing: -0.04em; line-height: 0.9; }
+  h1 small { display: block; font-size: 13px; font-weight: 400; letter-spacing: 0.3em; color: var(--dim); margin-top: 14px; }
+  header p { max-width: 42em; color: var(--dim); margin: 0; }
+  main { display: grid; gap: 48px; padding: 24px 0 120px; }
+  figure { margin: 0; }
+  figure img { display: block; width: 100%; height: auto; background: #151614; }
+  figcaption { display: grid; grid-template-columns: 4em 1fr; gap: 16px; padding: 12px 24px 0; max-width: 1200px; }
+  figcaption b { color: var(--accent); font-weight: 600; letter-spacing: 0.1em; }
+  figcaption span { color: var(--dim); }
+  figure.missing { padding: 0 24px; }
+  figure.missing div { aspect-ratio: 3/2; display: grid; place-items: center; color: var(--dim); border: 1px dashed #2a2b29; }
+  @media (min-width: 1500px) { main { grid-template-columns: 1fr 1fr; gap: 24px; padding: 24px; } figcaption { padding-left: 0; } figure.missing { padding: 0; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>TOKYO 2090<small>IMAGE BOARDS · 滑空する廃都（仮）</small></h1>
+  <p>2090年。人類の99%が消えて60年、ツタに覆われた渋谷・新宿・六本木をマントで滑空する。生き残りは全員18歳。いつもサキと一緒に飛ぶ。</p>
+</header>
+<main id="boards"></main>
+<script>
+fetch('boards.json').then(r => r.json()).then(({ boards }) => {
+  const main = document.getElementById('boards');
+  for (const b of boards) {
+    const f = document.createElement('figure');
+    const img = new Image();
+    img.src = b.id + '.png?' + Date.now();
+    img.alt = b.id;
+    img.onerror = () => { f.className = 'missing'; img.replaceWith(Object.assign(document.createElement('div'), { textContent: 'not yet' })); };
+    f.append(img);
+    const cap = document.createElement('figcaption');
+    cap.innerHTML = `<b>${b.id.slice(0, 2)}</b><span>${b.prompt}</span>`;
+    f.append(cap);
+    main.append(f);
+  }
+});
+</script>
+</body>
+</html>

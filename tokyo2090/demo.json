@@ -1,0 +1,68 @@
+{
+  "title": "TOKYO 2090",
+  "subtitle": {
+    "ja": "人類が消えて六十年。ツタに覆われた渋谷・新宿・六本木を、マントで滑空する",
+    "en": "Sixty years after humanity vanished: glide on a cape over an overgrown Shibuya, Shinjuku and Roppongi"
+  },
+  "summary": {
+    "ja": "2090年、原因のわからない混乱で人類の99%が一年のうちに消えた東京。生き残りはみな十八歳で、マントで風をつかんで滑空し、テレパシーで話す。国土交通省 PLATEAU の建物データ（約10万5千棟、LOD2）と OpenStreetMap、国土地理院の5m標高から渋谷・新宿・六本木を7km四方で再現し、高いビルを乱数で崩し、六十年分のツタと苔、放置された車4万台、森になった公園の樹木14万本を生やしました。屋上から飛び降り、ビルの壁に沿う上昇気流で高度を稼ぎ、見ている屋上に降りて休む。いつも隣をサキが飛んでいて、頭の中に短い言葉が届きます。夕方の光と影、サティのジムノペディ、ヒグラシの声。WebGL 2。",
+    "en": "Tokyo in 2090, sixty years after an unexplained collapse took 99 % of humanity in a single year. The survivors are all eighteen; they glide on capes and speak by telepathy. Shibuya, Shinjuku and Roppongi are rebuilt over a 7 km square from Japan's PLATEAU building data (about 105,000 LOD2 buildings), OpenStreetMap and the GSI 5 m elevation model; tall towers are broken at random, sixty years of vines and moss cover the walls, 40,000 cars stand abandoned in the streets and 140,000 trees have turned the parks into forest. Jump from a roof, ride the air rising along the walls, and point at a rooftop to rest. Saki always flies beside you, and her words arrive in your head. Evening light and shadow, Satie's Gymnopédie, the evening cicadas. WebGL 2."
+  },
+  "date": "2026-10-23",
+  "tags": [
+    "webgl",
+    "3d",
+    "game",
+    "flight",
+    "tokyo",
+    "plateau",
+    "openstreetmap"
+  ],
+  "serve": "public",
+  "entry": "index.html",
+  "gpu": true,
+  "links": [
+    {
+      "label": "イメージボード · Boards",
+      "href": "boards/"
+    }
+  ],
+  "shots": [
+    {
+      "path": "index.html",
+      "wait": 9000,
+      "eval": "1",
+      "after": 1500
+    },
+    {
+      "path": "index.html#nointro",
+      "wait": 9000,
+      "eval": "T2090.fly(120, -60, 150, -0.8)",
+      "after": 2500
+    },
+    {
+      "path": "index.html#nointro",
+      "wait": 9000,
+      "eval": "T2090.fly(-700, 3000, 230, -0.3)",
+      "after": 2500
+    },
+    {
+      "path": "index.html#nointro",
+      "wait": 9000,
+      "eval": "T2090.fly(2300, -200, 180, 1.2)",
+      "after": 2500
+    },
+    {
+      "path": "index.html#nointro",
+      "wait": 9000,
+      "eval": "T2090.fly(-500, 900, 90, 0.4)",
+      "after": 2500
+    },
+    {
+      "path": "index.html#nointro",
+      "wait": 9000,
+      "eval": "T2090.look(-1.2, -0.3)",
+      "after": 1500
+    }
+  ]
+}

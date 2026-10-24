@@ -1,0 +1,10 @@
+You are generating character reference images for a 3D artist who will model this girl's face. Use your image generation tool once per image, size 1024x1024 each, and save them in the current directory as the file names given. Attached are the two concept boards that define her (the character sheet, and a close-up of her sitting on a roof at dusk). Keep her exactly consistent across all images: this is Saki, 18, Japanese, pretty and cute in a natural way, short self-cut black hair with a soft fringe, large gentle dark-brown eyes with a slight upturn, small nose, soft small lips with a faint smile, a slightly rounded youthful face, FAIR Japanese skin with only a light healthy sun tan (not dark), thin leather harness straps, a cropped off-white top. Style: clean painterly-realistic, soft neutral studio light, plain mid-grey background, no text, no watermark, no cape in the head shots.
+
+Images to make:
+1. face-front.png  — head and shoulders, straight-on, eyes to camera, neutral calm expression with the faint smile, hair tucked behind one ear.
+2. face-34.png     — head and shoulders, three-quarter view from her right, same expression.
+3. face-side.png   — head and shoulders, exact profile from her right.
+4. face-close.png  — close-up of her face from 60 cm, three-quarter from her left, looking at the viewer with a warm shy smile, soft evening light (this is how the player sees her in the game).
+5. turnaround.png  — full body A-pose turnaround in one image: front, right side, back, left side, standing on a thin baseline, same height, the bat-wing cape membranes hanging loosely from wrists to ankles behind her (vermilion, sun-bleached edges), short wrap on the hips, leather sandals.
+
+After saving all five, print DONE and the list of files.

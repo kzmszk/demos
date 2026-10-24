@@ -1,0 +1,7 @@
+{
+  "name": "tokyo2090-tools",
+  "private": true,
+  "type": "module",
+  "scripts": { "build": "node build_web.mjs" },
+  "dependencies": { "esbuild": "0.28.1", "three": "0.186.1", "draco3d": "1.5.7" }
+}

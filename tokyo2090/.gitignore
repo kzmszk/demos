@@ -1,0 +1,5 @@
+tools/node_modules/
+public/data/city/
+boards/.log/
+public/models/saki-v*.glb
+boards/*.v[0-9].png
