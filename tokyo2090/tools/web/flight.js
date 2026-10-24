@@ -26,6 +26,7 @@ export class Flight {
     this.walker = null; this.street = false; this.walked = false; this.feet = 0; this.eye = 0; this.vz = 0;
     this.wv = { x: 0, y: 0 }; this.walkSpeed = 0; this.walkHeading = 0; this.stride = 0; this.bob = 0; this.blocked = null;
     this.climbH = 0; this.climbTop = 0; this.hopV = 0; this.hopZ = 0;
+    this.rollRate = 0; this.gRate = 0;                            // the body's attitude has momentum (see step)
   }
   dataXY() { return [this.p.x, -this.p.z]; }
   setWalker(w) { this.walker = w; }
@@ -34,7 +35,7 @@ export class Flight {
   // stand at a point (a roof or the street): `slide` carries a little of the landing speed into the first steps
   placeOnFoot(x, y, heading, slide = null) {
     const z = this.surfaceAt(x, y);
-    this.p.set(x, z + 1.65, -y); this.v.set(0, 0, 0); this.roll = 0; this.open = 0; this.gamma = 0; this.setHeading(heading);
+    this.p.set(x, z + 1.65, -y); this.v.set(0, 0, 0); this.roll = 0; this.open = 0; this.gamma = 0; this.rollRate = 0; this.gRate = 0; this.setHeading(heading);
     this.state = 'rest'; this.stateTime = 0; this.restPos.copy(this.p); this.target = null; this.launch = null;
     this.feet = z; this.eye = z + 1.65; this.vz = 0; this.dropping = false; this.walked = false; this.walkHeading = heading; this.walkSpeed = 0; this.hopZ = 0; this.hopV = 0;
     this.street = this.onStreet(x, y, z); this.prevY = -Infinity;
@@ -76,11 +77,12 @@ export class Flight {
     if (this.walkSpeed > 0.05 && this.hopZ === 0) this.restPos.set(nx, this.feet + 1.65, -ny);
   }
   hop() { if (this.state === 'rest' && this.hopZ === 0) this.hopV = 3.2; }
-  // climbing: Space facing a wall. Up the face, faster as you go, onto whatever is on top
+  // climbing: Space near a wall (or pushing into it). Up the face, faster as you go, onto whatever is on top
   climb(h) {
     if (this.state !== 'rest' || !this.walker) return false;
     const [x, y] = this.dataXY();
-    const w = this.walker.wallAhead(x, y, this.feet, h, 1.3); if (!w) return false;
+    const w = this.walker.wallNear(x, y, this.feet, h); if (!w) return false;
+    h = w.h;
     const back = Math.max(0, w.dist - 0.3);
     this.p.x += Math.sin(h) * back; this.p.z -= Math.cos(h) * back;
     this.climbH = h; this.climbTop = w.top; this.setHeading(h);
@@ -105,7 +107,7 @@ export class Flight {
   }
   // push off the wall into the air, facing away from it
   kickOff() {
-    if (this.state !== 'climb') return;
+    if (this.state !== 'climb' || this.stateTime < 0.6) return;          // not on the same press that started the climb
     const h = this.climbH + Math.PI; this.setHeading(h);
     this.v.copy(this.forward).multiplyScalar(5.5); this.v.y = 2.5; this.gamma = 0.4;
     this.state = 'fall'; this.stateTime = 0; this.open = 0; this.launch = this.p.clone(); this.launchTop = this.climbTop;
@@ -167,6 +169,7 @@ export class Flight {
       this.open = Math.min(1, this.stateTime / 1.3);
       this.v.y -= G * dt; this.v.multiplyScalar(1 - 0.02 * this.open * dt); this.p.addScaledVector(this.v, dt);
       this.speed = this.v.length(); this.heading = Math.atan2(this.v.x, -this.v.z); this.gamma = Math.asin(clamp(this.v.y / Math.max(this.speed, 0.01), -1, 1));
+      this.gRate = 0; this.rollRate = 0;
       if (this.open >= 1 && this.speed > 8) { this.state = 'glide'; this.stateTime = 0; }
       this.collide(); return;
     } else if (this.state !== 'crash') this.open = 1;
@@ -187,7 +190,7 @@ export class Flight {
         const sink = (3.5 + Math.min(9, Math.max(0, above - 4) * 0.15)) * (dh < 5 ? 1 : 0.35);
         this.v.x += (d.x * k - this.v.x) * Math.min(1, dt * 2); this.v.z += (d.z * k - this.v.z) * Math.min(1, dt * 2); this.v.y += (-sink - this.v.y) * Math.min(1, dt * 1.5);
         this.p.addScaledVector(this.v, dt);
-        this.speed = this.v.length(); this.gamma = Math.asin(clamp(this.v.y / Math.max(this.speed, 0.01), -1, 1)); this.roll *= 1 - Math.min(1, dt * 3);
+        this.speed = this.v.length(); this.gamma = Math.asin(clamp(this.v.y / Math.max(this.speed, 0.01), -1, 1)); this.roll *= 1 - Math.min(1, dt * 1.5); this.rollRate = 0; this.gRate = 0;
         if (dh > 1) this.heading = Math.atan2(d.x, -d.z);
         this.input.flare = true; this.input.tuck = false; this.updraft = 0;
         this.forward.set(Math.sin(this.heading), 0, -Math.cos(this.heading)); this.right.set(Math.cos(this.heading), 0, Math.sin(this.heading));
@@ -218,9 +221,14 @@ export class Flight {
     // the cape needs airspeed to steer; the stall: too slow and the nose drops
     const authority = clamp((s - 7) / 5, 0, 1) * this.open;          // full control from 12 m/s; the stall only below ~9
     if (s < 8 && this.open > 0.5) gCmd = Math.min(gCmd, -0.5);
-    this.roll += (rollCmd - this.roll) * Math.min(1, dt * 3.5);
+    // A body under a cape, not a fighter: the bank and the pitch have momentum. The roll is a damped spring (it has to
+    // start rolling and stop again, its rate and the change of its rate both capped), and the path's pitch rate eases
+    // toward what the stick asks for, so every change of attitude swells in and settles instead of snapping.
+    const rAcc = clamp(6.0 * (rollCmd - this.roll) - 4.2 * this.rollRate, -3.5, 3.5);
+    this.rollRate = clamp(this.rollRate + rAcc * dt, -1.1, 1.1); this.roll += this.rollRate * dt;
+    this.gRate += (clamp((gCmd - this.gamma) * 1.2, -0.6, 0.6) - this.gRate) * Math.min(1, dt * 2.4);
     // with authority the path follows the command; without it gravity turns the path down (the stall)
-    const dg = clamp((gCmd - this.gamma) * 2.2, -1.0, 1.0) * authority + (-1.2 - this.gamma) * (1 - authority) * 1.2;
+    const dg = this.gRate * authority + (-1.2 - this.gamma) * (1 - authority) * 1.2;
     const gammaNew = clamp(this.gamma + dg * dt, -1.4, 0.9);
     // coordinated turn at this bank, plus the gentle yaw of a hand on the cape at low speed
     const turn = authority * G * Math.tan(this.roll * 0.9) / Math.max(s, 8);

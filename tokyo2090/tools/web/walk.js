@@ -135,6 +135,15 @@ export function makeWalker({ ground, roof, foot, rubble }) {
       }
       return null;
     },
+    // the nearest climbable wall in a fan around heading h (you rarely face a facade square on): { top, dist, h }
+    wallNear(x, y, z, h, reach = 1.6) {
+      let best = null;
+      for (const o of [0, 0.3, -0.3, 0.6, -0.6, 0.9, -0.9]) {
+        const w = this.wallAhead(x, y, z, h + o, reach - Math.abs(o) * 0.3);
+        if (w && (!best || w.dist < best.dist - 0.1)) best = { ...w, h: h + o };
+      }
+      return best;
+    },
     // a step of walking: slide along walls (try the move, then each axis)
     move(x, y, z, dx, dy) {
       const cur = overlap(x, y, z);

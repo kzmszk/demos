@@ -64,7 +64,7 @@ const T2090 = window.T2090 = { camera, scene, renderer, keys, ready: false, get 
   close(on) { const f = flight.current; f.close = !!on; },
   tryLand,
   // dev / cover hooks: fly(x, y, z, heading) places the glider in the air in data axes; landAt(x, y) lands on that roof
-  fly(x, y, z, heading = 0, speed = 18) { const f = flight.current; f.p.set(x, z, -y); f.heading = heading; f.gamma = -0.12; f.roll = 0; f.open = 1; f.state = 'glide'; f.stateTime = 5; f.launch = null; f.launchTop = -1e9;
+  fly(x, y, z, heading = 0, speed = 18) { const f = flight.current; f.p.set(x, z, -y); f.heading = heading; f.gamma = -0.12; f.roll = 0; f.rollRate = 0; f.gRate = 0; f.open = 1; f.state = 'glide'; f.stateTime = 5; f.launch = null; f.launchTop = -1e9;
     f.v.set(Math.sin(heading) * speed, -speed * 0.12, -Math.cos(heading) * speed); f.forward.set(Math.sin(heading), 0, -Math.cos(heading)); f.right.set(Math.cos(heading), 0, Math.sin(heading)); saki?.place(f.p.clone().addScaledVector(f.forward, 18)); },
   landAt(x, y) { const f = flight.current; const t = roof.top(x, y); if (t === -Infinity) return false; f.land(new THREE.Vector3(x, t, -y)); return true; },
   look(yaw, pitch) { look.yaw = yaw; look.pitch = pitch; },
@@ -118,7 +118,7 @@ let look = { yaw: -0.8, pitch: -0.5 }, pointer = false, camPitch = 0, adapted = 
 function startAudio() { if (!audio && !query.has('silent')) { try { audio = createAudio(); audio.start(); audio.volume(muted ? 0 : 0.7); } catch (e) { console.warn('audio', e); } } }
 function dismissIntro() { startAudio(); document.body.classList.remove('intro'); if ($('intro').classList.contains('on')) { $('intro').classList.remove('on'); return true; } return false; }
 $('intro').addEventListener('click', dismissIntro); $('intro').addEventListener('touchend', (e) => { e.preventDefault(); dismissIntro(); }, { passive: false });
-addEventListener('keydown', (e) => { if (e.code === 'KeyM') { muted = !muted; audio?.volume(muted ? 0 : 0.7); $('mute').textContent = muted ? '♪ off' : '♪ on'; } if (e.code === 'Space' && dismissIntro()) { e.preventDefault(); return; } keys.add(e.code); if (e.code === 'Space') { e.preventDefault(); primary(); } if (e.code === 'KeyE') tryLand(e.shiftKey); if (e.code === 'KeyG') tryLand(true); if (e.code === 'KeyH') toggleHand(); if (e.code === 'KeyJ') toggleClose(); if (e.code === 'KeyL') labels.enabled = !labels.enabled; if (e.code === 'KeyP') togglePlaces(); if (e.code === 'Escape') togglePlaces(false); });
+addEventListener('keydown', (e) => { if (e.code === 'KeyM') { muted = !muted; audio?.volume(muted ? 0 : 0.7); $('mute').textContent = muted ? '♪ off' : '♪ on'; } if (e.code === 'Space' && dismissIntro()) { e.preventDefault(); return; } keys.add(e.code); if (e.code === 'Space') { e.preventDefault(); if (!e.repeat) primary(); } if (e.code === 'KeyE') tryLand(e.shiftKey); if (e.code === 'KeyG') tryLand(true); if (e.code === 'KeyH') toggleHand(); if (e.code === 'KeyJ') toggleClose(); if (e.code === 'KeyL') labels.enabled = !labels.enabled; if (e.code === 'KeyP') togglePlaces(); if (e.code === 'Escape') togglePlaces(false); });
 // Space / the big button: on foot, climb the wall you face, else jump off the roof's edge (or hop on the street);
 // climbing, kick off the wall into the air
 function primary() {
@@ -317,8 +317,8 @@ document.addEventListener('gesturestart', (e) => e.preventDefault());
 
 // on foot: the keys (or the stick) move you relative to where you look; walking turns the body to the view
 const walkIn = { x: 0, y: 0, run: false };
-let wallAhead = null, mode = '', stepN = 0;
-function readWalk(f) {
+let wallAhead = null, mode = '', stepN = 0, pushT = 0;
+function readWalk(f, dt = 1 / 60) {
   const fwd = (keys.has('KeyW') || keys.has('ArrowUp') ? 1 : 0) - (keys.has('KeyS') || keys.has('ArrowDown') ? 1 : 0) - stick.y;
   const side = (keys.has('KeyD') || keys.has('ArrowRight') ? 1 : 0) - (keys.has('KeyA') || keys.has('ArrowLeft') ? 1 : 0) + stick.x;
   const yaw = f.heading - look.yaw, l = Math.hypot(fwd, side), k = l > 1 ? 1 / l : 1;
@@ -326,11 +326,15 @@ function readWalk(f) {
   walkIn.run = keys.has('ShiftLeft') || keys.has('ShiftRight') || Math.hypot(stick.x, stick.y) > 0.9;
   if (l > 0.05 && f.state === 'rest') { f.setHeading(yaw); look.yaw = 0; }
   const [x, y] = f.dataXY();
-  wallAhead = f.state === 'rest' ? walker.wallAhead(x, y, f.feet, f.heading - look.yaw, 1.3) : null;
+  wallAhead = f.state === 'rest' ? walker.wallNear(x, y, f.feet, f.heading - look.yaw) : null;
   f.wallNear = !!wallAhead && wallAhead.top - f.feet > 6;
+  // pushing on into a wall for a moment starts the climb too (the hint says "in front of the wall, push")
+  const into = f.state === 'rest' && wallAhead && f.blocked != null && wallAhead.top - f.feet > 1.2 && l > 0.5 && fwd > 0.3 && Math.abs(Math.sin((wallAhead.h - f.heading) / 2)) < 0.31;   // more or less head on, not sliding along it
+  pushT = into ? pushT + dt : 0;
+  if (pushT > 0.45) { pushT = 0; if (f.climb(f.heading)) { look.yaw = 0; look.pitch = Math.max(look.pitch, 0.35); } }
 }
-function readInput(f) {
-  readWalk(f);
+function readInput(f, dt = 1 / 60) {
+  readWalk(f, dt);
   const pitch = (keys.has('KeyW') || keys.has('ArrowUp') ? -1 : 0) + (keys.has('KeyS') || keys.has('ArrowDown') ? 1 : 0);
   const roll = (keys.has('KeyD') || keys.has('ArrowRight') ? 1 : 0) + (keys.has('KeyA') || keys.has('ArrowLeft') ? -1 : 0);
   const foot = f.state === 'rest' || f.state === 'climb';
@@ -354,7 +358,7 @@ const K = (k, t) => `<kbd>${k}</kbd> ${t}`;
 const HINTS = {
   fly: [K('W S', '下げ 上げ'), K('A D', '傾ける'), K('Shift', '絞る'), K('F', '広げる'), K('E', '見ている屋上に降りる'), K('Shift+E / G', '道に降りる（青緑の輪）'), K('H', 'サキと手をつなぐ'), K('J', '寄せる')].join('　'),
   roof: [K('W A S D', '歩く'), K('Shift', '走る'), K('Space', '飛び降りる / 壁を登る')].join('　'),
-  street: [K('W A S D', '歩く'), K('Shift', '走る'), K('Space', '壁を登る')].join('　'),
+  street: [K('W A S D', '歩く'), K('Shift', '走る'), K('Space', '壁を登る（壁に向かって歩き続けても）')].join('　'),
   climb: [K('Space', '壁を蹴って飛ぶ')].join('　'),
 };
 function loop(now) {
@@ -363,7 +367,7 @@ function loop(now) {
   // frame rate matters more than detail when you are looking at her from a metre away)
   if (clock > 8 && !adapted && T2090.fps < 40) { adapted = true; renderer.setPixelRatio(1); LOD.fullTrees = 350; LOD.hideTrees = 1200; LOD.hideCars = 600; LOD.nearProps = Math.min(LOD.nearProps, 60); if (undergrowth && T2090.terrainMat) T2090.terrainMat.uniforms.detQ.value = 0; if (city) city.fullRadius = 600; }
   const f = flight.current;
-  readInput(f); if (f.hand) autopilot.step(f, dt); f.step(dt);
+  readInput(f, dt); if (f.hand) autopilot.step(f, dt); f.step(dt);
   if (f.state === 'rest') f.walk(dt, walkIn.x, walkIn.y, walkIn.run); else if (f.state === 'climb') f.climbStep(dt);
   if (f.state === 'crash' && f.stateTime > 1.0) { f.placeOnFoot(f.restPos.x, -f.restPos.z, f.heading); wasFlying = true; }
   // just down: on a roof look half-right at her on the edge; in the street, ahead with her at your right
@@ -380,7 +384,7 @@ function loop(now) {
     const gaze = f.handBlend * (0.8 + 0.3 * f.closeBlend);             // toward her face at his left; look.yaw moves freely from there
     // holding hands, the eyes do not follow every dip of the glide: her position is fixed to the eye, so a nodding
     // camera read as her face shaking; the pitch is smoothed hard and she is placed in the same smoothed frame
-    camPitch += (pitchAng - camPitch) * Math.min(1, dt * (f.hand ? 0.8 : 30));
+    camPitch += (pitchAng - camPitch) * Math.min(1, dt * (f.hand ? 0.8 : 5));
     camera.rotation.set(camPitch * 0.85 - 0.08 + f.aoaVis * 0.012 + ((document.pointerLockElement || touch) ? look.pitch * 0.5 : 0) + gaze * 0.06 + f.closeBlend * 0.05, -f.heading + gaze + ((document.pointerLockElement || touch) ? look.yaw * (f.hand ? 1.0 : 0.4) : 0), -f.roll * 0.55 * (1 - f.handBlend));
     f.camPitch = camPitch;
   }
