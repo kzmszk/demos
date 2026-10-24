@@ -41,7 +41,8 @@ export function makeThermals(scene, flight) {
   const G = 13, CELL = 24; const grid = new Float32Array(G * G); let row = 0;
   const cx0 = { x: 0, y: 0 };
   return {
-    update(dt, time) {
+    // active = false (on foot in the street, climbing): no new seeds; the ones in the air rise on and fade
+    update(dt, time, active = true) {
       const f = flight.current; if (!f) return;
       const [px, py] = f.dataXY(); const z = f.p.y;
       const gx0 = Math.round(px / CELL) * CELL - (G - 1) / 2 * CELL, gy0 = Math.round(py / CELL) * CELL - (G - 1) / 2 * CELL;
@@ -52,7 +53,7 @@ export function makeThermals(scene, flight) {
         for (let i = 0; i < G; i++) { const x = gx0 + i * CELL, y = gy0 + j * CELL; grid[j * G + i] = Math.max(f.windUp(x, y, z), f.windUp(x, y, z - 30) * 0.9, f.windUp(x, y, z + 25) * 0.8); }
       }
       // spawn: cells with lift emit in proportion to it
-      let budget = Math.floor(700 * dt);
+      let budget = active ? Math.floor(700 * dt) : 0;
       for (let tries = 0; tries < 60 && budget > 0; tries++) {
         const i = Math.floor(Math.random() * G), j = Math.floor(Math.random() * G); const w = grid[j * G + i];
         if (w < 4.5) continue;

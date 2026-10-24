@@ -1,0 +1,107 @@
+{
+ "district": "shibuya",
+ "title": "渋谷 スクランブル交差点〜SHIBUYA109",
+ "origin": [
+  -80.0,
+  50.0
+ ],
+ "spawns": [
+  {
+   "name": "スクランブル交差点",
+   "x": 95.0,
+   "y": -61.0,
+   "heading": -0.95,
+   "note": "SE corner of the scramble, QFRONT and 109 ahead"
+  },
+  {
+   "name": "ハチ公",
+   "x": 85.3,
+   "y": -95.2,
+   "heading": 2.5,
+   "note": "Hachiko square, the statue in front"
+  },
+  {
+   "name": "SHIBUYA109",
+   "x": 2.0,
+   "y": -46.0,
+   "heading": -1.5,
+   "note": "Dogenzaka below the fork, the 109 tower ahead"
+  }
+ ],
+ "labels": [
+  {
+   "name": "SHIBUYA109",
+   "x": -58.0,
+   "y": -43.0,
+   "z": 70.0,
+   "kind": "building"
+  },
+  {
+   "name": "QFRONT",
+   "x": 66.0,
+   "y": -8.0,
+   "z": 70.0,
+   "kind": "building"
+  },
+  {
+   "name": "MAGNET by SHIBUYA109",
+   "x": 116.0,
+   "y": -15.0,
+   "z": 62.0,
+   "kind": "building"
+  },
+  {
+   "name": "渋谷西武",
+   "x": 56.0,
+   "y": 30.0,
+   "z": 66.0,
+   "kind": "building"
+  },
+  {
+   "name": "スクランブル交差点",
+   "x": 78.0,
+   "y": -52.0,
+   "z": 19.0,
+   "kind": "place"
+  },
+  {
+   "name": "ハチ公像",
+   "x": 88.9,
+   "y": -100.0,
+   "z": 19.0,
+   "kind": "place"
+  },
+  {
+   "name": "センター街",
+   "x": 60.0,
+   "y": -33.0,
+   "z": 22.0,
+   "kind": "place"
+  },
+  {
+   "name": "道玄坂",
+   "x": -70.0,
+   "y": -72.0,
+   "z": 24.0,
+   "kind": "place"
+  },
+  {
+   "name": "文化村通り",
+   "x": -90.0,
+   "y": -10.0,
+   "z": 24.0,
+   "kind": "place"
+  }
+ ],
+ "stats": {
+  "near_tris": 331811,
+  "draw_calls": 22,
+  "near_mb": 7.81,
+  "far_tris": 13712,
+  "far_mb": 0.82,
+  "collide_tris": 43192,
+  "mid_tris": 113175,
+  "mid_draw_calls": 21,
+  "mid_mb": 4.38
+ }
+}

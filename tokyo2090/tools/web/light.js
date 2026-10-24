@@ -18,6 +18,7 @@ export const shadowGLSL = /* glsl */`
     return s / 9.0;
   }`;
 
+const _f = new THREE.Vector3(), _c = new THREE.Vector3();
 export function makeSun(scene, sunDir, size = 4096) {
   const sun = new THREE.DirectionalLight(0xffffff, 1);
   sun.castShadow = true; sun.shadow.mapSize.set(size, size);
@@ -27,11 +28,14 @@ export function makeSun(scene, sunDir, size = 4096) {
   const uniforms = { shadowMap: { value: null }, shadowMatrix: { value: sun.shadow.matrix }, shadowSize: { value: new THREE.Vector2(size, size) } };
   return {
     sun, uniforms,
-    update(camera) {
+    // range 'far' (flying): a 2.2 km box 450 m ahead; 'near' (on foot in the street): a 700 m box, three times sharper
+    update(camera, range = 'far') {
+      const half = range === 'near' ? 350 : 1100, ahead = range === 'near' ? 150 : 450;
+      if (c.right !== half) { c.left = -half; c.right = half; c.top = half; c.bottom = -half; c.updateProjectionMatrix(); }
       // centre the box ahead of the camera, snapped to the texel grid so the shadows do not swim
-      const f = new THREE.Vector3(); camera.getWorldDirection(f); f.y = 0; f.normalize();
-      const centre = camera.position.clone().addScaledVector(f, 450); centre.y = 60;
-      const snap = 2200 / size * 4; centre.x = Math.round(centre.x / snap) * snap; centre.z = Math.round(centre.z / snap) * snap;
+      const f = _f; camera.getWorldDirection(f); f.y = 0; f.normalize();
+      const centre = _c.copy(camera.position).addScaledVector(f, ahead); centre.y = 60;
+      const snap = 2 * half / size * 4; centre.x = Math.round(centre.x / snap) * snap; centre.z = Math.round(centre.z / snap) * snap;
       target.position.copy(centre); sun.position.copy(centre).addScaledVector(sunDir, 2000);
       sun.updateMatrixWorld(); target.updateMatrixWorld();
       uniforms.shadowMap.value = sun.shadow.map ? sun.shadow.map.texture : null;

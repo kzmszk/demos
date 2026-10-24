@@ -86,7 +86,7 @@ export function makeBody(camera, shared) {
       uniforms.time.value += dt;
       const flying = f.state !== 'rest';
       const open = flying ? f.open : 0;
-      uniforms.open.value += (open - uniforms.open.value) * Math.min(1, dt * 4);
+      uniforms.open.value += (open - uniforms.open.value) * Math.min(1, dt * (flying ? 4 : 9));        // folds quickly once you stand
       uniforms.flap.value = Math.min(1, f.speed / 20) * (0.6 + 0.4 * Math.min(1, Math.abs(f.gload - 1))) * (1 - 0.7 * (f.handBlend || 0));
       uniforms.sunDirView.value.copy(shared.sunDir.value).transformDirection(camera.matrixWorldInverse);
       for (const s of sides) {

@@ -27,7 +27,7 @@ const frag = /* glsl */`
   ${shadowGLSL}
   uniform vec3 sunDir; uniform vec3 sunCol; uniform vec3 skyCol; uniform vec3 groundCol;
   uniform vec3 fogCol; uniform float fogDen; uniform vec3 camPos; uniform float lite;
-  uniform sampler2D atlas; uniform sampler2D atlasMask; uniform sampler2D detail; uniform float dbg;
+  uniform sampler2D atlas; uniform sampler2D atlasMask; uniform sampler2D detail; uniform float dbg; uniform vec4 cutBox;
   varying vec3 vW; varying vec3 vN; varying vec4 vK; varying float vHb; varying float vL;
   const float COLS = 8.0, ROWS = 3.0;
   // bay width and storey height per style: curtain precast mansion tile house danchi glass darktile
@@ -43,6 +43,7 @@ const frag = /* glsl */`
     // the packed per-building values are integers: round them, or interpolation jitter re-rolls every hash per pixel
     float kind = vK.x > 5.5 ? 2.0 : vK.x, sid = floor(vK.y + 0.5), seed = sid / 255.0, H = floor(vK.z + 0.5) * 2.0, veg = floor(vK.w + 0.5) / 255.0;   // 6 = floor stub, drawn as a broken floor
     vec2 xy = vec2(vW.x, -vW.z);
+    if (xy.x > cutBox.x && xy.x < cutBox.z && xy.y > cutBox.y && xy.y < cutBox.w) discard;      // ?hero= preview of a district not yet folded in
     vec3 up = vec3(0.0, 1.0, 0.0);
     vec3 T = normalize(cross(up, N) + vec3(1e-4, 0.0, 0.0));
     float u = dot(vW, T), v = vHb;
@@ -231,15 +232,16 @@ const frag = /* glsl */`
   }`;
 
 const depthVert = /* glsl */`
-  attribute vec3 ap; uniform vec3 origin;
-  void main(){ vec3 d = vec3(ap.x * 0.01, ap.y * 0.01, ap.z * 0.02) + origin; gl_Position = projectionMatrix * viewMatrix * vec4(d.x, d.z, -d.y, 1.0); }`;
+  attribute vec3 ap; uniform vec3 origin; varying vec2 vXY;
+  void main(){ vec3 d = vec3(ap.x * 0.01, ap.y * 0.01, ap.z * 0.02) + origin; vXY = d.xy; gl_Position = projectionMatrix * viewMatrix * vec4(d.x, d.z, -d.y, 1.0); }`;
 const depthFrag = /* glsl */`
   #include <packing>
-  void main(){ gl_FragColor = packDepthToRGBA(gl_FragCoord.z); }`;
-export function makeCityDepthMaterial() { return new THREE.ShaderMaterial({ uniforms: { origin: { value: new THREE.Vector3() } }, vertexShader: depthVert, fragmentShader: depthFrag }); }
+  uniform vec4 cutBox; varying vec2 vXY;
+  void main(){ if (vXY.x > cutBox.x && vXY.x < cutBox.z && vXY.y > cutBox.y && vXY.y < cutBox.w) discard; gl_FragColor = packDepthToRGBA(gl_FragCoord.z); }`;
+export function makeCityDepthMaterial(cutBox = { value: new THREE.Vector4(1e9, 1e9, -1e9, -1e9) }) { return new THREE.ShaderMaterial({ uniforms: { origin: { value: new THREE.Vector3() }, cutBox }, vertexShader: depthVert, fragmentShader: depthFrag }); }
 
 export function makeCityMaterial(uniforms) {
-  return new THREE.ShaderMaterial({ uniforms: { ...uniforms, dbg: { value: 0 }, origin: { value: new THREE.Vector3() }, lite: { value: 0 } }, vertexShader: vert, fragmentShader: frag, side: THREE.DoubleSide });
+  return new THREE.ShaderMaterial({ uniforms: { ...uniforms, dbg: { value: 0 }, cutBox: { value: new THREE.Vector4(1e9, 1e9, -1e9, -1e9) }, origin: { value: new THREE.Vector3() }, lite: { value: 0 } }, vertexShader: vert, fragmentShader: frag, side: THREE.DoubleSide });
 }
 
 function geometryFrom(buf, offset, nv, ni) {
@@ -279,7 +281,7 @@ export class City {
       // every tile shares the world uniforms by reference and owns only its origin
       const m = new THREE.ShaderMaterial({ uniforms: { ...this.material.uniforms, origin: { value: new THREE.Vector3(head.ox, head.oy, head.oz) }, lite: { value: 0 } }, vertexShader: vert, fragmentShader: frag, side: THREE.DoubleSide });
       const mesh = new THREE.Mesh(lite, m); mesh.frustumCulled = true; mesh.castShadow = true;
-      mesh.customDepthMaterial = makeCityDepthMaterial(); mesh.customDepthMaterial.uniforms.origin.value.copy(m.uniforms.origin.value);
+      mesh.customDepthMaterial = makeCityDepthMaterial(m.uniforms.cutBox); mesh.customDepthMaterial.uniforms.origin.value.copy(m.uniforms.origin.value);
       t.full = full; t.lite = lite; t.mesh = mesh; t.state = 2; this.scene.add(mesh);
     } catch (e) { console.warn('tile', key, e); t.state = 3; }
     this.loading--;

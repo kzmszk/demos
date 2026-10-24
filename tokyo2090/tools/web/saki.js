@@ -107,25 +107,74 @@ export function makeSaki(scene, shared) {
     const a = actions[name]; if (!a || a === current) return;
     a.reset().fadeIn(fade).play(); if (current) current.fadeOut(fade); current = a;
   }
-  const state = { pos: new THREE.Vector3(), vel: new THREE.Vector3(), side: 1, sideT: 0, phase: Math.random() * 10 };
+  const state = { pos: new THREE.Vector3(), vel: new THREE.Vector3(), side: 1, sideT: 0, phase: Math.random() * 10, ts: 1, slot: null, feet: 0, wv: { x: 0, y: 0 }, yaw: 0, speed: 0 };
+  let walker = null, footTurn = 0;
+  const WALK_V = 1.2, RUN_V = 3.45;              // m/s at timeScale 1 for the walk / run clips (stride per cycle / period)
   const tmp = new THREE.Vector3(), target = new THREE.Vector3(), vFwd = new THREE.Vector3();
   let ARM_SWING = 0.75; window.__armSwing = (v) => { ARM_SWING = v; };
   const lerpAngle = (a, b, t) => a + Math.atan2(Math.sin(b - a), Math.cos(b - a)) * t;
   return {
     root, state, get model() { return model; },
     set speaking(fn) { speaking = fn; },
+    set walker(w) { walker = w; },
     place(p) { state.pos.copy(p); state.vel.set(0, 0, 0); root.position.copy(p); },
     update(f, dt, time) {
       uniforms.time.value = time;
       // hand in hand the clip almost stands still: its arm flex and body wave were the 1 Hz shake he saw in her face
-      if (current) current.timeScale = f.hand ? 0.12 : 1;
+      if (current) current.timeScale = f.hand ? 0.12 : state.ts;
       // the mixer only rewrites a bone when the clip value changes; with the clip nearly frozen it often does not,
       // and an override multiplied onto the bone would then accumulate frame after frame (the arm spun, the head
       // flapped). So: restore the clip's own value first, let the mixer write, remember the clean value, then override.
       for (const [b, qc] of clean) b.quaternion.copy(qc);
       mixer?.update(dt);
       for (const b of overridden) { if (!b) continue; let qc = clean.get(b); if (!qc) { qc = new THREE.Quaternion(); clean.set(b, qc); } qc.copy(b.quaternion); }
-      if (f.state === 'rest') {
+      const sitting = f.state === 'rest' && !f.walked && !f.street;
+      state.ts = 1;
+      if (f.state === 'rest' && !sitting && walker) {
+        // on foot: she walks at his right (his left if a wall is there, behind him if both are), keeps his pace and
+        // runs to catch up; standing, she stays put until he moves off
+        const h = f.walkHeading, fx = Math.sin(h), fy = Math.cos(h), rx = Math.cos(h), ry = -Math.sin(h);
+        const [px, py] = f.dataXY(); let hx = state.pos.x, hy = -state.pos.z;
+        const ok = (x, y) => { const z = walker.under(x, y); return z < f.feet + 0.5 && z > f.feet - 2.5; };
+        if (!state.wasRest || f.walkSpeed > 0.15 || !state.slot || Math.hypot(hx - px, hy - py) > 4.5) {
+          const ah = f.walkSpeed > 2.5 ? 3.2 : 2.2;                                     // a couple of steps ahead: in view as you walk
+          let sx = px + rx * 0.95 + fx * ah, sy = py + ry * 0.95 + fy * ah;
+          if (!ok(sx, sy)) { sx = px - rx * 0.95 + fx * ah; sy = py - ry * 0.95 + fy * ah; }
+          if (!ok(sx, sy)) { sx = px - fx * 1.3; sy = py - fy * 1.3; }
+          state.slot = [sx, sy];
+        }
+        const [sx, sy] = state.slot;
+        if (!state.wasRest || Math.hypot(sx - hx, sy - hy) > 14) { hx = sx; hy = sy; state.feet = walker.under(sx, sy); state.wv.x = state.wv.y = 0; state.yaw = h; }
+        const dx = sx - hx, dy = sy - hy, d = Math.hypot(dx, dy);
+        const maxV = Math.max(d > 4 ? 5.6 : 1.45, f.walkSpeed * 1.15 + 0.6), wantV = d < 0.15 ? 0 : Math.min(maxV, d * 1.8);
+        const k = Math.min(1, dt * 5);
+        state.wv.x += ((d > 1e-3 ? dx / d : 0) * wantV - state.wv.x) * k; state.wv.y += ((d > 1e-3 ? dy / d : 0) * wantV - state.wv.y) * k;
+        const r = walker.move(hx, hy, state.feet, state.wv.x * dt, state.wv.y * dt);
+        const moved = Math.hypot(r.x - hx, r.y - hy); hx = r.x; hy = r.y;
+        const under = walker.under(hx, hy); state.feet = under > state.feet ? under : Math.max(under, state.feet - 6 * dt);
+        state.speed += (moved / Math.max(dt, 1e-4) - state.speed) * Math.min(1, dt * 8);
+        state.pos.set(hx, state.feet + (model ? 0.89 : 0.62), -hy); state.vel.set(state.wv.x, 0, -state.wv.y);
+        if (state.speed > 0.2) state.yaw = lerpAngle(state.yaw, Math.atan2(state.wv.x, state.wv.y), Math.min(1, dt * 6));
+        else state.yaw = lerpAngle(state.yaw, h, Math.min(1, dt * 1.5));
+        const sp = state.speed;
+        if (model) {
+          if (sp < 0.22) { play('stand', 0.35); state.ts = 1; }
+          else if (sp < 2.5) { play('walk', 0.3); state.ts = THREE.MathUtils.clamp(sp / WALK_V, 0.6, 1.6); }
+          else { play('run', 0.25); state.ts = THREE.MathUtils.clamp(sp / RUN_V, 0.7, 1.45); }
+          body.rotation.set(0, -state.yaw, 0);
+        } else body.rotation.set(1.45, state.yaw, 0);
+        uniforms.flap.value = 0.05;
+      } else if (f.state === 'climb') {
+        // he climbs; she soars up the face beside him on the lift off the wall, swinging back and forth along it
+        target.copy(f.p).addScaledVector(f.forward, -9).addScaledVector(f.right, 22 * Math.sin(time * 0.55 + state.phase)); target.y += 2 + 2 * Math.sin(time * 0.8);
+        tmp.copy(target).sub(state.pos); const d = tmp.length();
+        const want = tmp.multiplyScalar(THREE.MathUtils.clamp(d * 1.1, 7, 22) / Math.max(d, 1e-3));
+        state.vel.lerp(want, Math.min(1, dt * 1.8)); state.pos.addScaledVector(state.vel, dt);
+        const v = state.vel, sp = v.length();
+        if (sp > 0.5) body.rotation.set(Math.asin(THREE.MathUtils.clamp(v.y / sp, -1, 1)) * 0.6, (model ? -1 : 1) * Math.atan2(v.x, -v.z), 0);
+        if (model) play('fly');
+        uniforms.flap.value = Math.min(1, sp / 18);
+      } else if (f.state === 'rest') {
         // sitting beside him on the edge, a little ahead so he sees her when he looks right
         // on the edge beside him, a little ahead so she is in the picture when he looks half-right
         target.copy(f.p).addScaledVector(f.right, 1.35).addScaledVector(f.forward, 1.0); target.y = f.p.y - 1.65 + (model ? 0.0 : 0.62);
@@ -167,6 +216,11 @@ export function makeSaki(scene, shared) {
         uniforms.flap.value = Math.min(1, sp / 18);
       }
       root.position.copy(state.pos); state.wasRest = f.state === 'rest';
+      // on foot she looks where she goes, and at him when she speaks or now and then
+      let rel = 0;
+      if (f.state === 'rest' && !sitting) { const [px, py] = f.dataXY(); rel = Math.atan2(px - state.pos.x, py + state.pos.z) - state.yaw; rel = THREE.MathUtils.clamp(Math.atan2(Math.sin(rel), Math.cos(rel)), -1.3, 1.3); }
+      const wantFoot = f.state === 'rest' && !sitting && (speaking() || glanceT < 0) ? rel : 0;
+      footTurn += (wantFoot - footTurn) * Math.min(1, dt * (wantFoot ? 2.5 : 1.5));
       // the head: after the animation, twist it toward him when they hold hands (her right), back when they let go
       // she looks ahead; she turns to him when she speaks, when they are drawn close, and for a glance now and then
       glanceT -= dt; if (glanceT < -2.5) glanceT = 14 + Math.random() * 16;
@@ -189,6 +243,10 @@ export function makeSaki(scene, shared) {
           qTurn.setFromAxisAngle(axisX, Math.sin(ph) * (0.04 + 0.08 * sp) * (0.5 + i * 0.3)); b.quaternion.multiply(qTurn);
           qTurn.setFromAxisAngle(axisZ, Math.sin(ph * 0.7 + 1.3) * (0.03 + 0.05 * sp)); b.quaternion.multiply(qTurn);
         });
+      }
+      if (headBone && Math.abs(footTurn) > 0.01) {
+        qTurn.setFromAxisAngle(axisY, -footTurn * 0.6); headBone.quaternion.multiply(qTurn);
+        if (neckBone) { qTurn.setFromAxisAngle(axisY, -footTurn * 0.3); neckBone.quaternion.multiply(qTurn); }
       }
       if (headBone && headTurn > 0.01) {
         const c = f.closeBlend;

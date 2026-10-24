@@ -288,6 +288,7 @@ export function createAudio(opts = {}) {
   let noiseSrc = null;
   let running = false;
   let flying = false;
+  let stepBuf = null, stepSide = 1;
   let speed = 0;
   let vol = 0.7;
   let pumpTimer = null;
@@ -368,6 +369,7 @@ export function createAudio(opts = {}) {
       const w = i / xf;
       nd[i] = nd[i] * w + nd[nLen - xf + i] * (1 - w);
     }
+    stepBuf = nBuf;
     noiseSrc = ctx.createBufferSource();
     noiseSrc.buffer = nBuf;
     noiseSrc.loop = true;
@@ -689,6 +691,24 @@ export function createAudio(opts = {}) {
     updateAmbience();
   }
 
+  // a footstep on grit and leaf litter: a short burst of the noise through a band-pass, over a soft low thump
+  function step(run = false) {
+    if (!ctx || !running || !stepBuf) return;
+    const t = ctx.currentTime + 0.005, dur = run ? 0.07 : 0.1, amp = (run ? 0.16 : 0.11) * (0.8 + Math.random() * 0.4);
+    stepSide = -stepSide;
+    const src = ctx.createBufferSource(); src.buffer = stepBuf;
+    const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1100 + Math.random() * 900; bp.Q.value = 0.9;
+    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 170; lp.Q.value = 0.7;
+    const g = ctx.createGain(), gl = ctx.createGain();
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(amp, t + 0.006); g.gain.exponentialRampToValueAtTime(0.0005, t + dur);
+    gl.gain.setValueAtTime(0, t); gl.gain.linearRampToValueAtTime(amp * 2.2, t + 0.01); gl.gain.exponentialRampToValueAtTime(0.0005, t + dur * 1.4);
+    const pan = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+    src.connect(bp); bp.connect(g); src.connect(lp); lp.connect(gl);
+    const out = pan || ambBus; if (pan) { pan.pan.value = stepSide * 0.15; pan.connect(ambBus); }
+    g.connect(out); gl.connect(out);
+    src.start(t, Math.random() * 1.5, dur * 1.6); src.stop(t + dur * 1.6);
+  }
+
   function volume(v) {
     if (v === undefined) return vol;
     vol = clamp(+v || 0, 0, 1);
@@ -705,6 +725,7 @@ export function createAudio(opts = {}) {
     stop,
     setFlying,
     setSpeed,
+    step,
     volume,
     // test hooks
     _pump: (until) => pumpUntil(until),

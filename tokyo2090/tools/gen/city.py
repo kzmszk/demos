@@ -325,12 +325,15 @@ def main(nproc=8):
     from multiprocessing import Pool
     bs = []
     for f in sorted(glob.glob(os.path.join(ASSETS, 'cache', 'plateau', '*.pkl'))): bs += pickle.load(open(f, 'rb'))
+    tags = tag_landmarks(bs)
+    from .hero_ids import excluded
+    ex = excluded()
     tiles = {}
     for b in bs:
+        if b['id'] in ex: continue                     # rebuilt by hand in a hero district (tools/hero/)
         i, j = tile_of(b['cx'], b['cy'])
         if 0 <= i < NTX and 0 <= j < NTY: tiles.setdefault((i, j), []).append(b)
-    tags = tag_landmarks(bs)
-    print(len(bs), 'buildings in', len(tiles), 'tiles; landmarks', sorted(tags.values()), flush=True)
+    print(len(bs), 'buildings in', len(tiles), 'tiles;', len(ex), 'left to the hero districts; landmarks', sorted(tags.values()), flush=True)
     for f in glob.glob(os.path.join(OUT, '*.bin')): os.remove(f)
     heads = []; t0 = time.time()
     W = int((X1 - X0) / ROOF_RES); Hh = int((Y1 - Y0) / ROOF_RES)

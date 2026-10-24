@@ -12,7 +12,7 @@ Builds everything procedurally (no external assets):
   * the cape as a quad grid between the arms and the ankle loops;
   * one 1024² colour atlas painted per texel from 3D position (PNG, embedded);
   * armature (names fixed by the game), automatic weights for the body, transferred /
-    procedural weights for the rest, three looping actions: fly (2 s), sit (3 s), stand (3 s).
+    procedural weights for the rest, five looping actions: fly (2 s), sit (3 s), stand (3 s), walk (1.07 s), run (0.67 s).
 
 Two helper bones beyond the game's list: cape.L / cape.R, children of shin.L / shin.R at the ankle
 loops. The cape's hem is bound to them, so by default it follows the ankles (fly, stand); the sit
@@ -3757,6 +3757,10 @@ def hair_rot(kind, t):
         elif kind == 'sit':
             w = 2 * math.pi * t / 3.0
             d = Ry(3.0 * math.sin(w - 0.7 * k)) @ Rx(2.0 * math.sin(w - 0.7 * k + 1.0)) @ vnorm(0, -0.12, -1)
+        elif kind in ('walk', 'run'):   # swings side to side twice a stride, a little behind her as she moves
+            P, A, back = (WALK_T, 5.0, -0.12) if kind == 'walk' else (RUN_T, 9.0, -0.35)
+            w = 2 * math.pi * t / P
+            d = Ry(A * math.sin(2 * w - 0.8 * k)) @ Rx(0.6 * A * math.sin(2 * w - 0.8 * k + 0.9)) @ vnorm(0, back, -1)
         else:
             w = 2 * math.pi * t / 3.0
             d = Ry(1.6 * math.sin(w - 0.6 * k)) @ Rx(1.0 * math.sin(w - 0.6 * k + 0.7)) @ vnorm(0, -0.05, -1)
@@ -3812,6 +3816,62 @@ def pose_stand(t):
         r['foot' + sx] = Rz(yaw) @ (Rx(8) if sx == '.L' else Quaternion())
     r.update(hair_rot('stand', t))
     return {'rot': r, 'ground': 'shin.R', 'cape_off': ((0.02, -0.07, -0.02), (0.05, -0.16, 0.03))}
+
+
+WALK_T, RUN_T = 32 / 30, 20 / 30    # stride periods (s), whole even frame counts so the exported loop (every 2nd frame) closes
+
+
+def gait(t, run=False):
+    """A walk (or run) cycle in place: legs swing about the hips, the knee folds in the swing, the foot rolls heel to
+    toe, the arms swing against the legs, the hips and chest twist against each other. The lower ankle is pinned to
+    the ground by bake_action ('ground' lists both shins)."""
+    P = RUN_T if run else WALK_T
+    w = 2 * math.pi * t / P
+    r = {}
+    lean = 9 if run else 2.5
+    r['hips'] = Rz((7 if run else 5) * math.sin(w)) @ Ry((2 if run else 3) * math.sin(w + math.pi / 2)) @ Rx(-lean * 0.4)
+    r['spine'] = Rx(-lean * 0.5) @ Rz(-2.0 * math.sin(w))
+    r['chest'] = Rx(-lean * 0.4 + 1.0 * math.sin(2 * w)) @ Rz(-(6 if run else 4) * math.sin(w))
+    r['neck'] = Rx(lean * 0.6) @ Rz(1.5 * math.sin(w))
+    r['head'] = Rx(-3 + lean * 0.5 + 1.2 * math.sin(2 * w + 0.6)) @ Rz(1.5 * math.sin(w))
+    for s, sx in ((-1, '.L'), (1, '.R')):
+        ph = w if s < 0 else w + math.pi                   # left leg forward at w = pi/2
+        phw = math.atan2(math.sin(ph), math.cos(ph))
+        if run:
+            a = 30 * math.sin(ph) + 6
+            k = 18 + 88 * max(0.0, math.cos(ph + 0.45)) ** 1.6
+        else:
+            a = 22 * math.sin(ph)
+            k = 6 + 52 * max(0.0, math.cos(ph + 0.35)) ** 2.2
+        dt = vnorm(s * 0.035, math.sin(math.radians(a)), -math.cos(math.radians(a)))
+        r['thigh' + sx] = aim('thigh' + sx, dt, (0, 1, 0))
+        ds = toward(dt, (0, -1, 0), k)
+        r['shin' + sx] = aim('shin' + sx, ds, (0, 1, 0))
+        # heel to toe: flat in the stance, toes down at the push-off, up at the heel strike
+        td = (40 if run else 30) * math.exp(-((phw + 1.25) / 0.55) ** 2)
+        tu = (8 if run else 14) * math.exp(-((phw - 1.45) / 0.5) ** 2)
+        df = Rx(tu - td) @ vnorm(s * 0.08, 0.87, -0.50)
+        r['foot' + sx] = aim('foot' + sx, df, (0, 0, 1))
+        # the arm swings with the opposite leg
+        b = (28 if run else 16) * math.sin(ph + math.pi) + (-6 if run else 2)
+        r['shoulder' + sx] = Ry(s * 3) @ Rx(-0.15 * b)
+        du = vnorm(s * (0.22 if run else 0.16), math.sin(math.radians(b)), -math.cos(math.radians(b)))
+        el = (72 if run else 14) + (6 if run else 10) * max(0.0, math.sin(math.radians(b)) * 2)
+        dfa = toward(du, (0, 1, 0.15), el)
+        r['upperarm' + sx] = aim('upperarm' + sx, du, (-s, 0.25, 0))
+        r['forearm' + sx] = aim('forearm' + sx, dfa, (-s, 0.4, 0))
+        r['hand' + sx] = aim('hand' + sx, toward(dfa, (s * 0.2, 0.3, -1), 4 if not run else 20), (-s, 0.45, 0))
+    r.update(hair_rot('run' if run else 'walk', t))
+    bob = (0.035 * math.cos(2 * w)) if run else 0.0
+    return {'rot': r, 'ground': ['shin.L', 'shin.R'], 'bob': bob, 'cape_off': ((0.02, -0.09, -0.02), (0.05, -0.22 if run else -0.17, 0.03))}
+
+
+def pose_walk(t):
+    return gait(t, False)
+
+
+def pose_run(t):
+    return gait(t, True)
 
 
 SEAT_Z = 0.770
@@ -3897,11 +3957,15 @@ def bake_action(rig, name, fn, seconds, fps=30):
         pose = fn(t)
         out, P = solve(rig, pose)
         if pose.get('ground'):
-            # keep the standing foot on the ground
-            sb = pose['ground']
-            ank = (P[sb] @ (R[sb].inverted() @ (R[sb] @ Vector((0, rig.data.bones[sb].length, 0)))))
-            rest_ank = R[sb] @ Vector((0, rig.data.bones[sb].length, 0))
-            pose['root_loc'] = (0, 0, rest_ank.z - ank.z)
+            # keep the standing foot on the ground (with several candidates, the lower ankle is the standing one)
+            gl = pose['ground'] if isinstance(pose['ground'], list) else [pose['ground']]
+            dz = None
+            for sb in gl:
+                ank = (P[sb] @ (R[sb].inverted() @ (R[sb] @ Vector((0, rig.data.bones[sb].length, 0)))))
+                rest_ank = R[sb] @ Vector((0, rig.data.bones[sb].length, 0))
+                d = rest_ank.z - ank.z
+                dz = d if dz is None else max(dz, d)
+            pose['root_loc'] = (0, 0, dz + pose.get('bob', 0.0))
             out, P = solve(rig, pose)
         for bn, (loc, q, sc) in out.items():
             pb = rig.pose.bones[bn]
@@ -4117,6 +4181,8 @@ def build():
     bake_action(rig, 'fly', pose_fly, 2.0)
     bake_action(rig, 'sit', pose_sit, 3.0)
     bake_action(rig, 'stand', pose_stand, 3.0)
+    bake_action(rig, 'walk', pose_walk, WALK_T)
+    bake_action(rig, 'run', pose_run, RUN_T)
     bpy.context.scene.render.fps = 30
     return rig, mesh
 
@@ -4148,6 +4214,11 @@ def previews(rig):
     # face-34 / face-side to image-left), so the cameras below match the pictures, not the words
     preview(rig, None, 0, ((0.42, 0.88, 0.20), 0.6), None, os.path.join(PREV_DIR, 'saki-close.png'), 70, fit='head', roll=8,
             hfrac=0.30)
+    if '--gait' in ARGS:
+        for nm, fr in (('walk', (0, 8, 16, 24)), ('run', (0, 5, 10, 15))):
+            for f in fr:
+                preview(rig, nm, f, (2.9, 0.4, 0.05), (0, 0, -0.08), os.path.join(PREV_DIR, 'g-%s-%02d.png' % (nm, f)), 50)
+            preview(rig, nm, fr[1], (1.6, 2.4, 0.3), (0, 0, -0.08), os.path.join(PREV_DIR, 'g-%s-34.png' % nm), 50)
     if '--refs' in ARGS or '--extra' in ARGS:
         for nm, dv, ln in (('front', (0, 1, 0.02), 85), ('34', (-0.62, 0.78, 0.04), 85), ('side', (-1, 0, 0.02), 85)):
             preview(rig, None, 0, (dv, 0.9), None, os.path.join(PREV_DIR, 'x-ref-%s.png' % nm), ln, fit='head')

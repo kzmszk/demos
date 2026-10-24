@@ -1,0 +1,78 @@
+{
+ "district": "tocho",
+ "origin": [
+  -760,
+  3270
+ ],
+ "spawns": [
+  {
+   "name": "都民広場",
+   "x": 72.0,
+   "y": 78.0,
+   "heading": -1.72,
+   "note": "Citizens' Plaza, the overgrown semicircle inside the Assembly colonnade, looking up at the twin towers"
+  },
+  {
+   "name": "都庁前 北の瓦礫",
+   "x": -92.0,
+   "y": 150.0,
+   "heading": 2.4,
+   "note": "the street at the foot of the towers: the bus stop, the rubble ramp from the fallen north crown"
+  },
+  {
+   "name": "公園通り",
+   "x": -101.0,
+   "y": 64.0,
+   "heading": 1.35,
+   "note": "west side along Chuo Park, the sheer west face of No.1 above the street trees"
+  },
+  {
+   "name": "第二本庁舎前",
+   "x": 22.0,
+   "y": -30.0,
+   "heading": -2.6,
+   "note": "the deck between No.1 and No.2, bus stop and taxi rank"
+  }
+ ],
+ "labels": [
+  {
+   "name": "東京都庁 第一本庁舎",
+   "x": -38.0,
+   "y": 58.0,
+   "z": 282.0,
+   "kind": "building"
+  },
+  {
+   "name": "第二本庁舎",
+   "x": -4.0,
+   "y": -112.0,
+   "z": 200.0,
+   "kind": "building"
+  },
+  {
+   "name": "都議会議事堂",
+   "x": 100.0,
+   "y": 86.0,
+   "z": 78.0,
+   "kind": "building"
+  },
+  {
+   "name": "都民広場",
+   "x": 62.0,
+   "y": 80.0,
+   "z": 38.0,
+   "kind": "place"
+  }
+ ],
+ "stats": {
+  "near_tris": 391773,
+  "draw_calls": 20,
+  "near_mb": 8.52,
+  "far_tris": 18042,
+  "far_mb": 0.81,
+  "mid_tris": 116000,
+  "mid_mb": 2.52,
+  "mid_draw_calls": 14,
+  "collide_tris": 15534
+ }
+}

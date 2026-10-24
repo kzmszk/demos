@@ -2,6 +2,9 @@
 // growth, trees rooted on flat roofs). Everything is placed once at load from a seeded PRNG and drawn as two
 // InstancedMeshes with the same lighting and fog as terrain.js. Data axes: x east, y north, z up; three.js = (x, z, -y).
 
+import { shadowGLSL } from './light.js';
+import { CAR_TYPES, carGeometry2, carVinesGeometry, treeGeometry2, nearMaterials, NEAR_BAND } from './props-near.js';
+
 export const FRAME = { x0: -2400, x1: 4600, y0: -2000, y1: 4400 };
 const CAR_CAP = 40000, TREE_CAP = 220000, PARK_CAP = 25000;
 const CAR_L = 4.2, CAR_H = 1.45, FLIP_LIFT = 1.35;      // overturned cars rest on the cabin roof (spec said 0.6; see report)
@@ -250,7 +253,11 @@ export function farTreeGeometry(THREE) {
 }
 
 // level of detail by distance: 0 full tree, 1 far tree, -1 hidden (distance d to the chunk centre, radius r of its bounding sphere)
-export const LOD = { fullTrees: 900, hideTrees: 2600, hideCars: 1500 };   // main.js lowers these on phones
+// nearProps: radius (m) of the near level of detail for cars and trees (0 = off; phones use ~90); nearCarMax / nearTreeMax / nearTreeFull:
+// how many near cars / trees may be drawn at once (the near radius shrinks in dense parks to stay inside them) and how many of the trees get the
+// full-detail version (nearTreeFull; the next nearTreeMid get a half-detail one, the rest a ~430 triangle one). The caps are scaled down by (nearProps / 140)^2 on phones. nearShadow: the trees up to this many
+// metres beyond the near radius also cast their (blobby) shadow into the sun's shadow map; 0 = no tree shadows.
+export const LOD = { fullTrees: 900, hideTrees: 2600, hideCars: 1500, nearProps: 140, nearCarMax: 160, nearTreeMax: 600, nearTreeFull: 60, nearTreeMid: 140, nearShadow: 40 };   // main.js lowers these on phones
 export const treeLod = (d, r) => (d - r > LOD.hideTrees ? -1 : d < LOD.fullTrees ? 0 : 1);
 
 // group record indices by 500 m cell of the data frame: Map cellKey -> [record index, ...]
@@ -268,17 +275,23 @@ export function chunkRecords(data, stride) {
 // ---------------------------------------------------------------------------------------------------- shaders
 // shared: noise, then lighting and fog exactly as terrain.js
 const vary = /* glsl */`
-  varying vec3 vW; varying vec3 vN; varying vec3 vCol;
+  varying vec3 vW; varying vec3 vN; varying vec3 vCol; varying float vFar;
   float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }`;
+// the far meshes give way to the near level: an instance nearer than nearR.xz - nearR.yw (cars / trees) is clipped, and in the band up to
+// nearR.xz it is dithered out against the near mesh's complementary pattern (vFar: 0 = hidden .. 1 = fully far)
 const common = /* glsl */`
+  #include <packing>
   ${vary}
+  ${shadowGLSL}
   uniform vec3 sunDir; uniform vec3 sunCol; uniform vec3 skyCol; uniform vec3 groundCol;
   uniform vec3 fogCol; uniform float fogDen; uniform vec3 camPos;
+  float ign(vec2 p){ return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715)))); }
   float noise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.0-2.0*f);
     return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
   float fbm(vec2 p){ float v = 0.0, a = 0.5; for(int k=0;k<3;k++){ v += a*noise(p); p = p*2.03 + 7.1; a *= 0.5; } return v; }
   vec3 shade(vec3 col, vec3 N){
-    float dif = max(dot(N, sunDir), 0.0);
+    float dif = max(dot(N, sunDir), 0.0), dd = length(vW - camPos);
+    if (dif > 0.0 && dd < 650.0) dif *= mix(shadowAt(vW, N, sunDir), 1.0, smoothstep(450.0, 650.0, dd));
     vec3 light = sunCol * dif + mix(groundCol, skyCol, N.y * 0.5 + 0.5) * 0.9;
     vec3 rgb = col * light;
     float d = length(vW - camPos); float f = 1.0 - exp(-fogDen * d);
@@ -289,8 +302,11 @@ const common = /* glsl */`
 const carVert = /* glsl */`
   ${vary}
   attribute float aPart; varying float vPart; varying float vRust;
+  uniform vec3 camPos; uniform vec4 nearR;
   void main(){
     mat4 M = modelMatrix * instanceMatrix;
+    vFar = clamp((distance(M[3].xyz, camPos) - (nearR.x - nearR.y)) / nearR.y, 0.0, 1.0);
+    if (vFar <= 0.0) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); return; }
     vec4 w = M * vec4(position, 1.0);
     // inverse-transpose normal for a rotation times a (bus) stretch
     vec3 s2 = vec3(dot(M[0].xyz, M[0].xyz), dot(M[1].xyz, M[1].xyz), dot(M[2].xyz, M[2].xyz));
@@ -302,6 +318,7 @@ const carFrag = /* glsl */`
   precision highp float; varying float vPart; varying float vRust;
   ${common}
   void main(){
+    if (vFar < 1.0 && ign(gl_FragCoord.xy) >= vFar) discard;
     vec3 N = normalize(vN), col;
     if(vPart > 1.5) col = vec3(0.035);                                                     // tyres, underside
     else if(vPart > 0.5) col = mix(vec3(0.035, 0.045, 0.05), vec3(0.10, 0.12, 0.12), noise(vW.xz * 3.0));   // dull, grimy glass
@@ -320,8 +337,11 @@ const carFrag = /* glsl */`
 const treeVert = /* glsl */`
   ${vary}
   attribute float aShade; uniform float time; varying float vShade; varying float vLy;
+  uniform vec3 camPos; uniform vec4 nearR;
   void main(){
     mat4 M = modelMatrix * instanceMatrix;
+    vFar = clamp((distance(M[3].xyz, camPos) - (nearR.z - nearR.w)) / nearR.w, 0.0, 1.0);
+    if (vFar <= 0.0) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); return; }
     vec4 w = M * vec4(position, 1.0);
     // sway: the canopy (local y > 2.5) leans in a slow wave travelling across the city; the weight ramps up from the trunk
     float s = length(M[0].xyz), wgt = smoothstep(2.5, 6.5, position.y), ph = time * 1.3 + w.x * 0.3;
@@ -333,6 +353,7 @@ const treeFrag = /* glsl */`
   precision highp float; varying float vShade; varying float vLy;
   ${common}
   void main(){
+    if (vFar < 1.0 && ign(gl_FragCoord.xy) >= vFar) discard;
     vec3 N = normalize(vN), col;
     if(vShade < 0.0) col = vec3(0.19, 0.14, 0.10) * (0.8 + 0.4 * noise(vW.xz * 4.0 + vW.y * 2.0));   // bark
     else {
@@ -358,19 +379,154 @@ function chunkMesh(THREE, geo, material, data, stride, idx, pos, fill) {
   return mesh;
 }
 
+
+// ---------------------------------------------------------------------------------------------------- near level of detail
+const hashI = (i) => { let h = Math.imul(i + 1, 0x9E3779B1); h ^= h >>> 15; h = Math.imul(h, 0x85EBCA6B); h ^= h >>> 13; return (h >>> 0) / 4294967296; };
+// which of the near car models record at offset o is: a bus if the record says so, else kei / compact / sedan / minivan by a hash of its place
+export function carTypeOf(d, o) {
+  if (d[o + 6] > 0.5) return 4;
+  const r = hashI(Math.round(d[o] * 7 + d[o + 1] * 13));
+  return r < 0.22 ? 0 : r < 0.52 ? 1 : r < 0.78 ? 2 : 3;
+}
+const hasVines = (d, o) => hashI(Math.round(d[o] * 5 + d[o + 1] * 11) + 7919) < 0.55;
+const treeVariant = (d, o) => Math.min(2, Math.floor(hashI(Math.round(d[o] * 3 + d[o + 1] * 17) + 101) * 3));
+const TREE_TRIS = [2522, 980, 428];
+
+// Near cars and trees: every ~0.3 s or 5 m of camera travel the records within the near radius are copied into a few dynamic InstancedMeshes
+// (one per car model / tree variant and detail tier). The far meshes hide the same instances themselves (see nearR in the far shaders), so nothing is
+// drawn twice. When more records are near than the caps allow, the near radius shrinks to the distance of the last one that fits.
+function makeNear(THREE, scene, uniforms, cd, td, carCells, treeCells) {
+  const NB = 512, MARGIN = 8, CHX = Math.ceil((FRAME.x1 - FRAME.x0) / CHUNK), CHY = Math.ceil((FRAME.y1 - FRAME.y0) / CHUNK);
+  const capCar = LOD.nearCarMax, capTree = LOD.nearTreeMax, mats = nearMaterials(THREE, uniforms);
+  const group = new THREE.Group(); group.name = 'nearProps';
+  const mk = (geo, mat, cap, name) => {
+    const m = new THREE.InstancedMesh(geo, mat, cap);
+    m.instanceMatrix.setUsage(THREE.DynamicDrawUsage); m.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(cap * 3), 3); m.instanceColor.setUsage(THREE.DynamicDrawUsage);
+    m.count = 0; m.visible = false; m.frustumCulled = false; m.matrixAutoUpdate = false; m.name = name; group.add(m); return m;
+  };
+  const carGeos = CAR_TYPES.map((_, t) => carGeometry2(THREE, t)), carTris = carGeos.map((g) => g.attributes.position.count / 3);
+  const vineGeos = CAR_TYPES.map((_, t) => carVinesGeometry(THREE, t, 5)), vineTris = vineGeos.map((g) => g.attributes.position.count / 3);
+  const carMesh = carGeos.map((g, t) => mk(g, mats.car, capCar, 'nearCar' + t)), vineMesh = vineGeos.map((g, t) => mk(g, mats.carFol, capCar, 'nearCarVines' + t));
+  const treeMesh = [0, 1, 2].map((v) => [0, 1, 2].map((tier) => mk(treeGeometry2(THREE, 11 + v * 5, tier), mats.tree, capTree, `nearTree${v}-${tier}`)));
+  // shadows: a cheap stand-in (the 20-triangle far tree) per tree up to nearShadow m beyond the near radius, drawn only into the sun's shadow map
+  const capShadow = 6000, casters = new THREE.InstancedMesh(farTreeGeometry(THREE), new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false }), capShadow);
+  casters.instanceMatrix.setUsage(THREE.DynamicDrawUsage); casters.count = 0; casters.castShadow = true; casters.frustumCulled = false; casters.matrixAutoUpdate = false; casters.name = 'nearTreeShadows'; group.add(casters);
+  scene.add(group);
+
+  const candC = new Int32Array(1 << 14), distC = new Float32Array(1 << 14), candT = new Int32Array(1 << 16), distT = new Float32Array(1 << 16), bins = new Int32Array(NB);
+  const cnt = { car: new Int32Array(5), vine: new Int32Array(5), tree: [new Int32Array(3), new Int32Array(3), new Int32Array(3)] };
+  const pos = new THREE.Vector3(), quat = new THREE.Quaternion(), scl = new THREE.Vector3(1, 1, 1), eul = new THREE.Euler(0, 0, 0, 'YZX'), mat = new THREE.Matrix4();
+  let lx = 1e9, ly = 0, lz = 0, lt = -9, lr = -1;
+  const st = { cars: 0, carsFar: 0, trees: 0, treesFull: 0, tris: 0, carRadius: 0, treeRadius: 0, refills: 0 };
+
+  // candidates (records within rm of the camera, data axes) into cand/dist, a histogram of their distances into bins; returns the count
+  const scan = (cells, d, stride, cx, cy, cz, rm, cand, dist) => {
+    bins.fill(0);
+    const gx0 = Math.max(0, Math.floor((cx - rm - FRAME.x0) / CHUNK)), gx1 = Math.min(CHX - 1, Math.floor((cx + rm - FRAME.x0) / CHUNK));
+    const gy0 = Math.max(0, Math.floor((cy - rm - FRAME.y0) / CHUNK)), gy1 = Math.min(CHY - 1, Math.floor((cy + rm - FRAME.y0) / CHUNK));
+    let n = 0; const r2 = rm * rm, cap = cand.length;
+    for (let gy = gy0; gy <= gy1; gy++) for (let gx = gx0; gx <= gx1; gx++) {
+      const list = cells.get(gy * CHX + gx); if (!list) continue;
+      for (let k = 0; k < list.length && n < cap; k++) {
+        const i = list[k], o = i * stride, dx = d[o] - cx, dy = d[o + 1] - cy, dz = d[o + 2] - cz, q = dx * dx + dy * dy + dz * dz;
+        if (q < r2) { const m = Math.sqrt(q); cand[n] = i; dist[n++] = m; bins[Math.min(NB - 1, m | 0)]++; }
+      }
+    }
+    return n;
+  };
+  const cutoff = (cap, rm) => { let c = 0; const nb = Math.min(NB, Math.ceil(rm)); for (let b = 0; b < nb; b++) { if (c + bins[b] > cap) return b; c += bins[b]; } return rm; };
+
+  const refill = (cam, R) => {
+    const cx = cam.x, cy = -cam.z, cz = cam.y, k = Math.min(1, Math.max(0.25, (R / 140) ** 2)), rm = R + MARGIN;
+    st.refills++;
+    // ---- cars
+    const cc = Math.max(8, Math.round(capCar * k));
+    const nC = scan(carCells, cd, CAR_STRIDE, cx, cy, cz, rm, candC, distC), rc = cutoff(cc, rm);
+    cnt.car.fill(0); cnt.vine.fill(0);
+    for (let n = 0; n < nC; n++) {
+      if (distC[n] >= rc) continue;
+      const i = candC[n], o = i * CAR_STRIDE, t = carTypeOf(cd, o), flip = cd[o + 5] > 0.5;
+      pos.set(cd[o], cd[o + 2], -cd[o + 1]); if (flip) pos.y += CAR_TYPES[t].roof - FLIP_LIFT + 0.09;
+      eul.set(flip ? Math.PI : 0, cd[o + 3], cd[o + 4]); quat.setFromEuler(eul); mat.compose(pos, quat, scl);
+      let m = carMesh[t], q = cnt.car[t]++; mat.toArray(m.instanceMatrix.array, q * 16);
+      m.instanceColor.array[q * 3] = cd[o + 7]; m.instanceColor.array[q * 3 + 1] = cd[o + 8]; m.instanceColor.array[q * 3 + 2] = cd[o + 9];
+      if (hasVines(cd, o)) { m = vineMesh[t]; q = cnt.vine[t]++; mat.toArray(m.instanceMatrix.array, q * 16); }
+    }
+    let tris = 0, nc = 0;
+    for (let t = 0; t < 5; t++) {
+      const a = carMesh[t], v = vineMesh[t]; a.count = cnt.car[t]; v.count = cnt.vine[t]; a.visible = a.count > 0; v.visible = v.count > 0;
+      a.instanceMatrix.needsUpdate = a.instanceColor.needsUpdate = a.count > 0; v.instanceMatrix.needsUpdate = v.count > 0;
+      tris += a.count * carTris[t] + v.count * vineTris[t]; nc += a.count;
+    }
+    const Rc = rc >= rm ? R : Math.max(0, rc - MARGIN);
+    // ---- trees
+    const tc = Math.max(12, Math.round(capTree * k)), tf = Math.max(4, Math.round(LOD.nearTreeFull * k)), tm = tf + Math.max(4, Math.round(LOD.nearTreeMid * k));
+    const rmS = LOD.nearShadow > 0 ? rm + LOD.nearShadow : rm;
+    const nT = scan(treeCells, td, TREE_STRIDE, cx, cy, cz, rmS, candT, distT), rt = cutoff(tc, rm), rf = Math.min(rt, cutoff(tf, rm)), rb = Math.min(rt, cutoff(tm, rm));
+    cnt.tree[0].fill(0); cnt.tree[1].fill(0); cnt.tree[2].fill(0);
+    for (let n = 0; n < nT; n++) {
+      if (distT[n] >= rt) continue;
+      const i = candT[n], o = i * TREE_STRIDE, tier = distT[n] < rf ? 0 : distT[n] < rb ? 1 : 2, v = treeVariant(td, o), m = treeMesh[v][tier], q = cnt.tree[tier][v]++;
+      const sc = td[o + 3], cs = Math.cos(td[o + 4]) * sc, sn = Math.sin(td[o + 4]) * sc, a = m.instanceMatrix.array, b = q * 16;
+      a[b] = cs; a[b + 1] = 0; a[b + 2] = -sn; a[b + 3] = 0; a[b + 4] = 0; a[b + 5] = sc; a[b + 6] = 0; a[b + 7] = 0; a[b + 8] = sn; a[b + 9] = 0; a[b + 10] = cs; a[b + 11] = 0;
+      a[b + 12] = td[o]; a[b + 13] = td[o + 2]; a[b + 14] = -td[o + 1]; a[b + 15] = 1;
+      m.instanceColor.array[q * 3] = td[o + 5]; m.instanceColor.array[q * 3 + 1] = td[o + 6]; m.instanceColor.array[q * 3 + 2] = td[o + 7];
+    }
+    let ns = 0;
+    if (LOD.nearShadow > 0) {
+      const a = casters.instanceMatrix.array;
+      for (let n = 0; n < nT && ns < capShadow; n++) {
+        const o = candT[n] * TREE_STRIDE, sc = td[o + 3], cs = Math.cos(td[o + 4]) * sc, sn = Math.sin(td[o + 4]) * sc, b = ns++ * 16;
+        a[b] = cs; a[b + 1] = 0; a[b + 2] = -sn; a[b + 3] = 0; a[b + 4] = 0; a[b + 5] = sc; a[b + 6] = 0; a[b + 7] = 0; a[b + 8] = sn; a[b + 9] = 0; a[b + 10] = cs; a[b + 11] = 0;
+        a[b + 12] = td[o]; a[b + 13] = td[o + 2]; a[b + 14] = -td[o + 1]; a[b + 15] = 1;
+      }
+      casters.instanceMatrix.needsUpdate = true;
+    }
+    casters.count = ns; casters.visible = ns > 0;
+    let ntr = 0, nfull = 0;
+    for (let v = 0; v < 3; v++) for (let tier = 0; tier < 3; tier++) {
+      const m = treeMesh[v][tier]; m.count = cnt.tree[tier][v]; m.visible = m.count > 0; m.instanceMatrix.needsUpdate = m.instanceColor.needsUpdate = m.count > 0;
+      tris += m.count * TREE_TRIS[tier]; ntr += m.count; if (tier === 0) nfull += m.count;
+    }
+    const Rt = rt >= rm ? R : Math.max(0, rt - MARGIN);
+    uniforms.nearR.value.set(Rc, NEAR_BAND, Rt, NEAR_BAND);
+    st.cars = nc; st.trees = ntr; st.treesFull = nfull; st.tris = tris; st.carRadius = Rc; st.treeRadius = Rt;
+    lx = cam.x; ly = cam.y; lz = cam.z; lr = R;
+  };
+  return {
+    group, stats: () => ({ ...st }),
+    refill: (cam) => refill(cam, LOD.nearProps),
+    update(t, cam) {
+      const R = LOD.nearProps;
+      if (!(R > 0)) { if (lr !== 0) { uniforms.nearR.value.set(0, NEAR_BAND, 0, NEAR_BAND); for (const m of group.children) { m.count = 0; m.visible = false; } st.cars = st.trees = st.tris = 0; lr = 0; } return; }
+      const mv = Math.hypot(cam.x - lx, cam.y - ly, cam.z - lz);
+      if (mv > 5 || t - lt > 0.3 || R !== lr) { lt = t; refill(cam, R); }
+    },
+  };
+}
+
+// the records (x, y first) outside every box [x0, y0, x1, y1] (the hand-built districts bring their own trees and cars)
+function without(data, stride, boxes) {
+  if (!boxes || !boxes.length) return data;
+  const out = []; const n = data.length / stride;
+  for (let i = 0; i < n; i++) { const x = data[i * stride], y = data[i * stride + 1];
+    if (boxes.some((b) => x > b[0] && x < b[2] && y > b[1] && y < b[3])) continue;
+    for (let k = 0; k < stride; k++) out.push(data[i * stride + k]); }
+  return new Float32Array(out);
+}
 export async function loadProps(scene, ctx) {
   const { ground, roof, shared, THREE } = ctx;
   const [roads, green] = await Promise.all([fetch('data/roads.json').then((r) => r.json()), fetch('data/green.json').then((r) => r.json())]);
-  const uniforms = { ...shared, time: { value: 0 } };            // same uniform objects as the city, plus our own clock
+  const uniforms = { ...shared, time: { value: 0 }, nearR: { value: new THREE.Vector4(0, NEAR_BAND, 0, NEAR_BAND) } };   // same uniform objects as the city, plus our own clock and the near radii
   const carMat = new THREE.ShaderMaterial({ uniforms, vertexShader: carVert, fragmentShader: carFrag });
   const treeMat = new THREE.ShaderMaterial({ uniforms, vertexShader: treeVert, fragmentShader: treeFrag });
 
   // cars: instance matrix = T * Ry(heading) * Rz(pitch) * Rx(roll) * S, composed through a quaternion ('YZX' Euler order)
-  const cd = planCars(roads, ground, roof), nCars = cd.length / CAR_STRIDE;
+  const cd = without(planCars(roads, ground, roof), CAR_STRIDE, ctx.exclude), nCars = cd.length / CAR_STRIDE;
   const pos = new THREE.Vector3(), quat = new THREE.Quaternion(), scl = new THREE.Vector3(), eul = new THREE.Euler(0, 0, 0, 'YZX'), mat = new THREE.Matrix4();
   const carGeo = carGeometry(THREE), carsGroup = new THREE.Group(); carsGroup.name = 'abandonedCars';
-  const carChunks = [];
-  for (const idx of chunkRecords(cd, CAR_STRIDE).values()) {
+  const carChunks = [], carCells = chunkRecords(cd, CAR_STRIDE);
+  for (const idx of carCells.values()) {
     const mesh = chunkMesh(THREE, carGeo, carMat, cd, CAR_STRIDE, idx, (d, o, v) => v.set(d[o], d[o + 2], -d[o + 1]), (d, o, m, c, k) => {
       pos.set(d[o], d[o + 2], -d[o + 1]);
       eul.set(d[o + 5] > 0.5 ? Math.PI : 0, d[o + 3], d[o + 4]);       // data heading h is a yaw of h about +y; pitch lifts the nose (+x)
@@ -383,10 +539,10 @@ export async function loadProps(scene, ctx) {
   scene.add(carsGroup);
 
   // trees: uniform scale and a yaw, so the matrix is written directly. Each chunk has a full and a far mesh sharing one set of instance attributes.
-  const { data: td, counts: treeCounts } = planTrees(green, roads, ground, roof), nTrees = td.length / TREE_STRIDE;
+  const planned = planTrees(green, roads, ground, roof), td = without(planned.data, TREE_STRIDE, ctx.exclude), treeCounts = planned.counts, nTrees = td.length / TREE_STRIDE;
   const fullGeo = treeGeometry(THREE), farGeo = farTreeGeometry(THREE), treesGroup = new THREE.Group(); treesGroup.name = 'overgrownTrees';
-  const treeChunks = [];
-  for (const idx of chunkRecords(td, TREE_STRIDE).values()) {
+  const treeChunks = [], treeCells = chunkRecords(td, TREE_STRIDE);
+  for (const idx of treeCells.values()) {
     const full = chunkMesh(THREE, fullGeo, treeMat, td, TREE_STRIDE, idx, (d, o, v) => v.set(d[o], d[o + 2], -d[o + 1]), (d, o, m, c, k) => {
       const s = d[o + 3], cs = Math.cos(d[o + 4]) * s, sn = Math.sin(d[o + 4]) * s, q = k * 16;
       m[q] = cs; m[q + 2] = -sn; m[q + 5] = s; m[q + 8] = sn; m[q + 10] = cs; m[q + 12] = d[o]; m[q + 13] = d[o + 2]; m[q + 14] = -d[o + 1]; m[q + 15] = 1;
@@ -399,10 +555,13 @@ export async function loadProps(scene, ctx) {
   }
   scene.add(treesGroup);
 
+  const near = makeNear(THREE, scene, uniforms, cd, td, carCells, treeCells);
+
   // per frame: the clock, then hide chunks by distance and pick each tree chunk's level of detail from the camera (three.js world coordinates)
   const update = (t, cam) => {
     uniforms.time.value = t;
     if (!cam) return;
+    near.update(t, cam);
     for (const m of carChunks) m.visible = m.boundingSphere.center.distanceTo(cam) - m.boundingSphere.radius <= LOD.hideCars;
     for (const c of treeChunks) {
       const lod = treeLod(c.sphere.center.distanceTo(cam), c.sphere.radius);
@@ -410,5 +569,11 @@ export async function loadProps(scene, ctx) {
     }
   };
   for (const m of carsGroup.children.concat(treesGroup.children)) m.visible = false;       // hidden until the first update() knows where the camera is
-  return { update, trees: treesGroup, cars: carsGroup, counts: { cars: nCars, trees: nTrees, carChunks: carChunks.length, treeChunks: treeChunks.length, ...treeCounts } };
+  return {
+    update, trees: treesGroup, cars: carsGroup, counts: { cars: nCars, trees: nTrees, carChunks: carChunks.length, treeChunks: treeChunks.length, ...treeCounts },
+    // plan data for collision and walking: records laid out as documented at planCars / planTrees (data axes: x east, y north, z up)
+    carData: cd, carStride: CAR_STRIDE, treeData: td, treeStride: TREE_STRIDE,
+    carType: (i) => carTypeOf(cd, i * CAR_STRIDE), carTypes: CAR_TYPES,        // footprint of record i: carTypes[carType(i)] = { L, W, roof, ... } (nose along the record's heading)
+    near, lod: LOD,                                                             // the near level of detail: near.stats(), near.refill(cam); lod is the live LOD object
+  };
 }
