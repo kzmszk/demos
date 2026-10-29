@@ -14,8 +14,11 @@ for hand in hand), hips at the origin, facing +Y in Blender
   * per side wing1 (arm, from the shoulder blade) -> wing2 (hand), one bone per flight feather
     (fp.* primaries on the hand, fs.* secondaries on the arm) so the feathers can swing from spread to folded;
     coverts are rigid on the arm bones.
+  * each feather is a curved, twisted strip cut out by an alpha-masked texture; a rounded leading edge, three rows of
+    coverts, a gull shape and a rounded tip keep the spread wing from reading as a flat board.
   * fly: spread wide, feathers trailing toward her feet, a slow glide breathing. stand/sit/walk/run: folded along
-    her back, the wrist above the shoulder, the primaries hanging to her knees.
+    her back, the wrist above the shoulder, the primaries hanging to her knees. flyhand: the right wing tucked back
+    over her back (he is on that side), the left one half swept back.
 
 Joints were picked by hand on an orthographic front render of the source (pixel picks below, depth = centre of
 the mesh around the pick).
@@ -314,10 +317,10 @@ def skin(body, rig):
 
 
 # ---------------------------------------------------------------- wings
-WING_PRIM, WING_SEC = 12, 13
-WING1_L, WING2_L = 0.42, 0.46
-PRIM_LEN = (0.40, 0.70)       # inner -> outer primary
-SEC_LEN = (0.36, 0.42)
+WING_PRIM, WING_SEC = 10, 14
+WING1_L, WING2_L = 0.44, 0.48
+PRIM_LEN = (0.42, 0.72)       # inner -> longest primary (the outermost two are shorter again: a rounded tip)
+SEC_LEN = (0.40, 0.36)        # body -> wrist
 
 
 def wing_names(sx):
@@ -326,71 +329,128 @@ def wing_names(sx):
 
 
 def wing_rest(J):
-    """Spread wings (rest): leading edge out along +-X, feathers hanging toward -Z (her feet in flight)."""
+    """Spread wings (rest = the gliding shape). The surface faces back (-Y, the sky in flight) and the feathers trail
+    toward -Z (her feet in flight). Gull shape: the arm rises from the shoulder blade and reaches forward a little, the
+    hand runs level and sweeps back. Secondaries are longest at the body; primaries fan out to point along the span
+    and are longest two from the tip, so the tip is rounded rather than a comb."""
     out = {}
+    rng = np.random.default_rng(3)                   # a little unevenness: no two feathers quite alike
+    jit = lambda: 1.0 + rng.uniform(-0.04, 0.04)
     for s, sx in ((-1, '.L'), (1, '.R')):
         c = J['neck0'] + (J['hips'] - J['neck0']) * 0.22
         r0 = np.array([s * 0.07, J['back_y'] - 0.01, c[2]])
-        d1 = nrm([s, -0.12, 0.16]); w1 = r0 + d1 * WING1_L
-        d2 = nrm([s, -0.10, -0.03]); w2 = w1 + d2 * WING2_L
+        d1 = nrm([s, -0.24, 0.13]); w1 = r0 + d1 * WING1_L
+        d2 = nrm([s, -0.03, -0.10]); w2 = w1 + d2 * WING2_L
         out['wing1' + sx] = (r0, w1, 'chest', d1)
         out['wing2' + sx] = (w1, w2, 'wing1' + sx, d2)
         for i in range(WING_SEC):          # along the arm, root -> wrist
-            a = (i + 0.6) / WING_SEC
+            a = (i + 0.5) / WING_SEC
             p = r0 + (w1 - r0) * a
-            f = nrm([s * (0.02 + 0.10 * a), -0.06, -1])
-            L = SEC_LEN[0] + (SEC_LEN[1] - SEC_LEN[0]) * a
+            f = nrm([s * (0.02 + 0.10 * a + rng.uniform(-0.03, 0.03)), 0.0, -1])
+            L = (SEC_LEN[0] + (SEC_LEN[1] - SEC_LEN[0]) * a) * jit()
             out['fs%02d%s' % (i, sx)] = (p, p + f * L, 'wing1' + sx, f)
         for i in range(WING_PRIM):         # along the hand, wrist -> tip, fanning out to point along the span
             a = i / (WING_PRIM - 1)
-            p = w1 + (w2 - w1) * (0.05 + 0.92 * a)
-            f = nrm(np.array([s * (0.20 + 1.10 * a ** 1.4), -0.05, -1.0 + 0.55 * a ** 1.2]))
-            L = PRIM_LEN[0] + (PRIM_LEN[1] - PRIM_LEN[0]) * math.sin(a * math.pi / 2)
+            p = w1 + (w2 - w1) * (0.04 + 0.94 * a)
+            f = nrm(np.array([s * (0.15 + 1.05 * a ** 1.3 + rng.uniform(-0.03, 0.03)), 0.0, -1.0 + 0.62 * a ** 1.2]))
+            L = (PRIM_LEN[0] + (PRIM_LEN[1] - PRIM_LEN[0]) * math.sin(min(1.0, a / 0.78) * math.pi / 2) - 0.10 * max(0.0, a - 0.78) / 0.22) * jit()
             out['fp%02d%s' % (i, sx)] = (p, p + f * L, 'wing2' + sx, f)
     return out
 
 
-def feather(bm, uvl, base, tip, n, width, depth_off, tex_v):
-    """One flat feather: a pointed vane between base and tip in the plane with normal n, a faint ridge on the rachis."""
-    base = np.asarray(base); tip = np.asarray(tip)
+def feather(bm, uvl, base, tip, n, width, lift=0.0, camber=0.08, curl=0.0, twist=0.22, lead=1):
+    """One feather as a curved, twisted strip; its outline (asymmetric vanes, ragged barbs, downy base) is cut by
+    the texture's alpha. n is the side the feather faces (the sky in flight); `camber` bows the shaft away from n
+    (the arched wing), `curl` turns the tip back toward n (a loaded primary), `twist` turns the vane about the shaft
+    so neighbours overlap like shingles, `lift` raises the whole feather along n (layering). `lead` = which side
+    (+-1 along cross(n, shaft)) carries the narrow leading vane."""
+    base = np.asarray(base, float); tip = np.asarray(tip, float); n = np.asarray(n, float)
     d = tip - base; L = np.linalg.norm(d); d = d / L
-    side = nrm(np.cross(n, d))
-    prof = [(0.0, 0.25), (0.12, 0.85), (0.35, 1.0), (0.65, 0.92), (0.85, 0.62), (1.0, 0.0)]
+    side = nrm(np.cross(n, d)) * lead
+    vs = (0.0, 0.07, 0.16, 0.30, 0.45, 0.60, 0.74, 0.86, 0.95, 1.0)
+    us = (0.0, 0.22, 0.38, 0.62, 1.0)          # rachis at u = 0.38: the leading vane (u < 0.38) is the narrow one
     rows = []
-    for t, wf in prof:
-        c = base + d * L * t + np.asarray(n) * depth_off
-        w = width * wf
-        rows.append([c - side * w, c + np.asarray(n) * 0.004 * wf, c + side * w])
+    for v in vs:
+        env = 0.62 + 0.38 * min(1.0, v / 0.30) if v < 0.30 else math.sqrt(max(0.0, 1 - ((v - 0.30) / 0.74) ** 2)) * 0.9 + 0.1
+        c = base + d * L * v + n * lift - n * camber * L * v ** 1.6 + n * curl * L * max(0.0, v - 0.5) ** 2 * 4
+        tw = twist * (0.4 + 0.6 * v)
+        lat = side * math.cos(tw) + n * math.sin(tw)
+        rows.append([c + lat * (u - 0.38) * width * env for u in us])
     verts = [[bm.verts.new(Vector(p)) for p in r] for r in rows]
-    faces = []
     for k in range(len(rows) - 1):
-        for j in range(2):
+        for j in range(len(us) - 1):
             f = bm.faces.new((verts[k][j], verts[k][j + 1], verts[k + 1][j + 1], verts[k + 1][j]))
-            faces.append((f, k, j))
-    for f, k, j in faces:
-        for loop in f.loops:
-            kk = k + (1 if loop.vert in verts[k + 1] else 0)
-            jj = verts[kk].index(loop.vert)
-            loop[uvl].uv = (jj / 2.0, tex_v[0] + (tex_v[1] - tex_v[0]) * prof[kk][0])
+            for loop in f.loops:
+                kk = k if loop.vert in verts[k] else k + 1
+                jj = verts[kk].index(loop.vert)
+                loop[uvl].uv = (us[jj], vs[kk])
     return [v for r in verts for v in r]
 
 
 def feather_image(path):
-    """Feather texture (u across the vane, v base -> tip): white with soft barbs and a pale grey rachis."""
-    W, H = 128, 512
+    """Feather texture, u across (rachis at 0.38), v base -> tip. RGB: white vanes with fine barbs angled toward the
+    tip, a few splits, a pale rachis, grey down at the base. Alpha: the outline (ragged barb ends, rounded tip, downy
+    base), clipped at 0.5 in the material."""
+    W, H = 256, 1024
+    rng = np.random.default_rng(7)
     u = (np.arange(W) + 0.5) / W; v = (np.arange(H) + 0.5) / H
     U, Vv = np.meshgrid(u, v)
-    x = np.abs(U - 0.5) * 2
-    barbs = 0.5 + 0.5 * np.sin((Vv * 180 + x * 22) * 1.0)
-    shade = 0.93 + 0.04 * barbs - 0.06 * np.exp(-((Vv - 0.0) / 0.25) ** 2) * (1 - x) - 0.05 * x ** 6
-    rach = np.exp(-(x / 0.035) ** 2) * (1 - Vv) * 0.12
+    x = U - 0.38                                   # signed distance from the rachis
+    half = np.where(x < 0, 0.38, 0.62)
+    r = np.abs(x) / half                          # 0 at the rachis, 1 at the geometry edge
+    ang = Vv * 260 - np.abs(x) * 160              # barbs sweep toward the tip
+    barb = 0.5 + 0.5 * np.sin(ang * 2 * np.pi / 3.0)
+    tuft = rng.random((2, 400))                    # ragged barb ends: each tuft of barbs stops at its own length
+    ti = np.clip((ang / 3.0).astype(int), 0, 399)
+    edge = 0.86 + 0.10 * tuft[(x > 0).astype(int), ti] + 0.03 * np.sin(ang * 2 * np.pi / 3.0)
+    alpha = (r < edge).astype(float)
+    tip = Vv > 0.93                               # rounded tip
+    alpha[tip & (np.abs(U - 0.42) > 0.5 * np.sqrt(np.clip(1 - ((Vv - 0.93) / 0.07) ** 2, 0, 1)))] = 0
+    # splits in the vane: thin gaps along the barb direction
+    for k in range(5):
+        a0 = rng.uniform(40, 220); side = rng.choice([-1, 1]); wdt = rng.uniform(0.25, 0.7)
+        split = (np.abs(ang - a0) < 1.2) & (np.sign(x) == side) & (r > 1 - wdt)
+        alpha[split] = 0
+    down = Vv < 0.10                               # fluffy base
+    alpha[down & (rng.random((H, W)) > 0.35 + 6.5 * Vv)] = 0
+    shade = 0.90 + 0.06 * barb - 0.10 * np.exp(-(Vv / 0.12) ** 2) - 0.04 * r ** 3
+    rach = np.exp(-(x / 0.012) ** 2) * (0.10 * (1 - Vv) - 0.03)
     g = np.clip(shade - rach, 0, 1)
-    rgb = np.stack([g * 0.985, g * 0.985, g], -1)
-    img = bpy.data.images.new('feather', W, H, alpha=False)
-    img.pixels = np.concatenate([rgb[::-1].reshape(-1, 3), np.ones((W * H, 1))], 1).ravel().tolist()
+    rgba = np.stack([g * 0.985, g * 0.985, g, alpha], -1)
+    img = bpy.data.images.new('feather', W, H, alpha=True)
+    img.pixels = rgba[::-1].ravel().tolist()
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     img.filepath_raw = path; img.file_format = 'PNG'; img.save()
     img.pack()
     return img
+
+
+def wing_arm(bm, uvl, rest, sx):
+    """The wing's leading edge: a rounded, tapering tube along wing1 -> wing2, flattened across the wing, so the
+    wing has a thick front edge instead of a sheet. Returns [(vert, [(bone, w)])]."""
+    r0, w1, w2 = (np.asarray(x) for x in (rest['wing1' + sx][0], rest['wing1' + sx][1], rest['wing2' + sx][1]))
+    n = np.array([0.0, -1.0, 0.0])
+    pts = [r0 + (w1 - r0) * t for t in np.linspace(0, 1, 9)] + [w1 + (w2 - w1) * t for t in np.linspace(0, 1, 9)[1:]]
+    rad = [0.040 - 0.014 * t for t in np.linspace(0, 1, 9)] + [0.026 - 0.020 * t for t in np.linspace(0, 1, 9)[1:]]
+    ring, out = [], []
+    for k, (p, rr) in enumerate(zip(pts, rad)):
+        d = nrm((pts[min(k + 1, len(pts) - 1)] - pts[max(k - 1, 0)]))
+        a = nrm(np.cross(n, d)); b = nrm(np.cross(d, a))
+        vs = [bm.verts.new(Vector(p + rr * (math.cos(t) * a * 1.0 + math.sin(t) * b * 0.55))) for t in np.linspace(0, 2 * math.pi, 9)[:-1]]
+        dist1 = np.linalg.norm(p - w1)
+        if k < 9:
+            wgt = [('wing1' + sx, 1.0)] if dist1 > 0.05 else [('wing1' + sx, 0.5 + dist1 * 10), ('wing2' + sx, 0.5 - dist1 * 10)]
+        else:
+            wgt = [('wing2' + sx, 1.0)] if dist1 > 0.05 else [('wing2' + sx, 0.5 + dist1 * 10), ('wing1' + sx, 0.5 - dist1 * 10)]
+        out += [(v_, wgt) for v_ in vs]
+        ring.append(vs)
+    for k in range(len(ring) - 1):
+        for j in range(8):
+            f = bm.faces.new((ring[k][j], ring[k][(j + 1) % 8], ring[k + 1][(j + 1) % 8], ring[k + 1][j]))
+            for loop in f.loops:
+                loop[uvl].uv = (0.30, 0.5)          # plain white vane
+    bm.faces.new(ring[-1][::-1])
+    return out
 
 
 def make_wings(rest, rig):
@@ -401,30 +461,36 @@ def make_wings(rest, rig):
     groups = {}          # vertex -> [(bone, weight)]
     n = np.array([0.0, -1.0, 0.0])
     for s, sx in ((-1, '.L'), (1, '.R')):
-        # flight feathers, one bone each; inner feathers on top (nearer the back) so the outer ones tuck under
+        # flight feathers, one bone each; the inner ones lie on top so each tucks its trailing vane under the next
         for i in range(WING_SEC):
             b = 'fs%02d%s' % (i, sx); h, t = rest[b][0], rest[b][1]
-            for v in feather(bm, uvl, h, t, n, 0.056, -0.003 * i, (0, 1)):
+            for v in feather(bm, uvl, h, t, n, 0.085, lift=0.004 * (WING_SEC - i), camber=0.10, twist=0.09, lead=-s):
                 groups[v] = [(b, 1.0)]
         for i in range(WING_PRIM):
+            a = i / (WING_PRIM - 1)
             b = 'fp%02d%s' % (i, sx); h, t = rest[b][0], rest[b][1]
-            for v in feather(bm, uvl, h, t, n, 0.048, -0.035 - 0.003 * i, (0, 1)):
+            for v in feather(bm, uvl, h, t, n, 0.078 - 0.012 * a, lift=-0.002 * i, camber=0.06, curl=0.05 + 0.07 * a,
+                             twist=0.15, lead=-s):
                 groups[v] = [(b, 1.0)]
-        # coverts: two rows of short feathers over the bones, rigid on the arm/hand (blended at the wrist)
+        # coverts in three rows over the bases of the flight feathers (greater, median, lesser): each rides on the
+        # nearest flight feather so it swings with it from spread to folded
         r0, w1, w2 = rest['wing1' + sx][0], rest['wing1' + sx][1], rest['wing2' + sx][1]
-        for row, (L, wd, off, cnt) in enumerate(((0.26, 0.045, 0.010, 16), (0.14, 0.040, 0.018, 18))):
+        for row, (L, wd, lift, cnt, back) in enumerate(((0.22, 0.070, 0.022, 18, 0.010), (0.13, 0.060, 0.034, 20, 0.004),
+                                                         (0.075, 0.050, 0.044, 24, -0.004))):
             for i in range(cnt):
                 a = (i + 0.5) / cnt
-                p = r0 + (w1 - r0) * a * 2 if a < 0.5 else w1 + (w2 - w1) * (a - 0.5) * 2 * 0.9
-                p = p + np.array([0, 0, 0.012])
-                f = nrm([s * 0.15 * a, -0.05, -1])
-                # ride on the nearest flight feather so they swing with it from spread to folded
+                p = r0 + (w1 - r0) * a * 2 if a < 0.5 else w1 + (w2 - w1) * (a - 0.5) * 2 * (0.85 - 0.15 * row)
+                p = p + np.array([0, 0, back])
+                f = nrm([s * (0.05 + 0.4 * max(0, a - 0.5)), 0.0, -1])
                 if a < 0.5:
                     fb = 'fs%02d%s' % (min(WING_SEC - 1, int(a * 2 * WING_SEC)), sx)
                 else:
-                    fb = 'fp%02d%s' % (min(WING_PRIM - 1, int((a - 0.5) * 2 * 0.9 * WING_PRIM)), sx)
-                for v in feather(bm, uvl, p, p + f * L * (1.0 - 0.35 * max(0, a - 0.5)), n, wd, off + 0.002 * i, (0, 1)):
+                    fb = 'fp%02d%s' % (min(WING_PRIM - 1, int((a - 0.5) * 2 * 0.85 * WING_PRIM)), sx)
+                L_ = L * (1.0 - 0.3 * max(0, a - 0.5)) * (1 + 0.08 * math.sin(i * 2.3 + row))
+                for v in feather(bm, uvl, p, p + f * L_, n, wd, lift=lift + 0.001 * (i % 2), camber=0.12, twist=0.08, lead=-s):
                     groups[v] = [(fb, 1.0)]
+        for v, wgt in wing_arm(bm, uvl, rest, sx):
+            groups[v] = wgt
     bm.verts.index_update()
     groups = {v.index: lst for v, lst in groups.items()}
     bm.to_mesh(me); bm.free()
@@ -438,10 +504,19 @@ def make_wings(rest, rig):
             vg[b].add([v], w, 'REPLACE')
     mat = bpy.data.materials.new('Wing')
     mat.use_nodes = True
-    bsdf = mat.node_tree.nodes['Principled BSDF']
-    tex = mat.node_tree.nodes.new('ShaderNodeTexImage'); tex.image = feather_image(os.path.join(PREV_DIR, 'feather.png'))
-    mat.node_tree.links.new(tex.outputs['Color'], bsdf.inputs['Base Color'])
-    bsdf.inputs['Roughness'].default_value = 0.8
+    nt = mat.node_tree
+    bsdf = nt.nodes['Principled BSDF']
+    tex = nt.nodes.new('ShaderNodeTexImage'); tex.image = feather_image(os.path.join(PREV_DIR, 'feather.png'))
+    nt.links.new(tex.outputs['Color'], bsdf.inputs['Base Color'])
+    # alpha clip at 0.5: the glTF exporter writes alphaMode MASK for 1 - (alpha < cutoff)
+    lt = nt.nodes.new('ShaderNodeMath'); lt.operation = 'LESS_THAN'; lt.inputs[1].default_value = 0.5
+    sub = nt.nodes.new('ShaderNodeMath'); sub.operation = 'SUBTRACT'; sub.inputs[0].default_value = 1.0
+    nt.links.new(tex.outputs['Alpha'], lt.inputs[0]); nt.links.new(lt.outputs[0], sub.inputs[1])
+    nt.links.new(sub.outputs[0], bsdf.inputs['Alpha'])
+    bsdf.inputs['Roughness'].default_value = 0.75
+    # feathers pass some light: a faint self-glow keeps the shaded underside from going slate grey against the sky
+    bsdf.inputs['Emission Color'].default_value = (0.13, 0.13, 0.14, 1.0)
+    bsdf.inputs['Emission Strength'].default_value = 1.0
     me.materials.append(mat)
     ob.parent = rig
     mod = ob.modifiers.new('rig', 'ARMATURE'); mod.object = rig
@@ -507,10 +582,13 @@ def slerpv(a, b, t):
     return a.slerp(b, t) if a.dot(b) > -0.999 else (a * (1 - t) + b * t).normalized()
 
 
-def wing_rot(fold, t, flap=0.0, fold_r=None):
-    """fold 0 = spread for gliding, 1 = folded along her back. flap: small up-down of the spread wing (degrees).
-    Folded, each wing lies in a nearly upright plane facing out (normal n): the arm rises up and back from the
-    shoulder blade, the hand comes down, the flight feathers hang down and back in a fan that narrows to the tip."""
+def wing_rot(fold, t, flap=0.0, fold_r=None, tuck=False):
+    """fold 0 = spread for gliding, 1 = folded. flap: small up-down of the spread wing (degrees). fold_r: the right
+    wing's own fold amount.
+    Folded standing (tuck False), each wing lies in a nearly upright plane facing out (normal n): the arm rises up and
+    back from the shoulder blade, the hand comes down, the flight feathers hang down and back in a fan that narrows
+    to the tip. Tucked in flight (tuck True), the wing sweeps back flat over her back toward her feet, like a
+    stooping bird: folded the standing way, its arch stood up past her head right beside his eyes."""
     r = {}
     if not WINGS:
         return r
@@ -519,22 +597,28 @@ def wing_rot(fold, t, flap=0.0, fold_r=None):
     for s, sx in ((-1, '.L'), (1, '.R')):
         fold = fold_r if (sx == '.R' and fold_r is not None) else fold_l
         fl = Ry(-s * flap)
-        n_fd = vnorm(s * 0.95, 0.30, 0.0)                         # facing out and a little forward: a V behind her
-        h = (down.cross(n_fd) * s).normalized()                  # in the folded plane, pointing back and out
+        if tuck:
+            n_fd = Vector((0, -1, 0))
+            t1, t2 = vnorm(s * 0.55, -0.12, -0.83), vnorm(-s * 0.06, -0.08, -1)
+            fs_d = lambda i: vnorm(s * 0.05, -0.04, -1)
+            fp_d = lambda a: vnorm(-s * (0.02 + 0.04 * a), -0.03 - 0.02 * a, -1)
+        else:
+            n_fd = vnorm(s * 0.95, 0.30, 0.0)                     # facing out and a little forward: a V behind her
+            h = (down.cross(n_fd) * s).normalized()              # in the folded plane, pointing back and out
+            t1, t2 = (up * 0.85 + h * 0.5).normalized(), (down + h * 0.22).normalized()
+            fs_d = lambda i: (down + h * (0.30 + 0.25 * i / WING_SEC)).normalized()
+            fp_d = lambda a: (down + h * (0.50 - 0.40 * a)).normalized()   # inner ones angled back, the outer ones close the tip
         n = slerpv(fl @ Vector((0, -1, 0)), n_fd, fold)
-        d1 = slerpv(fl @ Vector(RF['wing1' + sx][0]), (up * 0.85 + h * 0.5).normalized(), fold)
-        d2 = slerpv(fl @ Ry(-s * 0.6 * flap) @ Vector(RF['wing2' + sx][0]), (down + h * 0.22).normalized(), fold)
+        d1 = slerpv(fl @ Vector(RF['wing1' + sx][0]), t1, fold)
+        d2 = slerpv(fl @ Ry(-s * 0.6 * flap) @ Vector(RF['wing2' + sx][0]), t2, fold)
         r['wing1' + sx] = aim('wing1' + sx, d1, n)
         r['wing2' + sx] = aim('wing2' + sx, d2, n)
         for i in range(WING_SEC):
             b = 'fs%02d%s' % (i, sx)
-            fd = (down + h * (0.30 + 0.25 * i / WING_SEC)).normalized()
-            r[b] = aim(b, slerpv(fl @ Vector(RF[b][0]), fd, fold), n)
+            r[b] = aim(b, slerpv(fl @ Vector(RF[b][0]), fs_d(i), fold), n)
         for i in range(WING_PRIM):
             b = 'fp%02d%s' % (i, sx)
-            a = i / (WING_PRIM - 1)
-            fd = (down + h * (0.50 - 0.40 * a)).normalized()       # inner ones angled back, the outer ones close the tip
-            r[b] = aim(b, slerpv(fl @ Ry(-s * 0.6 * flap) @ Vector(RF[b][0]), fd, fold), n)
+            r[b] = aim(b, slerpv(fl @ Ry(-s * 0.6 * flap) @ Vector(RF[b][0]), fp_d(i / (WING_PRIM - 1)), fold), n)
     return r
 
 
@@ -561,22 +645,23 @@ def pose_fly(t):
         r['shin' + sx] = aim('shin' + sx, ds, (0, 1, 0))
         dfo = toward(ds, (0, 1, 0), 28)
         r['foot' + sx] = aim('foot' + sx, dfo, (0, 1, 0))
-    r.update(wing_rot(0.0, t, flap=4.0 * math.sin(w), fold_r=FLY_FOLD_R))
+    r.update(wing_rot(FLY_FOLD_L, t, flap=4.0 * math.sin(w) * (1 - FLY_FOLD_L), fold_r=FLY_FOLD_R, tuck=True))
     return {'root_rot': Rx(-90) @ Rz(2 * math.sin(w)), 'rot': r}
 
 
-FLY_FOLD_R = None
+FLY_FOLD_R, FLY_FOLD_L = None, 0.0
 
 
 def pose_flyhand(t):
     """fly while he holds her right hand: he is 1.35 m (drawn in: 0.62 m) to her right, inside the span of her right
-    wing, so that wing folds along her back and only the left one stays open."""
-    global FLY_FOLD_R
-    FLY_FOLD_R = 0.9
+    wing, so that wing tucks back over her back; the left one is half swept back (fully spread, so close to his
+    eyes, it covered half the view)."""
+    global FLY_FOLD_R, FLY_FOLD_L
+    FLY_FOLD_R, FLY_FOLD_L = 0.9, 0.45
     try:
         return pose_fly(t)
     finally:
-        FLY_FOLD_R = None
+        FLY_FOLD_R, FLY_FOLD_L = None, 0.0
 
 
 def pose_stand(t):
@@ -767,7 +852,7 @@ def previews(rig, floor):
     cam.data.lens = 40
     os.makedirs(PREV_DIR, exist_ok=True)
     shots = [('stand', 30, 35), ('stand', 30, 180), ('stand', 30, 90), ('walk', 8, 35), ('run', 6, 60), ('sit', 30, 35),
-             ('fly', 15, 20), ('fly', 15, 140)]
+             ('fly', 15, 20), ('fly', 15, 140), ('fly', 15, 180), ('flyhand', 15, 180), ('flyhand', 15, 100)]
     if '--shots' in ARGS:
         keep = opt('--shots', '').split(',')
         shots = [sh for sh in shots if '%s_%d' % (sh[0], sh[2]) in keep]

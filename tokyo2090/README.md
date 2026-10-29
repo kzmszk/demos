@@ -1,6 +1,6 @@
 # TOKYO 2090 — 滑空する廃都
 
-2090年、人類が消えて六十年の東京を、マントで滑空するフライトゲーム。渋谷・新宿・六本木の 7 km 四方を、
+2090年、人類が消えて六十年の東京を、羽で滑空するフライトゲーム。渋谷・新宿・六本木の 7 km 四方を、
 2020 年代の実データから作り、高いビルを乱数で崩し、六十年分のツタと苔と木を生やしています。
 
 - `public/` — 配信物。`index.html` と `app.js`（`tools/web/*.js` を esbuild で束ねたもの）、`data/`（生成データ）。
@@ -10,7 +10,7 @@
   生データと中間物は `/home/kazu/work/tokyo2090-assets/`。
 - `tools/web/` — three.js のビューア。`main.js`（ループと UI）、`city.js`（タイルと外壁シェーダ）、`facade.js`（外壁アトラス
   8 様式と風化ディテール）、`terrain.js`、
-  `flight.js`（飛行モデル・着地・登攀）、`walk.js`（歩行の足場と衝突）、`body.js`（一人称の腕とマント）、`saki.js`、`props.js`（車と木）、`story.js`（テレパシー）、
+  `flight.js`（飛行モデル・着地・登攀）、`walk.js`（歩行の足場と衝突）、`body.js`（一人称の腕）、`saki.js`、`props.js`（車と木）、`story.js`（テレパシー）、
   `light.js`（太陽と影）、`clouds.js`、`music.js`。
 - `tools/hero/` — 作り込み地区（渋谷スクランブル交差点〜109、都庁、六本木ヒルズ）を Blender で作るスクリプト。共通仕様は `BRIEF.md`、
   出力は `public/hero/<地区>/`（near / mid / far の glb、collide.obj、hero.json）。ビューアは `hero.js`、地名は `labels.js`、鉄道は `rails.js`。

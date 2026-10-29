@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 
-// The player's own body as seen from his eyes: two bare forearms with leather wrist straps holding the cape rods,
-// and the inner edges of the vermilion cape stretched from the wrists. Attached to the camera; the arms spread
-// as the cape opens, tilt with the bank and lift with the flare.
+// The player's own body as seen from his eyes: two bare forearms with leather wrist straps. He flies on wings now
+// (on his back, out of sight), so there is no cape in the picture any more. Attached to the camera; the arms
+// spread as the wings open, tilt with the bank and lift with the flare.
 
 const vert = /* glsl */`
   uniform float time; uniform float flap; uniform float open;
@@ -32,27 +32,8 @@ const frag = /* glsl */`
     gl_FragColor = vec4(base * light, 1.0);
   }`;
 
-function capePanel(side, segsU = 10, segsV = 4) {
-  // a quad from the wrist (u = 0) outward to the free edge (u = 1), from the forward edge (v = 0) back (v = 1)
-  const g = new THREE.PlaneGeometry(1, 1, segsU, segsV);
-  const pos = g.getAttribute('position'); const n = pos.count; const wave = new Float32Array(n); const col = new Float32Array(n * 3);
-  const c0 = new THREE.Color(0.68, 0.21, 0.12), c1 = new THREE.Color(0.50, 0.14, 0.08);
-  for (let i = 0; i < n; i++) {
-    const u = pos.getX(i) + 0.5, v = pos.getY(i) + 0.5;      // 0..1
-    // the hand corner is near the eye; the fabric sweeps out and back and sags
-    const x = side * (0.50 + u * 1.3 + v * 0.3);
-    const y = -0.46 - u * 0.20 - v * 0.40 + Math.sin(u * Math.PI) * 0.05;
-    const z = -0.72 + v * 1.3 + u * 0.3;
-    pos.setXYZ(i, x, y, z); wave[i] = Math.pow(u, 1.5) * (0.4 + 0.6 * v);
-    const c = c0.clone().lerp(c1, (Math.sin(u * 9.0) * 0.5 + 0.5) * 0.6 + v * 0.3);
-    col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
-  }
-  g.setAttribute('wave', new THREE.BufferAttribute(wave, 1)); g.setAttribute('color', new THREE.BufferAttribute(col, 3)); g.computeVertexNormals();
-  return g;
-}
-
 function arm(side) {
-  // forearm from just below the eye out to the hand, with a dark strap at the wrist and a fist on the rod
+  // forearm from just below the eye out to the hand, with a dark strap at the wrist
   const group = new THREE.Group();
   const skin = new THREE.Color(0.50, 0.33, 0.21), strap = new THREE.Color(0.20, 0.13, 0.08);
   const seg = (r0, r1, len, c) => {
@@ -63,8 +44,7 @@ function arm(side) {
   const fore = new THREE.Mesh(seg(0.040, 0.031, 0.62, skin)); fore.position.set(0, 0, -0.31); fore.rotation.x = Math.PI / 2;
   const band = new THREE.Mesh(seg(0.036, 0.036, 0.06, strap)); band.position.set(0, 0, -0.56); band.rotation.x = Math.PI / 2;
   const hand = new THREE.Mesh(seg(0.036, 0.024, 0.10, skin)); hand.position.set(0, 0, -0.66); hand.rotation.x = Math.PI / 2;
-  const rod = new THREE.Mesh(seg(0.012, 0.012, 0.5, new THREE.Color(0.30, 0.22, 0.16))); rod.position.set(side * 0.2, -0.02, -0.68); rod.rotation.z = Math.PI / 2;
-  group.add(fore, band, hand, rod);
+  group.add(fore, band, hand);
   return group;
 }
 
@@ -75,9 +55,8 @@ export function makeBody(camera, shared) {
   const sides = [-1, 1].map((side) => {
     const pivot = new THREE.Group(); root.add(pivot);
     const a = arm(side); a.traverse((m) => { if (m.isMesh) m.material = mat; });
-    const cape = new THREE.Mesh(capePanel(side), mat);
-    pivot.add(a, cape);
-    return { side, pivot, arm: a, cape };
+    pivot.add(a);
+    return { side, pivot, arm: a };
   });
   const v = new THREE.Vector3();
   return {
@@ -98,7 +77,6 @@ export function makeBody(camera, shared) {
         const lift = THREE.MathUtils.lerp(THREE.MathUtils.lerp(-0.62, -0.42, o) + (f.flareVis * 0.10 - f.aoaVis * 0.004) * (1 - (f.handBlend || 0)), -0.30, hold) + (flying ? Math.sin(uniforms.time.value * 2.1 + s.side) * 0.012 : 0);
         s.arm.position.set(spread, lift, THREE.MathUtils.lerp(0.12, -0.32, hold));
         s.arm.rotation.set(THREE.MathUtils.lerp(0.32 + (1 - o) * 0.35, 0.05, hold), -s.side * THREE.MathUtils.lerp(0.62 - o * 0.15, 1.25, hold), s.side * 0.1);
-        s.cape.visible = o > 0.02 && hold < 0.5; s.cape.scale.set(THREE.MathUtils.lerp(0.25, 1, o), THREE.MathUtils.lerp(0.4, 1, o), THREE.MathUtils.lerp(0.6, 1, o));
         s.pivot.rotation.z = -f.roll * 0.25 * (s.side > 0 ? 1 : 1);
         s.pivot.position.y = -f.roll * s.side * 0.06;
       }

@@ -107,8 +107,16 @@ export function makeSaki(scene, shared) {
     const a = actions[name]; if (!a || a === current) return;
     a.reset().fadeIn(fade).play(); if (current) current.fadeOut(fade); current = a;
   }
-  const state = { pos: new THREE.Vector3(), vel: new THREE.Vector3(), side: 1, sideT: 0, phase: Math.random() * 10, ts: 1, slot: null, feet: 0, wv: { x: 0, y: 0 }, yaw: 0, speed: 0 };
+  const state = { pos: new THREE.Vector3(), vel: new THREE.Vector3(), side: 1, sideT: 0, phase: Math.random() * 10, ts: 1, slot: null, feet: 0, wv: { x: 0, y: 0 }, yaw: 0, speed: 0,
+    stuckT: 0, hidT: 0, pathT: 0, tgt: null };
   let walker = null, footTurn = 0;
+  const crumbs = [];                             // his recent footprints on foot (data x, y), newest last
+  // nothing taller than z on the straight line between two points (sampled every half metre)
+  const clearLine = (ax, ay, bx, by, z) => {
+    const n = Math.ceil(Math.hypot(bx - ax, by - ay) / 0.5);
+    for (let i = 1; i < n; i++) { const t = i / n; if (walker.surface(ax + (bx - ax) * t, ay + (by - ay) * t) > z) return false; }
+    return true;
+  };
   const WALK_V = 1.2, RUN_V = 3.45;              // m/s at timeScale 1 for the walk / run clips (stride per cycle / period)
   const tmp = new THREE.Vector3(), target = new THREE.Vector3(), vFwd = new THREE.Vector3();
   let ARM_SWING = 0.75; window.__armSwing = (v) => { ARM_SWING = v; };
@@ -144,13 +152,41 @@ export function makeSaki(scene, shared) {
           state.slot = [sx, sy];
         }
         const [sx, sy] = state.slot;
-        if (!state.wasRest || Math.hypot(sx - hx, sy - hy) > 14) { hx = sx; hy = sy; state.feet = walker.under(sx, sy); state.wv.x = state.wv.y = 0; state.yaw = h; }
-        const dx = sx - hx, dy = sy - hy, d = Math.hypot(dx, dy);
-        const maxV = Math.max(d > 4 ? 5.6 : 1.45, f.walkSpeed * 1.15 + 0.6), wantV = d < 0.15 ? 0 : Math.min(maxV, d * 1.8);
+        // his footprints: where he has walked she can walk. She went straight for her slot and, with a building or a
+        // bus in the way, stood pushing against it out of sight until he was 14 m off (ユーザー: 360° 見回しても
+        // いない). Now: the slot if the way is open, else the newest footprint she can reach in a straight line; stuck
+        // or out of his sight for a while, she comes round the corner a few steps behind him.
+        if (!state.wasRest) { crumbs.length = 0; state.stuckT = 0; state.hidT = 0; state.pathT = 0; state.tgt = null; }
+        const lc = crumbs[crumbs.length - 1];
+        if (!lc || Math.hypot(px - lc[0], py - lc[1]) > 0.7) { crumbs.push([px, py]); if (crumbs.length > 60) crumbs.shift(); }
+        const dSlot = Math.hypot(sx - hx, sy - hy);
+        const reappear = () => {
+          let c = null;
+          for (let i = crumbs.length - 1; i >= 0; i--) { const e = Math.hypot(crumbs[i][0] - px, crumbs[i][1] - py); if (e > 2.5 && e < 6 && ok(crumbs[i][0], crumbs[i][1])) { c = crumbs[i]; break; } }
+          [hx, hy] = c || [sx, sy]; state.feet = walker.under(hx, hy); state.wv.x = state.wv.y = 0; state.stuckT = state.hidT = 0; state.pathT = 0;
+        };
+        if (!state.wasRest) { hx = sx; hy = sy; state.feet = walker.under(sx, sy); state.wv.x = state.wv.y = 0; state.yaw = h; }
+        else if (dSlot > 14 || state.stuckT > 1.2 || state.hidT > 2.5) reappear();
+        state.pathT -= dt;
+        if (state.pathT <= 0) {
+          state.pathT = 0.25;
+          state.tgt = null;
+          if (!clearLine(hx, hy, sx, sy, state.feet + 0.5)) {
+            for (let i = crumbs.length - 1; i >= 0; i--) if (clearLine(hx, hy, crumbs[i][0], crumbs[i][1], state.feet + 0.5)) { state.tgt = crumbs[i]; break; }
+          }
+          // can he see her? (a wall higher than his eyes between them)
+          const seen = clearLine(px, py, hx, hy, Math.min(f.feet, state.feet) + 1.5);
+          state.hidT = seen || Math.hypot(hx - px, hy - py) < 2.5 ? 0 : state.hidT + 0.25;
+        }
+        const [tx, ty] = state.tgt && dSlot > 1.0 ? state.tgt : [sx, sy];
+        const dx = tx - hx, dy = ty - hy, d = Math.hypot(dx, dy);
+        const maxV = Math.max(dSlot > 4 ? 5.6 : 1.45, f.walkSpeed * 1.15 + 0.6), wantV = d < 0.15 ? 0 : Math.min(maxV, Math.max(d, state.tgt ? dSlot : 0) * 1.8);
         const k = Math.min(1, dt * 5);
         state.wv.x += ((d > 1e-3 ? dx / d : 0) * wantV - state.wv.x) * k; state.wv.y += ((d > 1e-3 ? dy / d : 0) * wantV - state.wv.y) * k;
         const r = walker.move(hx, hy, state.feet, state.wv.x * dt, state.wv.y * dt);
         const moved = Math.hypot(r.x - hx, r.y - hy); hx = r.x; hy = r.y;
+        const tried = Math.hypot(state.wv.x, state.wv.y) * dt;
+        state.stuckT = tried > 0.3 * dt && moved < tried * 0.3 && dSlot > 1.5 ? state.stuckT + dt : Math.max(0, state.stuckT - dt * 2);
         const under = walker.under(hx, hy); state.feet = under > state.feet ? under : Math.max(under, state.feet - 6 * dt);
         state.speed += (moved / Math.max(dt, 1e-4) - state.speed) * Math.min(1, dt * 8);
         state.pos.set(hx, state.feet + (model ? 0.89 : 0.62), -hy); state.vel.set(state.wv.x, 0, -state.wv.y);
