@@ -298,4 +298,5 @@
     （間に目の高さを超える面）なら、彼の 2.5〜6 m 後ろの足跡に現れて走って追いつく。再測定で地上の取り残しはゼロ
     （残るのは彼が壁を登っている間 = 設計どおり壁沿いを舞っている時）。
   - ギャラリーのカバー 6 枚を撮り直し（node gallery/shoot.mjs tokyo2090）。紹介動画を再レンダリング。
-
+  デプロイ 2026-10-30（version f25efec2、コミット 5114962）。R2 demos-media/movies/tokyo2090-film/video.mp4 を新しい web 版（50.8 MB）に差し替え。
+  ライブの saki.glb / app.js / index.html / poster / mp4 / カバーと R2 の動画は手元と md5 一致。film_mix.py は numpy が要る（~/work/kyoto-assets/.venv の python で）。
