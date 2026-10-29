@@ -15,6 +15,7 @@
 - `tools/hero/` — 作り込み地区（渋谷スクランブル交差点〜109、都庁、六本木ヒルズ）を Blender で作るスクリプト。共通仕様は `BRIEF.md`、
   出力は `public/hero/<地区>/`（near / mid / far の glb、collide.obj、hero.json）。ビューアは `hero.js`、地名は `labels.js`、鉄道は `rails.js`。
 - `tools/blender/saki.py` — サキのモデル（Blender → `public/models/saki.glb`、fly / sit / stand / walk / run）。
+  `tools/blender/saki_trellis.py` — TRELLIS.2 で画像から作った体にリグと白い羽を付けた版（今のライブ。同じボーン名・クリップ + flyhand）。
 - `tools/build_web.mjs` — バンドル。`tools/snap.mjs out.jpg "" shots.json` — ヘッドレス Chrome で撮影・検証。
 - `boards/` — Codex で作ったイメージボード。`docs/concept.md` — 設定。`NOTES.md` — 作業で学んだこと。
 

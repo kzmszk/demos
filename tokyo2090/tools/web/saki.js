@@ -195,7 +195,8 @@ export function makeSaki(scene, shared) {
         state.vel.copy(f.v);
         // no bank on either of them while they hold hands: the two roll axes differ by the gaze, and the difference shook her image
         body.rotation.set((f.camPitch ?? f.gamma) * 0.8, model ? -f.heading : f.heading, (model ? -1 : 1) * c * 0.3);
-        if (model) play('fly');
+        // with wings (saki_trellis.py) her right wing would sweep through him: 'flyhand' keeps it folded
+        if (model) play(actions.flyhand ? 'flyhand' : 'fly');
         uniforms.flap.value = Math.min(1, f.speed / 18);
       } else {
         state.sideT += dt; if (state.sideT > 18 + 10 * Math.sin(state.phase)) { state.sideT = 0; state.side *= -1; }
