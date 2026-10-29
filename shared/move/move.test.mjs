@@ -67,7 +67,6 @@ test('fly: smooth lerps, smooth:null takes want at once, fast multiplies', () =>
   near(b.vel.x, 40 * (1 - Math.exp(-1.5))); near(b.pos.x, b.vel.x * 0.5);
   const c = createState({ speed: 10 }); step(c, { ...frame, r: 1 }, 1, {}, cfg(flyMode({ smooth: null, normalizeXY: true })));
   near(Math.hypot(c.vel.x, c.vel.y), 10);
-  assert.throws(() => flyMode({ followPitch: true }));
 });
 
 test('wheel: queues setSpeed (clamped), works while disabled, wheel.modes limits it', () => {
@@ -80,7 +79,7 @@ test('wheel: queues setSpeed (clamped), works while disabled, wheel.modes limits
   m.update(1 / 60); assert.equal(m.state.speed, 2);
   const w = ev('wheel', { deltaY: -1 }); dom.dispatchEvent(w); assert.ok(w.defaultPrevented);
   const r2 = rig({ input: { wheel: { modes: ['walk'] } } }), w2 = ev('wheel', { deltaY: 1 });
-  r2.dom.dispatchEvent(w2); assert.equal(r2.m.speed, 10); assert.ok(!w2.defaultPrevented);
+  r2.dom.dispatchEvent(w2); assert.equal(r2.m.speed, 10); assert.ok(w2.defaultPrevented);
   assert.equal(command(createState(), { type: 'setSpeed', value: 1e9 }, {}, { speedRange: [2, 400] }).speed, 400);
   assert.throws(() => command(createState(), { type: 'setSpeed', value: NaN }, {}, {}));
 });

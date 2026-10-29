@@ -4,9 +4,10 @@
 //   world the city's synchronous world queries (ground(x, y), sample(x, y), …), passed through to the modes
 import { axesOf } from './vec.js';
 import { flyStep } from './fly.js';
+import { walkStep } from './raster-walk.js';
 import { vec3Plain } from './state.js';
 
-const STEPS = { fly: flyStep };
+const STEPS = { fly: flyStep, rasterWalk: walkStep };
 
 function coreMode(cfg, name) {
   const m = cfg.modes && cfg.modes[name];
@@ -23,10 +24,17 @@ export function step(state, frame, dt, world, cfg) {
 
 export function command(state, cmd, world, cfg) {
   switch (cmd.type) {
-    case 'setMode':
+    case 'setMode': {
       if (typeof cmd.name !== 'string') throw new Error('shared/move: setMode needs a name');
       state.mode = cmd.name; state.vel.set(0, 0, 0); state.status = 'ok';
+      const m = cfg.modes && cfg.modes[cmd.name];
+      if (m && m.kind === 'rasterWalk') {
+        state.walk.z = null;
+        const lim = m.pitchOnEnter;
+        if (lim != null) state.pitch = Math.max(-lim, Math.min(lim, state.pitch));
+      }
       break;
+    }
     case 'setSpeed': {
       const v = cmd.value;
       if (typeof v !== 'number' || !Number.isFinite(v)) throw new Error(`shared/move: setSpeed ${v}`);
@@ -39,6 +47,10 @@ export function command(state, cmd, world, cfg) {
       state.pos.x = p.x; state.pos.y = p.y; state.pos.z = p.z;
       if (cmd.yaw != null) state.yaw = cmd.yaw;
       if (cmd.pitch != null) state.pitch = cmd.pitch;
+      if (cmd.walkZ !== undefined) {
+        if (cmd.walkZ !== null && !Number.isFinite(cmd.walkZ)) throw new Error(`shared/move: place walkZ ${cmd.walkZ}`);
+        state.walk.z = cmd.walkZ;
+      }
       break;
     }
     default: throw new Error(`shared/move: unknown command ${cmd.type}`);
