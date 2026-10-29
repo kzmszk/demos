@@ -13,16 +13,13 @@ export const textField = (e) => {
 
 export class Input {
   // hooks: { enabled(), mode(), speed(), setSpeed(v), look(dx, dy, e) → handled, wheel(e) → handled, userInput(kind) }
-  // migration: { dragSign, turnPerFrame } — temporary, only so a migration commit keeps a city's old feel (§3.4)
-  constructor({ win = globalThis, dom, options = {}, migration = null, hooks }) {
+  constructor({ win = globalThis, dom, options = {}, hooks }) {
     const o = this.options = {
       keyField: 'code', bindings: {}, turnRate: 0, compose: 'clampEach', ignore: textField, resetOn: ['blur'],
       preventDefault: false, ...options,
       drag: { mouse: 0.003, touch: 0.005, pitchLimit: 1.5, button: null, ...options.drag },
       wheel: options.wheel === null ? null : { min: 1, max: 300, modes: ['fly'], down: 0.85, up: 1.18, ...options.wheel },
     };
-    this.dragSign = migration && migration.dragSign != null ? migration.dragSign : DRAG_SIGN;
-    this.turnPerFrame = migration && migration.turnPerFrame != null ? migration.turnPerFrame : null;
     this.hooks = hooks; this.win = win; this.dom = dom;
     this.keys = new Set(); this.yaw = 0; this.pitch = 0; this.drag = null;
     // written by the city's touch controls: the stick (x right, y down), ▲▼ (vert ±1), the fast toggle
@@ -54,7 +51,7 @@ export class Input {
     on(dom, 'pointermove', (e) => {
       const d = this.drag;
       if (!d || d.id !== e.pointerId || !hooks.enabled()) return;
-      const k = e.pointerType === 'touch' ? o.drag.touch : o.drag.mouse, s = this.dragSign;
+      const k = e.pointerType === 'touch' ? o.drag.touch : o.drag.mouse, s = DRAG_SIGN;
       const dx = s * (e.clientX - d.x) * k, dy = s * (e.clientY - d.y) * k;
       d.x = e.clientX; d.y = e.clientY;
       if (hooks.look && hooks.look(dx, dy, e)) return;
@@ -74,10 +71,10 @@ export class Input {
 
   any(name) { for (const k of this.options.bindings[name] || NONE) if (this.keys.has(k)) return 1; return 0; }
 
-  // the InputFrame for one step; integrates the turn keys (rad/s, or per frame under migration.turnPerFrame)
+  // the InputFrame for one step; integrates the turn keys (rad/s)
   read(dt) {
     const a = (n) => this.any(n), turn = a('turnLeft') - a('turnRight');
-    if (turn) this.yaw += turn * (this.turnPerFrame != null ? this.turnPerFrame : this.options.turnRate * dt);
+    if (turn) this.yaw += turn * this.options.turnRate * dt;
     let f = a('forward') - a('back'), r = a('right') - a('left'), u = a('up') - a('down');
     f += -this.move.y; r += this.move.x; u += this.vert;
     if (this.options.compose === 'clampEach') { f = Math.max(-1, Math.min(1, f)); r = Math.max(-1, Math.min(1, r)); u = Math.max(-1, Math.min(1, u)); }

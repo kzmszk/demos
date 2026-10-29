@@ -3,7 +3,7 @@
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
-const USERS = ['vatican', 'kyoto'];   // add a city in its migration commit
+const USERS = ['vatican', 'kyoto', 'venice'];   // add a city when it moves onto shared/move
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 let failed = 0;
