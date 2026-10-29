@@ -28,7 +28,7 @@ const roundTrips = [
 
 export const SCRIPT = [
   ['label', 'init'], ['init'], st(5),
-  // the load sequence leaves the camera rolled (main.js sets rotation.order after a lookAt in XYZ); walk in it
+  // the load sequence switches rotation.order after a lookAt in XYZ (golden.json: left rolled, fixed since); walk
   k('w'), st(30), ku('w'), k('d'), st(10), ku('d'), st(3),
   ['label', 'K'],
   k('w'), st(60), k('Shift'), st(30), ku('Shift'), st(20, F30), st(30, F144), st(10, CAP),

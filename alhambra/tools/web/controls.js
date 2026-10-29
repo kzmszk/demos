@@ -48,7 +48,7 @@ export class Controls extends Mover {
 
   // after something placed the camera (lookAt): take yaw / pitch from it
   orientation() {
-    this.camera.rotation.order = 'YXZ';
+    this.camera.rotation.reorder('YXZ');
     this.syncFromCamera();
     this.shown.yaw = this.yaw; this.shown.pitch = this.pitch;
   }
