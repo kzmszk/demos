@@ -1,9 +1,10 @@
 // Core: walking on a city's walk raster (world.sample).  The common part — eased velocity, the spiral search for a
 // place to stand, the eye following the ground, the bob, 'hold' while no data is loaded — with passability left to a
-// strategy (walk-glide.js).  walk.z is the ground under the walker; null = look for a place to stand first.
+// strategy (walk-glide.js, walk-strict.js).  walk.z is the ground under the walker; null = look for a place to stand first.
 import { glide } from './walk-glide.js';
+import { strict } from './walk-strict.js';
 
-const STRATEGIES = { glide };
+const STRATEGIES = { glide, strict };
 
 export function rasterWalkMode({ strategy, eye = 1.6, speed = 1.5, runSpeed = 4.2, smooth = 8, follow = 10, searchRadius = 60,
   bob = { amp: 0.012, rate: 1.15, ref: 1.4 }, pitchOnEnter = null } = {}) {
