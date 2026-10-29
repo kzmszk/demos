@@ -17,7 +17,7 @@ const BIND = { forward: ['KeyW'], back: ['KeyS'], left: ['KeyA'], right: ['KeyD'
 function rig(opts = {}) {
   const win = new Target(), dom = new Target(), cam = new Cam();
   const m = new Mover({ win, dom, view: zUpView(cam, { readDir: (c) => c.dir, setUp: false }), mode: 'fly', speed: 10,
-    speedRange: [2, 400], modes: { fly: flyMode({ smooth: 3 }), ...opts.modes }, input: { bindings: BIND, ...opts.input }, migration: opts.migration });
+    speedRange: [2, 400], modes: { fly: flyMode({ smooth: 3 }), ...opts.modes }, input: { bindings: BIND, ...opts.input } });
   const key = (t, code) => win.dispatchEvent(ev(t, { code, key: code }));
   const ptr = (t, x, y, o = {}) => dom.dispatchEvent(ev(t, { clientX: x, clientY: y, pointerId: 1, pointerType: 'mouse', button: 0, ...o }));
   return { win, dom, cam, m, key, ptr };
@@ -96,8 +96,6 @@ test('drag: sign, coefficient, per-event pitch clamp, ignored while disabled (or
   ptr('pointermove', 70, 150, { pointerId: 2 }); near(m.yaw, 0.6);         // other pointers are ignored
   ptr('pointerup', 70, 150); ptr('pointerdown', 0, 0, { pointerType: 'touch' }); ptr('pointermove', 10, 0, { pointerType: 'touch' });
   near(m.yaw, 0.8);
-  const old = rig({ migration: { dragSign: -1 }, input: { drag: { mouse: 0.01 } } });
-  old.m.yaw = 0; old.ptr('pointerdown', 0, 0); old.ptr('pointermove', 10, 0); near(old.m.yaw, -0.1, 1e-15);
 });
 
 test('client-only modes get look (signed, scaled) and wheel; enter/exit on setMode', () => {
@@ -113,10 +111,9 @@ test('client-only modes get look (signed, scaled) and wheel; enter/exit on setMo
   near(seen[2][1], 0.1); near(seen[2][2], -0.1); assert.equal(m.yaw, yaw0); assert.equal(m.speed, 10);
 });
 
-test('turn keys: rad/s by default, per frame under migration.turnPerFrame', () => {
+test('turn keys: rad/s', () => {
   const a = rig({ input: { turnRate: 1.5 } }); a.m.yaw = 0; a.key('keydown', 'ArrowLeft'); a.m.update(0.5); near(a.m.yaw, 0.75);
-  const b = rig({ migration: { turnPerFrame: 0.025 } }); b.m.yaw = 0; b.key('keydown', 'ArrowRight'); b.m.update(0.5); near(b.m.yaw, -0.025);
-  b.m.enabled = false; b.m.update(0.5); near(b.m.yaw, -0.025);
+  a.m.enabled = false; a.m.update(0.5); near(a.m.yaw, 0.75);
 });
 
 test('toPlain / fromPlain through JSON and structured clone; rejects non-finite, stray null, other schema', () => {
@@ -148,7 +145,7 @@ test('the same step on N states: no cross-talk, identical inputs give identical 
 });
 
 test('Mover: replaying the tick log on the core reproduces the camera path', () => {
-  const { cam, m, key, ptr } = rig({ migration: { dragSign: -1 } });
+  const { cam, m, key, ptr } = rig();
   const rec = m.startRecording(), path = [];
   m.syncFromCamera(); key('keydown', 'KeyW');
   for (let i = 0; i < 60; i++) { if (i === 20) { ptr('pointerdown', 0, 0); ptr('pointermove', 30, 10); } if (i === 30) cam.position.set(5, 5, 5); m.update(1 / 60); path.push({ ...cam.position }); }

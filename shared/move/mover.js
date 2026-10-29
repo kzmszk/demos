@@ -13,8 +13,7 @@ import { Input } from './input.js';
 
 export class Mover {
   // modes: { fly: flyMode(…), … } core modes (plain cfg), or client-only modes { enter, exit, update, look?, wheel? }
-  // migration: { dragSign, turnPerFrame } — temporary, keeps a city's old feel in its migration commit (§3.4)
-  constructor({ view, dom, win, input = {}, modes, mode, speed, speedRange, world = {}, onUserInput, migration = null }) {
+  constructor({ view, dom, win, input = {}, modes, mode, speed, speedRange, world = {}, onUserInput }) {
     const core = {}, client = {};
     for (const [n, m] of Object.entries(modes)) (typeof m.update === 'function' ? client : core)[n] = m;
     this.view = view; this.world = world; this.clientModes = client;
@@ -22,7 +21,7 @@ export class Mover {
     this.enabled = true; this.queue = []; this.recording = null; this.pending = [];
     const r = view.read();
     this.state = createState({ mode, speed, pos: r.pos, yaw: r.yaw, pitch: r.pitch });
-    this.input = new Input({ win, dom, options: input, migration, hooks: {
+    this.input = new Input({ win, dom, options: input, hooks: {
       enabled: () => this.enabled,
       mode: () => this.state.mode,
       speed: () => this.speed,
