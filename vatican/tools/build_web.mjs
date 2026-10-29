@@ -1,5 +1,5 @@
 // bundle tools/web -> public/app.js (three + addons included)
-import * as esbuild from '/home/kazu/work/demos/node_modules/esbuild/lib/main.js';
+import * as esbuild from 'esbuild';
 const dev = process.argv.includes('--dev');
 await esbuild.build({
   entryPoints: ['web/main.js'], bundle: true, format: 'esm', outfile: '../public/app.js',
