@@ -9,5 +9,5 @@ export { rasterWalkMode } from './raster-walk.js';
 export { glideStep } from './walk-glide.js';
 export { strictStep } from './walk-strict.js';
 export { Input, DRAG_SIGN, textField } from './input.js';
-export { zUpView } from './view.js';
+export { zUpView, alhambraView } from './view.js';
 export { Mover } from './mover.js';

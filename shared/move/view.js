@@ -21,3 +21,14 @@ export function zUpView(camera, { readDir, setUp = true }) {
     },
   };
 }
+
+// alhambra: y-up, camera.rotation (pitch, yaw, 0, 'YXZ').  read() takes the angles as they stand and does not set
+// rotation.order: alhambra's orientation() does, at the moments it always did.
+export function alhambraView(camera) {
+  return {
+    axes: 'alhambra',
+    readPos() { const p = camera.position; return { x: p.x, y: p.y, z: p.z }; },
+    read() { return { pos: this.readPos(), yaw: camera.rotation.y, pitch: camera.rotation.x }; },
+    apply(s) { camera.position.set(s.pos.x, s.pos.y, s.pos.z); camera.rotation.set(s.pitch, s.yaw, 0, 'YXZ'); },
+  };
+}
