@@ -7,9 +7,7 @@ import { MOVE } from './move-config.js';
 export class FlyControls extends Mover {
   constructor(camera, dom) {
     const dir = new THREE.Vector3();
-    super({ ...MOVE, dom, view: zUpView(camera, { readDir: (c) => c.getWorldDirection(dir), setUp: false }),
-      // migration commit: keep the old look-around drag; the control-change commit drops this (proposal §3.4 ②)
-      migration: { dragSign: -1 } });
+    super({ ...MOVE, dom, view: zUpView(camera, { readDir: (c) => c.getWorldDirection(dir), setUp: false }) });
     this.camera = camera; this.dom = dom;
   }
 }
