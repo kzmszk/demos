@@ -25,6 +25,8 @@ export class Input {
     this.turnPerFrame = migration && migration.turnPerFrame != null ? migration.turnPerFrame : null;
     this.hooks = hooks; this.win = win; this.dom = dom;
     this.keys = new Set(); this.yaw = 0; this.pitch = 0; this.drag = null;
+    // written by the city's touch controls: the stick (x right, y down), ▲▼ (vert ±1), the fast toggle
+    this.move = { x: 0, y: 0 }; this.vert = 0; this.fastLatch = false;
     const bound = new Set(Object.values(o.bindings).flat());
     const keyOf = (e) => (o.keyField === 'key' ? String(e.key).toLowerCase() : e.code);
     const L = this.listeners = [];
@@ -63,9 +65,10 @@ export class Input {
     on(dom, 'wheel', (e) => {
       if (hooks.wheel && hooks.wheel(e)) return;
       const w = o.wheel;
-      if (!w || (w.modes && !w.modes.includes(hooks.mode()))) return;
-      hooks.setSpeed(Math.max(w.min, Math.min(w.max, hooks.speed() * (e.deltaY > 0 ? w.down : w.up))));
+      if (!w) return;
       e.preventDefault();
+      if (w.modes && !w.modes.includes(hooks.mode())) return;
+      hooks.setSpeed(Math.max(w.min, Math.min(w.max, hooks.speed() * (e.deltaY > 0 ? w.down : w.up))));
     }, { passive: false });
   }
 
@@ -76,8 +79,9 @@ export class Input {
     const a = (n) => this.any(n), turn = a('turnLeft') - a('turnRight');
     if (turn) this.yaw += turn * (this.turnPerFrame != null ? this.turnPerFrame : this.options.turnRate * dt);
     let f = a('forward') - a('back'), r = a('right') - a('left'), u = a('up') - a('down');
+    f += -this.move.y; r += this.move.x; u += this.vert;
     if (this.options.compose === 'clampEach') { f = Math.max(-1, Math.min(1, f)); r = Math.max(-1, Math.min(1, r)); u = Math.max(-1, Math.min(1, u)); }
-    return { f, r, u, fast: a('fast') === 1, yaw: this.yaw, pitch: this.pitch };
+    return { f, r, u, fast: a('fast') === 1 || this.fastLatch, yaw: this.yaw, pitch: this.pitch };
   }
 
   reset() { this.keys.clear(); this.drag = null; }

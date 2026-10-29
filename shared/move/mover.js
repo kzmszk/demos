@@ -41,7 +41,10 @@ export class Mover {
     if (cmd.type === 'setMode') {
       const prev = s.mode, a = this.clientModes[prev], b = this.clientModes[cmd.name];
       if (a && a.exit) a.exit(this);
+      // the view as the input holds it now; a walk mode's pitchOnEnter limit is written back to the input
+      s.yaw = this.input.yaw; s.pitch = this.input.pitch;
       command(s, cmd, this.world, this.cfg);
+      this.input.pitch = s.pitch;
       if (b && b.enter) b.enter(this, prev);
       return;
     }
@@ -76,7 +79,8 @@ export class Mover {
   // command() each cmd and step() when frame is not null
   startRecording() { this.recording = { initial: toPlain(this.state), ticks: [] }; this.pending = []; return this.recording; }
 
-  setMode(name) { this.queue.push({ type: 'setMode', name }); }
+  // at once, as the cities' own setMode did (main.js reads and writes yaw / pitch / walkZ right after it)
+  setMode(name) { this.apply({ type: 'setMode', name }); }
   syncFromCamera() {
     const r = this.view.read();
     this.apply({ type: 'place', pos: r.pos, yaw: r.yaw, pitch: r.pitch });
@@ -89,6 +93,11 @@ export class Mover {
   get pitch() { return this.input.pitch; } set pitch(v) { this.input.pitch = v; }
   get vel() { return this.state.vel; }
   get keys() { return this.input.keys; }
+  get move() { return this.input.move; }
+  get vert() { return this.input.vert; } set vert(v) { this.input.vert = v; }
+  get fastLatch() { return this.input.fastLatch; } set fastLatch(v) { this.input.fastLatch = v; }
+  get walkZ() { return this.state.walk.z; }
+  set walkZ(z) { this.apply({ type: 'place', pos: this.view.readPos(), walkZ: z }); }
   get mode() { return this.state.mode; } set mode(name) { this.setMode(name); }
   // the speed asked for: a wheel turn reads (and shows) the value it queued, before the next update applies it
   get speed() {

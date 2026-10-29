@@ -1,7 +1,7 @@
 // Core: the plain-data shapes (proposal §3.2).
 //   MoverState  { v, mode, pos:{x,y,z}, yaw, pitch, vel:Vec3, speed, walk:{z:number|null, bob}, status:'ok'|'hold' }
 //   InputFrame  { f, r, u, fast, yaw, pitch }   composed axes and this step's absolute view
-//   Command     { type:'setMode', name } | { type:'setSpeed', value } | { type:'place', pos, yaw?, pitch? }
+//   Command     { type:'setMode', name } | { type:'setSpeed', value } | { type:'place', pos, yaw?, pitch?, walkZ? }
 // A replayable tick is { dt, cmds:[...], frame }: apply cmds in order with command(), then step() (frame null =
 // the controls were disabled and no step ran).
 import { Vec3 } from './vec.js';

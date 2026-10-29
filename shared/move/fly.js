@@ -1,9 +1,8 @@
 // Core: free flight.  want = (f·forward + r·right) in the horizontal plane + u·up, scaled by speed (× fastMul),
 // vel eased towards it with 1 - exp(-smooth·dt) (smooth null = vel takes want at once), then pos += vel·dt.
+// followPitch: forward goes along the view (f·cos pitch level, f·sin pitch up).  clamp(pos, vel, world): city limits.
 export function flyMode({ fastMul = 4, smooth = 4, normalizeXY = false, followPitch = false, clamp = null } = {}) {
-  // kyoto's pitch-following flight comes with the kyoto migration (proposal §4.2), checked against its own trace
-  if (followPitch) throw new Error('shared/move: flyMode followPitch is not implemented yet');
-  return { kind: 'fly', fastMul, smooth, normalizeXY, clamp };
+  return { kind: 'fly', fastMul, smooth, normalizeXY, followPitch, clamp };
 }
 
 export function flyStep(state, frame, dt, world, m, axes) {
@@ -12,7 +11,9 @@ export function flyStep(state, frame, dt, world, m, axes) {
   if (m.normalizeXY) { const l = Math.hypot(f, r); if (l > 1) { f /= l; r /= l; } }
   const [fa, fb] = axes.forward(state.yaw), [ra, rb] = axes.right(state.yaw), [pa, pb] = axes.plane;
   const s = state.speed * (frame.fast ? m.fastMul : 1);
-  want[pa] = (f * fa + r * ra) * s; want[pb] = (f * fb + r * rb) * s; want[axes.up] = frame.u * s;
+  let u = frame.u;
+  if (m.followPitch) { u = frame.u + f * Math.sin(state.pitch); f *= Math.cos(state.pitch); }
+  want[pa] = (f * fa + r * ra) * s; want[pb] = (f * fb + r * rb) * s; want[axes.up] = u * s;
   const vel = state.vel, pos = state.pos;
   if (m.smooth == null) vel.set(want.x, want.y, want.z);
   else vel.lerp(want, 1 - Math.exp(-dt * m.smooth));
