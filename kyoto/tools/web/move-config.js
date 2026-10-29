@@ -1,7 +1,8 @@
 // Kyoto's movement settings for shared/move (no DOM, no three: a server could import this too).
 // walk: on the walk map, eye 1.6 m, 1.5 m/s (Shift 4.2), gliding along walls; entering it limits the pitch to ±0.6.
 // fly: 30 m/s (Shift ×4, wheel 2–600), forward follows the view, never closer than 2 m to the ground.
-// W/S/↑/↓ forward/back, A/D strafe, ←/→ turn, E/Space up, Q/C down; the touch stick, ▲▼ and fast toggle via ui.js.
+// W/S/↑/↓ forward/back, A/D strafe, ←/→ turn 1.5 rad/s, E/Space up, Q/C down, drag grabs the scene;
+// the touch stick, ▲▼ and fast toggle via ui.js.
 import { flyMode, rasterWalkMode, glideStep } from '../../../shared/move/index.js';
 
 export const SPEED_RANGE = [2, 600];
@@ -18,9 +19,8 @@ export const MOVE = {
       forward: ['KeyW', 'ArrowUp'], back: ['KeyS', 'ArrowDown'], right: ['KeyD'], left: ['KeyA'],
       turnLeft: ['ArrowLeft'], turnRight: ['ArrowRight'], up: ['KeyE', 'Space'], down: ['KeyQ', 'KeyC'], fast: ['ShiftLeft', 'ShiftRight'],
     },
+    turnRate: 1.5,
     drag: { mouse: 0.003, touch: 0.005, pitchLimit: 1.5 },
     wheel: { min: SPEED_RANGE[0], max: SPEED_RANGE[1], modes: ['fly'] },
   },
-  // the old feel until the control-change commit: look-around drag, 0.025 rad per frame on ←/→ (proposal §3.4)
-  migration: { dragSign: -1, turnPerFrame: 0.025 },
 };

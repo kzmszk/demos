@@ -1,6 +1,6 @@
 // Movement trace (proposal §4.0, comparison A): drives web/controls.js through real listeners with trace/script.mjs on
 // the synthetic world (trace/world.mjs) and writes the sampled state sequence as JSON.
-//   node trace/run.mjs [--orig] [out.json]     (default: web/controls.js → trace/out.json)
+//   node trace/run.mjs [--orig] [--flip-drag] [out.json]     (default: web/controls.js → trace/out.json)
 //   node trace/compare.mjs trace/golden.json trace/out.json
 // --orig drives trace/controls.orig.js, a byte-for-byte copy of web/controls.js before the shared/move migration;
 // trace/golden.json is recorded from it and kept as the reference.  When the controls are a shared/move Mover, the
@@ -9,7 +9,8 @@
 import './three-hook.mjs';
 import { writeFileSync } from 'node:fs';
 
-const args = process.argv.slice(2), orig = args.includes('--orig');
+// --flip-drag negates every pointer coordinate, so each drag delta changes sign (the decision ② expectation, §4.0)
+const args = process.argv.slice(2), orig = args.includes('--orig'), flip = args.includes('--flip-drag') ? -1 : 1;
 const { FakeTarget, FakeCamera, installWindow, event } = await import('./fake.mjs');
 const { makeApp } = await import('./app.mjs');
 const { makeWorld } = await import('./world.mjs');
@@ -44,7 +45,7 @@ for (const op of SCRIPT) {
   else if (type === 'blur') win.dispatchEvent(event('blur'));
   else if (type.startsWith('pointer')) {
     const [x, y, o] = a;
-    canvas.dispatchEvent(event(type, { clientX: x, clientY: y, pointerId: 1, pointerType: 'mouse', button: 0, ...o }));
+    canvas.dispatchEvent(event(type, { clientX: flip * x, clientY: flip * y, pointerId: 1, pointerType: 'mouse', button: 0, ...o }));
   } else if (type === 'wheel') canvas.dispatchEvent(event('wheel', { deltaY: a[0] }));
   else if (type === 'gate' || type === 'late') world[type] = a[0];
   else if (type === 'start') A.start(a[0]);
