@@ -2,7 +2,7 @@
 // exit; z = height above T.P.).  An autumn evening and a snowy evening, on foot and in the air.
 import * as THREE from 'three/webgpu';
 import { pass, mrt, output, normalView, velocity, screenUV, builtinAOContext, packNormalToRGB, unpackRGBToNormal, sample, vec3, vec4, float, Fn,
-  positionWorld, cameraPosition, length, normalize, dot, max, pow, exp, mix, clamp, smoothstep, uniform, vec2, output as outNode } from 'three/tsl';
+  positionWorld, cameraPosition, length, normalize, dot, max, pow, exp, mix, clamp, smoothstep, uniform, vec2, output as outNode, uv, log2, rtt } from 'three/tsl';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 import { KTX2Loader } from 'three/addons/loaders/KTX2Loader.js';
 import { CSMShadowNode } from 'three/addons/csm/CSMShadowNode.js';
@@ -20,6 +20,7 @@ import { Weirs } from './weirs.js';
 import { loadFar, farGround } from './far.js';
 import { createAudio, renderOffline, wavBytes, beatTimes } from './audio.js';
 import { UI, PLACES } from './ui.js';
+import { createMeter, exposureBoost, adapt } from '../../../shared/exposure/meter.js';
 
 THREE.Object3D.DEFAULT_UP.set(0, 0, 1);
 const $ = (id) => document.getElementById(id);
@@ -49,7 +50,7 @@ function gpuGone(why) {
     : '<b>KYOTO</b><p>The GPU ran out of memory and stopped drawing.</p><p>Please reload the page.</p><p>A lighter version opens with ?low=1 at the end of the address.</p>') + `<p>(${String(why).replace(/[<>&]/g, '')})</p>`;
   document.body.appendChild(m);
 }
-{
+if (renderer.backend.isWebGPUBackend) {                // the WebGL fallback (?gl=1, a browser without WebGPU) has no device
   const dev = renderer.backend.device;
   dev.lost.then((i) => { if (i.reason !== 'destroyed') gpuGone(i.message || 'device lost'); });
   dev.addEventListener('uncapturederror', (e) => { if (typeof GPUOutOfMemoryError !== 'undefined' && e.error instanceof GPUOutOfMemoryError) gpuGone('out of memory'); });
@@ -297,6 +298,7 @@ const grade = (c) => Fn(() => {
   return vec4(g.mul(vig).max(vec3(0.0)), c.a);
 })();
 const pipeline = new THREE.RenderPipeline(renderer);
+let meterSource = null;
 const usePost = params.has('post') ? params.get('post') !== '0' : !LOW;
 if (usePost) {
   const prePass = pass(scene, camera);
@@ -316,9 +318,21 @@ if (usePost) {
   const aa = params.get('aa') === '0' ? col : traa(col, scenePass.getTextureNode('depth'), scenePass.getTextureNode('velocity'), camera);
   const bl = bloom(aa, 0.06, 0.4, 4.0);
   pipeline.outputNode = grade(aa.add(bl));
+  meterSource = scenePass;
 } else {
-  pipeline.outputNode = grade(pass(scene, camera));
+  meterSource = pass(scene, camera);
+  pipeline.outputNode = grade(meterSource);
 }
+// metered eye adaptation (shared/exposure): lifts the exposure where the frame itself is too dark — a hall, the torii
+// tunnel — on top of the openness / roof guess below.  ?ae=0 meters but does not lift, ?meter=0 leaves it out.
+const meter = params.get('meter') === '0' ? { logLum: null, update() {} }
+  : createMeter({ THREE, tsl: { Fn, uv, vec2, vec3, vec4, float, dot, log2, max, rtt }, renderer, source: meterSource });
+if (meter.wrap) pipeline.outputNode = meter.wrap(pipeline.outputNode);
+const AE = params.get('ae') !== '0';
+// target: metered log2 luminance after exposure (open streets read -3 to -4, the hall -8); strength: how far toward it;
+// max: the cap.  ?aet / aes / aem tune them.
+const AEP = { target: +(params.get('aet') || -5.0), strength: +(params.get('aes') || 0.85), max: +(params.get('aem') || 32) };
+let boost = 1;
 
 const controls = new Controls(camera, renderer.domElement, { tiles, ground: farGround });
 app.controls = controls;                         // the touch buttons (ui.js) climb, descend and speed up through it
@@ -420,7 +434,10 @@ function step(dt, dtRaw = dt, pose = null, snap = false) {
   }
   const expT = EXP[app.season] * (1 + 0.45 * (1 - camOpen)) * (1 + 1.4 * camCov);
   expo += (expT - expo) * (snap ? 1 : Math.min(1, dt * 1.5));
-  renderer.toneMappingExposure = expo * app.bright; GR.expo.value = renderer.toneMappingExposure;
+  // a film (pose) keeps the guess alone: its frames stay as they were cut
+  const want = AE && !pose ? exposureBoost(meter.logLum, expo * app.bright, AEP) : 1;
+  boost = snap ? want : adapt(boost, want, dt);
+  renderer.toneMappingExposure = expo * app.bright * boost; GR.expo.value = renderer.toneMappingExposure;
   audState(dt);
   minimap.show(app.mode !== 'title');
   if (app.mode !== 'title') { camera.getWorldDirection(camDir); minimap.update(dt, camera.position.x, camera.position.y, Math.atan2(camDir.y, camDir.x)); }
@@ -429,7 +446,7 @@ function step(dt, dtRaw = dt, pose = null, snap = false) {
 function frame() {
   const dtRaw = clock.getDelta(), dt = Math.min(0.1, dtRaw);
   step(dt, dtRaw);
-  const tr = performance.now(); pipeline.render(); const tr2 = performance.now();
+  const tr = performance.now(); pipeline.render(); meter.update(); const tr2 = performance.now();
   if (tr2 - tr > 12) perfLog(['render', Math.round(tr2 - tr), Math.round(tr)]);
   if (LD.phase !== 'done') loadStep();
   if (dtRaw > 0.05) perfLog(['FRAME', Math.round(dtRaw * 1000), Math.round(tr2)]);
@@ -440,7 +457,8 @@ addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; cam
 
 // ---------------------------------------------------------------- debug / automation hooks
 const KYO = window.KYO = {
-  dyn, low: LOW, pipes: PIPE, minimap, snow, statues, audio, aud, load: LD, step, G, csm, sun, fogU, EXP,
+  dyn, low: LOW, pipes: PIPE, minimap, snow, statues, audio, aud, load: LD, step, G, csm, sun, fogU, EXP, meter,
+  get boost() { return boost; },
   stopLoop() { renderer.setAnimationLoop(null); },
   ready: false, camera, scene, tiles, renderer, pipeline, controls, app, ui,
   mode(m) { if (app.mode === 'title') ui.start(m); else app.setMode(m); },

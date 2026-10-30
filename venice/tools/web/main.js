@@ -1,6 +1,6 @@
 // VENEZIA — viewer entry.  three.js WebGPU renderer, z-up world (x east, y north, metres; water at z = 0).
 import * as THREE from 'three/webgpu';
-import { pass, mrt, output, normalView, velocity, screenUV, builtinAOContext, directionToColor, colorToDirection, sample, vec2, float } from 'three/tsl';
+import { pass, mrt, output, normalView, velocity, screenUV, builtinAOContext, directionToColor, colorToDirection, sample, vec2, float, Fn, uv, vec3, vec4, dot, log2, max, rtt } from 'three/tsl';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 import { KTX2Loader } from 'three/addons/loaders/KTX2Loader.js';
 import { CSMShadowNode } from 'three/addons/csm/CSMShadowNode.js';
@@ -17,6 +17,7 @@ import { Gondola, GondolaRide } from './gondola.js';
 import { UI, PLACES } from './ui.js';
 import { createAudio, _scores } from './audio.js';
 import { MiniMap } from './minimap.js';
+import { createMeter, exposureBoost, adapt } from '../../../shared/exposure/meter.js';
 
 THREE.Object3D.DEFAULT_UP.set(0, 0, 1);
 const $ = (id) => document.getElementById(id);
@@ -240,6 +241,7 @@ function loadDone(show = true) {
 
 // ---------------------------------------------------------------- post: GTAO on indirect light, TRAA, bloom
 const pipeline = new THREE.RenderPipeline(renderer);
+let meterSource = null;
 const usePost = params.has('post') ? params.get('post') !== '0' : !LOW;     // a phone: MSAA, no post chain
 if (usePost) {
   const prePass = pass(scene, camera);
@@ -257,9 +259,22 @@ if (usePost) {
   const aa = traa(col, scenePass.getTextureNode('depth'), scenePass.getTextureNode('velocity'), camera);
   const bl = bloom(aa, 0.05, 0.3, 6.0);
   pipeline.outputNode = aa.add(bl);
+  meterSource = scenePass;
 } else {
-  pipeline.outputNode = pass(scene, camera);
+  meterSource = pass(scene, camera);
+  pipeline.outputNode = meterSource;
 }
+// metered eye adaptation (shared/exposure): lifts the exposure where the frame itself is too dark — the shaded canals
+// from the gondola, a dim calle — on top of the openness / interior guess below.  ?ae=0 meters but does not lift,
+// ?meter=0 leaves it out; aet / aes / aem tune target, strength and cap (aetn / aesn at night).
+const meter = params.get('meter') === '0' ? { logLum: null, update() {} }
+  : createMeter({ THREE, tsl: { Fn, uv, vec2, vec3, vec4, float, dot, log2, max, rtt }, renderer, source: meterSource });
+if (meter.wrap) pipeline.outputNode = meter.wrap(pipeline.outputNode);
+const AE = params.get('ae') !== '0';
+// by day the open piazza reads -3.4 and a shaded rio -8 to -9.5; the night stays night: a lower target, a gentler pull
+const AEP = { target: +(params.get('aet') || -5.0), strength: +(params.get('aes') || 0.85), max: +(params.get('aem') || 32) };
+const AEN = { ...AEP, target: +(params.get('aetn') || -6.8), strength: +(params.get('aesn') || 0.7) };
+let boost = 1;
 
 // gondola on a canal route (always afloat; the boat mode seats the camera in it)
 const canals = await fetch('data/canals.json').then((r) => r.json());
@@ -364,7 +379,10 @@ function step(dt, dtRaw = dt, pose = null, snap = false) {
   const lift = (G.night.value > 0.5 ? 0.15 : 0.35) * (1 - camOpen);
   const expT = inside ? inside.exposure * (G.night.value > 0.5 ? 1.3 : 1.0) : EXP.out * (1 + lift);
   expo += (expT - expo) * k(1.5);
-  renderer.toneMappingExposure = expo * app.bright;
+  // a film (pose) keeps the guess alone: its frames stay as they were cut
+  const want = AE && !pose ? exposureBoost(meter.logLum, expo * app.bright, G.night.value > 0.5 ? AEN : AEP) : 1;
+  boost = snap ? want : adapt(boost, want, dt);
+  renderer.toneMappingExposure = expo * app.bright * boost;
   if (app.mode === 'boat') ui.setLabel(ride.nameAt(ride.s));
   else ui.setLabel(inside ? inside[ui.lang] : '');
   audState(dt, inside);
@@ -375,7 +393,7 @@ function step(dt, dtRaw = dt, pose = null, snap = false) {
 function frame() {
   const dtRaw = clock.getDelta(), dt = Math.min(0.1, dtRaw);
   step(dt, dtRaw);
-  const tr = performance.now(); (window.VEN ? VEN.pipeline : pipeline).render(); const tr2 = performance.now();
+  const tr = performance.now(); (window.VEN ? VEN.pipeline : pipeline).render(); meter.update(); const tr2 = performance.now();
   if (tr2 - tr > 12) perfLog(['render', Math.round(tr2 - tr), Math.round(tr)]);
   if (LD.phase !== 'done') loadStep();
   if (dtRaw > 0.05) perfLog(['FRAME', Math.round(dtRaw * 1000), Math.round(tr2)]);
@@ -386,7 +404,8 @@ addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; cam
 
 // ---------------------------------------------------------------- debug / automation hooks
 const VEN = window.VEN = {
-  audio, dyn, minimap, low: LOW, pipes: PIPE, load: LD, aud, step, createAudio, scores: _scores,
+  audio, dyn, minimap, low: LOW, pipes: PIPE, load: LD, aud, step, createAudio, scores: _scores, meter,
+  get boost() { return boost; },
   // a film (tools/film.mjs) drives the frames itself
   stopLoop() { renderer.setAnimationLoop(null); },
   ready: false, camera, scene, tiles, renderer, G, pipeline, tex: arrays, ride, controls, gondola, app, ui,
