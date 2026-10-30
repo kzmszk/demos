@@ -3,6 +3,7 @@ import { CSM } from 'three/addons/csm/CSM.js';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 import { getMaterial, loadDetail, shared } from './materials.js';
 import { FlyControls } from './fly.js';
+import { TouchControls } from '../../../shared/move/index.js';
 import { World, makeInteriors } from './world.js';
 import { setRooms, ROOMS, B, S } from './frames.js';
 import { buildTour, poseAt } from './tour.js';
@@ -46,6 +47,8 @@ new HDRLoader().load('tex/sky.hdr', (t) => {
 });
 const mat = (n) => getMaterial(n, csm);
 const controls = new FlyControls(camera, canvas); controls.enabled = false;
+// the phone's stick and ▲▼ (shared/move), in free flight
+const touch = new TouchControls(controls, { altitude: ['free'], stick: ['free'] });
 
 // ---------------------------------------------------------------- data
 const loadText = $('load');
@@ -126,7 +129,8 @@ function updateCard() {
 // ---------------------------------------------------------------- language
 function applyLang() {
   document.documentElement.lang = LANG;
-  for (const el of document.querySelectorAll('[data-ja]')) el.textContent = el.dataset[LANG];
+  for (const el of document.querySelectorAll('[data-ja]')) el.textContent = (touch.on && el.dataset[LANG + 'T']) || el.dataset[LANG];
+  touch.setLabels(LANG === 'ja' ? { up: '上昇', down: '下降' } : { up: 'Up', down: 'Down' });
   $('lang').textContent = $('b-lang').textContent = LANG === 'ja' ? 'EN' : '日本語';
   capKey = null; cardKey = null; buildPlaces();
 }
@@ -142,6 +146,7 @@ function setMode(m) {
   $('bar').style.opacity = m === 'title' ? 0 : 1; $('bar').style.pointerEvents = m === 'title' ? 'none' : 'auto';
   $('help').style.display = m === 'free' ? 'block' : 'none';
   controls.enabled = m === 'free'; if (m === 'free') controls.syncFromCamera();
+  touch.setMode(m);
   $('b-tour').classList.toggle('on', m === 'tour'); $('b-free').classList.toggle('on', m === 'free');
   if (m !== 'tour') { cap.style.opacity = 0; capKey = null; }
   $('prog').style.display = m === 'tour' ? 'block' : 'none';
@@ -270,7 +275,7 @@ function loadCredits() {
 }
 
 // ---------------------------------------------------------------- debug / automation hooks
-window.VAT = { THREE, scene, camera, renderer, world, ready: false, audio: AUDIO, step, csm,
+window.VAT = { THREE, scene, camera, renderer, world, ready: false, audio: AUDIO, step, csm, controls, touch,
   // a film (tools/film.mjs) drives the frames itself
   stopLoop() { looping = false; setMode('free'); controls.enabled = false; fade = 0; },
   look(px, py, pz, tx, ty, tz) { setMode('free'); fade = 0; camera.position.set(px, py, pz); camera.lookAt(tx, ty, tz); controls.syncFromCamera(); },

@@ -12,6 +12,7 @@ import { bloom } from 'three/addons/tsl/display/BloomNode.js';
 import { Tiles, perfLog, prefetch } from './tiles.js';
 import { makeCityMaterial, makeGroundMaterial, makeWaterMaterial, makeLiteMaterial, SurfPool, G } from './kyomat.js';
 import { Controls } from './controls.js';
+import { TouchControls } from '../../../shared/move/index.js';
 import { Trees } from './trees.js';
 import { MiniMap } from './minimap.js';
 import { Snow } from './snow.js';
@@ -338,17 +339,9 @@ const controls = new Controls(camera, renderer.domElement, { tiles, ground: farG
 app.controls = controls;                         // the touch buttons (ui.js) climb, descend and speed up through it
 // the basin and its hills out to the horizon (loaded once; drawn after the tiles so their pixels are rejected early)
 const farP = params.get('far') === '0' ? Promise.resolve(null) : loadFar(scene, { G, base: 'data/far', backend: renderer.backend, renderOrder: 50 }).catch((e) => { console.warn('far', e); return null; });
-// touch joystick
-{
-  const st = document.createElement('div'); st.className = 'stick'; st.innerHTML = '<i></i>'; document.querySelector('.ui').appendChild(st);
-  const knob = st.querySelector('i'); let id = null;
-  const set = (e) => { const r = st.getBoundingClientRect(); let x = (e.clientX - r.left - 55) / 45, y = (e.clientY - r.top - 55) / 45; const l = Math.hypot(x, y); if (l > 1) { x /= l; y /= l; }
-    controls.move.x = x; controls.move.y = y; knob.style.transform = `translate(${x * 34}px, ${y * 34}px)`; };
-  st.addEventListener('pointerdown', (e) => { id = e.pointerId; st.setPointerCapture(id); set(e); e.stopPropagation(); });
-  st.addEventListener('pointermove', (e) => { if (e.pointerId === id) set(e); });
-  const end = () => { id = null; controls.move.x = controls.move.y = 0; knob.style.transform = ''; };
-  st.addEventListener('pointerup', end); st.addEventListener('pointercancel', end);
-}
+// the phone's stick and ▲▼ (shared/move): ▲▼ in the air only
+app.touch = new TouchControls(controls, { root: document.querySelector('.ui'), altitude: ['fly'], labels: { up: ui.t('up'), down: ui.t('down') } });
+ui.refresh();
 const minimap = new MiniMap(document.querySelector('.ui'), () => ui.lang);
 // sound: the Goldberg Variations on a physical-model piano, footsteps by surface, water, temple bells (audio.js)
 const audio = createAudio();

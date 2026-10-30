@@ -51,6 +51,10 @@
   #credits .x { position: fixed; top: 3vh; right: 4vw; }
   #home { left: 4vw; top: 3vh; font-size: 11px; letter-spacing: .14em; color: var(--dim); text-decoration: none; }
   @media (max-width: 640px) { #art { display: none; } #bar { gap: 14px; } }
+  /* the hint below the DEMOS link (they shared a corner); on touch, larger, and the stick and ▲▼ (shared/move/touch.js) above the bar */
+  #help { top: calc(3vh + 24px); }
+  body { --tc-bottom: calc(60px + env(safe-area-inset-bottom)); }
+  @media (pointer: coarse) { #help { right: 4vw; font-size: 12px; color: var(--ink); } }
 </style>
 </head>
 <body>
@@ -62,7 +66,7 @@
   <p class="sub" data-ja="サン・ピエトロ広場から大聖堂の内部、ミケランジェロのクーポラ、ヴァチカン美術館、そしてシスティーナ礼拝堂へ。約9分のドローン飛行。" data-en="From St Peter’s Square into the basilica, up Michelangelo’s dome, through the Vatican Museums and into the Sistine Chapel: a nine-minute drone flight."></p>
   <div class="row">
     <button class="btn primary" id="go" data-ja="ツアーを始める" data-en="Start the tour"></button>
-    <button class="btn" id="free" data-ja="自由に飛ぶ" data-en="Fly freely"></button>
+    <button class="btn" id="free" data-ja="浮く" data-en="Float"></button>
     <button class="btn" id="lang">EN</button>
     <span class="meta" data-ja="音が出ます · PC推奨 · 初回約120MB" data-en="With sound · best on a desktop · ~120 MB"></span>
   </div>
@@ -70,13 +74,14 @@
 </div>
 <div id="cap" class="ui"><div class="rule"></div><div class="h"></div><div class="p"></div></div>
 <div id="art" class="ui"><div class="t"></div><div class="a"></div></div>
-<div id="help" class="ui" data-ja="ドラッグ：見回す　WASD・矢印：移動　E/Q：上下　Shift：速く　ホイール：速度" data-en="Drag: look · WASD/arrows: move · E/Q: up/down · Shift: faster · wheel: speed"></div>
+<div id="help" class="ui" data-ja="ドラッグ：見回す　WASD・矢印：移動　E/Q：上下　Shift：速く　ホイール：速度" data-en="Drag: look · WASD/arrows: move · E/Q: up/down · Shift: faster · wheel: speed"
+  data-ja-t="スティックで進む ・ ▲▼ で上下 ・ ドラッグで向き" data-en-t="Stick to move · ▲ ▼ up and down · drag to turn"></div>
 <div id="places" class="ui"></div>
 <div id="bar" class="ui">
   <span id="where"></span><span class="sp"></span>
   <button id="b-tour" data-ja="ツアー" data-en="Tour"></button>
-  <button id="b-free" data-ja="自由飛行" data-en="Free flight"></button>
-  <button id="b-places" data-ja="場所" data-en="Places"></button>
+  <button id="b-free" data-ja="浮く" data-en="Float"></button>
+  <button id="b-places" data-ja="見どころ" data-en="Places"></button>
   <button id="b-sound" data-ja="音" data-en="Sound"></button>
   <button id="b-lang">EN</button>
   <button id="b-credits" data-ja="出典" data-en="Credits"></button>

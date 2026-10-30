@@ -2,11 +2,12 @@
 const T = {
   ja: {
     title: 'VENEZIA', sub: 'ヴェネツィア本島を、歩いて、ゴンドラで。',
-    walk: '歩く', boat: 'ゴンドラ', fly: '空から', places: '場所', route: 'コース', speed: '速さ', day: '昼', night: '夜', sound: '音', credits: 'クレジット', bright: '明るさ',
+    walk: '歩く', boat: 'ゴンドラ', fly: '浮く', places: '見どころ', route: 'コース', speed: '速さ', day: '昼', night: '夜', sound: '音', credits: 'クレジット', bright: '明るさ',
     help_walk: 'W A S D で歩く ・ ドラッグで見回す ・ Shift で走る',
-    help_walk_t: '左下のスティックで歩く ・ ドラッグで見回す',
-    help_fly_t: 'スティックで進む ・ ドラッグで向き',
-    help_boat_t: 'ドラッグで見回す ・ コースと速さは下のバーで',
+    help_walk_t: 'スティックで歩く ・ 押し切ると走る ・ ドラッグで見回す',
+    help_fly_t: 'スティックで進む ・ ▲▼ で上下 ・ ドラッグで向き',
+    help_boat_t: 'ドラッグで見回す ・ コースと速さは「設定」で',
+    more: '設定', up: '上昇', down: '下降',
     help_boat: 'ドラッグで見回す ・ コースと速さは下のバーで ・ R で自分で漕ぐ',
     help_fly: 'W A S D・E Q で移動 ・ ドラッグで向き ・ ホイールで速度',
     help_row: 'W S で前後 ・ A D で舵 ・ R で自動に戻す',
@@ -15,11 +16,12 @@ const T = {
   },
   en: {
     title: 'VENEZIA', sub: 'Walk the island. Ride a gondola.',
-    walk: 'Walk', boat: 'Gondola', fly: 'Fly', places: 'Places', route: 'Route', speed: 'Speed', day: 'Day', night: 'Night', sound: 'Sound', credits: 'Credits', bright: 'Brightness',
+    walk: 'Walk', boat: 'Gondola', fly: 'Float', places: 'Places', route: 'Route', speed: 'Speed', day: 'Day', night: 'Night', sound: 'Sound', credits: 'Credits', bright: 'Brightness',
     help_walk: 'W A S D to walk · drag to look · Shift to run',
-    help_walk_t: 'Stick (bottom left) to walk · drag to look',
-    help_fly_t: 'Stick to move · drag to turn',
-    help_boat_t: 'Drag to look around · route and speed in the bar',
+    help_walk_t: 'Stick to walk · push it all the way to run · drag to look',
+    help_fly_t: 'Stick to move · ▲ ▼ up and down · drag to turn',
+    help_boat_t: 'Drag to look around · route and speed under More',
+    more: 'More', up: 'Up', down: 'Down',
     help_boat: 'Drag to look around · route and speed in the bar · R to row yourself',
     help_fly: 'W A S D · E Q to move · drag to turn · wheel for speed',
     help_row: 'W S forward/back · A D to steer · R for autopilot',
@@ -88,6 +90,19 @@ export class UI {
     bar.querySelector('.lg').onclick = () => this.setLang(this.lang === 'ja' ? 'en' : 'ja');
     const br = bar.querySelector('.br input'); br.value = this.app.bright;
     br.oninput = () => this.app.setBright(+br.value);
+    // phones and tablets: one short row (mode, places, ⋯); the rest — the gondola's route and speed too — in a small
+    // sheet above it, so nothing lands under the thumbs.  The stick and ▲▼ are shared/move's TouchControls (main.js)
+    this.touch = matchMedia('(pointer: coarse)').matches;
+    if (this.touch) {
+      root.classList.add('touch');
+      const more = this.el('button', 'more'); bar.insertBefore(more, bar.querySelector('.boatonly'));
+      const sheet = this.sheet = this.el('div', 'sheet'); root.appendChild(sheet);
+      sheet.appendChild(bar.querySelector('.boatonly')); sheet.appendChild(bar.querySelector('.right'));
+      more.onclick = () => sheet.classList.toggle('open');
+      sheet.addEventListener('click', (e) => { if (e.target.closest('button') && !e.target.closest('.br') && !e.target.closest('.speeds')) setTimeout(() => sheet.classList.remove('open'), 150); });
+      sheet.addEventListener('pointerdown', (e) => e.stopPropagation());
+      bar.querySelector('.places').addEventListener('change', () => sheet.classList.remove('open'));
+    }
     this.label = this.el('div', 'label'); root.appendChild(this.label);
     this.help = this.el('div', 'help'); root.appendChild(this.help);
     this.setLang(this.lang);
@@ -102,12 +117,14 @@ export class UI {
     this.bar.querySelectorAll('.mode').forEach((b) => (b.textContent = this.t(b.dataset.m)));
     const ps = this.bar.querySelector('.places');
     ps.innerHTML = `<option value="">${this.t('places')}</option>` + PLACES.map((p) => `<option value="${p.id}">${p[l]}</option>`).join('');
-    const rs = this.bar.querySelector('.routes');
+    const rs = this.root.querySelector('.routes');
     rs.innerHTML = ROUTES.map((r) => `<option value="${r.id}">${r[l]}</option>`).join('');
     rs.value = this.app.routeId || 'grand';
-    this.bar.querySelector('.lg').textContent = l === 'ja' ? 'EN' : 'JA';
-    const cr = this.bar.querySelector('.cr'); cr.textContent = this.t('credits'); cr.href = 'credits.html#' + l;
-    this.bar.querySelector('.br span').textContent = this.t('bright');
+    this.root.querySelector('.lg').textContent = l === 'ja' ? 'EN' : 'JA';
+    const cr = this.root.querySelector('.cr'); cr.textContent = this.t('credits'); cr.href = 'credits.html#' + l;
+    this.root.querySelector('.br span').textContent = this.t('bright');
+    if (this.touch) this.bar.querySelector('.more').textContent = this.t('more') + ' ⋯';
+    if (this.app.touch) this.app.touch.setLabels({ up: this.t('up'), down: this.t('down') });
     this.refresh();
   }
   // loading line on the title: f = 0..1 (the bar), phase = 'data' | 'gpu'; f < 0 while the sizes are not known yet
@@ -134,10 +151,12 @@ export class UI {
   refresh() {
     const a = this.app;
     this.bar.querySelectorAll('.mode').forEach((b) => b.classList.toggle('on', b.dataset.m === a.mode));
-    this.bar.querySelector('.boatonly').style.display = a.mode === 'boat' ? '' : 'none';
-    this.bar.querySelectorAll('.spd').forEach((b) => b.classList.toggle('on', +b.dataset.s === a.speed));
-    this.bar.querySelector('.dn').textContent = a.night ? this.t('day') : this.t('night');
-    this.bar.querySelector('.snd').textContent = this.t('sound') + (a.sound ? ' ●' : ' ○');
+    this.root.querySelector('.boatonly').style.display = a.mode === 'boat' ? '' : 'none';
+    this.root.querySelectorAll('.spd').forEach((b) => b.classList.toggle('on', +b.dataset.s === a.speed));
+    this.root.querySelector('.dn').textContent = a.night ? this.t('day') : this.t('night');
+    this.root.querySelector('.snd').textContent = this.t('sound') + (a.sound ? ' ●' : ' ○');
+    // the stick walks, flies and rows; the gondola on its own route needs none
+    if (a.touch) a.touch.setMode(a.mode === 'boat' ? (a.rowing ? 'row' : null) : a.mode);
     const hk = a.mode === 'boat' ? (a.rowing ? 'help_row' : 'help_boat') : 'help_' + a.mode;
     const tk = hk + '_t';                         // touch screens: the stick instead of keys
     this.help.textContent = a.mode === 'title' ? '' : this.t(matchMedia('(pointer: coarse)').matches && T[this.lang][tk] ? tk : hk);

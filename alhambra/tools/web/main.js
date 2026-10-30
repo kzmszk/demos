@@ -28,6 +28,7 @@ import { buildTourShots, sampleTourShot } from './tour.js';
 import { createMusic } from './music.js';
 import { createReferences } from './references.js';
 import { Controls } from './controls.js';
+import { TouchControls } from '../../../shared/move/index.js';
 
 // Aerial perspective: exponential (not squared) haze so the Sierra Nevada stays visible at 30 km.
 THREE.ShaderChunk.fog_fragment=THREE.ShaderChunk.fog_fragment.replace('fogDensity * fogDensity * vFogDepth * vFogDepth','fogDensity * vFogDepth');
@@ -41,7 +42,7 @@ document.body.dataset.touch=String(touch);document.body.dataset.mode=mode;
 let trees,farScene,farCamera,skyCube,skyCubeCamera,farSun,farHemi,renderer,scene,camera,csm,nav,world,sky,sun,materialsMap,waterObjects=[],reflectors=[],hemi;
 let controls,orbitTarget=new THREE.Vector3(80,0,30),orb=new THREE.Spherical(520,1.08,-.8);
 let tour=false,tourTime=0,tourIndex=0,tourStart=0,tourOrigin=0,day=1,now=0,last=performance.now(),mapFrame=0,audio=null;
-let toastTimer,references,tourShots;
+let toastTimer,references,tourShots,touchUI;
 const music=createMusic({getLanguage:()=>lang,toast});
 function toast(ja,en){$('toast').textContent=lang==='ja'?ja:en;$('toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),2600);}
 function caption(p){place=p;$('placeNumber').textContent=p.no;$('placeTitle').textContent=p[lang];$('referenceOpen').setAttribute('aria-label',lang==='ja'?`${p.ja}の実際の写真を見る`:`View real photographs of ${p.en}`);$('placeSpanish').textContent=p.es;$('placeDescription').textContent=p.desc[lang];for(const button of document.querySelectorAll('.place')){const active=button.dataset.id===p.id;button.classList.toggle('active',active);button.setAttribute('aria-current',active?'location':'false');}}
@@ -49,8 +50,9 @@ function localize(){
   document.documentElement.lang=lang;document.title=lang==='ja'?'ALHAMBRA · 水と光の宮殿':'ALHAMBRA · A palace of water and light';
   for(const e of document.querySelectorAll('[data-ja]'))e.textContent=e.dataset[lang];
   $('language').textContent=lang==='ja'?'EN':'JA';$('language').setAttribute('aria-label',lang==='ja'?'Switch to English':'日本語に切り替える');
-  const labels={musicToggle:['音楽','Music'],musicClose:['音楽パネルを閉じる','Close music panel'],scene:['アルハンブラ宮殿の3D風景','3D view of the Alhambra'],sound:['水の環境音','Water ambience'],helpButton:['操作方法','Controls'],mapToggle:['地図を拡大','Expand map'],map:['現在地と宮殿全体の案内図','Map of the grounds and your location'],uiToggle:['UIを隠す','Hide interface'],restoreUI:['UIを表示','Show interface'],rise:['上昇','Ascend'],descend:['下降','Descend']};
+  const labels={musicToggle:['音楽','Music'],musicClose:['音楽パネルを閉じる','Close music panel'],scene:['アルハンブラ宮殿の3D風景','3D view of the Alhambra'],sound:['水の環境音','Water ambience'],helpButton:['操作方法','Controls'],mapToggle:['地図を拡大','Expand map'],map:['現在地と宮殿全体の案内図','Map of the grounds and your location'],uiToggle:['UIを隠す','Hide interface'],restoreUI:['UIを表示','Show interface']};
   for(const [id,names] of Object.entries(labels))$(id).setAttribute('aria-label',names[lang==='ja'?0:1]);
+  touchUI?.setLabels(lang==='ja'?{up:'上昇',down:'下降'}:{up:'Ascend',down:'Descend'});
   document.querySelector('.back').setAttribute('aria-label',lang==='ja'?'ギャラリーに戻る':'Return to gallery');
   document.querySelector('.modes').setAttribute('aria-label',lang==='ja'?'移動方法':'Travel mode');
   document.querySelector('#help .close').setAttribute('aria-label',lang==='ja'?'閉じる':'Close');
@@ -62,6 +64,7 @@ function localize(){
 function closePlaces(){document.body.classList.remove('places-open');$('placesToggle').setAttribute('aria-expanded','false');}
 function updateButtons(){
   for(const m of ['walk','fly']){$(m).classList.toggle('active',mode===m);$(m).setAttribute('aria-pressed',String(mode===m));}
+  touchUI?.setMode(mode);
   $('quality').textContent=lang==='ja'?(low?'軽量':'高画質'):(low?'Light':'High detail');
   $('tour').textContent=tour?(lang==='ja'?'Ⅱ 案内を停止':'Ⅱ Pause visit'):(lang==='ja'?'▷ 自動案内':'▷ Guided visit');$('tour').setAttribute('aria-pressed',String(tour));
   $('light').textContent=day?(lang==='ja'?'☼ 夕暮れ':'☼ Golden hour'):(lang==='ja'?'☼ 午後':'☼ Afternoon');
@@ -112,8 +115,10 @@ function drawMap(){
 function wire(){
   const ignore=e=>$('help').open||$('references').open||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName);
   controls=new Controls(camera,$('scene'),{mode,nav,orb,orbitTarget,stopTour,ignore});
-  const stick=controls.move;
-  const pauseInput=()=>{stopTour();controls.resetInput();stick.x=stick.y=0;controls.vert=0;$('joystick').firstElementChild.style.transform='';};
+  // the phone's stick (a press in the overview walks) and ▲▼ in the air: shared/move, as in the other cities
+  touchUI=new TouchControls(controls,{altitude:['fly'],stick:['walk','fly','orbit'],onInput:()=>{stopTour();if(mode==='orbit')setMode('walk');}});
+  touchUI.setMode(mode);
+  const pauseInput=()=>{stopTour();controls.resetInput();touchUI.release();};
   references=createReferences({getPlace:()=>place,getLanguage:()=>lang,onOpen:pauseInput});
   $('referenceOpen').onclick=()=>references.open();
   $('walk').onclick=()=>setMode('walk');$('fly').onclick=()=>setMode('fly');
@@ -131,13 +136,6 @@ function wire(){
     const key=e.key.toLowerCase();
     if(e.repeat)return;if(key==='m')$('mapToggle').click();if(key==='h')hide();if(key==='escape'){stopTour();closePlaces();document.body.classList.remove('map-expanded');$('mapToggle').setAttribute('aria-expanded','false');}
   });
-  window.addEventListener('blur',()=>{stick.x=stick.y=0;controls.vert=0;});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){stick.x=stick.y=0;controls.vert=0;}});
-  const joy=$('joystick'),knob=joy.firstElementChild;let joyId=null;
-  const joystick=e=>{const r=joy.getBoundingClientRect(),x=(e.clientX-r.left-r.width/2)/24,y=(e.clientY-r.top-r.height/2)/24,l=Math.max(1,Math.hypot(x,y));stick.x=x/l;stick.y=y/l;knob.style.transform=`translate(${stick.x*20}px,${stick.y*20}px)`;};
-  joy.addEventListener('pointerdown',e=>{e.preventDefault();stopTour();if(mode==='orbit')setMode('walk');joyId=e.pointerId;joy.setPointerCapture(joyId);joystick(e);});joy.addEventListener('pointermove',e=>{if(e.pointerId===joyId)joystick(e);});
-  for(const ev of ['pointerup','pointercancel','lostpointercapture'])joy.addEventListener(ev,()=>{joyId=null;stick.x=stick.y=0;knob.style.transform='';});
-  for(const [id,n] of [['rise',1],['descend',-1]]){$(id).onpointerdown=e=>{e.preventDefault();stopTour();controls.vert=n;$(id).setPointerCapture(e.pointerId);};for(const ev of ['pointerup','pointercancel','lostpointercapture'])$(id).addEventListener(ev,()=>{controls.vert=0;});}
   $('sound').onclick=async()=>{
     try{
       if(!audio){const ac=new AudioContext(),buffer=ac.createBuffer(1,ac.sampleRate*3,ac.sampleRate),r=random(52),data=buffer.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=(r()-.5)*.25;const source=ac.createBufferSource();source.buffer=buffer;source.loop=true;const filter=ac.createBiquadFilter();filter.type='lowpass';filter.frequency.value=1500;const gain=ac.createGain();gain.gain.value=.12;source.connect(filter).connect(gain).connect(ac.destination);source.start();audio={ac,gain,on:true};}else{audio.on=!audio.on;audio.gain.gain.setTargetAtTime(audio.on?.12:0,audio.ac.currentTime,.15);}
@@ -284,7 +282,7 @@ window.ALH={ready:false,go,
   heavy(){const rows=[];scene.traverse(o=>{if(!o.isMesh)return;const g=o.geometry,t=(g.index?g.index.count:g.attributes.position.count)/3,n=o.isInstancedMesh?o.count:1;rows.push([o.name||g.type,Array.isArray(o.material)?'multi':o.material.name||o.material.type,Math.round(t),n,Math.round(t*n),o.castShadow]);});return rows.sort((a,b)=>b[4]-a[4]).slice(0,25);},
   pick(x,y){camera.updateMatrixWorld();const r=new THREE.Raycaster();r.setFromCamera(new THREE.Vector2(x*2-1,1-y*2),camera);return r.intersectObjects(scene.children,true).slice(0,3).map(h=>[h.object.material.name,h.object.geometry.type,+h.distance.toFixed(2),h.point.toArray().map(v=>+v.toFixed(2))]);},
   debug(){return {scene,farScene,camera,renderer};},
-  THREE,ground:(x,z)=>nav.height(x,z),blockedAt:(x,z,g)=>nav.blocked(x,z,g),blockedAtR:(x,z,g,r)=>nav.blocked(x,z,g,r),
+  THREE,get controls(){return controls;},get touch(){return touchUI;},ground:(x,z)=>nav.height(x,z),blockedAt:(x,z,g)=>nav.blocked(x,z,g),blockedAtR:(x,z,g,r)=>nav.blocked(x,z,g,r),
   bench(n=30){const gl=renderer.getContext();render();gl.finish();const t=performance.now();for(let i=0;i<n;i++){csm.update();renderer.shadowMap.needsUpdate=true;render();}gl.finish();return +((performance.now()-t)/n).toFixed(2);},
   fps(ms=3000){return new Promise(res=>{let n=0,worst=0,prev=performance.now();const t0=prev;const f=t=>{n++;worst=Math.max(worst,t-prev);prev=t;if(t-t0<ms)requestAnimationFrame(f);else res({fps:+(n/((t-t0)/1000)).toFixed(1),worstMs:+worst.toFixed(1),calls:renderer.info.render.calls,tris:renderer.info.render.triangles});};requestAnimationFrame(f);});},
   far(){let n=0,t=0;farScene.traverse(o=>{if(o.isMesh){n++;t+=o.geometry.index?o.geometry.index.count/3:0;}});return {meshes:n,tris:t,ground:[terrainHeight(20800,13400),terrainHeight(24700,13800),terrainHeight(-260,24)]};},

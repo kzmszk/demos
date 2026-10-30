@@ -1,21 +1,21 @@
 // Overlay UI: title, mode bar (walk / fly), places, season (autumn leaves / snow), sound, brightness, JA/EN.
 const T = {
   ja: {
-    sub: '秋の夕暮れ、雪の夕暮れ。歩いて、空から。', walk: '歩く', fly: '空から', places: '場所へ', autumn: '紅葉', winter: '雪', sound: '音', credits: 'クレジット', bright: '明るさ',
+    sub: '秋の夕暮れ、雪の夕暮れ。歩いて、空から。', walk: '歩く', fly: '浮く', places: '見どころ', autumn: '紅葉', winter: '雪', sound: '音', credits: 'クレジット', bright: '明るさ',
     help_walk: 'W A S D で歩く ・ ドラッグで見回す ・ Shift で走る',
-    help_walk_t: '左下のスティックで歩く ・ ドラッグで見回す',
-    more: '設定', up: '上昇', down: '下降', fast: '速く',
+    help_walk_t: 'スティックで歩く ・ 押し切ると走る ・ ドラッグで見回す',
+    more: '設定', up: '上昇', down: '下降',
     help_fly: 'W A S D・E Q で移動 ・ ドラッグで向き ・ ホイールで速さ',
-    help_fly_t: 'スティックで進む ・ ドラッグで向き ・ 右下の ▲▼ で上昇・下降',
+    help_fly_t: 'スティックで進む ・ ▲▼ で上下 ・ ドラッグで向き',
     start: 'はじめる', prep: '準備中', prep_data: '京都駅とそのまわりを読み込んでいます', prep_gpu: '描画の準備をしています',
   },
   en: {
-    sub: 'An autumn evening, a snowy evening. On foot and from the air.', walk: 'Walk', fly: 'Fly', places: 'Go to', autumn: 'Autumn', winter: 'Snow', sound: 'Sound', credits: 'Credits', bright: 'Brightness',
+    sub: 'An autumn evening, a snowy evening. On foot and from the air.', walk: 'Walk', fly: 'Float', places: 'Places', autumn: 'Autumn', winter: 'Snow', sound: 'Sound', credits: 'Credits', bright: 'Brightness',
     help_walk: 'W A S D to walk · drag to look · Shift to run',
-    help_walk_t: 'Stick (bottom left) to walk · drag to look',
-    more: 'More', up: 'Up', down: 'Down', fast: 'Fast',
+    help_walk_t: 'Stick to walk · push it all the way to run · drag to look',
+    more: 'More', up: 'Up', down: 'Down',
     help_fly: 'W A S D · E Q to move · drag to turn · wheel for speed',
-    help_fly_t: 'Stick to move · drag to turn · ▲ ▼ (bottom right) to climb and descend',
+    help_fly_t: 'Stick to move · ▲ ▼ up and down · drag to turn',
     start: 'Start', prep: 'Preparing', prep_data: 'Loading Kyoto Station and its surroundings', prep_gpu: 'Getting the graphics ready',
   },
 };
@@ -83,7 +83,7 @@ export class UI {
     const br = bar.querySelector('.br input'); br.value = this.app.bright;
     br.oninput = () => this.app.setBright(+br.value);
     // phones and tablets: one short row (mode, places, ⋯); the rest in a small sheet above it, so nothing lands under
-    // the thumbs; in the air, ▲ ▼ to climb and descend and a fast toggle, bottom right
+    // the thumbs.  The stick and ▲▼ are shared/move's TouchControls (main.js)
     this.touch = matchMedia('(pointer: coarse)').matches;
     if (this.touch) {
       root.classList.add('touch');
@@ -93,18 +93,6 @@ export class UI {
       more.onclick = () => sheet.classList.toggle('open');
       sheet.addEventListener('click', (e) => { if (e.target.closest('button') && !e.target.closest('.br')) setTimeout(() => sheet.classList.remove('open'), 150); });
       sheet.addEventListener('pointerdown', (e) => e.stopPropagation());
-      const vb = this.el('div', 'vbtns'); root.appendChild(vb);
-      const hold = (cls, v) => {
-        const b = this.el('button', cls); vb.appendChild(b);
-        const on = (e) => { e.preventDefault(); e.stopPropagation(); try { b.setPointerCapture(e.pointerId); } catch (_) { /* no capture */ } b.classList.add('on'); this.app.controls.vert = v; };
-        const off = () => { b.classList.remove('on'); if (this.app.controls.vert === v) this.app.controls.vert = 0; };
-        b.addEventListener('pointerdown', on); b.addEventListener('pointerup', off); b.addEventListener('pointercancel', off);
-        return b;
-      };
-      hold('up', 1); hold('down', -1);
-      const fb = this.el('button', 'fast'); vb.appendChild(fb);
-      fb.addEventListener('pointerdown', (e) => e.stopPropagation());
-      fb.onclick = () => { const c = this.app.controls; c.fastLatch = !c.fastLatch; fb.classList.toggle('on', c.fastLatch); };
     }
     this.label = this.el('div', 'label'); root.appendChild(this.label);
     this.help = this.el('div', 'help'); root.appendChild(this.help);
@@ -126,12 +114,8 @@ export class UI {
     this.root.querySelector('.lg').textContent = l === 'ja' ? 'EN' : 'JA';
     const cr = this.root.querySelector('.cr'); cr.textContent = this.t('credits'); cr.href = 'credits.html#' + l;
     this.root.querySelector('.br span').textContent = this.t('bright');
-    if (this.touch) {
-      this.bar.querySelector('.more').textContent = this.t('more') + ' ⋯';
-      const vb = this.root.querySelector('.vbtns');
-      vb.querySelector('.up').textContent = '▲'; vb.querySelector('.down').textContent = '▼'; vb.querySelector('.fast').textContent = this.t('fast');
-      vb.querySelector('.up').setAttribute('aria-label', this.t('up')); vb.querySelector('.down').setAttribute('aria-label', this.t('down'));
-    }
+    if (this.touch) this.bar.querySelector('.more').textContent = this.t('more') + ' ⋯';
+    if (this.app.touch) this.app.touch.setLabels({ up: this.t('up'), down: this.t('down') });
     this.refresh();
   }
   prep(f = this.pf, phase = this.pp) {
@@ -157,6 +141,7 @@ export class UI {
     this.bar.querySelectorAll('.mode').forEach((b) => b.classList.toggle('on', b.dataset.m === a.mode));
     this.root.querySelectorAll('.season').forEach((b) => b.classList.toggle('on', b.dataset.s === a.season));
     this.root.classList.toggle('flying', a.mode === 'fly');
+    if (a.touch) a.touch.setMode(a.mode);
     this.root.querySelector('.snd').textContent = this.t('sound') + (a.sound ? ' ●' : ' ○');
     const hk = 'help_' + a.mode, tk = hk + '_t';
     this.help.textContent = a.mode === 'title' ? '' : this.t(matchMedia('(pointer: coarse)').matches && T[this.lang][tk] ? tk : hk);

@@ -12,6 +12,7 @@ import { makeCityMaterial, makeLiteMaterial, G } from './citymat.js';
 import { LightmapPool } from './facade.js';
 import { makeWater } from './water.js';
 import { Controls } from './controls.js';
+import { TouchControls } from '../../../shared/move/index.js';
 import { Props } from './props.js';
 import { Gondola, GondolaRide } from './gondola.js';
 import { UI, PLACES } from './ui.js';
@@ -336,17 +337,9 @@ function audState(dt, inside) {
   aud.piazza = Math.max(0, 1 - Math.hypot(Math.max(-140 - pu, 0, pu - 35), Math.max(-20 - pv, 0, pv - 35)) / 20);
   audio.update(dt, aud);
 }
-// touch joystick (walk / fly / rowing)
-{
-  const st = document.createElement('div'); st.className = 'stick'; st.innerHTML = '<i></i>'; document.querySelector('.ui').appendChild(st);
-  const knob = st.querySelector('i'); let id = null;
-  const set = (e) => { const r = st.getBoundingClientRect(); let x = (e.clientX - r.left - 55) / 45, y = (e.clientY - r.top - 55) / 45; const l = Math.hypot(x, y); if (l > 1) { x /= l; y /= l; }
-    controls.move.x = x; controls.move.y = y; knob.style.transform = `translate(${x * 34}px, ${y * 34}px)`; };
-  st.addEventListener('pointerdown', (e) => { id = e.pointerId; st.setPointerCapture(id); set(e); e.stopPropagation(); });
-  st.addEventListener('pointermove', (e) => { if (e.pointerId === id) set(e); });
-  const end = () => { id = null; controls.move.x = controls.move.y = 0; knob.style.transform = ''; };
-  st.addEventListener('pointerup', end); st.addEventListener('pointercancel', end);
-}
+// the phone's stick (walking, flying, rowing) and ▲▼ (flying), shared/move
+app.touch = new TouchControls(controls, { root: document.querySelector('.ui'), altitude: ['fly'], stick: ['walk', 'fly', 'row'], labels: { up: ui.t('up'), down: ui.t('down') } });
+ui.refresh();
 // title camera: standing where the walk begins, looking about slowly once the view is ready
 let swayT = 0;
 const titleYaw = () => START.yaw + 0.1 * Math.sin(swayT * 0.06);

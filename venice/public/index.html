@@ -71,10 +71,34 @@
   .help { position: absolute; left: 50%; bottom: 52px; transform: translateX(-50%); font-size: 12px; letter-spacing: .08em; color: var(--dim); white-space: nowrap; opacity: 0; }
   .help.fade { animation: hl 7s ease forwards; }
   @keyframes hl { 0% { opacity: 0 } 8% { opacity: 1 } 75% { opacity: 1 } 100% { opacity: 0 } }
-  .stick { position: absolute; bottom: 70px; left: 24px; width: 110px; height: 110px; border-radius: 50%; border: 1px solid var(--line); display: none; pointer-events: auto; touch-action: none; }
-  .stick i { position: absolute; left: 39px; top: 39px; width: 32px; height: 32px; border-radius: 50%; background: rgba(246, 241, 231, .4); }
-  @media (pointer: coarse) { .stick { display: block; } }
-  @media (max-width: 640px) { .map { width: 116px; height: 116px; top: 10px; right: 10px; } .bar { flex-wrap: wrap; } .help { white-space: normal; text-align: center; width: 90vw; } .title .start { padding: 10px 14px; } }
+  /* touch: one short bar (mode, places, more); the rest in a sheet above it; the stick and ▲▼ (shared/move/touch.js) clear of both */
+  .sheet { position: absolute; left: 8px; right: 8px; bottom: calc(50px + env(safe-area-inset-bottom)); display: none; flex-wrap: wrap; align-items: center; gap: 4px 8px;
+    padding: 8px 10px; background: var(--glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(246, 241, 231, .12); pointer-events: auto; z-index: 3; }
+  .sheet.open { display: flex; }
+  .sheet .grp { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+  .sheet .boatonly { flex-basis: 100%; border-bottom: 1px solid rgba(246, 241, 231, .12); padding-bottom: 4px; }
+  .sheet button, .sheet a { background: none; border: 0; padding: 10px 12px; font-size: 13px; letter-spacing: .1em; color: var(--dim); text-decoration: none; }
+  .sheet button.on { color: var(--ink); }
+  .sheet select { appearance: none; -webkit-appearance: none; background: none; border: 0; padding: 10px 12px; font-size: 13px; letter-spacing: .1em; color: var(--ink); max-width: 62vw; }
+  .sheet select option { color: #111; }
+  .sheet .speeds { display: flex; }
+  .sheet .br { display: flex; align-items: center; gap: 8px; padding: 0 8px; font-size: 12px; letter-spacing: .1em; color: var(--dim); }
+  .sheet .br input { -webkit-appearance: none; appearance: none; width: 130px; height: 28px; background: none; }
+  .sheet .br input::-webkit-slider-runnable-track { height: 1px; background: var(--line); }
+  .sheet .br input::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--ink); margin-top: -9px; }
+  .ui.touch .bar { flex-wrap: nowrap; padding: 4px 8px calc(4px + env(safe-area-inset-bottom)); gap: 2px; }
+  .ui.touch .bar button, .ui.touch .bar select { padding: 10px 8px; font-size: 13px; letter-spacing: .04em; white-space: nowrap; flex: none; }
+  .ui.touch .bar .grp { flex: 0 1 auto; min-width: 0; }
+  .ui.touch .bar .modes { flex: none; }
+  .ui.touch .bar select { flex: 0 1 auto; min-width: 0; max-width: 100%; text-overflow: ellipsis; }
+  .ui.touch .bar .more { margin-left: auto; }
+  /* the hint sits top left, clear of the map (top right) and of the thumbs */
+  .ui.touch .help { left: 18px; right: 206px; top: 56px; bottom: auto; transform: none; width: auto; white-space: normal; text-align: left; line-height: 1.6;
+    color: var(--ink); text-shadow: 0 1px 2px rgba(0, 0, 0, .7), 0 0 10px rgba(0, 0, 0, .5); }
+  @media (max-width: 640px) { .map { width: 116px; height: 116px; top: 10px; right: 10px; } .ui:not(.touch) .bar { flex-wrap: wrap; } .help { white-space: normal; text-align: center; width: 90vw; } .title .start { padding: 10px 14px; }
+    .ui.touch .help { right: 146px; } }
+  /* a phone on its side: a smaller map, so ▲▼ (bottom right) stay clear of it */
+  @media (max-height: 500px) { .map { width: 104px; height: 104px; top: 8px; right: 8px; } .ui.touch .help { right: 130px; top: 40px; } }
 </style>
 </head>
 <body>
