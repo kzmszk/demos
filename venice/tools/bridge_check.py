@@ -2,9 +2,10 @@
 
 The bridges are chosen as build_tiles.py chooses them (heroes excluded, the gangway fans to vaporetto stops left out,
 the ones dead_bridges() closes counted apart).  For each, the walk rasters are searched for a path from walkable ground
-off the deck near one foot (straight ahead of it or beside it) to the same near the other, the way the walk mode walks
-(web/move-config.js, shared/move/walk-strict.js):
-the body needs walkable ground all round (0.25 m) and no step up or down of more than 0.55 m.  The hand-modelled Grand
+off the deck near one foot (straight ahead of it or beside it) to the same near the other, by the strict rule
+(shared/move/walk-strict.js): the body needs walkable ground all round (0.25 m) and no step up or down of more than
+0.55 m.  The walk mode now glides (web/move-config.js, shared/move/walk-glide.js) with that body, and glide crosses
+wherever strict does (shared/move/walk.test.mjs), so a bridge passing here is walkable.  The hand-modelled Grand
 Canal crossings are checked along their walk lanes."""
 import sys, os, math, collections
 import numpy as np

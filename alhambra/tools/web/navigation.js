@@ -54,7 +54,36 @@ export class Navigation {
     for(const b of this.blocks){if(feet+1.4<b.bottom || feet>=b.top-.12) continue;const [u,v]=this.local(b,x,z);if(Math.abs(u)<b.w+r&&Math.abs(v)<b.d+r)return true;}
     return false;
   }
+  // A stride, or what the walls leave of it.  Where a walking stride (up to 0.5 m: a frame's worth) makes little
+  // headway with x and z tried apart, it is turned (±20°, ±40°, ±69°, shortened as shared/move's glide does) and,
+  // when that barely moves it, side-stepped toward an opening that leads on (open 0.3 and 0.8 m ahead of the side
+  // point): slanted walls, slanted lanes and a doorway met off its middle no longer stop the walk.  A long move is
+  // only ever the plain one.
   move(pos,dx,dz) {
+    const L2=dx*dx+dz*dz,x0=pos.x,y0=pos.y,z0=pos.z;
+    this.stride(pos,dx,dz);
+    const gain=(q)=>(q.x-x0)*dx+(q.z-z0)*dz;
+    if(!L2||L2>.25||gain(pos)>=.6*L2)return pos;
+    let best={x:pos.x,y:pos.y,z:pos.z};
+    // the smallest turn whose whole stride is clear, as glide takes (a turn that only half gets through would run along
+    // a wall faster than walking into it allows)
+    for(const t of [.35,-.35,.7,-.7,1.2,-1.2]){
+      const c=Math.cos(t),s=Math.sin(t),ex=(dx*c-dz*s)*c,ez=(dx*s+dz*c)*c,q={x:x0,y:y0,z:z0};
+      this.stride(q,ex,ez);
+      if(Math.hypot(q.x-x0-ex,q.z-z0-ez)<1e-6){if(gain(q)>gain(best))best=q;break;}
+    }
+    if(Math.hypot(best.x-x0,best.z-z0)<.1*Math.sqrt(L2)){            // turning did not get it moving: a jamb
+      const L=Math.sqrt(L2),fx=dx/L,fz=dz/L,sx=-fz,sz=fx,feet=y0-EYE;
+      const open=(x,z)=>{const g=this.height(x,z,feet);return Math.abs(g-feet)<=.43&&!this.blocked(x,z,Math.max(feet,g));};
+      for(const k of [.2,.4,.7,1]){
+        const leads=(d)=>open(x0+fx*.3+d*sx*k,z0+fz*.3+d*sz*k)&&open(x0+fx*.8+d*sx*k,z0+fz*.8+d*sz*k);
+        const side=leads(1)?1:leads(-1)?-1:0;
+        if(side){const q={x:x0,y:y0,z:z0};this.stride(q,sx*side*L,sz*side*L);if(q.x!==x0||q.z!==z0){best=q;}break;}
+      }
+    }
+    pos.x=best.x;pos.y=best.y;pos.z=best.z;return pos;
+  }
+  stride(pos,dx,dz) {
     const n=Math.max(1,Math.ceil(Math.hypot(dx,dz)/.14));
     let feet=pos.y-EYE;
     for(let i=0;i<n;i++) {
