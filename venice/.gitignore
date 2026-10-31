@@ -4,3 +4,5 @@ __pycache__/
 # the city tiles are generated (run_island.sh gen bake pack, from venice-assets) and replaced on every rebuild (~330 MB):
 # they stay out of git; a deploy takes the local copy
 public/data/island/
+# rojibura's glb export of some tiles (tools/rj_export.mjs): generated from the tiles above, deployed like them
+public/rj/

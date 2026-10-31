@@ -97,6 +97,18 @@ python film_mix.py OUTDIR                  # the music cut + the natural sounds,
 
 The shots are in `film_shots.mjs` (walk: a path on the ground, eye height from the walk raster; fly: a path and a look-at path; boat: a gondola route; captions JA/EN, the title, the end card). `film_page.js` runs in the page: the app is stepped at a fixed 1/30 s (`VEN.step`, the animation loop stopped), every frame waits until its tiles, near detail and pipelines are complete, and the sound is rendered afterwards with an `OfflineAudioContext` from the scene state each frame saw (footsteps, water, the oar, the rooms) plus the title piece. `FILM.center(path)` puts a path down the middle of a calle. The 2026-10-05 film is in `venice-assets/film/` (`venezia.mp4`, `venezia_web.mp4`). Published at `/venice/film` (`public/film.html`, linked from the gallery card as 紹介動画 · Film): the video plays from the R2 bucket through the gallery Worker's `/media/movies/venezia-film/video.mp4` (uploaded with `npx wrangler r2 object put demos-media/movies/venezia-film/video.mp4 --file ... --content-type video/mp4 --remote`), because static assets answer a byte range with the whole file and Safari plays no video without ranges; `public/movie/venezia.mp4` (a 2-pass 2.7 Mbps encode, under the 25 MiB file limit) is the fallback `<source>`. The video is not in git (`venice/.gitignore`): copy it from `venice-assets/film/` into `public/movie/` before a deploy.
 
+## Export for rojibura
+
+rojibura (`~/work/rojibura`, a city for people and AIs drawn with WebGL, docs/prd.md 3.8) has the Piazza as one of its areas. It cannot run this viewer's shaders, so `tools/rj_export.mjs` writes plain glb from the same tiles:
+
+```bash
+cd venice/tools && node rj_export.mjs ../public/rj/2026-11-01 t_16_7 t_16_8 t_17_7 t_17_8
+```
+
+Per tile: the static mesh (ground, copings, bridges, heroes) and every facade in full detail (`FacadeBuilder`, as built within 75 m here), in 50 m chunks so three.js can cull them, coloured per vertex (material albedo, times the tint for tinted materials, times an occlusion term from the day bake; rojibura draws its own sun). Y up as (x, z, -y), the Campanile at the origin, quantised and meshopt-compressed. No textures, props or night light yet. The four Piazza tiles are about 54 MB and 4.3 M triangles.
+
+`public/rj/` is generated and not in git (`venice/.gitignore`), like `public/data/island`: a deploy takes the local copy. Write each export to a new dated folder and never change a published one (`public/_headers` marks `/rj/*` immutable and readable from other origins; the gallery build puts it in `site/_headers` as `/venice/rj/*`); rojibura's `assets/areas.json` names the folder it reads. rojibura's walkable area comes from the walk rasters (`data/island/t_*.walk.png`), which it reads itself.
+
 ## Gallery and release
 
 `demo.json` has 8 cover shots driven through `VEN` and `"gpu": "webgpu"`, which makes `gallery/shoot.mjs` start Chrome with WebGPU on (Vulkan on Linux). Headless Chrome does not composite a WebGPU canvas into a page screenshot, so every shot ends with `VEN.settle()` (tiles streamed in) and `VEN.freeze()`, which lays the rendered frame over the canvas, under the UI. Before deploying: build without `--dev`, delete `public/app.js.map` and the test sets in `public/data` (`test`, `tiles`, `bf`, ...; keep `island`, `materials.json`, `canals.json`, `interiors.json`), re-run `python3 tools/credits.py`, and check that no file is over Cloudflare's 25 MiB limit. The first view needs about 105 MB (textures 61 MB, the four Piazza tiles 36 MB, the far view around it 5 MB); the whole island is about 330 MB of tiles.

@@ -1,0 +1,5 @@
+# rojibura (another site, ~/work/rojibura) draws the glb export in rj/ (tools/rj_export.mjs): other origins may
+# read it, and a version folder never changes once published
+/rj/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=31536000, immutable

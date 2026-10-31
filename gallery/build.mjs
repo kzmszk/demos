@@ -5,7 +5,9 @@
  *   1. its "prebuild" command runs inside the folder (e.g. kinetic builds its dist/),
  *   2. its "serve" folder is copied to site/<folder>/ (demo.json, prompts/, README.md and dotfiles stay out),
  *      and HTML written for the Artifact skeleton (no doctype) gets a proper document wrapper,
- *   3. its cover frames from gallery/covers/<folder>/ are copied to site/_g/covers/<folder>/.
+ *   3. its cover frames from gallery/covers/<folder>/ are copied to site/_g/covers/<folder>/,
+ *   4. a _headers file in its "serve" folder (Workers static assets syntax, paths inside the demo) goes into
+ *      site/_headers with the paths under /<folder>/ (e.g. venice lets another site read its glb files).
  * Then site/index.html (the gallery) and site/404.html are written.
  *
  *   node gallery/build.mjs                 full build
@@ -23,7 +25,7 @@ const OUT = path.join(ROOT, 'site');
 const flags = new Set(process.argv.slice(2));
 
 const NOT_DEMOS = new Set(['gallery', 'site', 'node_modules']);
-const NEVER_COPY = new Set(['demo.json', 'prompts', 'README.md', 'node_modules', 'package.json', 'package-lock.json']);
+const NEVER_COPY = new Set(['demo.json', 'prompts', 'README.md', 'node_modules', 'package.json', 'package-lock.json', '_headers']);
 
 const site = JSON.parse(fs.readFileSync(path.join(GAL, 'site.json'), 'utf8'));
 const esc = (s) =>
@@ -122,6 +124,16 @@ const css = asset('gallery.css');
 const js = asset('gallery.js');
 
 const latest = demos.map((d) => d.date).filter(Boolean).sort().pop() || '';
+/* each demo's _headers, its rules moved under /<folder>/ (a rule is an unindented path; headers are indented) */
+const headers = [];
+for (const d of demos) {
+  const f = path.join(ROOT, d.slug, d.serve, '_headers');
+  if (!fs.existsSync(f)) continue;
+  for (const line of fs.readFileSync(f, 'utf8').split('\n'))
+    headers.push(/^\//.test(line) ? `/${d.slug}${line}` : line);
+}
+if (headers.length) fs.writeFileSync(path.join(OUT, '_headers'), headers.join('\n'));
+
 fs.writeFileSync(path.join(OUT, 'index.html'), page(demos));
 fs.writeFileSync(path.join(OUT, '404.html'), notFound());
 console.log(`\n${demos.length} works → site/index.html`);
